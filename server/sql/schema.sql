@@ -1,5 +1,7 @@
 DROP TABLE IF EXISTES Users CASCADE; 
 DROP TABLE IF EXISTES Restaurants CASCADE;
+DROP TABLE IF EXISTES Menus CASCADE;
+DROP TABLE IF EXISTES FoodItems CASCADE;
 DROP TABLE IF EXISTES RestaurantStaffs CASCADE;
 DROP TABLE IF EXISTES Customers CASCADE;
 DROP TABLE IF EXISTES Customers_address CASCADE;
@@ -16,14 +18,31 @@ CREATE TABLE Restaurants {
     res_id           VARCHAR(255) PRIMARY KEY,
     address       VARCHAR(255) NOT NULL,
     rname         VARCHAR(255) NOT NULL,
-    min_amout     INTEGER NOT NULL,
+    min_amout     INTEGER NOT NULL
+};
 
-}
+CREATE TABLE Menus {
+    res_id   VARCHAR(255),
+    food_id   VARCHAR(255),
+    price     INTEGER,
+    PRIMARY KEY(res_id, food_id),
+    FOREIGN KEY (res_id) REFERENCES Restaurants,
+    FOREIGN KEY (food_id) REFERENCES FoodItems
+};
+
+CREATE TABLE FoodItems {
+    food_id        VARCHAR(255) PRIMARY KEY,
+    name           VARCHAR(255),
+    desc           VARCHAR(255), 
+    image          boolean
+};
+
+
 CREATE TABLE Users (
     usr_id               VARCHAR(255) NOT NULL,,
     userName          VARCHAR(255) NOT NULL,
     email             VARCHAR(255) NOT NULL,
-    password_digest   VARCHAR(255) NOT NULL,
+    password_digest   VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE RestaurantStaffs {
@@ -31,14 +50,14 @@ CREATE TABLE RestaurantStaffs {
     res_id         VARCHAR(255) NOT NULL,
     PRIMARY KEY(usr_id),
     FOREIGN KEY (usr_id) REFERENCES Users,
-    FOREIGN KEY (res_id) REFERENCES Restaurants,
+    FOREIGN KEY (res_id) REFERENCES Restaurants
 };
 
 CREATE TABLE Customers {
     usr_id               VARCHAR(255) NOT NULL,
     card_num          INTEGER(16),
     last_order_time   TIMESTAMP DEFAULT NULL,
-    PRIMARY KEY(usr_id)
+    PRIMARY KEY(usr_id),
     FOREIGN KEY (usr_id) REFERENCES Users
 };
 
@@ -61,7 +80,6 @@ CREATE TABLE FdsManagers {
 
 CREATE TABLE Riders {
     usr_id        VARCHAR(255) NOT NULL PRIMARY KEY,
-
     FOREIGN KEY (usr_id) REFERENCES Users
 };
 
@@ -75,7 +93,7 @@ CREATE TABLE Parttimerider {
     usr_id         VARCHAR(255) NOT NULL PRIMARY KEY,
     base_salary    INTEGER NOT NULL,
     FOREIGN KEY (usr_id) REFERENCES Riders
-}
+};
 
 CREATE TABLE Orders {
     order_id       VARCHAR(255) PRIMARY KEY,
@@ -93,7 +111,7 @@ CREATE TABLE Orders {
 
 CREATE TABLE Payments {
     payment    VARCHAR(255) PRIMARY KEY
-}
+};
 
 CREATE TABLE Deliveries {
     order_id         VARCHAR(255) PRIMARY KEY,
@@ -102,7 +120,7 @@ CREATE TABLE Deliveries {
     dr_leave_for_res  TIMESTAMP,
     dr_arrive_res     TIMESTAMP,
     dr_leave_res      TIMESTAMP,
-    dr_arrive_ucs     TIMESTAMP
+    dr_arrive_ucs     TIMESTAMP,
     FOREIGN KEY(order_id) REFERENCES Orders,
     FOREIGN KEY(usr_id) REFERENCES Riders
 };
@@ -143,7 +161,8 @@ CREATE TABLE Shifts {
     start_time2 TIMESTAMP NOT NULL,
     end_time1 TIMESTAMP NOT NULL,
     end_time2 TIMESTAMP NOT NULL
-}
+};
+
 --need to check
 CREATE TABLE Mws {
     usr_id       VARCHAR(255) NOT NULL,
