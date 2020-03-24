@@ -20,52 +20,18 @@ export default function Routes() {
         return <h1>Home ya, probs gonna change when legit</h1>;
     }
 
-    function Customer() {
-        let match = useRouteMatch();
+    /* NOTE: LoginHome will need to have auth to autologin if already logged in, i.e. autoredirect to __Home. */
 
-        return (
-            <div>
-              <h2>Customer App</h2>
-              <ul>
-                <li>
-                  <Link to={'${match.url}/order'}>Order</Link>
-                </li>
-              </ul>
-
-              <Switch>
-                <Route path={'${match.path}/order'}>
-                  <COrder />
-                </Route>
-                <Route path={match.path}>
-                  <CHome />
-                </Route>
-              </Switch>
-            </div>
-        );
-    }
-
+    /* TODO: insert ALL routes here. */
     return (
         <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to='/'>Home</Link>
-              </li>
-              <li>
-                <Link to='/login'>Login</Link>
-              </li>
-              <li>
-                <Link to='/customer'>Customer Home</Link>
-              </li>
-            </ul>
-          </nav>
 
           <Switch>
             <Route path='/login'>
               <Login />
             </Route>
             <Route path='/customer'>
-              <Customer />
+              <CHome />
             </Route>
             <Route path='/'>
               <LoginHome />
