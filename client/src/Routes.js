@@ -11,6 +11,7 @@ import CCoupons from './components/customers/pages/customer_coupons';
 import CAddress from './components/customers/pages/customer_address';
 import CSetting from './components/customers/pages/customer_setting';
 
+import LoginHome from './components/login/home_before_login';
 import Login from './components/login/login_page';
 
 export default function Routes() {
@@ -67,7 +68,7 @@ export default function Routes() {
               <Customer />
             </Route>
             <Route path='/'>
-              <Home />
+              <LoginHome />
             </Route>
           </Switch>
         </div>
