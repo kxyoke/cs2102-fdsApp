@@ -16,25 +16,29 @@ import Login from './components/login/login_page';
 
 export default function Routes() {
 
-    function Home() {
-        return <h1>Home ya, probs gonna change when legit</h1>;
-    }
-
     /* NOTE: LoginHome will need to have auth to autologin if already logged in, i.e. autoredirect to __Home. */
 
     /* TODO: insert ALL routes here. */
     return (
         <div>
-
           <Switch>
+            <Route path='/'>
+              <LoginHome />
+            </Route>
             <Route path='/login'>
               <Login />
             </Route>
             <Route path='/customer'>
               <CHome />
             </Route>
-            <Route path='/'>
-              <LoginHome />
+            <Route path='/customer/order'>
+              <COrder />
+            </Route>
+            <Route path='/customer/reviews'>
+              <CReviews />
+            </Route>
+            <Route path='/customer/profile'>
+              <CProfile />
             </Route>
           </Switch>
         </div>
