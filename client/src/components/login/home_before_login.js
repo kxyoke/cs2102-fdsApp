@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Header from './header';
+import Header from './layout/header';
 import IdentityOptions from './login_identity_options';
 
 class LoginHome extends Component {

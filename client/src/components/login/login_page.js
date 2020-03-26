@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import "./login.css";
+import "./layout/login.css";
 
 export default function Login(props) {
     const [username, setUsername] = useState("");
