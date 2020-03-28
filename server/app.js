@@ -10,6 +10,7 @@ var cors = require('cors');
 /*================= LINK YOUR ROUTE FILES HERE ===================*/
 var loginRouter = require('./routes/loginAPI/loginRoutes');
 var signupRouter = require('./routes/signupAPI/signupRoutes');
+var customerRouter = require('./routes/customerAPI/customerRouter');
 var rRouter = require('./routes/restaurantAPI/rRoutes');
 
 /*----------------------- END OF LINK ----------------------------*/
@@ -30,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 /*================= REGISTER YOUR ROUTES HERE ====================*/
 app.use('/api/login', loginRouter);
 app.use('/api/signup', signupRouter);
+app.use('/api/customer', customerRouter);
 app.use('/api/restaurant', rRouter);
 
 /*----------------- END OF ROUTE REGISTRATION --------------------*/
