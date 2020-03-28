@@ -1,13 +1,16 @@
 var createError = require('http-errors');
 var express = require('express');
-var pool = require('./db');
+//var pool = require('./db');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
 // const exphbs = require('express-handlebars');
 
-var rRouter = require('./routes/restaurantAPI/rRoutes.js');
+/*================= LINK YOUR ROUTE FILES HERE ===================*/
+var rRouter = require('./routes/restaurantAPI/rRoutes');
+
+/*----------------------- END OF LINK ----------------------------*/
 
 var app = express();
 
@@ -22,7 +25,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+/*================= REGISTER YOUR ROUTES HERE ====================*/
 app.use('/api/restaurant', rRouter);
+
+/*----------------- END OF ROUTE REGISTRATION --------------------*/
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
