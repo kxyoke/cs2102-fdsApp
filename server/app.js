@@ -4,10 +4,10 @@ var pool = require('./db');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors');
 // const exphbs = require('express-handlebars');
 
-var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
+var rRouter = require('./routes/restaurantAPI/rRoutes.js');
 
 var app = express();
 
@@ -15,14 +15,14 @@ var app = express();
 // app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 // app.set('view engine', 'handlebars');
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-// app.use('/users', usersRouter);
+app.use('/api/restaurant', rRouter);
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
@@ -41,3 +41,4 @@ app.use('/', indexRouter);
 // });
 
 module.exports = app;
+
