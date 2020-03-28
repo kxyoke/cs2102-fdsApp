@@ -8,8 +8,9 @@ var cors = require('cors');
 // const exphbs = require('express-handlebars');
 
 /*================= LINK YOUR ROUTE FILES HERE ===================*/
+var loginRouter = require('./routes/loginAPI/loginRoutes');
+var signupRouter = require('./routes/signupAPI/signupRoutes');
 var rRouter = require('./routes/restaurantAPI/rRoutes');
-var lRouter = require('./routes/loginAPI/loginRoutes');
 
 /*----------------------- END OF LINK ----------------------------*/
 
@@ -27,8 +28,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 /*================= REGISTER YOUR ROUTES HERE ====================*/
+app.use('/api/login', loginRouter);
+app.use('/api/signup', signupRouter);
 app.use('/api/restaurant', rRouter);
-app.use('/api/login', lRouter);
+
 /*----------------- END OF ROUTE REGISTRATION --------------------*/
 
 // catch 404 and forward to error handler
