@@ -20,23 +20,26 @@ DROP TABLE IF EXISTS Mws CASCADE;
 DROP TABLE IF EXISTS Reviews CASCADE;
 
 CREATE TABLE Restaurants (
-    res_id           VARCHAR(255) PRIMARY KEY,
-    rname         VARCHAR(255) NOT NULL,
-    address       VARCHAR(255) NOT NULL,
-    min_amount     INTEGER NOT NULL
+    res_id           SERIAL PRIMARY KEY,
+    rname            VARCHAR(255) NOT NULL,
+    address          VARCHAR(255) NOT NULL,
+    min_amount       INTEGER NOT NULL
 );
 
 CREATE TABLE FoodItems (
-    food_id            TEXT PRIMARY KEY,
+    food_id            SERIAL PRIMARY KEY,
     name               TEXT,
     description        TEXT,
     imagepath          VARCHAR(255)
 );
 
+
 CREATE TABLE MenuItems (
-    res_id    VARCHAR(255),
-    food_id   VARCHAR(255),
-    price     NUMERIC,
+    res_id      SERIAL,
+    food_id     SERIAL,
+    price       NUMERIC,
+    daily_limit INTEGER DEFAULT 20,
+    daily_sells INTEGER DEFAULT 0,
     PRIMARY KEY(res_id, food_id),
     FOREIGN KEY (res_id) REFERENCES Restaurants,
     FOREIGN KEY (food_id) REFERENCES FoodItems ON DELETE CASCADE
@@ -46,14 +49,14 @@ CREATE TABLE MenuItems (
 
 CREATE TABLE Users (
     usr_id               VARCHAR(255) PRIMARY KEY,
-    userName             VARCHAR(255) NOT NULL,
+    userName             VARCHAR(255) NOT NULL UNIQUE,
     password_digest      VARCHAR(255) NOT NULL,
     isFdsManager         BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE RestaurantStaffs (
     usr_id         VARCHAR(255) NOT NULL,
-    res_id         VARCHAR(255) NOT NULL,
+    res_id         SERIAL NOT NULL,
     PRIMARY KEY(usr_id),
     FOREIGN KEY (usr_id) REFERENCES Users,
     FOREIGN KEY (res_id) REFERENCES Restaurants
@@ -63,7 +66,7 @@ CREATE TABLE Customers (
     usr_id               VARCHAR(255) NOT NULL,
     card_num             INTEGER,
     last_order_time      TIMESTAMP DEFAULT NULL,
-    num_reward_pts       INTEGER DEFAULT 0 CHECK(num_reward_pts >= 0),
+    reward_points        INTEGER DEFAULT 0 CHECK(num_reward_pts >= 0),
     PRIMARY KEY(usr_id),
     FOREIGN KEY (usr_id) REFERENCES Users
 );
@@ -103,9 +106,9 @@ CREATE TYPE OrderItem AS (
 );
 
 CREATE TABLE Orders (
-    order_id       VARCHAR(255) PRIMARY KEY,
+    order_id       SERIAL PRIMARY KEY,
     usr_id         VARCHAR(255) NOT NULL,
-    res_id         VARCHAR(255) NOT NULL,
+    res_id         SERIAL NOT NULL,
     isCheckedOut   BOOLEAN,
     payment        VARCHAR(255) NOT NULL 
                                 CHECK (payment IN ('card', 'cash')),
@@ -117,15 +120,15 @@ CREATE TABLE Orders (
 );
 
 CREATE TABLE Reviews (
-    order_id        VARCHAR(255) PRIMARY KEY,
+    order_id        SERIAL PRIMARY KEY,
     food_rev        TEXT,
     delivery_rating NUMERIC,
     FOREIGN KEY(order_id) REFERENCES Orders
 );
 
 CREATE TABLE Deliveries (
-    order_id       VARCHAR(255) PRIMARY KEY,
-    usr_id         VARCHAR(255) NOT NULL,
+    order_id          SERIAL PRIMARY KEY,
+    usr_id            VARCHAR(255) NOT NULL,
     place_order_time  TIMESTAMP NOT NULL,
     dr_leave_for_res  TIMESTAMP,
     dr_arrive_res     TIMESTAMP,
@@ -136,7 +139,7 @@ CREATE TABLE Deliveries (
 );
 
 CREATE TABLE Promotions (
-    pid        VARCHAR(255) PRIMARY KEY,
+    pid             SERIAL PRIMARY KEY,
     promotype       VARCHAR(255) NOT NULL
                             CHECK(promotype in('FDS', 'RES')),
     description       TEXT NOT NULL,
@@ -146,7 +149,7 @@ CREATE TABLE Promotions (
 
 
 CREATE TABLE Coupons (
-    coupon_id      VARCHAR(255) PRIMARY KEY,
+    coupon_id      SERIAL PRIMARY KEY,
     usr_id         VARCHAR(255),
     description            VARCHAR(255) NOT NULL,
     expiry_date     TIMESTAMP,
