@@ -17,6 +17,7 @@ DROP TABLE IF EXISTS Promotions CASCADE;
 DROP TABLE IF EXISTS Coupons CASCADE;
 DROP TABLE IF EXISTS Wws CASCADE;
 DROP TABLE IF EXISTS Mws CASCADE;
+DROP TABLE IF EXISTS Reviews CASCADE;
 
 CREATE TABLE Restaurants (
     res_id           SERIAL PRIMARY KEY,
@@ -65,7 +66,7 @@ CREATE TABLE Customers (
     usr_id               VARCHAR(255) NOT NULL,
     card_num             INTEGER,
     last_order_time      TIMESTAMP DEFAULT NULL,
-    reward_points        INTEGER DEFAULT 0,
+    reward_points        INTEGER DEFAULT 0 CHECK(num_reward_pts >= 0),
     PRIMARY KEY(usr_id),
     FOREIGN KEY (usr_id) REFERENCES Users
 );
@@ -118,7 +119,12 @@ CREATE TABLE Orders (
     FOREIGN KEY(res_id) REFERENCES Restaurants
 );
 
-
+CREATE TABLE Reviews (
+    order_id        SERIAL PRIMARY KEY,
+    food_rev        TEXT,
+    delivery_rating NUMERIC,
+    FOREIGN KEY(order_id) REFERENCES Orders
+);
 
 CREATE TABLE Deliveries (
     order_id          SERIAL PRIMARY KEY,
