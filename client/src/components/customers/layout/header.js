@@ -1,18 +1,10 @@
-import React, {useEffect} from 'react'
-import { Link } from 'react-router-dom'
-import {Redirect} from "react-router";
+import React, {useState}from 'react'
+import { Link,Redirect } from 'react-router-dom'
 import axios from 'axios';
+import LogoutButton from "../../logoutButton";
 
 function Header() {
 
-    function logout(e) {
-        // e.preventDefault();
-        console.log('logout')
-            // axios.post('/logout').then(res=> {
-            //     console.log(res.state)
-            //     return <Redirect to="/"/>
-            // })
-    }
     return (
         <div class = "sticky-top" >
         <header style={headerStyle}>
@@ -26,8 +18,7 @@ function Header() {
                 to='/customer/profile'>My Profile</Link> 
              </div> 
              <div class="d-flex justify-content-end">
-                <button onClick = {logout} style={{display:"flex",float:'right'}} class="btn btn-outline-danger">Logout</button>
-             
+                <LogoutButton/>
              </div>
             
         

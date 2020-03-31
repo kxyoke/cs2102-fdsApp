@@ -67,14 +67,13 @@ app.use((err, req, res, next) => {
     res.sendStatus(200);
 })
 
-// app.post('/logout', (req, res)=> {
-//     console.log('logging out');
-//     console.log(`req.session.passport: ${JSON.stringify(req.session.passport)}`)
-//     console.log(`req.user: ${JSON.stringify(req.user)}`)
-//     req.logout();
-//     delete req.session;
-//     return res.send(logout);
-// })
+app.post('/logout', (req, res)=> {
+    console.log('logging out');
+    console.log(`req.session.passport: ${JSON.stringify(req.session.passport)}`)
+    console.log(`req.user: ${JSON.stringify(req.user)}`)
+    req.logout();
+    res.send('logout');
+})
 
 /*================= REGISTER YOUR ROUTES HERE ====================*/
 app.use('/api/login', loginRouter);
