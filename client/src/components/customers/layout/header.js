@@ -8,10 +8,10 @@ function Header() {
     function logout(e) {
         // e.preventDefault();
         console.log('logout')
-            axios.post('/logout').then(res=> {
-                console.log(res.state)
-                return <Redirect to="/"/>
-            })
+            // axios.post('/logout').then(res=> {
+            //     console.log(res.state)
+            //     return <Redirect to="/"/>
+            // })
     }
     return (
         <div class = "sticky-top" >
