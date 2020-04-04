@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom';
 
-export default function WithAuth(ComponentToProtect) {
+export default function WithRiderfAuth(ComponentToProtect) {
 
     return class extends Component {
         constructor() {
@@ -14,7 +14,7 @@ export default function WithAuth(ComponentToProtect) {
         }
 
     componentDidMount() {
-      axios.get('/auth')
+      axios.get('/auth/rider')
             .then(res => {
               if(res.status === 200) {
                 this.setState({loading: false});

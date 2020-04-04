@@ -49,7 +49,7 @@ const authenticateUser = (req, username, password, done) => {
                 return done(null, false, {message : "password is incorrect", type:'error'});
             }
             console.log('Local strategy returned true')
-            return done(null,{usr_id:user.usr_id, username: user.username, identity: 'rider'});
+            return done(null,{usr_id:user.usr_id, username: user.username});
     });
 })   
 };

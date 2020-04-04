@@ -2,8 +2,11 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Link, Redirect,
         useRouteMatch, useParams 
 } from 'react-router-dom';
-import WithAuth from './tool/withAuth';
+import WithCustomerAuth from './tool/withCustomerAuth';
+import WithRiderAuth from './tool/withRiderAuth';
+import WithResStaffAuth from './tool/withResStaff'
 import WithNoAuth from './tool/withNoAuth';
+import WithFdsAuth from './tool/withFdsAuth'
 import CHome from './components/customers/pages/customers_home';
 import COrder from './components/customers/pages/customer_order';
 import CReviews from './components/customers/pages/customer_reviews';
@@ -29,13 +32,13 @@ export default function Routes() {
             <Route exact path='/' component={WithNoAuth(LoginHome)}/>
               
             <Route path='/login' component={(Login)}/>
-            <Route exact path='/customer' component={WithAuth(CHome)}/>
-            <Route path='/deliveryRider' component={WithAuth(RHome)}/>
-            <Route path='/restaurant' component={WithAuth(ResHome)}/>
-            <Route path='/fdsManager' component={WithAuth(FHome)}/>
-            <Route path='/customer/order' component={WithAuth(COrder)}/>
-            <Route path='/customer/reviews' component= {WithAuth(CReviews)}/> 
-            <Route path='/customer/profile' component={WithAuth(CProfile)}/>
+            <Route exact path='/customer' component={WithCustomerAuth(CHome)}/>
+            <Route path='/deliveryRider' component={WithRiderAuth(RHome)}/>
+            <Route path='/restaurant' component={WithResStaffAuth(ResHome)}/>
+            <Route path='/fdsManager' component={WithFdsAuth(FHome)}/>
+            <Route path='/customer/order' component={WithCustomerAuth(COrder)}/>
+            <Route path='/customer/reviews' component= {WithCustomerAuth(CReviews)}/> 
+            <Route path='/customer/profile' component={WithCustomerAuth(CProfile)}/>
             <Route render={() => <h1>404 Not found</h1>}/>
           </Switch>
         </div>

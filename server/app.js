@@ -12,6 +12,7 @@ var flash = require('express-flash');
 var session = require('express-session');
 const passport = require('passport');
 const {checkNotAuthenticated, checkAuthenticated} = require('./auth/middleware');
+const {isFDS,isCustomer,isRider,isResStaff} = require('./auth/identityMiddleware');
 // const exphbs = require('express-handlebars');
 
 /*================= LINK YOUR ROUTE FILES HERE ===================*/
@@ -63,6 +64,19 @@ app.use((err, req, res, next) => {
  app.get('/auth', checkAuthenticated, (req, res) => {
      res.sendStatus(200);
  })
+ app.get('/auth/fds', checkAuthenticated, isFDS, (req, res) => {
+    res.sendStatus(200);
+})
+app.get('/auth/rider', checkAuthenticated, isRider, (req, res) => {
+    res.sendStatus(200);
+})
+app.get('/auth/customer', checkAuthenticated, isCustomer, (req, res) => {
+    res.sendStatus(200);
+})
+app.get('/auth/resStaff', checkAuthenticated, isResStaff, (req, res) => {
+    res.sendStatus(200);
+})
+
  app.get('/notAuth', checkNotAuthenticated, (req, res) => {
     res.sendStatus(200);
 })
