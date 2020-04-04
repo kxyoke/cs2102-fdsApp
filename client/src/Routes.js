@@ -2,11 +2,18 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Link, Redirect,
         useRouteMatch, useParams 
 } from 'react-router-dom';
+<<<<<<< HEAD
 import WithCustomerAuth from './tool/withCustomerAuth';
 import WithRiderAuth from './tool/withRiderAuth';
 import WithResStaffAuth from './tool/withResStaff'
 import WithNoAuth from './tool/withNoAuth';
 import WithFdsAuth from './tool/withFdsAuth'
+=======
+
+import WithAuth from './tool/withAuth';
+import WithNoAuth from './tool/withNoAuth';
+
+>>>>>>> b5c51ea50730080bf5bd95a78f2e9f839fdce180
 import CHome from './components/customers/pages/customers_home';
 import COrder from './components/customers/pages/customer_order';
 import CReviews from './components/customers/pages/customer_reviews';
@@ -15,7 +22,7 @@ import CCoupons from './components/customers/pages/customer_coupons';
 import CAddress from './components/customers/pages/customer_address';
 import CSetting from './components/customers/pages/customer_setting';
 
-import RHome from './components/deliver_ridders/pages/home';
+import RHome from './components/delivery_riders/pages/home';
 import FHome from './components/fds/pages/home';
 import ResHome from './components/restaurant_staff/page/home';
 import LoginHome from './components/login/home_before_login';
