@@ -2,18 +2,13 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Link, Redirect,
         useRouteMatch, useParams 
 } from 'react-router-dom';
-<<<<<<< HEAD
 import WithCustomerAuth from './tool/withCustomerAuth';
 import WithRiderAuth from './tool/withRiderAuth';
 import WithResStaffAuth from './tool/withResStaff'
-import WithNoAuth from './tool/withNoAuth';
-import WithFdsAuth from './tool/withFdsAuth'
-=======
-
-import WithAuth from './tool/withAuth';
+import WithFdsAuth from './tool/withFdsAuth';
 import WithNoAuth from './tool/withNoAuth';
 
->>>>>>> b5c51ea50730080bf5bd95a78f2e9f839fdce180
+
 import CHome from './components/customers/pages/customers_home';
 import COrder from './components/customers/pages/customer_order';
 import CReviews from './components/customers/pages/customer_reviews';
