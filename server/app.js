@@ -12,6 +12,7 @@ var loginRouter = require('./routes/loginAPI/loginRoutes');
 var signupRouter = require('./routes/signupAPI/signupRoutes');
 var customerRouter = require('./routes/customerAPI/customerRouter');
 var rRouter = require('./routes/restaurantAPI/rRoutes');
+var fdsManagerRouter = require('./routes/fdsManagerAPI/managerRoutes');
 
 /*----------------------- END OF LINK ----------------------------*/
 
@@ -33,6 +34,7 @@ app.use('/api/login', loginRouter);
 app.use('/api/signup', signupRouter);
 app.use('/api/customer', customerRouter);
 app.use('/api/restaurant', rRouter);
+app.use(`/api/fdsManager`, fdsManagerRouter);
 
 /*----------------- END OF ROUTE REGISTRATION --------------------*/
 
