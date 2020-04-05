@@ -34,7 +34,7 @@ app.use('/api/login', loginRouter);
 app.use('/api/signup', signupRouter);
 app.use('/api/customer', customerRouter);
 app.use('/api/restaurant', rRouter);
-app.use(`/api/fdsManager`, fdsManagerRouter);
+app.use('/api/fdsManager', fdsManagerRouter);
 
 /*----------------- END OF ROUTE REGISTRATION --------------------*/
 
