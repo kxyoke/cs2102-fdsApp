@@ -54,6 +54,11 @@ CREATE TABLE Users (
     isFdsManager         BOOLEAN DEFAULT FALSE
 );
 
+CREATE TABLE FdsManagers (
+    usr_id        VARCHAR(255) NOT NULL PRIMARY KEY,
+    FOREIGN KEY (usr_id) REFERENCES Users
+);
+
 CREATE TABLE RestaurantStaffs (
     usr_id         VARCHAR(255) NOT NULL,
     res_id         SERIAL NOT NULL,
