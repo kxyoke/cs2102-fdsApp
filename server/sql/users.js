@@ -15,5 +15,11 @@ users.queries = {
     find_fds_by_id:'SELECT * FROM fdsmanagers WHERE usr_id = $1',
 }
 
+users.function ={
+    addCustomer: 'CALL addCustomer($1,$2,$3)',
+    addFullTimeRider: 'CALL addFullTimeRider($1,$2,$3)',
+    addPartTimeRider: 'CALL addPartTimerRider($1,$2,$3)',
+    addRestaurantStaff: 'CALL addResStaff($1,$2,$3)'
+}
 
 module.exports = users;

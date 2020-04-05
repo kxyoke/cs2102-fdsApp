@@ -20,14 +20,14 @@ DROP TABLE IF EXISTS Mws CASCADE;
 DROP TABLE IF EXISTS Reviews CASCADE;
 
 CREATE TABLE Restaurants (
-    res_id           SERIAL PRIMARY KEY,
-    rname            VARCHAR(255) NOT NULL,
-    address          VARCHAR(255) NOT NULL,
-    min_amount       INTEGER NOT NULL
+    res_id           TEXT PRIMARY KEY,
+    rname            TEXT NOT NULL,
+    address          TEXT NOT NULL,
+    min_amount       NUMERIC NOT NULL
 );
 
 CREATE TABLE FoodItems (
-    food_id            SERIAL PRIMARY KEY,
+    food_id            TEXT PRIMARY KEY,
     name               TEXT,
     description        TEXT,
     imagepath          VARCHAR(255)
@@ -35,8 +35,8 @@ CREATE TABLE FoodItems (
 
 
 CREATE TABLE MenuItems (
-    res_id      SERIAL,
-    food_id     SERIAL,
+    res_id      TEXT,
+    food_id     TEXT,
     price       NUMERIC,
     daily_limit INTEGER DEFAULT 20,
     daily_sells INTEGER DEFAULT 0,
@@ -61,7 +61,7 @@ CREATE TABLE FdsManagers (
 
 CREATE TABLE RestaurantStaffs (
     usr_id         VARCHAR(255) NOT NULL,
-    res_id         SERIAL NOT NULL,
+    res_id         TEXT,
     PRIMARY KEY(usr_id),
     FOREIGN KEY (usr_id) REFERENCES Users,
     FOREIGN KEY (res_id) REFERENCES Restaurants
@@ -95,13 +95,13 @@ CREATE TABLE Riders (
 
 CREATE TABLE Fulltimerider (
     usr_id         VARCHAR(255) NOT NULL PRIMARY KEY,
-    base_salary    NUMERIC NOT NULL,
+    base_salary    NUMERIC DEFAULT 2000,
     FOREIGN KEY (usr_id) REFERENCES Riders
 );
 
 CREATE TABLE Parttimerider (
     usr_id         VARCHAR(255) NOT NULL PRIMARY KEY,
-    base_salary    NUMERIC NOT NULL,
+    base_salary    NUMERIC DEFAULT 1000,
     FOREIGN KEY (usr_id) REFERENCES Riders
 );
 
@@ -111,9 +111,9 @@ CREATE TYPE OrderItem AS (
 );
 
 CREATE TABLE Orders (
-    order_id       SERIAL PRIMARY KEY,
+    order_id       TEXT PRIMARY KEY,
     usr_id         VARCHAR(255) NOT NULL,
-    res_id         SERIAL NOT NULL,
+    res_id         TEXT NOT NULL,
     isCheckedOut   BOOLEAN,
     payment        VARCHAR(255) NOT NULL 
                                 CHECK (payment IN ('card', 'cash')),
@@ -132,7 +132,7 @@ CREATE TABLE Reviews (
 );
 
 CREATE TABLE Deliveries (
-    order_id          SERIAL PRIMARY KEY,
+    order_id          TEXT PRIMARY KEY,
     usr_id            VARCHAR(255) NOT NULL,
     place_order_time  TIMESTAMP NOT NULL,
     dr_leave_for_res  TIMESTAMP,
