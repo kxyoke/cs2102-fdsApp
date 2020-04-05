@@ -16,10 +16,10 @@ module.exports = async (req, res) => {
                 //do something
             } else {
                 console.log('database err found')
-                return res.statusSend(500);
+                return res.sendStatus(500);
             }
         } else {
-            res.send(200);
+            res.sendStatus(200);
         }
     });
     // pool.query(sql.users.queries.find_user_by_username,[req.body.username], (err, data) => {

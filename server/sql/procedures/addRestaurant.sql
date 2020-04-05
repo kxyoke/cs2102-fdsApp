@@ -1,11 +1,4 @@
-CREATE OR REPLACE addRestaurant(res_id TEXT,
-                                resname TEXT,
-                                 address TEXT, 
-                                minamt NUMERIC) as $$
-BEGIN
-    INSERT INTO Restaurants(res_id, rname, address, min_amount) VALUES (res_id,resname, address, minamt);
-END;
-$$ LANGUAGE plpgsql;
+
 
 CREATE OR REPLACE addMenuItem(res_id TEXT,
                             food_id TEXT,

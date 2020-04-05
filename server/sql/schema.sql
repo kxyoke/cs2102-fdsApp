@@ -71,7 +71,7 @@ CREATE TABLE Customers (
     usr_id               VARCHAR(255) NOT NULL,
     card_num             INTEGER,
     last_order_time      TIMESTAMP DEFAULT NULL,
-    reward_points        INTEGER DEFAULT 0 CHECK(num_reward_pts >= 0),
+    reward_points        INTEGER DEFAULT 0 CHECK(reward_points >= 0),
     PRIMARY KEY(usr_id),
     FOREIGN KEY (usr_id) REFERENCES Users
 );
@@ -125,7 +125,7 @@ CREATE TABLE Orders (
 );
 
 CREATE TABLE Reviews (
-    order_id        SERIAL PRIMARY KEY,
+    order_id        TEXT PRIMARY KEY,
     food_rev        TEXT,
     delivery_rating NUMERIC,
     FOREIGN KEY(order_id) REFERENCES Orders

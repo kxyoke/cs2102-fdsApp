@@ -18,8 +18,8 @@ users.queries = {
 users.function ={
     addCustomer: 'CALL addCustomer($1,$2,$3)',
     addFullTimeRider: 'CALL addFullTimeRider($1,$2,$3)',
-    addPartTimeRider: 'CALL addPartTimerRider($1,$2,$3)',
-    addRestaurantStaff: 'CALL addResStaff($1,$2,$3)'
+    addPartTimeRider: 'CALL addPartTimeRider($1,$2,$3)',
+    addRestaurantStaff: 'CALL addResStaff($1,$2,$3, $4, $5, $6, $7)'
 }
 
 module.exports = users;

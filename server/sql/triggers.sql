@@ -11,7 +11,7 @@ BEGIN
     --     FROM users
     --     where usr_id = NEW.usr_id) THEN
     --     RAISE EXCEPTION 'usr_id in used';
-    --     END IF;
+         END IF;
     
     RETURN NEW;
     END

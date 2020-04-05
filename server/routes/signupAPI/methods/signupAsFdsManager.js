@@ -8,6 +8,7 @@ module.exports = (req, res) => {
         });
 //https://www.freecodecamp.org/news/fullstack-react-blog-app-with-express-and-psql/
 */
+    console.log(req.body);
     res.send('Queried fds manager signup.');
 };
 

@@ -11,7 +11,10 @@ class LoginHome extends Component {
               <Header />
               <h1>Select identity to login with:</h1>
               <IdentityOptions />
-              <Link to='/signUp'>Sign Up</Link>
+              <p> </p>
+              <div class="text-center" >
+              Do not have an Account? <Link class="btn btn-primary" to='/signUp'>Sign Up</Link>
+              </div>
             </div>
         )
     }
