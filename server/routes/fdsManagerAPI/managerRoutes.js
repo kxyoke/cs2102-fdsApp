@@ -16,11 +16,11 @@ mRouter.route(`/coupon/:cid`)
     .get(getCoupon)
     .put(updateCoupon);
 
-mRouter.route(`promos/`)
+mRouter.route(`/promos`)
     .post(addFdsManagerPromo)
     .get(getAllFdsManagerPromos)
 
-mRouter.route(`promos/:pid`)
+mRouter.route(`/promos/:pid`)
     .get(getFdsManagerPromo)
     .put(updateFdsManagerPromo);
 
