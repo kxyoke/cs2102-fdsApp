@@ -1,5 +1,5 @@
 var express = require('express');
-var rRouter = express.Router();
+var mRouter = express.Router();
 
 const addCoupon = require(`./methods/addCoupon`);
 const getCoupon = require(`./methods/getCoupon`);
@@ -9,18 +9,18 @@ const getAllFdsManagerPromos = require(`./methods/getAllPromos`);
 const getFdsManagerPromo = require(`./methods/getPromo`);
 const updateFdsManagerPromo = require(`./methods/updatePromo`);
 
-rRouter.route(`/coupon/`)
+mRouter.route(`/coupon/`)
     .post(addCoupon)
 
-rRouter.route(`/coupon/:cid`)
+mRouter.route(`/coupon/:cid`)
     .get(getCoupon)
     .put(updateCoupon);
 
-rRouter.route(`promos/`)
+mRouter.route(`promos/`)
     .post(addFdsManagerPromo)
     .get(getAllFdsManagerPromos)
 
-rRouter.route(`promos/:pid`)
+mRouter.route(`promos/:pid`)
     .get(getFdsManagerPromo)
     .put(updateFdsManagerPromo);
 
