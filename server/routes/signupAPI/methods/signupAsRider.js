@@ -1,53 +1,13 @@
 const pool = require('../../../db'); // psql db
-const sql = require('../../../sql');
-const bcrypt = require('bcrypt');
-const shortid = require('shortid');
 
-module.exports =async (req, res) => {
-    console.log(req.body);
-    var hash = await bcrypt.hash(req.body.password, 10);
-    const id = shortid.generate();
-    switch (req.body.riderType) {
-        case 'full':
-            console.log(id, hash, req.body.username);
-            pool.query(sql.users.function.addFullTimeRider, 
-                    [id, req.body.username, hash],
-                     (err) => {
-                    if(err) {
-                        console.log(err.message);
-                        if(err.message === 'username in used') {
-                            return res.status(422).send(err.message);
-                        }  else if (err.message === 'usr_id in used') {
-                            //do something
-                        } else {
-                            console.log('database err found')
-                            return res.sendStatus(500);
-                        }
-                    } else {
-                       return res.sendStatus(200);
-                    }
-                    })
-
-        case 'part':
-            console.log(id, hash, req.body.username);
-            pool.query(sql.users.function.addPartTimeRider, 
-                [id, req.body.username, hash],
-                 (err) => {
-                if(err) {
-                    console.log(err.message);
-                    if(err.message === 'username in used') {
-                        return res.status(422).send(err.message);
-                    }  else if (err.message === 'usr_id in used') {
-                        //do something
-                    } else {
-                        console.log('database err found')
-                        return res.sendStatus(500);
-                    }
-                } else {
-                    return res.sendStatus(200);
-                }
-            })
-        
-    }
+module.exports = (req, res) => {
+/*
+    pool.query('SELECT * FROM Restaurants',
+        (q_err, q_res) => {
+            res.json(q_res.rows)
+        });
+//https://www.freecodecamp.org/news/fullstack-react-blog-app-with-express-and-psql/
+*/
+    res.send('Queried delivery rider signup.');
 };
 

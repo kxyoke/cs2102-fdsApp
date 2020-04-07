@@ -25,7 +25,6 @@ export default function Login(props) {
         event.preventDefault();
         axios.post(url, {username: username, password:password}).then(res=>{
           if (res.status === 200) {
-            setPassword('');
             props.history.push(path);
           }else {
             console.log(res)
