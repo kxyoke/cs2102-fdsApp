@@ -1,4 +1,5 @@
 const pool = require('../../../db'); // psql db
+const log = require('../../../logger')
 
 module.exports = (req, res) => {
 /*
