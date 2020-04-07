@@ -144,30 +144,36 @@ CREATE TABLE Deliveries (
 );
 
 CREATE TABLE Promotions (
-    pid             SERIAL PRIMARY KEY,
+    pid             TEXT PRIMARY KEY,
     promotype       VARCHAR(255) NOT NULL
                             CHECK(promotype in('FDS', 'RES')),
-    description       TEXT NOT NULL,
-    start_day  TIMESTAMP NOT NULL,
-    end_day    TIMESTAMP NOT NULL
+    res_id          TEXT DEFAULT NULL,
+    description     TEXT NOT NULL,
+    start_day       TIMESTAMP NOT NULL,
+    end_day         TIMESTAMP NOT NULL,
+    FOREIGN KEY(res_id) REFERENCES Restaurants
+    CONSTRAINT res_id_notnull_if_typeRES CHECK (
+        (promotype = 'RES' AND res_id IS NOT NULL)
+        OR (promotype = 'FDS' AND res_id IS NULL)
+    )
 );
 
 
 CREATE TABLE Coupons (
-    coupon_id      SERIAL PRIMARY KEY,
-    usr_id         VARCHAR(255),
-    description            VARCHAR(255) NOT NULL,
+    coupon_id       TEXT PRIMARY KEY,
+    usr_id          VARCHAR(255),
+    description     VARCHAR(255) NOT NULL,
     expiry_date     TIMESTAMP,
     FOREIGN KEY (usr_id) REFERENCES Customers
 );
 
 --need to check
 CREATE TABLE Wws (
-    usr_id       VARCHAR(255) NOT NULL,
-    dayOfWeek          INTEGER NOT NULL,
+    usr_id      VARCHAR(255) NOT NULL,
+    dayOfWeek   INTEGER NOT NULL,
     week        INTEGER NOT NULL,
-    start_time   TIME NOT NULL,
-    end_time     TIME   NOT NULL,
+    start_time  TIME NOT NULL,
+    end_time    TIME NOT NULL,
     PRIMARY KEY(usr_id, dayOfWeek, week, start_time, end_time),
     FOREIGN KEY(usr_id) REFERENCES Parttimerider
 );
