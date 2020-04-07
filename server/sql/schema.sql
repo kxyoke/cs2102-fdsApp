@@ -20,14 +20,14 @@ DROP TABLE IF EXISTS Mws CASCADE;
 DROP TABLE IF EXISTS Reviews CASCADE;
 
 CREATE TABLE Restaurants (
-    res_id           SERIAL PRIMARY KEY,
-    rname            VARCHAR(255) NOT NULL,
-    address          VARCHAR(255) NOT NULL,
-    min_amount       INTEGER NOT NULL
+    res_id           TEXT PRIMARY KEY,
+    rname            TEXT NOT NULL,
+    address          TEXT NOT NULL,
+    min_amount       NUMERIC NOT NULL
 );
 
 CREATE TABLE FoodItems (
-    food_id            SERIAL PRIMARY KEY,
+    food_id            TEXT PRIMARY KEY,
     name               TEXT,
     description        TEXT,
     imagepath          VARCHAR(255)
@@ -35,8 +35,8 @@ CREATE TABLE FoodItems (
 
 
 CREATE TABLE MenuItems (
-    res_id      SERIAL,
-    food_id     SERIAL,
+    res_id      TEXT,
+    food_id     TEXT,
     price       NUMERIC,
     daily_limit INTEGER DEFAULT 20,
     daily_sells INTEGER DEFAULT 0,
@@ -61,7 +61,7 @@ CREATE TABLE FdsManagers (
 
 CREATE TABLE RestaurantStaffs (
     usr_id         VARCHAR(255) NOT NULL,
-    res_id         SERIAL NOT NULL,
+    res_id         TEXT,
     PRIMARY KEY(usr_id),
     FOREIGN KEY (usr_id) REFERENCES Users,
     FOREIGN KEY (res_id) REFERENCES Restaurants
@@ -71,7 +71,7 @@ CREATE TABLE Customers (
     usr_id               VARCHAR(255) NOT NULL,
     card_num             INTEGER,
     last_order_time      TIMESTAMP DEFAULT NULL,
-    reward_points        INTEGER DEFAULT 0 CHECK(num_reward_pts >= 0),
+    reward_points        INTEGER DEFAULT 0 CHECK(reward_points >= 0),
     PRIMARY KEY(usr_id),
     FOREIGN KEY (usr_id) REFERENCES Users
 );
@@ -95,13 +95,13 @@ CREATE TABLE Riders (
 
 CREATE TABLE Fulltimerider (
     usr_id         VARCHAR(255) NOT NULL PRIMARY KEY,
-    base_salary    NUMERIC NOT NULL,
+    base_salary    NUMERIC DEFAULT 2000,
     FOREIGN KEY (usr_id) REFERENCES Riders
 );
 
 CREATE TABLE Parttimerider (
     usr_id         VARCHAR(255) NOT NULL PRIMARY KEY,
-    base_salary    NUMERIC NOT NULL,
+    base_salary    NUMERIC DEFAULT 1000,
     FOREIGN KEY (usr_id) REFERENCES Riders
 );
 
@@ -111,9 +111,9 @@ CREATE TYPE OrderItem AS (
 );
 
 CREATE TABLE Orders (
-    order_id       SERIAL PRIMARY KEY,
+    order_id       TEXT PRIMARY KEY,
     usr_id         VARCHAR(255) NOT NULL,
-    res_id         SERIAL NOT NULL,
+    res_id         TEXT NOT NULL,
     isCheckedOut   BOOLEAN,
     payment        VARCHAR(255) NOT NULL 
                                 CHECK (payment IN ('card', 'cash')),
@@ -125,14 +125,14 @@ CREATE TABLE Orders (
 );
 
 CREATE TABLE Reviews (
-    order_id        SERIAL PRIMARY KEY,
+    order_id        TEXT PRIMARY KEY,
     food_rev        TEXT,
     delivery_rating NUMERIC,
     FOREIGN KEY(order_id) REFERENCES Orders
 );
 
 CREATE TABLE Deliveries (
-    order_id          SERIAL PRIMARY KEY,
+    order_id          TEXT PRIMARY KEY,
     usr_id            VARCHAR(255) NOT NULL,
     place_order_time  TIMESTAMP NOT NULL,
     dr_leave_for_res  TIMESTAMP,
@@ -144,30 +144,36 @@ CREATE TABLE Deliveries (
 );
 
 CREATE TABLE Promotions (
-    pid             SERIAL PRIMARY KEY,
+    pid             TEXT PRIMARY KEY,
     promotype       VARCHAR(255) NOT NULL
                             CHECK(promotype in('FDS', 'RES')),
-    description       TEXT NOT NULL,
-    start_day  TIMESTAMP NOT NULL,
-    end_day    TIMESTAMP NOT NULL
+    res_id          TEXT DEFAULT NULL,
+    description     TEXT NOT NULL,
+    start_day       TIMESTAMP NOT NULL,
+    end_day         TIMESTAMP NOT NULL,
+    FOREIGN KEY(res_id) REFERENCES Restaurants
+    CONSTRAINT res_id_notnull_if_typeRES CHECK (
+        (promotype = 'RES' AND res_id IS NOT NULL)
+        OR (promotype = 'FDS' AND res_id IS NULL)
+    )
 );
 
 
 CREATE TABLE Coupons (
-    coupon_id      SERIAL PRIMARY KEY,
-    usr_id         VARCHAR(255),
-    description            VARCHAR(255) NOT NULL,
+    coupon_id       TEXT PRIMARY KEY,
+    usr_id          VARCHAR(255),
+    description     VARCHAR(255) NOT NULL,
     expiry_date     TIMESTAMP,
     FOREIGN KEY (usr_id) REFERENCES Customers
 );
 
 --need to check
 CREATE TABLE Wws (
-    usr_id       VARCHAR(255) NOT NULL,
-    dayOfWeek          INTEGER NOT NULL,
+    usr_id      VARCHAR(255) NOT NULL,
+    dayOfWeek   INTEGER NOT NULL,
     week        INTEGER NOT NULL,
-    start_time   TIME NOT NULL,
-    end_time     TIME   NOT NULL,
+    start_time  TIME NOT NULL,
+    end_time    TIME NOT NULL,
     PRIMARY KEY(usr_id, dayOfWeek, week, start_time, end_time),
     FOREIGN KEY(usr_id) REFERENCES Parttimerider
 );
