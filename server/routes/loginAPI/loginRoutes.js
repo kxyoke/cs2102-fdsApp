@@ -8,7 +8,7 @@ const loginAsRestaurant = require('./methods/loginAsRestaurant');
 const loginAsRider = require('./methods/loginAsRider');
 const loginAsFdsM = require('./methods/loginAsFdsManager');
 
-lRouter.post('/customer',loginAsCustomer);
+lRouter.post('/customer',checkNotAuthenticated,loginAsCustomer);
 
 
 lRouter.route('/restaurant')

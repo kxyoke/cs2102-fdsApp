@@ -9,12 +9,12 @@ const signupAsFdsM = require('./methods/signupAsFdsManager');
 
 suRouter.route('/customer')
     .post(signupAsCustomer);
-suRouter.route('/restaurant')
+suRouter.route('/restaurantStaff')
     .post(signupAsRestaurant);
 suRouter.route('/deliveryRider')
     .post(signupAsRider);
-suRouter.route('/fdsManager')
-    .post(signupAsFdsM);
+// suRouter.route('/fdsManager')
+//     .post(signupAsFdsM);
 
 module.exports = suRouter;
 
