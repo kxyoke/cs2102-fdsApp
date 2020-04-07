@@ -22,7 +22,7 @@ import FHome from './components/fds/pages/home';
 import ResHome from './components/restaurant_staff/page/home';
 import LoginHome from './components/login/home_before_login';
 import Login from './components/login/login_page';
-
+import SignUp from './components/signup/signUp';
 export default function Routes() {
 
     /* NOTE: LoginHome will need to have auth to autologin if already logged in, i.e. autoredirect to __Home. */
@@ -34,6 +34,7 @@ export default function Routes() {
             <Route exact path='/' component={WithNoAuth(LoginHome)}/>
               
             <Route path='/login' component={(Login)}/>
+            <Route path = '/signUp' component= {WithNoAuth(SignUp)}/>
             <Route exact path='/customer' component={WithCustomerAuth(CHome)}/>
             <Route path='/deliveryRider' component={WithRiderAuth(RHome)}/>
             <Route path='/restaurant' component={WithResStaffAuth(ResHome)}/>
