@@ -35,12 +35,11 @@ CREATE TABLE FoodItems (
 
 
 CREATE TABLE MenuItems (
-    res_id      TEXT,
-    food_id     TEXT,
+    res_id      TEXT NOT NULL,
+    food_id     TEXT PRIMARY KEY,
     price       NUMERIC,
     daily_limit INTEGER DEFAULT 20,
     daily_sells INTEGER DEFAULT 0,
-    PRIMARY KEY(res_id, food_id),
     FOREIGN KEY (res_id) REFERENCES Restaurants,
     FOREIGN KEY (food_id) REFERENCES FoodItems ON DELETE CASCADE
 );
