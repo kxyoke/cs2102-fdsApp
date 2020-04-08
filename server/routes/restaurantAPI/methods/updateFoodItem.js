@@ -1,6 +1,6 @@
 const pool = require('../../../db'); // psql db
 const log = require('../../../logger');
-const rsql = require('../../../sql/restaurantQueries');
+const rsql = require('../../../sql');
 
 /*
  */
