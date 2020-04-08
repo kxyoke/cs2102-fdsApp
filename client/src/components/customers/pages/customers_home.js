@@ -1,29 +1,42 @@
-import React, { Component } from 'react'
-import Header from '../layout/header'
-import SearchBar from '../layout/searchbar'
+import React, { useState, useEffect } from 'react';
+import Header from '../layout/header';
+import SearchBar from '../layout/searchbar';
+import RestaurantItem from '../components/restaurantItem';
+import axios from 'axios';
 
-class CHome extends Component {
+export default function CHome (props) {
+   
+    const [restaurants, setRestaurants] = useState([]);
+    const [redirect, setRedirect] = useState(false);
+    function enterRestaurant(e)  {
+        console.log("Enter restaurant")
+        setRedirect(true);
 
-    render() {
+    }
+    useEffect( ()=> {
+        const fetchData = async () => {
+        await axios.get('/api/customer/res')
+        .then (res=> {
+            setRestaurants(res.data);
+            
+        })
+        
+        };
+        fetchData();
+    }, []);
         return (
             <div className="Home">
             <Header/>
             <SearchBar/>
-            <div className="Restarants">
-                <ul>
-                    <h4>Restaurant...</h4>
-                    <h4>Restaurant...</h4>
-                    <h4>Restaurant...</h4>
-                    <h4>Restaurant...</h4>
-                    <h4>Restaurant...</h4>
-                    <h4>Restaurant...</h4>
-                    <h4>Restaurant...</h4>
-                    <h4>Restaurant...</h4>
-                </ul>
+            <p> </p>
+            <div className="Restaurants">
+                <div class="card-columns">
+                  {restaurants.map(e => (
+                      <RestaurantItem restaurant={e}/>
+                  ))}
+                  </div>
             </div>
             </div>
         )
-    }
+    
 }
-
-export default CHome

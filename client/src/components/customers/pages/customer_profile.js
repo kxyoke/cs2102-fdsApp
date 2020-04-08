@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
 import Header from '../layout/header'
-
+//reward points inside here
+//username => cannot be changed
+//password => can change password
+//card information
 export default class CProfile extends Component {
 
     render() {

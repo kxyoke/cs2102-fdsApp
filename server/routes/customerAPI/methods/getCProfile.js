@@ -7,6 +7,6 @@ module.exports = (req, res,next) => {
             res.json(q_res.rows)
         });
 
-*/
+*/  console.log(req);
     res.send('Queried customer profile');
 };

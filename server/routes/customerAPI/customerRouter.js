@@ -21,7 +21,7 @@ const getCoupons = require('./methods/getCoupons')
 const getPastOrders = require('./methods/getPastOrder')
 const useCoupon = require('./methods/useCoupon')
 
-cRouter.route('/')
+cRouter.route('/res')
         .get(getResList);
 
 cRouter.route('/cart/:cid')
@@ -32,8 +32,7 @@ cRouter.route('/cart/:cid/:cartItemId')
         .post(addCartItem)
         .delete(deleteCartItem);
 
-cRouter.route('/:rid')
-    .get(getResMenu);
+cRouter.get('/menu/:rid', getResMenu);
 
 cRouter.route('/:cid')
         .get(getCProfile)
