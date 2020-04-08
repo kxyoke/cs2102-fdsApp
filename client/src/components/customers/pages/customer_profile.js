@@ -23,6 +23,8 @@ export default class CProfile extends Component {
                     <Link style={linkStyle} to='/customer/setting'> Setting</Link>
                 </ul>
             </div>
+
+            
             </div>
         )
     }

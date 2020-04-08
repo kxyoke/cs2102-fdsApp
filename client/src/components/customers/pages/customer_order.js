@@ -1,9 +1,29 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from '../layout/header'
+import axios from 'axios';
+export default function COrder(props) {
+    const [pastOrders, setPastOrders] = useState([]);
+    const [show, setShow] = useState(false);
+    useEffect(() => {
+        const fetchData = async () => {
+            console.log(props);
 
-export default class COrder extends Component {
-
-    render() {
+            await axios.get('/api/customer/order')
+                    .then(res=> {
+                        console.log(res);
+                        if(res.data.length >0 ) {
+                            res.data.forEach(record => {
+                                console.log(record);
+                                
+                            });
+                            setPastOrders(res.data);
+                            setShow(true);
+                        }
+                    })
+        }
+        fetchData();
+        
+    }, [])
         return(
             <div>
             <Header/>
@@ -18,5 +38,5 @@ export default class COrder extends Component {
             </div>
             </div>
         )
-    }
+    
 }

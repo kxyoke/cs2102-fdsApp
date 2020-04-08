@@ -113,11 +113,11 @@ CREATE TYPE OrderItem AS (
 CREATE TABLE Orders (
     order_id       TEXT PRIMARY KEY,
     usr_id         VARCHAR(255) NOT NULL,
-    res_id         TEXT NOT NULL,
+          TEXT NOT NULL,
     isCheckedOut   BOOLEAN,
     payment        VARCHAR(255) NOT NULL 
                                 CHECK (payment IN ('card', 'cash')),
-    listOfItems    INTEGER[] NOT NULL,
+    listOfItems    TEXT[] NOT NULL,
     status         VARCHAR(20) NOT NULL 
                              CHECK (status in('pending', 'in progress', 'complete')),
     FOREIGN KEY(usr_id) REFERENCES Customers,
