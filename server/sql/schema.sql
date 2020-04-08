@@ -30,7 +30,13 @@ CREATE TABLE FoodItems (
     food_id            TEXT PRIMARY KEY,
     name               TEXT,
     description        TEXT,
-    imagepath          VARCHAR(255)
+    imagepath          VARCHAR(255),
+    category           TEXT NOT NULL DEFAULT 'Others',
+    FOREIGN KEY (category) REFERENCES FoodCategories /*NO ACTION ON CASCADE?*/
+);
+
+CREATE TABLE FoodCategories ( /* restrict in-app deletion of categories? */
+    category        TEXT PRIMARY KEY
 );
 
 
