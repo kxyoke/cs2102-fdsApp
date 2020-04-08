@@ -116,7 +116,7 @@ CREATE TABLE Orders (
     isCheckedOut   BOOLEAN,
     payment        VARCHAR(255) NOT NULL 
                                 CHECK (payment IN ('card', 'cash')),
-    listOfItems    INTEGER[] NOT NULL,
+    listOfItems    OrderItem[] NOT NULL,
     status         VARCHAR(20) NOT NULL 
                              CHECK (status in('pending', 'in progress', 'complete')),
     FOREIGN KEY(usr_id) REFERENCES Customers,
