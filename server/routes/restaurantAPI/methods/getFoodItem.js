@@ -8,10 +8,10 @@ const rsql = require('../../../sql/restaurantQueries');
  */
 module.exports = (req, res) => {
     log.info('Querying rMenuItem')
-    const rid = req.params.rid;
+    //const rid = req.params.rid;
     const fid = req.params.fid;
 
-    pool.query(rsql.queries.get.foodItem, [fid, rid],
+    pool.query(rsql.queries.get.foodItem, [fid],
         (q_err, q_res) => {
             res.json(q_res.rows)
         })

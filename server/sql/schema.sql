@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS Users CASCADE;
 DROP TABLE IF EXISTS Restaurants CASCADE;
 DROP TABLE IF EXISTS MenuItems CASCADE;
 DROP TABLE IF EXISTS FoodItems CASCADE;
+DROP TABLE IF EXISTS FoodCategories CASCADE;
 DROP TABLE IF EXISTS RestaurantStaffs CASCADE;
 DROP TABLE IF EXISTS Customers CASCADE;
 DROP TABLE IF EXISTS Customers_address CASCADE;
@@ -26,19 +27,20 @@ CREATE TABLE Restaurants (
     min_amount       NUMERIC NOT NULL
 );
 
+/* restrict in-app deletion of categories? */
+CREATE TABLE FoodCategories (
+    category        TEXT PRIMARY KEY
+);
+
 CREATE TABLE FoodItems (
     food_id            TEXT PRIMARY KEY,
     name               TEXT,
     description        TEXT,
     imagepath          VARCHAR(255),
     category           TEXT NOT NULL DEFAULT 'Others',
-    FOREIGN KEY (category) REFERENCES FoodCategories /*NO ACTION ON CASCADE?*/
+    FOREIGN KEY (category) REFERENCES FoodCategories 
+    -- NO ACTION ON CASCADE?
 );
-
-CREATE TABLE FoodCategories ( /* restrict in-app deletion of categories? */
-    category        TEXT PRIMARY KEY
-);
-
 
 CREATE TABLE MenuItems (
     res_id      TEXT NOT NULL,

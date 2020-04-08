@@ -10,6 +10,8 @@ const shortid = require('shortid');
  *  - name
  *  - description
  *  - price
+ *  - dailyLimit
+ *  - imgPath
  *
  * Res should contain:
  *  - fid != NULL, if successful.
@@ -20,10 +22,13 @@ module.exports = (req, res) => {
     const fname = req.body.name;
     const fdesc = req.body.description;
     const price = req.body.price;
+    const daily_lmt = req.body.dailyLimit;
+    const fimgPath = req.body.imgPath;
 
     const fid = shortid.generate(); // assume no collisions given low rate
 
-    pool.query(rsql.queries.add.menuItem, [TODO],
+    pool.query(rsql.queries.add.menuItem, 
+        [rid, fid, fname, fdesc, price, daily_lmt, fimgPath],
         (q_err, q_res) => {
             res.json(q_res.rows)
         })

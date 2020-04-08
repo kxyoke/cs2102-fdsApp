@@ -11,10 +11,10 @@ BEGIN
     --     FROM users
     --     where usr_id = NEW.usr_id) THEN
     --     RAISE EXCEPTION 'usr_id in used';
-         END IF;
+    END IF;
     
     RETURN NEW;
-    END
+    END;
 $$ LANGUAGE plpgsql;
 DROP TRIGGER IF EXISTS checkInsertUser ON Users;
 CREATE TRIGGER checkInsertUser
@@ -26,8 +26,8 @@ CREATE TRIGGER checkInsertUser
 CREATE OR REPLACE FUNCTION insertDefaultFoodCategory()
     RETURNS TRIGGER AS $$
     BEGIN
-        IF NEW.category NOT IN FoodCategory THEN
-            INSERT INTO FoodCategory(category) VALUES(NEW.category);
+        IF NEW.category NOT IN (SELECT category FROM FoodCategories) THEN
+            INSERT INTO FoodCategories(category) VALUES(NEW.category);
         END IF;
         RETURN NEW;
     END;

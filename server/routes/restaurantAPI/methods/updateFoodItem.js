@@ -1,13 +1,16 @@
 const pool = require('../../../db'); // psql db
+const log = require('../../../logger');
+const rsql = require('../../../sql/restaurantQueries');
 
-module.exports = (req, res) => {
 /*
-    pool.query('SELECT * FROM Restaurants',
-        (q_err, q_res) => {
-            res.json(q_res.rows)
-        });
-//https://www.freecodecamp.org/news/fullstack-react-blog-app-with-express-and-psql/
-*/
-    res.send('Queried upate rMenuItem.');
+ */
+module.exports = (req, res) => {
+    log.info('Querying upate rMenuItem.');
+
+    pool.query(rsql.queries.update.foodItem,
+        [fid, price, dailyLmt, name, desc, imgPath],
+        (qerr, qres) => {
+            res.send(qres)
+        })
 };
 
