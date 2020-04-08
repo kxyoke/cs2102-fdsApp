@@ -27,3 +27,7 @@ riRouter.route('/deliveries/:riid')
 riRouter.route('/deliveries/:riid/:oid')
     .get(getOrder)
     .put(updateDeliveryTime);
+
+
+module.exports = riRouter;
+

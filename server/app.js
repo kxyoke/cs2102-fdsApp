@@ -94,10 +94,10 @@ app.post('/logout', (req, res)=> {
 /*================= REGISTER YOUR ROUTES HERE ====================*/
 app.use('/api/login', loginRouter);
 app.use('/api/signup', signupRouter);
-app.use('/api/customer', customerRouter);
-app.use('/api/deliveryRider', deliveryRiderRouter);
-app.use('/api/restaurant', rRouter);
-app.use('/api/fdsManager', fdsManagerRouter);
+app.use('/api/customer', checkAuthenticated, isCustomer, customerRouter);
+app.use('/api/deliveryRider', checkAuthenticated, isRider, deliveryRiderRouter);
+app.use('/api/restaurant', checkAuthenticated, isResStaff, rRouter);
+app.use('/api/fdsManager',checkAuthenticated, isFDS, fdsManagerRouter);
 
 /*----------------- END OF ROUTE REGISTRATION --------------------*/
 
