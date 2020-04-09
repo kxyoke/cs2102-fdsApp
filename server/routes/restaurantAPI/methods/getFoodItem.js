@@ -1,6 +1,6 @@
 const pool = require('../../../db'); // psql db
 const log = require('../../../logger');
-const rsql = require('../../../sql');
+const rsql = require('../../../sql/restaurantQueries/queries');
 
 /* Req params should have:
  *  - rid
@@ -11,7 +11,7 @@ module.exports = (req, res) => {
     //const rid = req.params.rid;
     const fid = req.params.fid;
 
-    pool.query(rsql.queries.get.foodItem, [fid],
+    pool.query(rsql.get.foodItem, [fid],
         (q_err, q_res) => {
             if (q_err) {
                 throw q_err;

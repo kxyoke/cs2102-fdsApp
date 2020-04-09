@@ -13,6 +13,8 @@ queries.get = {
         `SELECT * FROM Orders WHERE res_id = $1 AND status <> 'complete'`,
     allCompletedOrders: /*[res_id]*/
         `SELECT * FROM Orders WHERE res_id = $1 AND status = 'complete'`,
+    allOrders:
+        `SELECT * FROM Orders WHERE res_id = $1`,
     allPromos: /*[res_id]*/
         `SELECT * FROM Promotions WHERE res_id = $1`,
     allCurrentOrFuturePromos: /*[res_id, now_timestamp]*/

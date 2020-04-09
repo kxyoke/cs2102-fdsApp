@@ -1,6 +1,6 @@
 const pool = require('../../../db'); // psql db
 const log = require('../../../logger')
-const rsql = require('../../../sql');
+const rsql = require('../../../sql/restaurantQueries/queries');
 
 const shortid = require('shortid');
 
@@ -27,7 +27,7 @@ module.exports = (req, res) => {
 
     const fid = shortid.generate(); // assume no collisions given low rate
 
-    pool.query(rsql.queries.add.menuItem, 
+    pool.query(rsql.add.menuItem, 
         [rid, fid, fname, fdesc, price, daily_lmt, fimgPath],
         (q_err, q_res) => {
             res.json(q_res.rows)

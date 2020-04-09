@@ -8,19 +8,19 @@
 
 CREATE OR REPLACE PROCEDURE
     updateRestaurantProfile(
-        rid         TEXT,
-        rName       TEXT,
-        raddress     TEXT,
-        rmin_amount  NUMERIC
+        _rid         TEXT,
+        _rName       TEXT,
+        _address     TEXT,
+        _min_amount  NUMERIC
     ) AS $$
 
     BEGIN
         UPDATE Restaurants
-        SET rname   = rName,
-            address = raddress,
-            min_amount = rmin_amount
+        SET rname   = _rname,
+            address = _address,
+            min_amount = _min_amount
         WHERE
-            res_id = rid;
+            res_id = _rid;
     END;
 $$ LANGUAGE plpgsql;
 

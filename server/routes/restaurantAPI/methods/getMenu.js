@@ -1,13 +1,17 @@
 const pool = require('../../../db'); // psql db
+const log = require('../../../logger');
+const rsql = require('../../../sql/restaurantQueries/queries');
 
 module.exports = (req, res) => {
-/*
-    pool.query('SELECT * FROM Restaurants',
-        (q_err, q_res) => {
-            res.json(q_res.rows)
-        });
-//https://www.freecodecamp.org/news/fullstack-react-blog-app-with-express-and-psql/
-*/
-    res.send('Queried get rMenu.');
+    log.info('Querying get rMenu.');
+    const rid = req.params.rid;
+    
+    pool.query(rsql.get.allMenuItems, [rid],
+        (qerr, qres) => {
+            if (qerr) {
+                throw qerr;
+            }
+            res.json(qres.rows)
+        })
 };
 
