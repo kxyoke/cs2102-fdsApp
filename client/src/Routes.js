@@ -23,6 +23,7 @@ import ResHome from './components/restaurant_staff/page/home';
 import LoginHome from './components/login/home_before_login';
 import Login from './components/login/login_page';
 import SignUp from './components/signup/signUp';
+import RSchedule from "./components/delivery_riders/pages/rider_schedule";
 export default function Routes() {
 
     /* NOTE: LoginHome will need to have auth to autologin if already logged in, i.e. autoredirect to __Home. */
@@ -36,8 +37,9 @@ export default function Routes() {
             <Route path='/login' component={(Login)}/>
             <Route path = '/signUp' component= {WithNoAuth(SignUp)}/>
             <Route exact path='/customer' component={WithCustomerAuth(CHome)}/>
-            <Route path='/deliveryRider' component={WithRiderAuth(RHome)}/>
-            <Route path='/restaurant' component={WithResStaffAuth(ResHome)}/>
+            <Route exact path='/deliveryRider' component={WithRiderAuth(RHome)}/>
+              <Route path='/deliveryRider/schedule' component={WithRiderAuth(RSchedule)}/>
+              <Route path='/restaurant' component={WithResStaffAuth(ResHome)}/>
             <Route path='/fdsManager' component={WithFdsAuth(FHome)}/>
             <Route path='/customer/order' component={WithCustomerAuth(COrder)}/>
             <Route path='/customer/reviews' component= {WithCustomerAuth(CReviews)}/> 
