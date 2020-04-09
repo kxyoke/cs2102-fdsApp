@@ -84,6 +84,12 @@ const useStyles = makeStyles((theme) => ({
         overflow: 'auto',
         flexDirection: 'column',
     },
+    manager: {
+        [theme.breakpoints.down("sm")]: {
+            width: "100%"
+        },
+        display: "inline-block"
+    },
     fixedHeight: {
         height: 240,
     },

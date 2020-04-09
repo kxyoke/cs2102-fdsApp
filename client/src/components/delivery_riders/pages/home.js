@@ -11,7 +11,6 @@ export default class RHome extends Component {
             <div className="Home">
             <div>
                 <Dashboard/>
-            <LogoutButton/>
             </div>
             </div>
         )
