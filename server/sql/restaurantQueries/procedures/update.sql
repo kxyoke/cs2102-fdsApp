@@ -9,7 +9,7 @@
 CREATE OR REPLACE PROCEDURE
     updateRestaurantProfile(
         _rid         TEXT,
-        _rName       TEXT,
+        _rname       TEXT,
         _address     TEXT,
         _min_amount  NUMERIC
     ) AS $$
@@ -26,69 +26,69 @@ $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE PROCEDURE
     updateRestaurantFoodItem(
-        fid         TEXT,
-        fprice      NUMERIC,
-        dailyLmt    INTEGER,
-        fname       TEXT,
-        fdesc       TEXT,
-        fimgpath    VARCHAR(255)
+        _fid         TEXT,
+        _fprice      NUMERIC,
+        _dailyLmt    INTEGER,
+        _fname       TEXT,
+        _fdesc       TEXT,
+        _fimgpath    VARCHAR(255)
     ) AS $$
 
     BEGIN
         UPDATE FoodItems
-        SET name        = fname,
-            description = fdesc,
-            imagepath   = fimgpath
+        SET name        = _fname,
+            description = _fdesc,
+            imagepath   = _fimgpath
         WHERE
-            food_id = fid;
+            food_id = _fid;
 
         UPDATE MenuItems
-        SET price       = fprice,
-            daily_limit = dailyLmt
+        SET price       = _fprice,
+            daily_limit = _dailyLmt
         WHERE
-            food_id = fid;
+            food_id = _fid;
     END;
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE PROCEDURE
     incrementSoldFoodItem(
-        fid     TEXT
+        _fid     TEXT
     ) AS $$
 
     BEGIN
         UPDATE MenuItems
         SET daily_sells = daily_sells + 1
-        WHERE food_id = fid;
+        WHERE food_id = _fid;
     END;
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE PROCEDURE
     resetDailySellsForFoodItem(
-        fid     TEXT
+        _fid     TEXT
     ) AS $$
 
     BEGIN
         UPDATE MenuItems
         SET daily_sells = DEFAULT
-        WHERE food_id = fid;
+        WHERE food_id = _fid;
     END;
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE PROCEDURE
     updateRestaurantPromo(
-        pId     TEXT,
-        pdesc   TEXT,
-        startd  TIMESTAMP,
-        endd    TIMESTAMP
+        _pid     TEXT,
+        _pdesc   TEXT,
+        _startd  TIMESTAMP,
+        _endd    TIMESTAMP
     ) AS $$
 
     BEGIN
         UPDATE Promotions
-        SET description = pdesc,
-            start_day   = startd,
-            end_day     = endd
+        SET description = _pdesc,
+            start_day   = _startd,
+            end_day     = _endd
         WHERE
-            pid = pId;
+            pid = _pid;
     END;
 $$ LANGUAGE plpgsql;
 
