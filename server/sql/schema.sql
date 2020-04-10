@@ -18,6 +18,7 @@ DROP TABLE IF EXISTS Coupons CASCADE;
 DROP TABLE IF EXISTS Wws CASCADE;
 DROP TABLE IF EXISTS Mws CASCADE;
 DROP TABLE IF EXISTS Reviews CASCADE;
+DROP TABLE IF EXISTS Carts CASCADE;
 
 CREATE TABLE Restaurants (
     res_id           TEXT PRIMARY KEY,
@@ -85,7 +86,16 @@ CREATE TABLE Customers_address (
     address         TEXT NOT NULL,
     last_use_time   TIMESTAMP NOT NULL,
     PRIMARY KEY(usr_id, address),
-    FOREIGN KEY (usr_id) REFERENCES Customers
+    FOREIGN KEY (usr_id) REFERENCES Customers ON DELETE CASCADE;  
+);
+
+CREATE TABLE Carts (
+    usr_id          VARCHAR(255)PRIMARY KEY,
+    res_id          TEXT,
+    FoodItems       TEXT[][],
+    total           NUMERIC DEFAULT 0,
+    FOREIGN KEY (usr_id) REFERENCES Customers ON DELETE CASCADE,
+    FOREIGN KEY (res_id) REFERENCES Restaurants
 );
 
 CREATE TABLE Riders (
@@ -114,6 +124,7 @@ CREATE TABLE Orders (
     order_id       TEXT PRIMARY KEY,
     usr_id         VARCHAR(255) NOT NULL,
     res_id          TEXT NOT NULL,
+    total           NUMERIC NOT NULL,
     isCheckedOut   BOOLEAN,
     payment        VARCHAR(255) NOT NULL 
                                 CHECK (payment IN ('card', 'cash')),
