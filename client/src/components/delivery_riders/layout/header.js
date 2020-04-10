@@ -1,6 +1,5 @@
 import React, {useState}from 'react'
 import { Link,Redirect } from 'react-router-dom'
-import LogoutButton from "../../logoutButton";
 import classNames from "classnames";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import IconButton from "@material-ui/core/IconButton";

@@ -15,6 +15,7 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import clsx from "clsx";
+import Moment from 'moment';
 
 function preventDefault(event) {
     event.preventDefault();
@@ -35,13 +36,6 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'flex-end',
         padding: '0 8px',
         ...theme.mixins.toolbar,
-    },
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
     },
     appBarShift: {
         marginLeft: drawerWidth,
@@ -104,14 +98,52 @@ const useStyles = makeStyles((theme) => ({
 export default function RSchedule(props) {
     const classes = useStyles();
     const url = '/api/deliveryRider/schedule/:riid' ;
-    const [schedule, setSchedule] = useState([]);
+    const [schedule, setSchedule] = useState(Array.from({length: 7},()=>
+        []));
+    const timeRange = [];
+    for (var i = 10; i < 22; i++) {
+        var exacttime = i + ":00";
+        timeRange.push(exacttime);
+    }
     useEffect( ()=> {
         const fetchData = async () => {
             await axios.get(url)
                 .then(res=> {
                     if(res.data.length > 0) {
-                        setSchedule(res.data);
-                    }
+                        var twoDArray = [
+                            ["1", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                            ["2", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                            ["3", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                            ["4", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                            ["5", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                            ["6", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                            ["7", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+                        ]
+                        for (var k = 0; k < res.data.length; k++) {
+                            console.log(k);
+                            console.log(res.data);
+                            var emptyArray = [];
+                            var format = 'hh:mm';
+                            var beforeTime1 = Moment(res.data[k].start_time1, format);
+                            var afterTime1 = Moment(res.data[k].end_time1, format);
+                            var beforeTime2 = Moment(res.data[k].start_time2, format);
+                            var afterTime2 = Moment(res.data[k].end_time2, format);
+                            emptyArray.push(res.data[k].day);
+                            for (var curtime = 10; curtime < 22; curtime++) {
+                                var time = Moment(curtime,format);
+                                if (time.isBetween(beforeTime1,afterTime1) || time.isBetween(beforeTime2,afterTime2)
+                                || time.isSame(beforeTime1) || time.isSame(beforeTime2)) {
+                                    emptyArray.push("true");
+                                } else {
+                                    emptyArray.push('-');
+                                }
+                            }
+                            twoDArray[res.data[k].day - 1] = emptyArray;
+                        }
+
+                        setSchedule(twoDArray);
+                        }
+
 
                 });
         };
@@ -127,25 +159,29 @@ export default function RSchedule(props) {
                 <SideBar/>
                 <main className={classes.content}>
                     <div className={classes.appBarSpacer} />
-                    <Container maxWidth="lg" className={classes.container}>
+                    <h1>Work Schedule</h1>
+                    <Container maxWidth="lg" >
                         <Grid container spacing={1}>
-                            <Grid item xs={12} md={8} lg={9}>
-                                <Paper className={clsx(classes.paper, classes.fixedHeight)}>
-                                    <h1>Recent Orders</h1>
-                                    <Table size="small">
+                            <Grid item xs={12} md={12} lg={12}>
+                                <Paper className={clsx(classes.paper, 24)}>
+                                    <Table size="lg">
                                         <TableHead>
                                             <TableRow>
                                                 <TableCell>Day</TableCell>
-                                                <TableCell align="right">Sale Amount</TableCell>
+                                                {timeRange.map( (exacttime) => (
+                                                        <TableCell> {exacttime} </TableCell>
+                                                    )
+                                                )}
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {schedule.map((row) => (
-                                                <TableRow key= {row.usr_id + row.day}>
-                                                    <TableCell>{row.day}</TableCell>
-                                                    <TableCell>{row.shift_id}</TableCell>
-                                                </TableRow>
-                                            ))}
+                                            {schedule.map( (exacttime) =>
+                                                 <TableRow>
+                                                     {exacttime.map( (exactvalue) => exactvalue === "true" ?
+                                                        <TableCell>Working</TableCell> :
+                                                        <TableCell>{exactvalue}</TableCell> )}
+                                                 </TableRow>
+                                            )}
                                         </TableBody>
                                     </Table>
                                 </Paper>

@@ -127,7 +127,6 @@ export default function SideBar() {
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                         Food Delivery System - Rider
                     </Typography>
-                    <HeaderIcons/>
                 </Toolbar>
             </AppBar>
             <Drawer

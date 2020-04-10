@@ -811,6 +811,11 @@ INSERT INTO Shifts (shift_id,start_time1,start_time2,end_time1,end_time2) VALUES
 
 
 insert into Mws (usr_id, day, shift_id) values ('FJlGy8yKsR', 1, 4);
+insert into Mws (usr_id, day, shift_id) values ('FJlGy8yKsR', 3, 1);
+insert into Mws (usr_id, day, shift_id) values ('FJlGy8yKsR', 4, 2);
+insert into Mws (usr_id, day, shift_id) values ('FJlGy8yKsR', 6, 3);
+
+
 insert into Mws (usr_id, day, shift_id) values ('TgYG4Z7NIq', 1, 3);
 insert into Mws (usr_id, day, shift_id) values ('KsK1EzaX6', 1, 2);
 insert into Mws (usr_id, day, shift_id) values ('JY5MXf4LND', 1, 3);
