@@ -8,9 +8,11 @@ var rRouter = express.Router();
 const getRestaurant = require('./methods/getProfile');
 const updateRestaurant = require('./methods/updateProfile');
 const addMenuFoodItem = require('./methods/addMenuFoodItem');
+const getFoodCategories = require('./methods/getFoodCategories');
 const getRestaurantMenuItems = require('./methods/getMenu');
 const getFoodItem = require('./methods/getFoodItem');
 const updateFoodItem = require('./methods/updateFoodItem');
+const updateFoodItemCategory = require('./methods/updateFoodItemCategory');
 const deleteFoodItem = require('./methods/deleteFoodItem');
 const getRestaurantReviews = require('./methods/getReviews');
 const getRestaurantOrders = require('./methods/getOrders');
@@ -30,6 +32,12 @@ rRouter.route('/menu/:rid/:fid')
     .get(getFoodItem)
     .put(updateFoodItem)
     .delete(deleteFoodItem);
+
+rRouter.route('/menu/category')
+    .get(getFoodCategories);
+
+rRouter.route('/menu/category/:fid')
+    .put(updateFoodItemCategory);
 
 rRouter.route('/reviews/:rid')
     .get(getRestaurantReviews);

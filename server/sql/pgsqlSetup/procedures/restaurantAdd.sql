@@ -8,15 +8,16 @@ CREATE OR REPLACE PROCEDURE
         res_id      TEXT,
         food_id     TEXT,
         fname       TEXT,
-        fdescr      TEXT,
+        fdesc      TEXT,
         price       NUMERIC, /*if NULL, not supposed to be rendered on customer side.*/
         daily_limit INTEGER,
-        imagepath   VARCHAR(255)
+        imagepath   VARCHAR(255),
+        category    TEXT
     ) AS $$
 
     BEGIN
-        INSERT INTO FoodItems(food_id, name, description, imagepath) 
-        VALUES(food_id, fname, fdesc, imagepath);
+        INSERT INTO FoodItems(food_id, name, description, imagepath, category) 
+        VALUES(food_id, fname, fdesc, imagepath, category);
         INSERT INTO MenuItems(res_id, food_id, price, daily_limit)
         VALUES(res_id, food_id, price, daily_limit);
     END;

@@ -31,14 +31,16 @@ CREATE OR REPLACE PROCEDURE
         _dailyLmt    INTEGER,
         _fname       TEXT,
         _fdesc       TEXT,
-        _fimgpath    VARCHAR(255)
+        _fimgpath    VARCHAR(255),
+        _fcategory   TEXT
     ) AS $$
 
     BEGIN
         UPDATE FoodItems
         SET name        = _fname,
             description = _fdesc,
-            imagepath   = _fimgpath
+            imagepath   = _fimgpath,
+            category    = _fcategory
         WHERE
             food_id = _fid;
 
@@ -47,6 +49,23 @@ CREATE OR REPLACE PROCEDURE
             daily_limit = _dailyLmt
         WHERE
             food_id = _fid;
+    END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE PROCEDURE
+    updateCategoryOf(
+        _fid     TEXT,
+        _cat     TEXT
+    ) AS $$
+
+    BEGIN
+        UPDATE FoodItems
+        SET category = _cat
+        WHERE food_id = _fid;
+
+        DELETE FROM FoodCategories
+        WHERE category = _cat
+        AND NOT EXISTS (SELECT 1 FROM FoodItems WHERE category = _cat);
     END;
 $$ LANGUAGE plpgsql;
 

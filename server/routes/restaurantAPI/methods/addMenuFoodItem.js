@@ -22,14 +22,18 @@ module.exports = (req, res) => {
     const fname = req.body.name;
     const fdesc = req.body.description;
     const price = req.body.price;
-    const daily_lmt = req.body.dailyLimit;
-    const fimgPath = req.body.imgPath;
+    const daily_lmt = req.body.daily_limit;
+    const fimgPath = req.body.image_path;
+    const fcat = req.body.category;
 
     const fid = shortid.generate(); // assume no collisions given low rate
 
     pool.query(rsql.add.menuItem, 
-        [rid, fid, fname, fdesc, price, daily_lmt, fimgPath],
+        [rid, fid, fname, fdesc, price, daily_lmt, fimgPath, fcat],
         (q_err, q_res) => {
+            if (q_err) {
+                throw q_err;
+            }
             res.json(q_res.rows)
         })
 };

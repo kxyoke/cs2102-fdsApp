@@ -5,6 +5,8 @@ queries.get = {
         `SELECT * FROM Restaurants WHERE res_id = $1`,
     allMenuItems: /*[res_id]*/
         `SELECT * FROM MenuItems NATURAL JOIN FoodItems WHERE res_id = $1`,
+    allFoodCategories:
+        `SELECT * FROM FoodCategories`,
     foodItem: /*[food_id]*/
         `SELECT * FROM MenuItems NATURAL JOIN FoodItems WHERE food_id = $1`,
     allReviews: /*[res_id]*/
@@ -23,14 +25,15 @@ queries.get = {
 
 queries.update = {
     profile: `CALL updateRestaurantProfile($1, $2, $3, $4)`, /*res_id, rname, address, min_amt*/
-    foodItem: `CALL updateRestaurantFoodItem($1, $2, $3, $4, $5, $6)`, /*fid, price, dailyLmt, name, desc, imgpath*/
+    foodItem: `CALL updateRestaurantFoodItem($1, $2, $3, $4, $5, $6, $7)`, /*fid, price, dailyLmt, name, desc, imgpath, category*/
+    foodItemCategory: `CALL updateCategoryOf($1, $2)`, /*fid, cat*/
     dailySoldFoodItemCount: `CALL incrementSoldFoodItem($1)`, /*fid*/
     resetDailySells: `CALL resetDailySellsForFoodItem($1)`, /*fid*/
     promo: `CALL updateRestaurantPromo($1, $2, $3, $4)` /*pid, desc, startDay, endDay*/
 }
 
 queries.add = {
-    menuItem: `CALL addRestaurantMenuItem($1, $2, $3, $4, $5, $6, $7)`, /*res_id, food_id, fname, fdesc, price, daily_limit, fimgPath*/
+    menuItem: `CALL addRestaurantMenuItem($1, $2, $3, $4, $5, $6, $7, $8)`, /*res_id, food_id, fname, fdesc, price, daily_limit, fimgPath, fcategory*/
     promo: `CALL addRestaurantPromo($1, $2, $3, $4, $5)` /*pid, rid, desc, startday, endday*/
 }
 
