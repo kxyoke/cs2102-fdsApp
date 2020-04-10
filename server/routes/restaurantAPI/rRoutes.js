@@ -33,10 +33,10 @@ rRouter.route('/menu/:rid/:fid')
     .put(updateFoodItem)
     .delete(deleteFoodItem);
 
-rRouter.route('/menu/category')
+rRouter.route('/foodCategories/all')
     .get(getFoodCategories);
 
-rRouter.route('/menu/category/:fid')
+rRouter.route('/menu/:rid/:fid/category')
     .put(updateFoodItemCategory);
 
 rRouter.route('/reviews/:rid')
