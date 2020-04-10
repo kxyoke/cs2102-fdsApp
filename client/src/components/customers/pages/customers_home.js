@@ -19,6 +19,7 @@ export default function CHome (props) {
         };
         fetchData();
     }, []);
+    
         return (
             <div className="Home">
             <Header/>

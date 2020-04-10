@@ -25,18 +25,15 @@ export default function CReviews(props) {
             <div>
             <Header/>
             {show?
+            <div class="container">
              <div class ="row justify-content-md-center" className="MyReviews">
-                <table class="table">
-                    <thread>
                     
                     {reviews.map(re => 
                         
                         <ReviewItem review={re}/>
                         
                     )}
-                   
-                    </thread>
-                </table>
+            </div>
             </div>
             :<div class ="mx-auto" style={{width:"350px"}}>
             <p> </p>

@@ -1,9 +1,9 @@
-import React, {useState}from 'react'
-import { Link,Redirect } from 'react-router-dom'
-import axios from 'axios';
+import React, {useState, useContext}from 'react';
+import { Link,Redirect } from 'react-router-dom';
 import LogoutButton from "../../logoutButton";
-import CartButton from './cart.js'
+import CartButton from './cart.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 function Header() {
 
     return (

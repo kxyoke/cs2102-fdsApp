@@ -12,7 +12,7 @@ export default class CProfile extends Component {
         return(
             <div>
             <Header/>
-             <div className="MyProfile">
+             <div class =" mx-auto" className="MyProfile">
                 <ul>
                     <Link style={linkStyle} to='/customer/coupon'>Coupons</Link>
                 </ul>

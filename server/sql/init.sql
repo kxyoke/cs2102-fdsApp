@@ -479,11 +479,11 @@ insert into Customers (usr_id, card_num, last_order_time) values ('BKJ0pbXZ3d', 
 insert into Customers (usr_id, card_num, last_order_time) values ('nI8m8uwVwp', 443900062, '2019-04-23 13:12:29');
 
 --Customer address
-insert into Customers_address (usr_id, address, last_use_time) values ('nI8m8uwVwp', '17 Ridge Oak Alley', '2020-02-02 18:52:25');
-insert into Customers_address (usr_id, address, last_use_time) values ('nI8m8uwVwp', '0 Boyd Terrace', '2020-03-26 22:58:41');
-insert into Customers_address (usr_id, address, last_use_time) values ('nI8m8uwVwp', '9409 Spohn Drive', '2019-11-25 15:01:05');
-insert into Customers_address (usr_id, address, last_use_time) values ('BKJ0pbXZ3d', '5983 Pine View Junction', '2019-12-27 05:27:43');
-insert into Customers_address (usr_id, address, last_use_time) values ('BKJ0pbXZ3d', '74 Roxbury Park', '2020-02-12 14:31:33');
+insert into Customers_address (usr_id, address, last_use_time) values ('qnXAuDyjP9', '17 Ridge Oak Alley', '2020-02-02 18:52:25');
+insert into Customers_address (usr_id, address, last_use_time) values ('qnXAuDyjP9', '0 Boyd Terrace', '2020-03-26 22:58:41');
+insert into Customers_address (usr_id, address, last_use_time) values ('qnXAuDyjP9', '9409 Spohn Drive', '2019-11-25 15:01:05');
+insert into Customers_address (usr_id, address, last_use_time) values ('qnXAuDyjP9', '5983 Pine View Junction', '2019-12-27 05:27:43');
+insert into Customers_address (usr_id, address, last_use_time) values ('qnXAuDyjP9', '74 Roxbury Park', '2020-02-12 14:31:33');
 insert into Customers_address (usr_id, address, last_use_time) values ('6p_wavr8Rw', '996 Tony Road', '2020-03-17 01:37:54');
 insert into Customers_address (usr_id, address, last_use_time) values ('6p_wavr8Rw', '7603 Gerald Avenue', '2019-08-28 08:08:53');
 insert into Customers_address (usr_id, address, last_use_time) values ('6p_wavr8Rw', '36065 Vermont Park', '2019-10-16 08:10:42');
@@ -642,6 +642,7 @@ INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VAL
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (3,'nI8m8uwVwp',1,'card',ARRAY [['14','1'], ['23','1']],'pending',10);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (4,'BKJ0pbXZ3d',19,'card',ARRAY [['53','1']],'in progress', 20);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (5,'qnXAuDyjP9',43,'cash',ARRAY [['22','1']],'complete', 19.80);
+INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (6,'XoBAl4RsbO',40,'card',ARRAY [['30','1']],'pending', 13.20);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (7,'XoBAl4RsbO',40,'card',ARRAY [['48','1']],'pending', 13.20);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (8,'vaphwZAzpj',36,'cash',ARRAY [['17','1']],'pending', 14.10);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (9,'YVWGy9xmYn',1,'card',ARRAY [['64','1']],'pending', 16.60);
@@ -656,10 +657,10 @@ INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VAL
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (18,'wzS_LlETDm',10,'card',ARRAY [['3','1']],'in progress', 12.20);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (19,'1sUNGJqf6d',25,'card',ARRAY [['43','1']],'in progress', 12.33);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (20,'E2hZ7b7soT',2,'card',ARRAY [['55','1']],'complete',14.10);
-INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (21,'XVCDN8Uq4l',29,'cash',ARRAY [['20','1']],'pending'. 25);
-INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (22,'XVCDN8Uq4l',10,'cash',ARRAY [['65','1']],'complete' 12.20);
-INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (23,'XVCDN8Uq4l',41,'card',ARRAY [['27','1']],'complete' 10);
-INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (24,'Y4HmY6Eu2E',4,'cash',ARRAY [['4','1']],'complete' 12.60);
+INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (21,'XVCDN8Uq4l',29,'cash',ARRAY [['20','1']],'pending', 25);
+INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (22,'XVCDN8Uq4l',10,'cash',ARRAY [['65','1']],'complete', 12.20);
+INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (23,'XVCDN8Uq4l',41,'card',ARRAY [['27','1']],'complete', 10);
+INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (24,'Y4HmY6Eu2E',4,'cash',ARRAY [['4','1']],'complete', 12.60);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (25,'QQGqRT2foI',8,'card',ARRAY [['1','1']],'complete', 12.30);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (26,'3PnARfg_2Z',16,'card',ARRAY [['41','1']],'complete',12.30);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (27,'3PnARfg_2Z',41,'card',ARRAY [['49','1']],'complete', 30);
@@ -682,11 +683,12 @@ INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VAL
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (44,'2hMyWtlK7M',11,'cash',ARRAY [['22','2']],'complete',12.2);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (45,'2hMyWtlK7M',42,'card',ARRAY [['44','3']],'complete',12.2);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (46,'wzS_LlETDm',2,'cash',ARRAY [['61','3']],'complete', 14.5);
-INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (47,'wzS_LlETDm',29,'card',ARRAY [['32','1']],'complete'17.20);
+INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (47,'wzS_LlETDm',29,'card',ARRAY [['32','1']],'complete', 17.20);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (48,'wzS_LlETDm',4,'card',ARRAY [['23','2']],'complete', 30);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (49,'oBbHa2qLDk',27,'cash',ARRAY [['7','2']],'complete', 30);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (50,'oBbHa2qLDk',23,'card',ARRAY [['14','2']],'complete',30);
-
+INSERT INTO reviews VALUES(2, 'The food is good', 5);
+INSERT INTO reviews VALUES(5, 'The food is good', 10);
 
 insert into Deliveries (order_id, usr_id, place_order_time) values (1, 'GMHtneWRAn', '2020-01-05 12:36:06');
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (2, 'AmcgucKoDC', '2020-02-09 11:46:11', '2020-01-02 07:10:16', '2020-02-05 00:59:35', '2020-03-16 16:21:37', '2020-02-11 16:52:59');

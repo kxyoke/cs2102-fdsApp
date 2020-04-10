@@ -1,41 +1,50 @@
 import React, { useState, useEffect } from 'react'
 import Header from '../layout/header'
+import OrderItem from "../components/orderItem"
 import axios from 'axios';
 export default function COrder(props) {
     const [pastOrders, setPastOrders] = useState([]);
     const [show, setShow] = useState(false);
-    useEffect(() => {
+    useEffect( () => {
         const fetchData = async () => {
-            console.log(props);
 
             await axios.get('/api/customer/order')
-                    .then(res=> {
-                        console.log(res);
-                        if(res.data.length >0 ) {
-                            res.data.forEach(record => {
-                                console.log(record);
-                                
-                            });
-                            setPastOrders(res.data);
-                            setShow(true);
-                        }
-                    })
+            .then (res => {
+                if(res.data.length > 0) {
+                    console.log(res.data);
+                    setPastOrders(res.data);
+                    setShow(true);
+                }
+            })
+            
         }
-        fetchData();
-        
+         fetchData();
+    
     }, [])
         return(
             <div>
             <Header/>
-             <div className="MyOrders">
-                <ul>
-                    <h4>Past Order 1...</h4>
-                    <h4>Past Order 2...</h4>
-                    <h4>Past Order 3...</h4>
-                    <h4>Past Order 4...</h4>
-                    <h4>Past Order 5...</h4>
-                </ul>
+            <p> </p>
+             {show?
+                <div class ="row justify-content-md-center" className="MyReviews">
+                <table class="table">
+                    <thread class ="thead-dark">
+                    
+                    {pastOrders.map(re => 
+                        
+                        <OrderItem order={re}/>
+                        
+                    )}
+                   
+                    </thread>
+                </table>
             </div>
+             : 
+             <div class ="mx-auto" style={{width:"350px"}}>
+            <p> </p>
+            <p> You have not pastOrders....</p>
+
+            </div>}
             </div>
         )
     

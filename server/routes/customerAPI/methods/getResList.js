@@ -11,7 +11,7 @@ module.exports = (req, res,next) => {
         if(data.rows.length === 0) {
             return res.send("no restaurants");
         }
-        log.info(data.rows);
+        
         return res.send(data.rows);
     })
 };

@@ -19,7 +19,7 @@ const updateAddress = require('./methods/updateAddress')
 const getCardInfo = require('./methods/getCardInfo')
 const getCoupons = require('./methods/getCoupons')
 const getPastOrders = require('./methods/getPastOrder')
-const getFoodList = require('./methods/getFoodList')
+
 const useCoupon = require('./methods/useCoupon')
 const getReviews = require('./methods/viewReview')
 cRouter.route('/res')
@@ -28,13 +28,13 @@ cRouter.route('/res')
 cRouter.route('/review')
         .get(getReviews);  
 
-cRouter.route('/cart/:cid')
+cRouter.route('/cart')
     .get(viewCart)
-    .put(emptyCart);
+    .post(addCartItem);
 
-cRouter.route('/cart/:cid/:cartItemId')
-        .post(addCartItem)
-        .delete(deleteCartItem);
+// cRouter.route('/cart/:cid/:cartItemId')
+//         .post()
+//         .delete(deleteCartItem);
 
 cRouter.get('/menu/:rid', getResMenu);
 
@@ -47,11 +47,12 @@ cRouter.route('/address')
         .post(updateAddress);
 cRouter.route('/card')
         .get(getCardInfo);
+
 cRouter.route('/order')
         .get(getPastOrders);
-cRouter.get('/order/foodList', getFoodList);
 
-cRouter.route('coupon/')
+
+cRouter.route('/coupon')
         .get(getCoupons)
         .put(useCoupon);
 

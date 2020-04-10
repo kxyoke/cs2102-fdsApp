@@ -5,7 +5,7 @@ export default function ReviewItem(props) {
 
     return (
         <React.Fragment>
-            <div class="card text-center">
+            <div class="card text-center w-100">
                 <div class="card-header">
                     Order id: {order_id}
                 </div>
@@ -13,13 +13,19 @@ export default function ReviewItem(props) {
                     <h5 class="card-title">
                         Restaurant : {rname}
                     </h5>
-                    <p class="card-text"> 
-                    Review: {food_rev}
-                    </p>
-                    <p> </p>
-                    <p class="card-text"> 
-                    Delivery Rating: {delivery_rating}
-                    </p>
+                    <div class="row">
+                        <div class="col">
+                        <p class="card-text"> 
+                        Review: {food_rev}
+                        </p>
+                        </div>
+                        <p> </p>
+                        <div class="col">
+                        <p class="card-text"> 
+                        Delivery Rating: {delivery_rating}
+                        </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </React.Fragment>

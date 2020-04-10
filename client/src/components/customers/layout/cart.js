@@ -1,6 +1,4 @@
-import React, {useState}from 'react'
-import {Redirect } from 'react-router-dom'
-import axios from 'axios';
+import React, {useState}from 'react';
 
 export default function CartButton () {
     const [navigate, setNavigate] = useState(false);
@@ -18,10 +16,9 @@ export default function CartButton () {
 
     return (
         <div>
-        <button type="button" style={{display:"flex",float:'right'}} data-toggle = "modal" data-target="#modalCart" class="btn btn-warning">cart</button>
+            <a href="/customer/cart" type="button" style={{display:"flex",float:'right'}} class="btn btn-warning">cart</a>
         </div>
-
         
-
+        
     )
 }

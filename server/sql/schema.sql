@@ -86,7 +86,7 @@ CREATE TABLE Customers_address (
     address         TEXT NOT NULL,
     last_use_time   TIMESTAMP NOT NULL,
     PRIMARY KEY(usr_id, address),
-    FOREIGN KEY (usr_id) REFERENCES Customers ON DELETE CASCADE;  
+    FOREIGN KEY (usr_id) REFERENCES Customers ON DELETE CASCADE
 );
 
 CREATE TABLE Carts (
