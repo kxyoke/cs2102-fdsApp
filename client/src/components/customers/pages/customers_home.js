@@ -7,12 +7,7 @@ import axios from 'axios';
 export default function CHome (props) {
    
     const [restaurants, setRestaurants] = useState([]);
-    const [redirect, setRedirect] = useState(false);
-    function enterRestaurant(e)  {
-        console.log("Enter restaurant")
-        setRedirect(true);
 
-    }
     useEffect( ()=> {
         const fetchData = async () => {
         await axios.get('/api/customer/res')
@@ -31,8 +26,8 @@ export default function CHome (props) {
             <p> </p>
             <div className="Restaurants">
                 <div class="card-columns">
-                  {restaurants.map(e => (
-                      <RestaurantItem restaurant={e}/>
+                  {restaurants.map(restaurant => (
+                      <RestaurantItem restaurant={restaurant} props={props} />
                   ))}
                   </div>
             </div>
