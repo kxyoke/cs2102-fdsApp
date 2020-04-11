@@ -14,6 +14,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import ScheduleIcon from '@material-ui/icons/Schedule';
+import MotorcycleIcon from '@material-ui/icons/Motorcycle';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -127,6 +128,7 @@ export default function SideBar() {
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                         Food Delivery System - Rider
                     </Typography>
+                    <HeaderIcons/>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -154,6 +156,12 @@ export default function SideBar() {
                             <ScheduleIcon />
                         </ListItemIcon>
                         <ListItemText primary="Work Schedule" />
+                    </ListItem>
+                    <ListItem button component={Link} to="/deliveryRider/getDeliveries">
+                        <ListItemIcon>
+                            <MotorcycleIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Delivery Records" />
                     </ListItem>
                 </List>
                 <Divider />

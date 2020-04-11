@@ -689,15 +689,15 @@ INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status) VALUES (4
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status) VALUES (50,'oBbHa2qLDk',23,'card',ARRAY [14],'complete');
 
 
-insert into Deliveries (order_id, usr_id, place_order_time) values (1, 'GMHtneWRAn', '2020-01-05 12:36:06');
+insert into Deliveries (order_id, usr_id, place_order_time) values (1, 'FJlGy8yKsR', '2020-01-05 12:36:06');
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (2, 'AmcgucKoDC', '2020-02-09 11:46:11', '2020-01-02 07:10:16', '2020-02-05 00:59:35', '2020-03-16 16:21:37', '2020-02-11 16:52:59');
 insert into Deliveries (order_id, usr_id, place_order_time) values (3, 'Q-oQOZL5nV', '2020-02-15 09:08:54');
-insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res) values (4, 'GWwnEfu3nC', '2020-03-20 18:29:12', '2020-02-08 12:03:50', '2020-02-15 04:04:08');
+insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res) values (4, 'FJlGy8yKsR', '2020-03-20 18:29:12', '2020-02-08 12:03:50', '2020-02-15 04:04:08');
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (5, 'GWwnEfu3nC', '2020-03-27 15:56:15', '2020-01-16 04:26:29', '2020-03-03 16:38:19', '2020-02-02 17:13:51', '2020-01-19 15:27:33');
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res) values (6, 'wx6pB3szeu', '2020-01-19 07:56:36', '2020-02-08 09:51:10');
-insert into Deliveries (order_id, usr_id, place_order_time) values (7, 's3SgHuuQ_l', '2020-01-22 18:48:58');
+insert into Deliveries (order_id, usr_id, place_order_time) values (7, 'FJlGy8yKsR', '2020-01-22 18:48:58');
 insert into Deliveries (order_id, usr_id, place_order_time) values (8, 'Ta5tsU0vBA', '2020-01-23 07:46:43');
-insert into Deliveries (order_id, usr_id, place_order_time) values (9, '6DCRWibjvS', '2020-01-08 02:11:55');
+insert into Deliveries (order_id, usr_id, place_order_time) values (9, 'FJlGy8yKsR', '2020-01-08 02:11:55');
 insert into Deliveries (order_id, usr_id, place_order_time) values (10, 'SZbkeax9f', '2020-03-04 15:18:21');
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (11, 'SZbkeax9f', '2020-01-27 00:13:34', '2020-02-10 05:56:41', '2020-02-04 00:51:12', '2020-01-11 22:12:31', '2020-02-02 16:39:36');
 insert into Deliveries (order_id, usr_id, place_order_time) values (12, 'bXm9Ufgimd', '2020-01-31 04:14:42');

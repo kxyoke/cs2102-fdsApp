@@ -19,7 +19,7 @@ riRouter.route('/:riid')
 
 riRouter.route('/schedule/:riid')
    .get(getWorkSchedule)
-   .put(updateWorkSchedule);
+   .post(updateWorkSchedule);
 
 riRouter.route('/deliveries/:riid')
    .get(getDeliveries);
