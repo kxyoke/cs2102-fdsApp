@@ -1,5 +1,5 @@
 import React, {useState, useContext}from 'react';
-import { Link,Redirect } from 'react-router-dom';
+import { NavLink,Redirect } from 'react-router-dom';
 import LogoutButton from "../../logoutButton";
 import CartButton from './cart.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -7,39 +7,30 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function Header() {
 
     return (
-        <div class = "sticky-top" >
-            <header style={headerStyle}>
-                <div class ="row">
-                    <div class = "col-1"></div>
-                    <div class="col align-self-center"> 
-                        <h1>Food Deliver</h1>
-                    </div>
-                    <div class="col-1">
-                        <LogoutButton/>
-                    </div>
-                </div>
-            <div class="row justify-content-lg-center"> 
-                <div class= "col-1"></div>
-                <div class="col align-self-center"> 
+       
+           
+            <nav class="navbar navbar-dark bg-dark">
+                <a class="navbar-brand">Food Deliver</a>
                 
-                    <Link style={linkStyle} to='/customer'>Home</Link> | <Link style={linkStyle}
-                    to='/customer/order'>My Orders</Link> | <Link style={linkStyle}
-                    to='/customer/reviews'>My Reviews</Link> | <Link style={linkStyle}
-                    to='/customer/profile'>My Profile</Link>
+                <div class="col align-self-left"> 
+                    <NavLink style={linkStyle} to='/customer'>Home</NavLink> | 
+                    <NavLink style={linkStyle} to='/customer/order'>My Orders</NavLink> | 
+                    <NavLink style={linkStyle} to='/customer/reviews'>My Reviews</NavLink> | 
+                    {/* make this to drop down link */}
+                    <NavLink style={linkStyle} to='/customer/profile'>My Profile</NavLink>
                 </div> 
-                <div class="col-1">
+                <div class="row">
+                <div class="col-md-auto">
                     <CartButton/>
                 </div>
-             
-            
-        
-            
-        </div> 
-        
-   
-        
-        </header>
-        </div>
+                <div class="col-md-auto">
+                   <LogoutButton/>
+                </div>
+                </div>
+                
+                </nav>
+      
+       
     )
 }
 
