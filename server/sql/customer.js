@@ -1,6 +1,6 @@
 const customer = {};
 customer.queries = {
-    get_res :'SELECT res_id,rname FROM Restaurants ORDER BY RANDOM() LIMIT 10',
+    get_res :'SELECT res_id,rname FROM Restaurants ORDER BY RANDOM()',
     get_orders:'SELECT order_id ,res_id, rname, total, payment, listOfItems , status FROM orders NATURAL JOIN restaurants WHERE usr_id = $1',
     get_menu: 'SELECT food_id, price, name, description FROM MenuItems NATURAL JOIN FoodItems WHERE res_id=$1;',
     get_foodName:"SELECT name FROM foodItems WHERE food_id = $1",

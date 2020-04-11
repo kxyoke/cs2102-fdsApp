@@ -12,6 +12,9 @@ class SearchBar extends Component {
 
     render() {
         return (
+            <React.Fragment>
+            <p> </p>
+            <div class='container'>
             <form style= {{display: 'flex' }}>
                 <input
                 type ='text'
@@ -27,7 +30,11 @@ class SearchBar extends Component {
                 className='btn'
                 style={{flex:'1'}}
                 />
+                
             </form>
+            </div>
+            </React.Fragment>
+            
         )
     }
 } 
