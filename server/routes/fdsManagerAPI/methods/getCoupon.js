@@ -1,12 +1,15 @@
 const pool = require('../../../db'); // psql db
+const fmsql = require('../../../sql/manager');
 
 module.exports = (req, res) => {
-/*
-    pool.query('SELECT * FROM Restaurants',
-        (q_err, q_res) => {
-            res.json(q_res.rows)
-        });
-//https://www.freecodecamp.org/news/fullstack-react-blog-app-with-express-and-psql/
-*/
-    res.send('Queried get coupon.');
+    log.info('Queried get coupon.');
+    const cid = req.params.cid;
+
+    pool.query(fmsql.get.coupon, [cid],
+        (err, data) => {
+            if (err) {
+                throw err;
+            }
+            res.json(data.rows);
+        })
 };

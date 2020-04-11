@@ -13,7 +13,7 @@ const updateFdsManagerPromo = require('./methods/updatePromo');
 
 mRouter.route('/:mid')
     .get(getProfile)
-    .put(updateProfile)
+    //.put(updateProfile)
 
 mRouter.route('/coupon/')
     .post(addCoupon)
