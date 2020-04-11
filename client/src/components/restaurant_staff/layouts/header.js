@@ -1,27 +1,28 @@
-import React, {useState}from 'react'
-import { Link,Redirect } from 'react-router-dom'
-import axios from 'axios';
+import React from 'react'
+import { Link } from 'react-router-dom'
 import LogoutButton from "../../logoutButton";
 
 function Header() {
 
     return (
-        <div class = "sticky-top" >
+        <div className = "sticky-top" >
         <header style={headerStyle}>
             <h1>Food Delivery System</h1>
-            <div class="d-flex justify-content-center"> 
-                <div class="d-flex h-100"> 
-                <div class ="align-self-center mx-auto" >
-                <Link style={linkStyle} to='/restaurant/'>Home</Link> | <Link style={linkStyle}
-                to='/restaurant/profile'>My Profile</Link> | <Link style={linkStyle}
-                to='/restaurant/reviews'>My Reviews</Link> | <Link style={linkStyle}
-                to='/restaurant/promos'>My Promos</Link> 
+            <div className="d-flex justify-content-center"> 
+                <div className="d-flex h-100"> 
+                <div className ="align-self-center mx-auto" >
+                <Link style={linkStyle} 
+                  to='/restaurant/'>Home</Link> | <Link style={linkStyle} 
+                  to='/restaurant/profile'>My Profile</Link> | <Link style={linkStyle} 
+                  to='/restaurant/reviews'>My Reviews</Link> | <Link style={linkStyle} 
+                  to='/restaurant/promos'>My Promos</Link> | <Link style={linkStyle} 
+                  to='/restaurant/menu'>My Menu</Link> | <Link style={linkStyle} 
+                  to='/restaurant/orders'>My Orders</Link> 
              </div> 
-             <div class="d-flex justify-content-end">
+             <div className="d-flex justify-content-end">
                 <LogoutButton/>
              </div>
             
-        
             
         </div> 
         </div>

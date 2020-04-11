@@ -21,6 +21,11 @@ import RHome from './components/delivery_riders/pages/home';
 import FHome from './components/fds/pages/home';
 
 import ResHome from './components/restaurant_staff/pages/home';
+import ResProfile from './components/restaurant_staff/pages/profile';
+import ResReview from './components/restaurant_staff/pages/review';
+import ResMenu from './components/restaurant_staff/pages/menu';
+import ResPromo from './components/restaurant_staff/pages/promo';
+import ResOrder from './components/restaurant_staff/pages/order';
 
 import LoginHome from './components/login/home_before_login';
 import Login from './components/login/login_page';
@@ -39,11 +44,19 @@ export default function Routes() {
             <Route path = '/signUp' component= {WithNoAuth(SignUp)}/>
             <Route exact path='/customer' component={WithCustomerAuth(CHome)}/>
             <Route path='/deliveryRider' component={WithRiderAuth(RHome)}/>
-            <Route path='/restaurant' component={WithResStaffAuth(ResHome)}/>
+            <Route exact path='/restaurant' component={WithResStaffAuth(ResHome)}/>
             <Route path='/fdsManager' component={WithFdsAuth(FHome)}/>
+
             <Route path='/customer/order' component={WithCustomerAuth(COrder)}/>
             <Route path='/customer/reviews' component= {WithCustomerAuth(CReviews)}/> 
             <Route path='/customer/profile' component={WithCustomerAuth(CProfile)}/>
+            
+            <Route path='/restaurant/profile' component={WithResStaffAuth(ResProfile)}/>
+            <Route path='/restaurant/reviews' component={WithResStaffAuth(ResReview)}/>
+            <Route path='/restaurant/promos' component={WithResStaffAuth(ResPromo)}/>
+            <Route path='/restaurant/menu' component={WithResStaffAuth(ResMenu)}/>
+            <Route path='/restaurant/orders' component={WithResStaffAuth(ResOrder)}/>
+
             <Route render={() => <h1>404 Not found</h1>}/>
           </Switch>
         </div>

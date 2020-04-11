@@ -5,6 +5,8 @@ var rRouter = express.Router();
 // possibly import the auth handler
 //const authHandler = require('../auth/?')
 
+const retrieveStaffIdAndRid = require('./methods/getStaffAndRidFromSession');
+
 const getRestaurant = require('./methods/getProfile');
 const updateRestaurant = require('./methods/updateProfile');
 const addMenuFoodItem = require('./methods/addMenuFoodItem');
@@ -19,6 +21,9 @@ const getRestaurantOrders = require('./methods/getOrders');
 const getRestaurantPromos = require('./methods/getPromos');
 const addRestaurantPromo = require('./methods/addPromo');
 const updateRestaurantPromo = require('./methods/updatePromo');
+
+rRouter.route('/')
+    .get(retrieveStaffIdAndRid);
 
 rRouter.route('/:rid')
     .get(getRestaurant)

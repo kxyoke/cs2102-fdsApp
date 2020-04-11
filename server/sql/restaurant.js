@@ -1,6 +1,8 @@
 const queries = {};
 
 queries.get = {
+    rid: /*[staff_id]*/
+        `SELECT usr_id as staff_id, res_id as rid FROM RestaurantStaffs WHERE usr_id = $1`,
     profile: /*[res_id]*/
         `SELECT * FROM Restaurants WHERE res_id = $1`,
     allMenuItems: /*[res_id]*/
