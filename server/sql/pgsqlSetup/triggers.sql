@@ -23,7 +23,7 @@ CREATE TRIGGER checkInsertUser
     EXECUTE FUNCTION checkInsertUser();
 
 
-CREATE OR REPLACE FUNCTION insertDefaultFoodCategory()
+CREATE OR REPLACE FUNCTION insertNonExistentFoodCategory()
     RETURNS TRIGGER AS $$
     BEGIN
         IF NEW.category NOT IN (SELECT category FROM FoodCategories) THEN
@@ -36,6 +36,22 @@ DROP TRIGGER IF EXISTS defaultFoodCategoryAlwaysPresent ON FoodItems;
 CREATE TRIGGER defaultFoodCategoryAlwaysPresent
     BEFORE INSERT OR UPDATE ON FoodItems
     FOR EACH ROW
-    EXECUTE PROCEDURE insertDefaultFoodCategory();
+    EXECUTE PROCEDURE insertNonExistentFoodCategory();
+
+CREATE OR REPLACE FUNCTION maintainFoodCategories()
+    RETURNS TRIGGER AS $$
+    BEGIN
+        IF NOT EXISTS (SELECT 1 FROM FoodItems I WHERE I.category = OLD.category) THEN
+            DELETE FROM FoodCategories
+            WHERE category = OLD.category;
+        END IF;
+        RETURN OLD;
+    END;
+$$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS keepOnlyNonEmptyFoodCategories ON FoodItems;
+CREATE TRIGGER keepOnlyNonEmptyFoodCategories
+    AFTER UPDATE OR DELETE ON FoodItems
+    FOR EACH ROW
+        EXECUTE PROCEDURE maintainFoodCategories();
 
 

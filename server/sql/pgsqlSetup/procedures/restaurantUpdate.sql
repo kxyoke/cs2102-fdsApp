@@ -62,10 +62,11 @@ CREATE OR REPLACE PROCEDURE
         UPDATE FoodItems
         SET category = _cat
         WHERE food_id = _fid;
-
+        /*
         DELETE FROM FoodCategories
         WHERE category = _cat
         AND NOT EXISTS (SELECT 1 FROM FoodItems WHERE category = _cat);
+        */
     END;
 $$ LANGUAGE plpgsql;
 

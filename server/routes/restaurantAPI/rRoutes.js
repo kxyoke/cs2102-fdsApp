@@ -36,7 +36,7 @@ rRouter.route('/menu/:rid/:fid')
 rRouter.route('/foodCategories/all')
     .get(getFoodCategories);
 
-rRouter.route('/menu/:rid/:fid/category')
+rRouter.route('/foodCategories/change/:fid')
     .put(updateFoodItemCategory);
 
 rRouter.route('/reviews/:rid')
