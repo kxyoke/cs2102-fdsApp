@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Container, Divider, Header, Segment, Form } from 'semantic-ui-react'
+import { Button, Container, Divider, Header, Segment, Form, Input } from 'semantic-ui-react'
+
+import axios from 'axios';
 
 export default function RProfile(props) {
     const [edit, setEdit] = useState(false);
@@ -34,8 +36,24 @@ export default function RProfile(props) {
         setConfirmedRname(newRname)
         setConfirmedAddr(newAddr)
         setConfirmedMinAmt(newMinAmt)
+
+        console.log("newminamt sent in is: "+ newMinAmt)
+        axios.put('/api/restaurant/' + res_id, {
+            rname: confirmedRname,
+            address: confirmedAddr,
+            min_amount: confirmedMinAmt
+        })
+            .then(res => {
+                console.log(res)
+                if (res.status == 200) {
+                    toggleEdit(e)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            });
         
-        toggleEdit(e)
+        //toggleEdit(e)
     }
 
     const ButtonConditional = () => (
