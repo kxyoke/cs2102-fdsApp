@@ -4,36 +4,34 @@ import Header from '../layouts/header';
 
 import axios from 'axios'
 import RProfile from '../components/res_profile'
+import runWithRid from './performWithRid'
 
 export default function ResProfile(props) {
-
-    const {res_id} = props.location.state; //rmb to pass <ResProfile res_id={ri}/>
-
-    console.log("within profile having resid " + res_id)
-
+    const [show, setShow] = useState(false);
     const [profile, setProfile] = useState({});
-    const apiPath = '/api/restaurant/' + res_id;
-
-    console.log(apiPath);
 
     useEffect( () => {
-        console.log("use effect profile triggered")
-        const fetchData = async () => {
-            await axios.get(apiPath)
-                .then(res => {
-                    console.log("recved "+res.data);
-                    setProfile(res.data);
+        runWithRid( userInfo => {
+            const rid = userInfo.rid;
+            axios.get('/api/restaurant/' + rid)
+                .then( res => {
+                    if (res.data.length > 0) {
+                        setShow(true)
+                        setProfile(res.data[0])
+                    }
                 });
-        }
-        fetchData();
+        })
     }, [])
 
     return(
         <div className="ResProfile">
-        <Header/>
-        <div> <p>load profile pls</p></div>
-        <RProfile profile={profile} />
-
+        {show?
+          <div>
+            <Header/>
+            <RProfile profile={profile} />
+          </div>
+        : <div> <p>failed to load profile</p></div>
+        }
         </div>
     )
 }

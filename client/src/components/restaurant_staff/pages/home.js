@@ -3,22 +3,18 @@ import axios from 'axios'
 
 import Header from '../layouts/header';
 
+import runWithRid from './performWithRid';
+
 export default function ResHome(props) {
     const [show, setShow] = useState(false);
 
     const [accInfo, setAccInfo] = useState('');
-    //retrieve rid to put in props for future use.
+    //retrieve rid to put in props for future use. --update use runWIthRid instead.
     useEffect( () => {
-        const fetchData = async () => {
-            axios.get('/api/restaurant/')
-                .then(res => {
-                    if (res.data.length > 0) {
-                        setAccInfo(res.data);
-                        setShow(true);
-                    }
-                })
-        }
-        fetchData();
+        runWithRid( userInfo => {
+            setAccInfo(userInfo);
+            setShow(true);
+        })
     }, [])
 
     return(
@@ -30,7 +26,7 @@ export default function ResHome(props) {
             <p>acc info as follows: {JSON.stringify(accInfo)}</p>
           </div>
           
-          : <div> <p>才怪</p> </div>
+          : <div> <p>才怪 ok tbh uid couldnt be loaded for some reason so yes</p> </div>
         }
         </div>
     )
