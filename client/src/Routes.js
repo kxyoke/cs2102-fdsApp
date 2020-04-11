@@ -19,7 +19,9 @@ import CSetting from './components/customers/pages/customer_setting';
 
 import RHome from './components/delivery_riders/pages/home';
 import FHome from './components/fds/pages/home';
-import ResHome from './components/restaurant_staff/page/home';
+
+import ResHome from './components/restaurant_staff/pages/home';
+
 import LoginHome from './components/login/home_before_login';
 import Login from './components/login/login_page';
 import SignUp from './components/signup/signUp';
