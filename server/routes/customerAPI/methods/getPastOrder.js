@@ -15,7 +15,8 @@ module.exports =  async (req, res,next) => {
             listofitems:x,
             total: d.total,
             payment: d.payment,
-            status: d.status
+            status: d.status,
+            ordertime: d.ordertime
         }
         out.push(output);
     }     

@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS Coupons CASCADE;
 DROP TABLE IF EXISTS Wws CASCADE;
 DROP TABLE IF EXISTS Mws CASCADE;
 DROP TABLE IF EXISTS Reviews CASCADE;
-DROP TABLE IF EXISTS Carts CASCADE;
+DROP TABLE IF EXISTS CartItems CASCADE;
 
 CREATE TABLE Restaurants (
     res_id           TEXT PRIMARY KEY,
@@ -41,6 +41,7 @@ CREATE TABLE MenuItems (
     price       NUMERIC,
     daily_limit INTEGER DEFAULT 20,
     daily_sells INTEGER DEFAULT 0,
+    available  BOOLEAN DEFAULT true,
     PRIMARY KEY(res_id, food_id),
     FOREIGN KEY (res_id) REFERENCES Restaurants,
     FOREIGN KEY (food_id) REFERENCES FoodItems ON DELETE CASCADE
@@ -89,13 +90,14 @@ CREATE TABLE Customers_address (
     FOREIGN KEY (usr_id) REFERENCES Customers ON DELETE CASCADE
 );
 
-CREATE TABLE Carts (
+CREATE TABLE CartItems (
     usr_id          VARCHAR(255)PRIMARY KEY,
     res_id          TEXT,
-    FoodItems       TEXT[][],
-    total           NUMERIC DEFAULT 0,
+    food_id         TEXT,
+    qty             INTEGER DEFAULT 0,
     FOREIGN KEY (usr_id) REFERENCES Customers ON DELETE CASCADE,
-    FOREIGN KEY (res_id) REFERENCES Restaurants
+    FOREIGN KEY (res_id) REFERENCES Restaurants,
+    FOREIGN Key (food_id) REFERENCES FoodItems
 );
 
 CREATE TABLE Riders (

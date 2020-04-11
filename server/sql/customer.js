@@ -1,7 +1,7 @@
 const customer = {};
 customer.queries = {
     get_res :'SELECT res_id,rname FROM Restaurants ORDER BY RANDOM()',
-    get_orders:'SELECT order_id ,res_id, rname, total, payment, listOfItems , status FROM orders NATURAL JOIN restaurants WHERE usr_id = $1',
+    get_orders:'SELECT order_id ,res_id, rname, total, payment, listOfItems , status , (SELECT place_order_time FROM deliveries where order_id =orders.order_id) as orderTime  FROM orders NATURAL JOIN restaurants WHERE usr_id = $1',
     get_menu: 'SELECT food_id, price, name, description FROM MenuItems NATURAL JOIN FoodItems WHERE res_id=$1;',
     get_foodName:"SELECT name FROM foodItems WHERE food_id = $1",
     get_review:"SELECT order_id, rname, food_rev, delivery_rating FROM reviews NATURAL JOIN (orders NATURAL JOIN restaurants) WHERE usr_id = $1" ,
