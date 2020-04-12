@@ -28,7 +28,7 @@ export default function RProfile(props) {
     }, [props])
 
 
-    function toggleEdit(e) {
+    function toggleEdit() {
         setEdit(!edit);
     }
 
@@ -36,29 +36,36 @@ export default function RProfile(props) {
         setConfirmedRname(newRname)
         setConfirmedAddr(newAddr)
         setConfirmedMinAmt(newMinAmt)
-
-        console.log("newminamt sent in is: "+ newMinAmt)
-        axios.put('/api/restaurant/' + res_id, {
-            rname: confirmedRname,
-            address: confirmedAddr,
-            min_amount: confirmedMinAmt
-        })
-            .then(res => {
-                console.log(res)
-                if (res.status == 200) {
-                    toggleEdit(e)
-                }
-            })
-            .catch(err => {
-                console.log(err)
-            });
-        
-        //toggleEdit(e)
     }
+
+    useEffect(() => {
+        if ((confirmedRname == rname && confirmedAddr == address && confirmedMinAmt == min_amount)
+        || confirmedRname == '' || confirmedAddr == '' || confirmedMinAmt == ''
+        || confirmedRname == null || confirmedAddr == null || confirmedMinAmt == null) {
+            console.log("no change detected; not submitting to server")
+        } else {
+            
+            axios.put('/api/restaurant/' + res_id, {
+                rname: confirmedRname,
+                address: confirmedAddr,
+                min_amount: confirmedMinAmt
+            })
+                .then(res => {
+                    console.log(res)
+                    if (res.status == 200) {
+                        toggleEdit()
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                });
+        }
+
+    }, [confirmedRname, confirmedAddr, confirmedMinAmt]);
 
     const ButtonConditional = () => (
         <Button.Group>
-          <Button onClick={toggleEdit}>Cancel</Button>
+          <Button onClick={e => toggleEdit()}>Cancel</Button>
           <Button.Or />
           <Button onClick={submitForm} positive>Save</Button>
         </Button.Group>
@@ -95,7 +102,7 @@ export default function RProfile(props) {
           </div>
         : <div className="staticProfile">
             <Container style={{ paddingTop: '5em', paddingBottom: '5em' }} text>
-              <Header as='h2'>My Current Profile <Button color='teal' style={{ marginBottom: '1em' }} onClick={toggleEdit}> Edit </Button></Header> 
+              <Header as='h2'>My Current Profile <Button color='teal' style={{ marginBottom: '1em' }} onClick={e => toggleEdit()}> Edit </Button></Header> 
               <Divider section />
               <Segment attached>Restaurant name: {confirmedRname}</Segment>
               <Segment attached>RestaurantAddress: {confirmedAddr}</Segment>
