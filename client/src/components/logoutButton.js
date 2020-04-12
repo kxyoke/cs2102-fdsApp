@@ -18,7 +18,7 @@ export default function LogoutButton () {
 
     return (
         <div>
-        <a href="#" onClick = {logout} style={{display:"flex",float:'right'}} class="btn btn-danger">Logout</a>
+        <a onClick = {logout} style={{display:"flex",float:'right'}} class="btn btn-danger">Logout</a>
                 {navigate? <Redirect to="/"/> : null}
         </div>
     )

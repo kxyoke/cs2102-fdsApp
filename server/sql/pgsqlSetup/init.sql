@@ -219,7 +219,7 @@ INSERT INTO MenuItems (res_id,food_id,price) VALUES (18,7,26.72);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (40,58,16.84);
 */
 
-INSERT INTO Users (usr_id,userName,password_digest, isfdsmanager) VALUES ('ube2138d2','fds','$2b$10$DadfX3XUT1PeKJ/C706jbeOE.zA.tt3tXYDmmCAhqOHjbdEI3zwDa', 'true');--123456
+INSERT INTO Users (usr_id,userName,password_digest) VALUES ('ube2138d2','fds','$2b$10$DadfX3XUT1PeKJ/C706jbeOE.zA.tt3tXYDmmCAhqOHjbdEI3zwDa');--123456
 
 --rest staff
 INSERT INTO Users (usr_id,userName,password_digest) VALUES ('yALo31p66','Jonah','$2b$10$DadfX3XUT1PeKJ/C706jbeOE.zA.tt3tXYDmmCAhqOHjbdEI3zwDa');--123456
@@ -430,7 +430,7 @@ INSERT INTO RestaurantStaffs (usr_id,res_id) VALUES ('MePufGYSG8',48);
 INSERT INTO RestaurantStaffs (usr_id,res_id) VALUES ('Nx66OXKy2X',49);
 INSERT INTO RestaurantStaffs (usr_id,res_id) VALUES ('2R-iaSVA89',50);
 
-insert into Customers (usr_id, card_num) values ('qnXAuDyjP9', 140695360);
+insert into Customers (usr_id, card_num,last_order_time) values ('qnXAuDyjP9', 140695360,'2020-02-05 12:55:02');
 insert into Customers (usr_id, card_num) values ('nVXaMH1wsq', 734165395);
 insert into Customers (usr_id, card_num) values ('3fbloaV8Qv', 116520986);
 insert into Customers (usr_id, card_num) values ('d8BmgbWqUb', 409119476);
@@ -481,11 +481,11 @@ insert into Customers (usr_id, card_num, last_order_time) values ('BKJ0pbXZ3d', 
 insert into Customers (usr_id, card_num, last_order_time) values ('nI8m8uwVwp', 443900062, '2019-04-23 13:12:29');
 
 --Customer address
-insert into Customers_address (usr_id, address, last_use_time) values ('nI8m8uwVwp', '17 Ridge Oak Alley', '2020-02-02 18:52:25');
-insert into Customers_address (usr_id, address, last_use_time) values ('nI8m8uwVwp', '0 Boyd Terrace', '2020-03-26 22:58:41');
-insert into Customers_address (usr_id, address, last_use_time) values ('nI8m8uwVwp', '9409 Spohn Drive', '2019-11-25 15:01:05');
-insert into Customers_address (usr_id, address, last_use_time) values ('BKJ0pbXZ3d', '5983 Pine View Junction', '2019-12-27 05:27:43');
-insert into Customers_address (usr_id, address, last_use_time) values ('BKJ0pbXZ3d', '74 Roxbury Park', '2020-02-12 14:31:33');
+insert into Customers_address (usr_id, address, last_use_time) values ('qnXAuDyjP9', '17 Ridge Oak Alley', '2020-02-02 18:52:25');
+insert into Customers_address (usr_id, address, last_use_time) values ('qnXAuDyjP9', '0 Boyd Terrace', '2020-03-26 22:58:41');
+insert into Customers_address (usr_id, address, last_use_time) values ('qnXAuDyjP9', '9409 Spohn Drive', '2019-11-25 15:01:05');
+insert into Customers_address (usr_id, address, last_use_time) values ('qnXAuDyjP9', '5983 Pine View Junction', '2019-12-27 05:27:43');
+insert into Customers_address (usr_id, address, last_use_time) values ('qnXAuDyjP9', '74 Roxbury Park', '2020-02-12 14:31:33');
 insert into Customers_address (usr_id, address, last_use_time) values ('6p_wavr8Rw', '996 Tony Road', '2020-03-17 01:37:54');
 insert into Customers_address (usr_id, address, last_use_time) values ('6p_wavr8Rw', '7603 Gerald Avenue', '2019-08-28 08:08:53');
 insert into Customers_address (usr_id, address, last_use_time) values ('6p_wavr8Rw', '36065 Vermont Park', '2019-10-16 08:10:42');
@@ -638,11 +638,13 @@ insert into Parttimerider (usr_id, base_salary) values ('GWwnEfu3nC', 1000);
 insert into Parttimerider (usr_id, base_salary) values ('AmcgucKoDC', 1000);
 insert into Parttimerider (usr_id, base_salary) values ('GMHtneWRAn', 1000);
 
+
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status, total) VALUES (1,'E2hZ7b7soT',33,'cash', ARRAY [['9', '2']],'pending', 45);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (2,'qnXAuDyjP9',5,'card',ARRAY [['51', '1'], ['62', '2'], ['61','5']],'complete',30);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (3,'nI8m8uwVwp',1,'card',ARRAY [['14','1'], ['23','1']],'pending',10);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (4,'BKJ0pbXZ3d',19,'card',ARRAY [['53','1']],'in progress', 20);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (5,'qnXAuDyjP9',43,'cash',ARRAY [['22','1']],'complete', 19.80);
+INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (6,'XoBAl4RsbO',40,'card',ARRAY [['30','1']],'pending', 13.20);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (7,'XoBAl4RsbO',40,'card',ARRAY [['48','1']],'pending', 13.20);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (8,'vaphwZAzpj',36,'cash',ARRAY [['17','1']],'pending', 14.10);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (9,'YVWGy9xmYn',1,'card',ARRAY [['64','1']],'pending', 16.60);
@@ -688,6 +690,8 @@ INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VAL
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (49,'oBbHa2qLDk',27,'cash',ARRAY [['7','2']],'complete', 30);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (50,'oBbHa2qLDk',23,'card',ARRAY [['14','2']],'complete',30);
 
+INSERT INTO reviews VALUES(2, 'The food is good', 5);
+INSERT INTO reviews VALUES(5, 'The food is good', 10);
 
 insert into Deliveries (order_id, usr_id, place_order_time) values (1, 'GMHtneWRAn', '2020-01-05 12:36:06');
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (2, 'AmcgucKoDC', '2020-02-09 11:46:11', '2020-01-02 07:10:16', '2020-02-05 00:59:35', '2020-03-16 16:21:37', '2020-02-11 16:52:59');

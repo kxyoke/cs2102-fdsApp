@@ -1,7 +1,6 @@
 import React,{useState} from "react";
 import Select from 'react-select';
-import {Redirect} from "react-router";
-import { Button, FormGroup, Col, FormControl, ControlLabel, Form } from "react-bootstrap";
+import { Button, FormGroup, FormControl, ControlLabel, Form } from "react-bootstrap";
 import "./signup.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from 'axios';
@@ -44,7 +43,7 @@ export default function SignUp(props) {
         case "restaurantStaff":
           return username.length > 0 && password.length > 0 
           && password2 ===password && resName.length > 0
-          && min_amt !='' && resAddress.length>0
+          && min_amt !=='' && resAddress.length>0
         case 'deliveryRider':
           return username.length > 0 && password.length > 0 
           && password2 ===password && (riderType === 'full' || riderType === 'part')
