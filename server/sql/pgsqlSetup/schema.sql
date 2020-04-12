@@ -51,7 +51,6 @@ CREATE TABLE MenuItems (
     daily_sells INTEGER DEFAULT 0,
     --
     available  BOOLEAN DEFAULT true,
-    PRIMARY KEY(res_id, food_id),
     FOREIGN KEY (res_id) REFERENCES Restaurants,
     FOREIGN KEY (food_id) REFERENCES FoodItems ON DELETE CASCADE
 );
