@@ -1,41 +1,39 @@
-import React, {useState}from 'react'
-import { Link,Redirect } from 'react-router-dom'
-import axios from 'axios';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 import LogoutButton from "../../logoutButton";
+import CartButton from './cartButton';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Header() {
 
     return (
-        <div class = "sticky-top" >
-        <header style={headerStyle}>
-            <h1>Food Deliver</h1>
-            <div class="d-flex justify-content-center"> 
-                <div class="d-flex h-100"> 
-                <div class ="align-self-center mx-auto" >
-                <Link style={linkStyle} to='/customer/home'>Home</Link> | <Link style={linkStyle}
-                to='/customer/order'>My Orders</Link> | <Link style={linkStyle}
-                to='/customer/reviews'>My Reviews</Link> | <Link style={linkStyle}
-                to='/customer/profile'>My Profile</Link> 
-             </div> 
-             <div class="d-flex justify-content-end">
-                <LogoutButton/>
-             </div>
-            
-        
-            
-        </div> 
-        </div>
-        </header>
-        </div>
+       
+           
+            <nav class="navbar navbar-dark bg-dark">
+                <a href ="/customer" class="navbar-brand">Food Deliver</a>
+                
+                <div class="col align-self-left"> 
+                    <NavLink style={linkStyle} to='/customer'>Home</NavLink> | 
+                    <NavLink style={linkStyle} to='/customer/order'>My Orders</NavLink> | 
+                    <NavLink style={linkStyle} to='/customer/reviews'>My Reviews</NavLink> | 
+                    {/* make this to drop down link */}
+                    <NavLink style={linkStyle} to='/customer/profile'>My Profile</NavLink>
+                </div> 
+                <div class="row">
+                <div class="col-md-auto">
+                    <CartButton/>
+                </div>
+                <div class="col-md-auto">
+                   <LogoutButton/>
+                </div>
+                </div>
+                
+                </nav>
+      
+       
     )
 }
 
-const headerStyle = {
-    background:"#333",
-    color:'#fff',
-    textAlign:'center',
-    padding:'10px'
-}
 
 const linkStyle = {
     color:'#fff',

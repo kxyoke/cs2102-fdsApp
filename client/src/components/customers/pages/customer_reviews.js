@@ -1,22 +1,51 @@
-import React, { Component } from 'react'
+import React, {useState, useEffect } from 'react'
 import Header from '../layout/header'
+import axios from "axios";
+import ReviewItem from '../components/reviewItem';
 
-export default class CReviews extends Component {
+export default function CReviews(props) {
+    const [reviews, setReviews] = useState([]);
+    const [show, setShow] = useState(false);
+    useEffect(() => {
+        const fetchData = async () => {
+            await axios.get('/api/customer/review')
+                        .then(res=> {
+                            if(res.data.length > 0) {
+                                setShow(true);
+                                setReviews(res.data);
+                            }
+                            
+                        })
+        }
+        fetchData();
+    }, [])
 
-    render() {
+  
         return(
             <div>
             <Header/>
-             <div className="MyReviews">
-                <ul>
-                    <h4>Past reviews 1...</h4>
-                    <h4>Past reviews 2...</h4>
-                    <h4>Past reviews 3...</h4>
-                    <h4>Past reviews 4...</h4>
-                    <h4>Past reviews 5...</h4>
-                </ul>
+            <div class="container">
+            
+            <p> </p>
+            {show?
+            <div class="container">
+             <div class ="row justify-content-md-center" className="MyReviews">
+                    
+                    {reviews.map(re => 
+                        
+                        <ReviewItem review={re}/>
+                        
+                    )}
+            </div>
+            </div>
+            :<div class ="mx-auto" style={{width:"350px"}}>
+            <p> </p>
+           <p> You have no pastReviews....</p>
+
+        </div>
+            }
             </div>
             </div>
         )
-    }
+    
 }
