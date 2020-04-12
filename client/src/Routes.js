@@ -16,7 +16,8 @@ import CProfile from './components/customers/pages/customer_profile';
 import CCoupons from './components/customers/pages/customer_coupons';
 import CAddress from './components/customers/pages/customer_address';
 import CSetting from './components/customers/pages/customer_setting';
-
+import RestaurantMenu from './components/customers/pages/customer_restaurant';
+import CCart from './components/customers/pages/customer_cart';
 import RHome from './components/delivery_riders/pages/home';
 import FHome from './components/fds/pages/home';
 import ResHome from './components/restaurant_staff/page/home';
@@ -50,9 +51,16 @@ export default function Routes() {
               <Route path='/deliveryRider/getOrderDetails' component={WithRiderAuth(RDetailedOrders)}/>
               <Route path='/restaurant' component={WithResStaffAuth(ResHome)}/>
             <Route path='/fdsManager' component={WithFdsAuth(FHome)}/>
+
+            <Route exact path='/customer' component={WithCustomerAuth(CHome)}/>
             <Route path='/customer/order' component={WithCustomerAuth(COrder)}/>
             <Route path='/customer/reviews' component= {WithCustomerAuth(CReviews)}/> 
             <Route path='/customer/profile' component={WithCustomerAuth(CProfile)}/>
+            <Route path='/customer/resMenu' component={WithCustomerAuth(RestaurantMenu)}/>
+            <Route path='/customer/coupon' component={WithCustomerAuth(CCoupons)}/>
+            <Route path='/customer/address' component={WithCustomerAuth(CAddress)}/>
+            <Route path='/customer/setting' component={WithCustomerAuth(CSetting)}/>
+            <Route path='/customer/cart' component={WithCustomerAuth(CCart)}/>
             <Route render={() => <h1>404 Not found</h1>}/>
           </Switch>
         </div>
