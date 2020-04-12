@@ -22,6 +22,38 @@ CREATE TRIGGER checkInsertUser
     FOR EACH ROW
     EXECUTE FUNCTION checkInsertUser();
 
+--
+CREATE OR REPLACE FUNCTION checkInsertCartItem() RETURNS TRIGGER AS $$
+BEGIN
+    IF EXISTS (
+        SELECT 1 
+        FROM cartitems
+        WHERE usr_id = NEW.usr_id) THEN
+        RAISE EXCEPTION 'user has a cart';
+    END IF;
+
+    IF EXISTS (
+        SELECT 1 
+        FROM cartitems
+        WHERE usr_id = NEW.usr_id
+        and food_id = NEW.food_id) THEN
+        RAISE EXCEPTION 'user has the item in the cart';
+    END IF;
+
+    IF new.food_id 
+        NOT IN(SELECT food_id FROM MenuItems WHERE new.res_id = res_id)
+        THEN RAISE EXCEPTION 'The food is from different restaurant';
+    END IF;
+    RETURN NEW;
+    END
+    --check for rest
+$$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS checkInsertCartItem ON Users;
+CREATE TRIGGER checkInsertCartItem
+    BEFORE UPDATE OR INSERT ON cartitems
+    FOR EACH ROW
+    EXECUTE FUNCTION checkInsertCartItem();
+
 
 CREATE OR REPLACE FUNCTION insertNonExistentFoodCategory()
     RETURNS TRIGGER AS $$

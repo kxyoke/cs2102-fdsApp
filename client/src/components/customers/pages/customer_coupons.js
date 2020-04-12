@@ -1,22 +1,55 @@
-import React, { Component } from 'react'
+import React,{useState, useEffect} from 'react'
 import Header from '../layout/header'
+import CouponItem from '../components/couponItem'
+import Axios from 'axios';
 
-export default class CCoupons extends Component {
+export default function CCoupons(props) {
+    const [coupons, setCoupons] = useState([]);
+    const [show, setShow] = useState(false);
+    useEffect(() => {
+        const fetchData = async () => {
+            await Axios.get('/api/customer/coupon')
+                    .then(res=> {
+                        console.log(res.data);
+                        setCoupons(res.data);
+                        setShow(true);
+                    })
+        }
+        fetchData();
+    }, [])
 
-    render() {
         return(
-            <div>
+            
+            <div className="MyCoupon">
             <Header/>
-             <div className="MyCoupon">
-                <ul>
-                    <h4>Coupon 1...</h4>
-                    <h4>Coupon 2...</h4>
-                    <h4>Coupon 3...</h4>
-                    <h4>Coupon 4...</h4>
-                    <h4>Coupon 5...</h4>
-                </ul>
+            <div class="container">
+             {show?
+             <div>
+             <table class="table table-striped">
+                <thead>
+                    <tr>
+                    <th scope="col">Coupon Id</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Expiry date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {coupons.map(cp=> 
+                        
+                        <CouponItem coupon={cp}/>
+                        
+                    )}
+                    
+                </tbody>
+                </table>
+                </div>
+                :<div class ="mx-auto" style={{width:"350px"}}>
+                    <p> </p>
+                    <p> You have no Coupons....</p>
+                </div>
+             }
             </div>
             </div>
         )
-    }
+
 }

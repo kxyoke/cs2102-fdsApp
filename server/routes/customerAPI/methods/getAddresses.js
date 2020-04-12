@@ -1,12 +1,13 @@
 const pool = require('../../../db'); // psql db
+const sql = require('../../../sql');
 
 module.exports = (req, res,next) => {
-/*
-    pool.query('SELECT * FROM Restaurants',
-        (q_err, q_res) => {
-            res.json(q_res.rows)
-        });
+    pool.query(sql.customer.queries.get_address, [req.user.usr_id], (err, data)=> {
+        if(err) {
+            console.log("Database fail to get the data");
+            return res.send(err);
+        }
+        res.send(data.rows);
+    })
 
-*/
-    res.send('Queried address for customers');
 };
