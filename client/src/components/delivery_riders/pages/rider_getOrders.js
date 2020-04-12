@@ -11,14 +11,8 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import clsx from "clsx";
+import { Link } from 'react-router-dom';
 
-function convertIfNull(variable) {
-    if (variable == null) {
-        return "-";
-    } else {
-        return variable;
-    }
-}
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -39,17 +33,18 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function RDeliveries(props) {
+export default function ROrders(props) {
     const classes = useStyles();
-    const url = '/api/deliveryRider/deliveries/:riid' ;
-    const [deliveries, setDeliveries] = useState([]);
+    const url = '/api/deliveryRider/orders';
+    const [orders, setOrders] = useState([]);
 
     useEffect( ()=> {
         const fetchData = async () => {
             await axios.get(url)
                 .then(res=> {
                     if(res.data.length > 0) {
-                        setDeliveries(res.data);
+                        console.log(res.data);
+                        setOrders(res.data);
                     }
                 });
         };
@@ -64,7 +59,7 @@ export default function RDeliveries(props) {
                 <SideBar/>
                 <main className={classes.content}>
                     <div className={classes.appBarSpacer} />
-                    <h1>Recent Deliveries</h1>
+                    <h1>Current Orders</h1>
                     <Container maxWidth="lg" >
                         <Grid container spacing={1}>
                             <Grid item xs={12} md={12} lg={12}>
@@ -73,26 +68,23 @@ export default function RDeliveries(props) {
                                         <TableHead>
                                             <TableRow>
                                                 <TableCell>Order ID</TableCell>
-                                                <TableCell>User ID</TableCell>
+                                                <TableCell>Restaurant Name</TableCell>
+                                                <TableCell>Restaurant Address</TableCell>
                                                 <TableCell>Order Time</TableCell>
-                                                <TableCell>Left for Restaurant Time</TableCell>
-                                                <TableCell>Arrive At Restaurant Time</TableCell>
-                                                <TableCell>Collected Order Time</TableCell>
-                                                <TableCell>Delivered Order Time</TableCell>
+                                                <TableCell>Link</TableCell>
                                             </TableRow>
                                         </TableHead>
+                                        {console.log(orders)}
                                         <TableBody>
-                                            {deliveries.map((content) =>
+                                            {orders.map(orders => (
                                                 <TableRow>
-                                                    <TableCell>{convertIfNull(content.order_id)}</TableCell>
-                                                    <TableCell>{convertIfNull(content.rusr_id)}</TableCell>
-                                                    <TableCell>{convertIfNull(content.place_order_time)}</TableCell>
-                                                    <TableCell>{convertIfNull(content.dr_leave_for_res)}</TableCell>
-                                                    <TableCell>{convertIfNull(content.dr_arrive_res)}</TableCell>
-                                                    <TableCell>{convertIfNull(content.dr_leave_res)}</TableCell>
-                                                    <TableCell>{convertIfNull(content.dr_arrive_cus)}</TableCell>
+                                                    <TableCell>{orders.order_id}</TableCell>
+                                                    <TableCell>{orders.rname}</TableCell>
+                                                    <TableCell>{orders.address}</TableCell>
+                                                    <TableCell>{orders.place_order_time}</TableCell>
+                                                    <TableCell><Link to={{ pathname: '/deliveryRider/getOrderDetails', detailedOrders: orders }}>More Details</Link></TableCell>
                                                 </TableRow>
-                                            )}
+                                            ))}
                                         </TableBody>
                                     </Table>
                                 </Paper>

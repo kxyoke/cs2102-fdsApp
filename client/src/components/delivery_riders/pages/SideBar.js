@@ -19,6 +19,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HeaderIcons from "../layout/header";
+import ListAltIcon from '@material-ui/icons/ListAlt';
 
 const drawerWidth = 240;
 
@@ -150,6 +151,12 @@ export default function SideBar() {
                             <DashboardIcon />
                         </ListItemIcon>
                         <ListItemText primary="Dashboard" />
+                    </ListItem>
+                    <ListItem button component={Link} to="/deliveryRider/getOrders">
+                        <ListItemIcon>
+                            <ListAltIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Pick Up Orders" />
                     </ListItem>
                     <ListItem button component={Link} to="/deliveryRider/schedule">
                         <ListItemIcon>

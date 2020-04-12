@@ -133,14 +133,14 @@ CREATE TABLE Reviews (
 
 CREATE TABLE Deliveries (
     order_id          TEXT PRIMARY KEY,
-    usr_id            VARCHAR(255) NOT NULL,
+    rusr_id            VARCHAR(255),
     place_order_time  TIMESTAMP NOT NULL,
     dr_leave_for_res  TIMESTAMP,
     dr_arrive_res     TIMESTAMP,
     dr_leave_res      TIMESTAMP,
     dr_arrive_cus     TIMESTAMP,
     FOREIGN KEY(order_id) REFERENCES Orders,
-    FOREIGN KEY(usr_id) REFERENCES Riders
+    FOREIGN KEY(rusr_id) REFERENCES Riders
 );
 
 CREATE TABLE Promotions (

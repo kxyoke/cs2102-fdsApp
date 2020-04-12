@@ -35,6 +35,7 @@ export default function FTEditSchedule(props) {
 
 
     const shifts = [
+        {value: "0", label: ''},
         {value:"1", label: 'Shift 1 (10am to 2pm and 3pm to 7pm)'},
         {value:"2", label:'Shift 2 (11am to 3pm and 4pm to 8pm)'},
         {value:"3", label:'Shift 3 (12pm to 4pm and 5pm to 9pm)'},
@@ -60,12 +61,15 @@ export default function FTEditSchedule(props) {
         }).then(res=>{
                 console.log(res);
                 if(res.status === 200) {
-                    alert("sign up successfully! You can login now");
+                    alert("Schedule is now updated!");
                 }
-            })
+                //TODO find out how redirect
+        })
             .catch(err => {
-                    console.log(err.response.data);
-
+                if(err.response.status === 422) {
+                    console.log(err);
+                    setMessage("As a Full Time Rider, you must have 5 consecutive work days and no more than 5 work days!");
+                }
             })
 
     }
