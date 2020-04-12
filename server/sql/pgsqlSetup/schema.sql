@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS Users CASCADE;
 DROP TABLE IF EXISTS Restaurants CASCADE;
 DROP TABLE IF EXISTS MenuItems CASCADE;
 DROP TABLE IF EXISTS FoodItems CASCADE;
+DROP TABLE IF EXISTS FoodCategories CASCADE;
 DROP TABLE IF EXISTS RestaurantStaffs CASCADE;
 DROP TABLE IF EXISTS Customers CASCADE;
 DROP TABLE IF EXISTS Customers_address CASCADE;
@@ -27,23 +28,29 @@ CREATE TABLE Restaurants (
     min_amount       NUMERIC NOT NULL
 );
 
+/* restrict in-app deletion of categories? */
+CREATE TABLE FoodCategories (
+    category        TEXT PRIMARY KEY
+);
+
 CREATE TABLE FoodItems (
     food_id            TEXT PRIMARY KEY,
     name               TEXT,
     description        TEXT,
-    imagepath          VARCHAR(255)
+    imagepath          VARCHAR(255),
+    category           TEXT NOT NULL DEFAULT 'Others',
+    FOREIGN KEY (category) REFERENCES FoodCategories 
+    -- NO ACTION ON CASCADE?
 );
 
-
 CREATE TABLE MenuItems (
-    res_id      TEXT,
-    food_id     TEXT,
+    res_id      TEXT NOT NULL,
+    food_id     TEXT PRIMARY KEY,
     price       NUMERIC,
     daily_limit INTEGER DEFAULT 20,
     daily_sells INTEGER DEFAULT 0,
     --
     available  BOOLEAN DEFAULT true,
-    PRIMARY KEY(res_id, food_id),
     FOREIGN KEY (res_id) REFERENCES Restaurants,
     FOREIGN KEY (food_id) REFERENCES FoodItems ON DELETE CASCADE
 );
@@ -126,8 +133,8 @@ CREATE TYPE OrderItem AS (
 CREATE TABLE Orders (
     order_id       TEXT PRIMARY KEY,
     usr_id         VARCHAR(255) NOT NULL,
-    res_id          TEXT NOT NULL,
-    total           NUMERIC NOT NULL,
+    res_id         TEXT NOT NULL,
+    total          NUMERIC NOT NULL,
     isCheckedOut   BOOLEAN,
     payment        VARCHAR(255) NOT NULL 
                                 CHECK (payment IN ('card', 'cash')),

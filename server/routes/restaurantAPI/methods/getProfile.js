@@ -1,13 +1,20 @@
 const pool = require('../../../db'); // psql db
+const log = require('../../../logger');
+const rsql = require('../../../sql/restaurant');
 
+/* Req params should have:
+ *  - rid
+ */
 module.exports = (req, res) => {
-/*
-    pool.query('SELECT * FROM Restaurants',
-        (q_err, q_res) => {
-            res.json(q_res.rows)
-        });
-//https://www.freecodecamp.org/news/fullstack-react-blog-app-with-express-and-psql/
-*/
-    res.send('Queried add rProfile.');
+    log.info('Querying add rProfile.');
+    const rid = req.params.rid;
+
+    pool.query(rsql.get.profile, [rid],
+        (qerr, qres) => {
+            if (qerr) {
+                throw qerr;
+            }
+            res.json(qres.rows)
+        })
 };
 

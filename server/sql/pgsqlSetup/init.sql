@@ -129,21 +129,21 @@ INSERT INTO MenuItems (res_id,food_id,price) VALUES (43,23,27.86);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (36,16,24.69);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (46,41,20.98);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (2,21,17.81);
-INSERT INTO MenuItems (res_id,food_id,price) VALUES (49,50,11.87);
-INSERT INTO MenuItems (res_id,food_id,price) VALUES (5,62,8.71);
+--INSERT INTO MenuItems (res_id,food_id,price) VALUES (49,50,11.87);
+--INSERT INTO MenuItems (res_id,food_id,price) VALUES (5,62,8.71);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (31,48,22.32);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (29,28,9.91);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (47,65,12.38);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (3,44,16.45);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (40,2,15.17);
-INSERT INTO MenuItems (res_id,food_id,price) VALUES (3,23,13.37);
+--INSERT INTO MenuItems (res_id,food_id,price) VALUES (3,23,13.37);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (23,58,6.98);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (33,17,12.63);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (41,29,19.32);
-INSERT INTO MenuItems (res_id,food_id,price) VALUES (18,33,22.49);
+--INSERT INTO MenuItems (res_id,food_id,price) VALUES (18,33,22.49);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (44,34,23.23);
-INSERT INTO MenuItems (res_id,food_id,price) VALUES (48,28,8.55);
-INSERT INTO MenuItems (res_id,food_id,price) VALUES (50,48,29.93);
+--INSERT INTO MenuItems (res_id,food_id,price) VALUES (48,28,8.55);
+--INSERT INTO MenuItems (res_id,food_id,price) VALUES (50,48,29.93);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (22,52,21.47);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (30,11,8.59);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (31,59,18.76);
@@ -151,25 +151,26 @@ INSERT INTO MenuItems (res_id,food_id,price) VALUES (38,24,7.02);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (12,19,13.55);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (33,18,22.28);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (5,51,11.91);
-INSERT INTO MenuItems (res_id,food_id,price) VALUES (49,16,19.04);
-INSERT INTO MenuItems (res_id,food_id,price) VALUES (29,52,7.34);
-INSERT INTO MenuItems (res_id,food_id,price) VALUES (30,52,11.32);
+--INSERT INTO MenuItems (res_id,food_id,price) VALUES (49,16,19.04);
+--INSERT INTO MenuItems (res_id,food_id,price) VALUES (29,52,7.34);
+--INSERT INTO MenuItems (res_id,food_id,price) VALUES (30,52,11.32);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (11,55,19.66);
-INSERT INTO MenuItems (res_id,food_id,price) VALUES (40,38,26.83);
+--INSERT INTO MenuItems (res_id,food_id,price) VALUES (40,38,26.83);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (45,53,19.99);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (33,6,19.33);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (44,61,11.47);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (12,12,10.17);
-INSERT INTO MenuItems (res_id,food_id,price) VALUES (21,55,24.42);
-INSERT INTO MenuItems (res_id,food_id,price) VALUES (23,33,11.30);
+--INSERT INTO MenuItems (res_id,food_id,price) VALUES (21,55,24.42);
+--INSERT INTO MenuItems (res_id,food_id,price) VALUES (23,33,11.30);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (27,57,17.88);
-INSERT INTO MenuItems (res_id,food_id,price) VALUES (14,59,26.41);
+--INSERT INTO MenuItems (res_id,food_id,price) VALUES (14,59,26.41);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (7,37,20.38);
-INSERT INTO MenuItems (res_id,food_id,price) VALUES (35,51,24.63);
-INSERT INTO MenuItems (res_id,food_id,price) VALUES (18,21,16.58);
-INSERT INTO MenuItems (res_id,food_id,price) VALUES (32,59,13.03);
+--INSERT INTO MenuItems (res_id,food_id,price) VALUES (35,51,24.63);
+--INSERT INTO MenuItems (res_id,food_id,price) VALUES (18,21,16.58);
+--INSERT INTO MenuItems (res_id,food_id,price) VALUES (32,59,13.03);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (36,60,14.85);
-INSERT INTO MenuItems (res_id,food_id,price) VALUES (40,12,26.46);
+--INSERT INTO MenuItems (res_id,food_id,price) VALUES (40,12,26.46);
+/*
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (14,39,27.49);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (17,43,23.51);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (25,5,25.39);
@@ -216,6 +217,7 @@ INSERT INTO MenuItems (res_id,food_id,price) VALUES (14,45,9.61);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (46,46,9.55);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (18,7,26.72);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (40,58,16.84);
+*/
 
 INSERT INTO Users (usr_id,userName,password_digest) VALUES ('ube2138d2','fds','$2b$10$DadfX3XUT1PeKJ/C706jbeOE.zA.tt3tXYDmmCAhqOHjbdEI3zwDa');--123456
 
@@ -687,6 +689,7 @@ INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VAL
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (48,'wzS_LlETDm',4,'card',ARRAY [['23','2']],'complete', 30);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (49,'oBbHa2qLDk',27,'cash',ARRAY [['7','2']],'complete', 30);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (50,'oBbHa2qLDk',23,'card',ARRAY [['14','2']],'complete',30);
+
 INSERT INTO reviews VALUES(2, 'The food is good', 5);
 INSERT INTO reviews VALUES(5, 'The food is good', 10);
 

@@ -7,11 +7,9 @@ const rsql = require('../../../sql/restaurant');
  *  - fid
  */
 module.exports = (req, res) => {
-    log.info('Querying rMenuItem')
-    //const rid = req.params.rid;
-    const fid = req.params.fid;
+    log.info('Querying all food categories atm.')
 
-    pool.query(rsql.get.foodItem, [fid],
+    pool.query(rsql.get.allFoodCategories,
         (q_err, q_res) => {
             if (q_err) {
                 throw q_err;
