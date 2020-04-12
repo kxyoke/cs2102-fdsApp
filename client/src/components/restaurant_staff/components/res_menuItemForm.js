@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Button, Container, Divider, Header, Segment, Form, Input } from 'semantic-ui-react'
+import { Button, Container, Divider, Header, Message, Form, Input } from 'semantic-ui-react'
 
 import axios from 'axios'
 
@@ -9,12 +9,14 @@ export default function RMenuItemEdit(props) {
     const cat_others = 'Others';
 
     const [showOtherCategory, setShowOtherCategory] = useState(false);
+    const [hasError, setHasError] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
 
     const {isAdd, foodCategories} = props;
     const {food_id, res_id, price, daily_limit, name, description, imagepath, category} = props.foodItem;
 
-    const [newPrice, setPrice] = useState(0);
-    const [newLimit, setLimit] = useState(0);
+    const [newPrice, setPrice] = useState(-1);
+    const [newLimit, setLimit] = useState(-1);
     const [newName, setName] = useState('');
     const [newDesc, setDesc] = useState('');
     const [newImgPath, setImgPath] = useState('');
@@ -40,29 +42,62 @@ export default function RMenuItemEdit(props) {
         }
     }, [newCategory])
 
+    function validate(withCat) {
+        const currencyRegex = /^[0-9]\d*(?:(\.\d{0,2})?)$/;
+
+        if (newName == '') {
+            setErrorMsg('Food name should not be empty!')
+            return false;
+        }
+        if (withCat == '') {
+            setErrorMsg('Category should not be empty!')
+            return false;
+        }
+        if (!currencyRegex.test(newPrice) || newPrice < 0) {
+            setErrorMsg('Please input a valid price! Also omit the $ sign.')
+            return false;
+        }
+        if (isNaN(newLimit) || newLimit <= 0) {
+            setErrorMsg('Please input a valid limit!')
+            return false;
+        }
+        //img..
+        return true;
+    }
+
     function submitForm(e) {
         var cat = newCategory;
         if (newCategory == cat_others) {
             cat = addedCategory
         }
-        //TODO: validate form details
+
+        const isValid = validate(cat);
+        if (!isValid) {
+            setHasError(true)
+            console.log("input invalid.")
+            return;
+        }
+        var imgpath = newImgPath
+        if (newImgPath == '') {
+            imgpath = null
+        }
+
         const reqBody = {
             price: newPrice,
             daily_limit: newLimit,
             name: newName,
             description: newDesc,
-            image_path: newImgPath,
+            image_path: imgpath,
             category: cat
         }
-        console.log("submitted will get this:")
-        console.log(JSON.stringify(reqBody))
-/*
+        
+        //console.log(JSON.stringify(reqBody))
+
         if (isAdd) {
             submitAdd(reqBody)
         } else {
             submitEdit(reqBody)
         }
-*/
     }
 
     function submitAdd(reqBody) {
@@ -98,18 +133,26 @@ export default function RMenuItemEdit(props) {
       <div className="menuEditForm">
         {isAdd?
           <div>
-            <Header as='h2' dividing={true} textAlgin="center" style={{ paddingTop: '1em', paddingBottom: '1em' }}>Add a new food item</Header>
+            <Header as='h2' dividing={true} textAlgin="center" style={{ paddingTop: '1em', paddingBottom: '1em', display: 'flex', justifyContent: 'center'}}>Add a new food item</Header>
           </div>
         : <div>
-            <Header as='h2' dividing={true} textAlign='center' style={{ paddingTop: '1em', paddingBottom: '1em' }}>Edit food item: {name}</Header>
+            <Header as='h2' dividing={true} textAlign='center' style={{ paddingTop: '1em', paddingBottom: '1em' ,display: 'flex', justifyContent: 'center'}}>Edit food item: {name}</Header>
           </div>
         }
-        <div className="form">
-          <Form>
+        <div className="container" style={{ paddingTop: '1.5em' }}>
+          <Form error>
             <Form.Group widths='equal'>
               <Form.Field label='Food name' control='input'
                 defaultValue={name} placeholder='food name here'
                 onChange={ e => setName(e.target.value) } />
+              <Form.Field label='Price ($)' control='input'
+                defaultValue={price} placeholder='omit $'
+                onChange={ e => setPrice(e.target.value) } />
+              <Form.Field label='Daily qty available' control='input'
+                defaultValue={daily_limit} placeholder='daily limit'
+                onChange={ e => setLimit(e.target.value) } />
+            </Form.Group>
+            <Form.Group widths='equal'>
               <Form.Field label='Food category' control='select'
                 defaultValue={category}
                 onChange={ e => setCategory(e.target.value) } >
@@ -118,7 +161,7 @@ export default function RMenuItemEdit(props) {
                 ))}
               </Form.Field>
               {showOtherCategory?
-                  <Form.Field label='Use this category instead' control='input'
+                  <Form.Field label='-' control='input'
                     placeholder='new category'
                     onChange={ e => setAddedCategory(e.target.value) } />
                 : <p>Select 'Others' to input your own category.</p>
@@ -129,7 +172,19 @@ export default function RMenuItemEdit(props) {
                 defaultValue={imagepath} placeholder='idk somehow change to fiel selection? idk how this works. good to have.'
                 onChange={ e => setImgPath(e.target.value) } />
             </Form.Group>
+            {hasError?
+              <div>
+                <Message 
+                  error 
+                  header='Action Forbidden'
+                  content={errorMsg} />
+              </div>
+              : <div></div>
+            }
           </Form>
+          <Header style={{ display: 'flex', justifyContent: 'center'}}>
+            <Button type='submit' onClick={submitForm}> Confirm </Button>
+          </Header>
         </div>
       </div>
     )

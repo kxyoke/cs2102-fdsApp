@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Container, Divider, Header, Segment, Form, Input } from 'semantic-ui-react'
+import { Button, Container, Divider, Header, Segment, Grid, Form, Input } from 'semantic-ui-react'
 
 import axios from 'axios';
 
@@ -74,9 +74,15 @@ export default function RProfile(props) {
     return (
       <div>
         {edit?
-          <div className="formEdit_profile">
-            <Header as='h2' dividing={true} textAlign="center" style={{ paddingTop: '1em', paddingBottom: '1em' }}>Edit profile</Header>
-            <ButtonConditional />
+          <div className="container">
+            <Grid>
+              <Grid.Column floated='left' >
+                <Header as='h2' dividing={true} textAlign="center" style={{ paddingTop: '1em', paddingBottom: '0.5em' }}>Edit profile</Header>
+              </Grid.Column>
+              <Grid.Column floated='right' >
+                <ButtonConditional />
+              </Grid.Column>
+            </Grid>
             <div className="form">
               <Form>
                 <Form.Field>

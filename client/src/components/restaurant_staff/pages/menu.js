@@ -14,10 +14,12 @@ export default function ResMenu(props) {
     const [canModifyMenu, setCanModifyMenu] = useState(false);
     const [menuItems, setMenuItems] = useState([]);
     const [foodCategories, setFoodCategories] = useState([]);
+    const [rid, setRid] = useState('');
 
     useEffect( () => {
         runWithRid( userInfo => {
             const rid = userInfo.rid;
+            setRid(rid);
             axios.get('/api/restaurant/menu/' + rid)
                 .then( res => {
                     if (res.status == 200) {
@@ -46,16 +48,16 @@ export default function ResMenu(props) {
             state: {
                 isAdd: true,
                 foodCategories: foodCategories,
-                foodItem: {}
+                foodItem: {res_id: rid}
             }
         })
     }
 
     return(
         <div className="ResMenu">
+          <Header/>
         {show && canModifyMenu?
-          <div>
-            <Header/>
+          <div className='container'>
             <Button color='yellow' style={{ marginTop: '1em', marginBottom: '0.5em' }} 
                 circular icon='add'
                 onClick={e => segueToAddItem()} />
