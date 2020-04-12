@@ -24,6 +24,7 @@ import ResHome from './components/restaurant_staff/pages/home';
 import ResProfile from './components/restaurant_staff/pages/profile';
 import ResReview from './components/restaurant_staff/pages/review';
 import ResMenu from './components/restaurant_staff/pages/menu';
+import ResMenuEdit from './components/restaurant_staff/pages/menuForm';
 import ResPromo from './components/restaurant_staff/pages/promo';
 import ResOrder from './components/restaurant_staff/pages/order';
 
@@ -54,7 +55,8 @@ export default function Routes() {
             <Route path='/restaurant/profile' component={WithResStaffAuth(ResProfile)}/>
             <Route path='/restaurant/reviews' component={WithResStaffAuth(ResReview)}/>
             <Route path='/restaurant/promos' component={WithResStaffAuth(ResPromo)}/>
-            <Route path='/restaurant/menu' component={WithResStaffAuth(ResMenu)}/>
+            <Route exact path='/restaurant/menu' component={WithResStaffAuth(ResMenu)}/>
+            <Route path='/restaurant/menu/edit' component={WithResStaffAuth(ResMenuEdit)}/>
             <Route path='/restaurant/orders' component={WithResStaffAuth(ResOrder)}/>
 
             <Route render={() => <h1>404 Not found</h1>}/>

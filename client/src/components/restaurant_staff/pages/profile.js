@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import LogoutButton from "../../logoutButton";
 import Header from '../layouts/header';
 
 import axios from 'axios'

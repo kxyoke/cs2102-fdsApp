@@ -4,7 +4,6 @@ const rsql = require('../../../sql/restaurant');
 
 module.exports = (req, res) => {
     log.info('Querying update rProfile.');
-    log.info(JSON.stringify(req.body));
     const rid = req.params.rid;
     const rname = req.body.rname;
     const addr = req.body.address;

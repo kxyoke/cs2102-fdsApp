@@ -17,13 +17,13 @@ export default function RProfile(props) {
     const [confirmedMinAmt, setConfirmedMinAmt] = useState(0);
 
     useEffect(() => {
-        setConfirmedRname(props.profile.rname)
-        setConfirmedAddr(props.profile.address)
-        setConfirmedMinAmt(props.profile.min_amount)
+        setConfirmedRname(rname)
+        setConfirmedAddr(address)
+        setConfirmedMinAmt(min_amount)
 
-        setNewRname(props.profile.rname)
-        setNewAddr(props.profile.address)
-        setNewMinAmt(props.profile.min_amount)
+        setNewRname(rname)
+        setNewAddr(address)
+        setNewMinAmt(min_amount)
 
     }, [props])
 
@@ -75,7 +75,7 @@ export default function RProfile(props) {
       <div>
         {edit?
           <div className="formEdit_profile">
-            <Header as='h2' dividing={true} textAlign="justified">Edit profile</Header>
+            <Header as='h2' dividing={true} textAlign="center" style={{ paddingTop: '1em', paddingBottom: '1em' }}>Edit profile</Header>
             <ButtonConditional />
             <div className="form">
               <Form>
