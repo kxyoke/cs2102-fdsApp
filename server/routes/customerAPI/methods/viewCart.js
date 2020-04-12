@@ -12,4 +12,5 @@ module.exports = async (req, res,next) => {
     // fc.foodItemConvert(data.rows);
     // res.send(data.rows[0].fooditems);
     // res.send({{"1":10}, {"20": 20}})
+    res.send(data.rows);
 };

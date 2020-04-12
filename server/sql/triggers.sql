@@ -46,6 +46,7 @@ BEGIN
     END IF;
     RETURN NEW;
     END
+    --check for rest
 $$ LANGUAGE plpgsql;
 DROP TRIGGER IF EXISTS checkInsertCartItem ON Users;
 CREATE TRIGGER checkInsertCartItem

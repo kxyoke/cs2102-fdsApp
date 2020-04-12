@@ -29,7 +29,9 @@ export default function RestaurantMenu(props) {
     return (
         <div>
         <Header></Header>
+        <div class="container">
         {show?
+       
         <ul class="list-unstyled">
   
         {menuItem.map(e=><li class="d-inline border  table-cell">
@@ -42,6 +44,7 @@ export default function RestaurantMenu(props) {
            <p> There is no food available in the restaurant....</p>
 
         </div>}
+        </div>
         </div>
     )
 }

@@ -28,7 +28,7 @@ class SearchBar extends Component {
                 type='submit'
                 value='search'
                 className='btn'
-                style={{flex:'1'}}
+                style={{flex:'1', border:'solid'}}
                 />
                 
             </form>

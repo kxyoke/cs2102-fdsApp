@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 export default function CouponItem(props) {
     const {coupon_id, description, expiry_date} = props.coupon;
@@ -9,7 +9,7 @@ export default function CouponItem(props) {
             <tr>
                 <th scope="row">{coupon_id}</th>
                 <td>{description}</td>
-                <td>{date.toDateString()}</td>
+                <td>{date.toLocaleDateString()}</td>
             </tr>
         </React.Fragment>
 

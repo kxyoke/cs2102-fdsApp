@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 
 export default function OrderItem(props) {
-    const {order_id, rname, payment, total,  listofitems, status} = props.order;
+    const {order_id, rname, payment, total,  listofitems, status, ordertime} = props.order;
     const [foodList, setFoodList] = useState([])
+    const time = new Date (ordertime);
     useEffect(() => {
         for(const food of listofitems) {
             setFoodList(old => [...old, food.name])
@@ -16,6 +17,9 @@ export default function OrderItem(props) {
                 <div class="row">
                     <div class="col">
                     Order id: {order_id} 
+                    </div>
+                    <div class="col">
+                        Order time: {time.toLocaleString()}
                     </div>
                     <div class="col-left">
                      status:{status}
@@ -38,6 +42,7 @@ export default function OrderItem(props) {
                     </p>
                 </div>
             </div>
+            <p> </p>
         </React.Fragment>
 
     )

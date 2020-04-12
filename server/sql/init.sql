@@ -217,7 +217,7 @@ INSERT INTO MenuItems (res_id,food_id,price) VALUES (46,46,9.55);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (18,7,26.72);
 INSERT INTO MenuItems (res_id,food_id,price) VALUES (40,58,16.84);
 
-INSERT INTO Users (usr_id,userName,password_digest, isfdsmanager) VALUES ('ube2138d2','fds','$2b$10$DadfX3XUT1PeKJ/C706jbeOE.zA.tt3tXYDmmCAhqOHjbdEI3zwDa', 'true');--123456
+INSERT INTO Users (usr_id,userName,password_digest) VALUES ('ube2138d2','fds','$2b$10$DadfX3XUT1PeKJ/C706jbeOE.zA.tt3tXYDmmCAhqOHjbdEI3zwDa');--123456
 
 --rest staff
 INSERT INTO Users (usr_id,userName,password_digest) VALUES ('yALo31p66','Jonah','$2b$10$DadfX3XUT1PeKJ/C706jbeOE.zA.tt3tXYDmmCAhqOHjbdEI3zwDa');--123456

@@ -22,9 +22,12 @@ export default function CAddress (props) {
         return(
             <div>
             <Header/>
-             <div className="MyAddress">
+             <div class ="container" className="MyAddress">
+             
              {show?
+             
              <div class="row">
+             
              <div class="col-2"></div>
              <div class='col'>
              <table class="table table-striped">

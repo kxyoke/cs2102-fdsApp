@@ -22,8 +22,11 @@ export default function COrder(props) {
     
     }, [])
         return(
-            <div>
+            <div >
             <Header/>
+
+            <div class="container">
+            
             <p> </p>
              {show?
                 <div class ="row justify-content-md-center" className="MyReviews">
@@ -45,6 +48,7 @@ export default function COrder(props) {
             <p> You have not pastOrders....</p>
 
             </div>}
+            </div>
             </div>
         )
     

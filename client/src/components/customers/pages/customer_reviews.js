@@ -24,6 +24,9 @@ export default function CReviews(props) {
         return(
             <div>
             <Header/>
+            <div class="container">
+            
+            <p> </p>
             {show?
             <div class="container">
              <div class ="row justify-content-md-center" className="MyReviews">
@@ -41,6 +44,7 @@ export default function CReviews(props) {
 
         </div>
             }
+            </div>
             </div>
         )
     

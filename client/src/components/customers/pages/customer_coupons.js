@@ -19,9 +19,10 @@ export default function CCoupons(props) {
     }, [])
 
         return(
-            <div>
+            
+            <div className="MyCoupon">
             <Header/>
-             <div className="MyCoupon">
+            <div class="container">
              {show?
              <div>
              <table class="table table-striped">

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 export default function AddressItem(props) {
     const {address} = props.address;
@@ -8,7 +8,7 @@ export default function AddressItem(props) {
             <tr>
                 <th scope="row">{address}</th>
                 
-                <button class = 'btn btn-outline-danger' onClick={e=>console.log('click')} >Edit</button>
+                <a class = 'btn btn-outline-danger' onClick={e=>console.log('click')} >Edit</a>
             </tr>
         </React.Fragment>
 

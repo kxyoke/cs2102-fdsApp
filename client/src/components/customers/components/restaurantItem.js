@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function RestaurantItem(props) {
@@ -16,9 +16,11 @@ export default function RestaurantItem(props) {
     return (
         <React.Fragment>
          <div class="card border-secondary  text-center" href="#">
+         <div class="card-header">
+         {rname}
+        </div>
                 <img src = '/assets/noImage.png' class="card-img-top" height="140" width="42" ></img> 
                 <div class="card">
-                    <h5 class="card-title">{rname}</h5>
                     <a onClick={enterRestaurant} class="btn btn-primary"> Enter the restaurant</a>
                 </div>  
          </div>

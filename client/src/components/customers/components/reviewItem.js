@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 export default function ReviewItem(props) {
     const {order_id, rname, food_rev, delivery_rating} = props.review;
 
     return (
         <React.Fragment>
-            <div class="card text-center w-100">
+            <div class="card text-left w-100">
                 <div class="card-header">
                     Order id: {order_id}
                 </div>
@@ -28,6 +28,7 @@ export default function ReviewItem(props) {
                     </div>
                 </div>
             </div>
+            <p> </p>
         </React.Fragment>
 
     )

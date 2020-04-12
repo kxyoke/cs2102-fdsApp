@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import { Button, FormGroup, FormControl, ControlLabel, Form } from "react-bootstrap";
 
 export default function MenuItem (props) {
     const {food_id, price, name, description} = props.foodItem;
@@ -14,6 +13,8 @@ export default function MenuItem (props) {
         setQty(qty+1);
     }
      return (
+       <React.Fragment>
+       <div class="border  border-secondary" >
         <div class="media w-100 h-25 ">
         <img src="/assets/noImage.png" class="mr-3" alt="..."/>
         <div class="media-body">
@@ -50,5 +51,7 @@ export default function MenuItem (props) {
       
         </div>
       </div>
+      </div>
+      </React.Fragment>
      )
 }

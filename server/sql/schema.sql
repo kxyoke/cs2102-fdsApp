@@ -41,6 +41,7 @@ CREATE TABLE MenuItems (
     price       NUMERIC,
     daily_limit INTEGER DEFAULT 20,
     daily_sells INTEGER DEFAULT 0,
+    --
     available  BOOLEAN DEFAULT true,
     PRIMARY KEY(res_id, food_id),
     FOREIGN KEY (res_id) REFERENCES Restaurants,
@@ -52,21 +53,20 @@ CREATE TABLE MenuItems (
 CREATE TABLE Users (
     usr_id               VARCHAR(255) PRIMARY KEY,
     userName             VARCHAR(255) NOT NULL UNIQUE,
-    password_digest      VARCHAR(255) NOT NULL,
-    isFdsManager         BOOLEAN DEFAULT FALSE
+    password_digest      VARCHAR(255) NOT NULL 
 );
 
 CREATE TABLE FdsManagers (
     usr_id        VARCHAR(255) NOT NULL PRIMARY KEY,
-    FOREIGN KEY (usr_id) REFERENCES Users
+    FOREIGN KEY (usr_id) REFERENCES Users ON DELETE CASCADE
 );
 
 CREATE TABLE RestaurantStaffs (
     usr_id         VARCHAR(255) NOT NULL,
     res_id         TEXT,
     PRIMARY KEY(usr_id),
-    FOREIGN KEY (usr_id) REFERENCES Users,
-    FOREIGN KEY (res_id) REFERENCES Restaurants
+    FOREIGN KEY (usr_id) REFERENCES Users ON DELETE CASCADE,
+    FOREIGN KEY (res_id) REFERENCES Restaurants 
 );
 
 CREATE TABLE Customers (
@@ -75,7 +75,7 @@ CREATE TABLE Customers (
     last_order_time      TIMESTAMP DEFAULT NULL,
     reward_points        INTEGER DEFAULT 0 CHECK(reward_points >= 0),
     PRIMARY KEY(usr_id),
-    FOREIGN KEY (usr_id) REFERENCES Users
+    FOREIGN KEY (usr_id) REFERENCES Users ON DELETE CASCADE
 );
 
 --Keep track of customers recent address at most 5 per customer
@@ -91,10 +91,11 @@ CREATE TABLE Customers_address (
 );
 
 CREATE TABLE CartItems (
-    usr_id          VARCHAR(255)PRIMARY KEY,
+    usr_id          VARCHAR(255),
     res_id          TEXT,
     food_id         TEXT,
     qty             INTEGER DEFAULT 0,
+    PRIMARY KEY (usr_id, food_id),
     FOREIGN KEY (usr_id) REFERENCES Customers ON DELETE CASCADE,
     FOREIGN KEY (res_id) REFERENCES Restaurants,
     FOREIGN Key (food_id) REFERENCES FoodItems
@@ -140,7 +141,7 @@ CREATE TABLE Orders (
 CREATE TABLE Reviews (
     order_id        TEXT PRIMARY KEY,
     food_rev        TEXT,
-    delivery_rating NUMERIC,
+    delivery_rating NUMERIC CHECK(delivery_rating >0 AND delivery_rating<=10),
     FOREIGN KEY(order_id) REFERENCES Orders
 );
 
