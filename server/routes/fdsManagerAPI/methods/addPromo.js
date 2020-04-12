@@ -1,6 +1,6 @@
 const pool = require('../../../db'); // psql db
 const log = require('../../../logger');
-const fmsql = require('../../../sql/manager');
+const sql = require('../../../sql');
 
 module.exports = (req, res) => {
     log.info('Queried add fdsManager promo.');
@@ -10,7 +10,7 @@ module.exports = (req, res) => {
     const startDay = req.body.start_day;
     const endDay = req.body.end_day;
 
-    pool.query(fmsql.add.promo, [pid, ptype, pdesc, startDay, endDay],
+    pool.query(sql.fdsManager.add.promo, [pid, ptype, pdesc, startDay, endDay],
         (err, data) => {
             if (err) {
                 throw err;

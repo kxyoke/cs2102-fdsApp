@@ -2,7 +2,7 @@ var express = require('express');
 var mRouter = express.Router();
 
 const getProfile = require('./methods/getProfile');
-const updateProfile = require('./methods/updateProfile');
+const updatePassword = require('./methods/updatePassword');
 const addCoupon = require('./methods/addCoupon');
 const getCoupon = require('./methods/getCoupon');
 const updateCoupon = require('./methods/updateCoupon');
@@ -13,7 +13,7 @@ const updateFdsManagerPromo = require('./methods/updatePromo');
 
 mRouter.route('/:mid')
     .get(getProfile)
-    //.put(updateProfile)
+    .put(updatePassword)
 
 mRouter.route('/coupon/')
     .post(addCoupon)

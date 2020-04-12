@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import LogoutButton from '../../logoutButton';
+import React, { Component } from 'react'
+import Header from '../layout/header'
+import LogoutButton from '../../logoutButton'
+import axios from 'axios';
 
-export default class FHome extends Component {
+export default function FHome(props) {
 
-    render() {
-        return(
-            <div>
-            <h1>FDS Home page</h1>
-            <LogoutButton/>
-            </div>
-        )
-    }
+    return(
+        <div>
+            <Header/>
+            <h1>Manager Home page</h1>
+        </div>
+    )
 }

@@ -1,13 +1,12 @@
 const pool = require('../../../db'); // psql db
 const log = require('../../../logger');
-const fmsql = require('../../../sql/manager');
+const sql = require('../../../sql');
 
-/*
 module.exports = (req, res) => {
-    log.info('Queried update fdsManager profile.');
+    log.info('Queried update fdsManager password.');
     const mid = req.user.usr_id;
 
-    pool.query(fmsql.get.profile, [mid],
+    pool.query(sql.fdsManager.update.password, [mid],
         (err, data) => {
             if (err) {
                 throw err;
@@ -15,4 +14,3 @@ module.exports = (req, res) => {
             res.json(data.rows);
         })
 };
-*/

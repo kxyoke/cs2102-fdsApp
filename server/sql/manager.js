@@ -2,9 +2,9 @@ const queries = {};
 
 queries.get = {
     profile:
-        'SELECT * FROM FdsManagers WHERE usr_id = $1;',
+        'SELECT * FROM FdsManagers WHERE usr_id = $1',
     allPromos:
-        'SELECT * FROM Promotions',
+        'SELECT * FROM Promotions WHERE promotype = ''FDS''',
     promo:
         'SELECT * FROM Promotions WHERE pid = %1',
     coupon:
@@ -12,17 +12,17 @@ queries.get = {
 }
 
 queries.update = {
-    profile:
-        '', //is it still 1 manager or multiple managers????
+    password:
+        'CALL updateManagerPassword($1, $2)', //usr_id, password
     promo:
-        'CALL updateManagerPromo($1, $2, $3, $4, $5)', // pid, promotype, description, start_day, end_day
+        'CALL updateManagerPromo($1, $2, $3, $4)', // pid, description, start_day, end_day
     coupon:
         'CALL updateCoupon($1, $2, $3)', //coupon_id, description, expiry_date
 }
 
 queries.add = {
     promo:
-        'CALL addManagerPromo($1, $2, $3, $4, $5)',//pid, promotype, description, start_day, end_day
+        'CALL addManagerPromo($1, $2, $3, $4)',//pid, description, start_day, end_day
     coupon:
         'CALL addCoupon($1, $2, $3)' //coupon_id, description, expiry_date
 }

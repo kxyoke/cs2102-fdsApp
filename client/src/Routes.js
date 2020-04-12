@@ -18,7 +18,12 @@ import CAddress from './components/customers/pages/customer_address';
 import CSetting from './components/customers/pages/customer_setting';
 
 import RHome from './components/delivery_riders/pages/home';
+
 import FHome from './components/fds/pages/home';
+import FProfile from './components/fds/pages/profile';
+import FPromos from './components/fds/pages/manager_promos';
+import FCoupons from './components/fds/pages/manager_coupons';
+
 import ResHome from './components/restaurant_staff/page/home';
 import LoginHome from './components/login/home_before_login';
 import Login from './components/login/login_page';
@@ -42,6 +47,11 @@ export default function Routes() {
             <Route path='/customer/order' component={WithCustomerAuth(COrder)}/>
             <Route path='/customer/reviews' component= {WithCustomerAuth(CReviews)}/> 
             <Route path='/customer/profile' component={WithCustomerAuth(CProfile)}/>
+            
+            <Route path='/fdsManager/profile' component={WithFdsAuth(FProfile)}/>
+            <Route path='/fdsManager/promos' component={WithFdsAuth(FPromos)}/>
+            <Route path='/fdsManager/coupons' component={WithFdsAuth(FCoupons)}/>
+
             <Route render={() => <h1>404 Not found</h1>}/>
           </Switch>
         </div>

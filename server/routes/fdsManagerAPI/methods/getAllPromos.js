@@ -1,11 +1,11 @@
 const pool = require('../../../db'); // psql db
 const log = require('../../../logger');
-const fmsql = require('../../../sql/manager');
+const sql = require('../../../sql');
 
 module.exports = (req, res) => {
     log.info('Queried get all fdsManager promos.');
 
-    pool.query(fmsql.get.allPromos,
+    pool.query(sql.fdsManager.get.allPromos,
         (err, data) => {
             if (err) {
                 throw err;
