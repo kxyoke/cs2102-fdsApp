@@ -11,6 +11,7 @@ const getRestaurant = require('./methods/getProfile');
 const updateRestaurant = require('./methods/updateProfile');
 const addMenuFoodItem = require('./methods/addMenuFoodItem');
 const getFoodCategories = require('./methods/getFoodCategories');
+const getRestaurantFoodCategories = require('./methods/getRestaurantFoodCategories');
 const getRestaurantMenuItems = require('./methods/getMenu');
 const getFoodItem = require('./methods/getFoodItem');
 const updateFoodItem = require('./methods/updateFoodItem');
@@ -40,6 +41,9 @@ rRouter.route('/menu/:rid/:fid')
 
 rRouter.route('/foodCategories/all')
     .get(getFoodCategories);
+
+rRouter.route('/foodCategories/:rid')
+    .get(getRestaurantFoodCategories);
 
 rRouter.route('/foodCategories/change/:fid')
     .put(updateFoodItemCategory);

@@ -11,10 +11,12 @@ export default function ResMenu(props) {
     const history = useHistory();
 
     const [show, setShow] = useState(false);
+    const [show2, setShow2] = useState(false);
     const [canModifyMenu, setCanModifyMenu] = useState(false);
     const [menuItems, setMenuItems] = useState([]);
     const [foodCategories, setFoodCategories] = useState([]);
     const [rid, setRid] = useState('');
+    const [rFoodCats, setRFoodCats] = useState([]);
 
     useEffect( () => {
         runWithRid( userInfo => {
@@ -27,10 +29,6 @@ export default function ResMenu(props) {
                         setMenuItems(res.data)
                     }
                 });
-        })
-        
-        runWithRid( userInfo => {
-            const rid = userInfo.rid;
             axios.get('/api/restaurant/foodCategories/all')
                 .then( res => {
                     if (res.status == 200) {
@@ -38,7 +36,15 @@ export default function ResMenu(props) {
                         setCanModifyMenu(true)
                     }
                 });
+            axios.get('/api/restaurant/foodCategories/' + rid)
+                .then( res => {
+                    if (res.status == 200) {
+                        setRFoodCats(res.data)
+                        setShow2(true)
+                    }
+                });
         })
+
     }, [])
 
     function segueToAddItem() {
@@ -56,7 +62,7 @@ export default function ResMenu(props) {
     return(
         <div className="ResMenu">
           <Header/>
-        {show && canModifyMenu?
+        {show && show2 && canModifyMenu?
           <div className='container'>
             <Button color='yellow' style={{ marginTop: '1em', marginBottom: '0.5em' }} 
                 circular icon='add'
@@ -64,9 +70,10 @@ export default function ResMenu(props) {
 
             <h1>who am i that i see... menu?</h1>
             <p>{JSON.stringify(menuItems)}</p>
+            <RMenu menu={menuItems} r_categories={rFoodCats} />
           </div>
         : <div>
-            <p>failed to load menu; please wait while we fetch data</p>
+            <p>am loading, please wait while we fetch data</p>
             <p>on that note can change this to the loading animation in the middle of the screen lol</p>
           </div>
         }

@@ -6,23 +6,25 @@ queries.get = {
     profile: /*[res_id]*/
         `SELECT * FROM Restaurants WHERE res_id = $1`,
     allMenuItems: /*[res_id]*/
-        `SELECT * FROM MenuItems NATURAL JOIN FoodItems WHERE res_id = $1`,
+        `SELECT * FROM MenuItems NATURAL JOIN FoodItems WHERE res_id = $1 ORDER BY name ASC, price DESC`,
     allFoodCategories:
-        `SELECT * FROM FoodCategories`,
+        `SELECT category FROM FoodCategories ORDER BY category ASC`,
+    rFoodCategories: /*[res_id]*/
+        `SELECT DISTINCT category FROM FoodItems NATURAL JOIN MenuItems WHERE res_id = $1 ORDER BY category ASC`,
     foodItem: /*[food_id]*/
         `SELECT * FROM MenuItems NATURAL JOIN FoodItems WHERE food_id = $1`,
     allReviews: /*[res_id]*/
-        `SELECT order_id, usr_id, listOfItems, food_rev, delivery_rating FROM Reviews NATURAL JOIN Orders WHERE res_id = $1`,
+        `SELECT order_id, usr_id, listOfItems, food_rev, delivery_rating FROM Reviews NATURAL JOIN Orders WHERE res_id = $1 ORDER BY delivery_rating DESC`,
     allIncompleteOrders: /*[res_id]*/
-        `SELECT * FROM Orders WHERE res_id = $1 AND status <> 'complete'`,
+        `SELECT order_id, O.usr_id as c_id, total, payment, listOfItems, status, D.usr_id as dr_id, place_order_time as order_time FROM Orders O JOIN Deliveries D using (order_id) WHERE res_id = $1 AND status <> 'complete' ORDER BY order_time ASC`,
     allCompletedOrders: /*[res_id]*/
-        `SELECT * FROM Orders WHERE res_id = $1 AND status = 'complete'`,
+        `SELECT order_id, O.usr_id as c_id, total, payment, listOfItems, status, D.usr_id as dr_id, place_order_time, dr_leave_res as sent_food_time, dr_arrive_customer as complete_time FROM Orders WHERE res_id = $1 AND status = 'complete' ORDER BY complete_time DESC`,
     allOrders:
         `SELECT * FROM Orders WHERE res_id = $1`,
     allPromos: /*[res_id]*/
-        `SELECT * FROM Promotions WHERE res_id = $1`,
+        `SELECT * FROM Promotions WHERE res_id = $1 ORDER BY end_day ASC, start_day ASC`,
     allCurrentOrFuturePromos: /*[res_id, now_timestamp]*/
-        `SELECT * FROM Promotions WHERE res_id = $1 AND end_day > $2`
+        `SELECT * FROM Promotions WHERE res_id = $1 AND end_day > $2 ORDER BY start_day ASC`
 }
 
 queries.update = {
