@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Container, Divider, Header, Segment, Grid, Form, Input } from 'semantic-ui-react'
+import { Button, Container, Divider, Header, Segment, Message, Grid, Form, Input } from 'semantic-ui-react'
 
 import axios from 'axios';
 
 export default function RProfile(props) {
     const [edit, setEdit] = useState(false);
+    const [hasFormError, setHasFormError] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
 
     const {res_id, rname, address, min_amount} = props.profile;
 
@@ -29,6 +31,7 @@ export default function RProfile(props) {
 
 
     function toggleEdit() {
+        setHasFormError(false);
         setEdit(!edit);
     }
 
@@ -38,27 +41,71 @@ export default function RProfile(props) {
         setConfirmedMinAmt(newMinAmt)
     }
 
+    function validateConfirmed() {
+        if (confirmedRname == rname && confirmedAddr == address && confirmedMinAmt == min_amount) {
+            return validationState.SUBMIT_NOUPDATE
+        }
+        if (confirmedRname == '') {
+            setErrorMsg('Name cannot be empty!')
+            return validationState.INVALID
+        }
+        if (confirmedAddr == '') {
+            setErrorMsg('Address cannot be empty!')
+            return validationState.INVALID
+        }
+        if (confirmedMinAmt == '') {
+            setErrorMsg('Minimum amount cannot be empty!')
+            return validationState.INVALID
+        }
+        const currencyRegex = /^[0-9]\d*(?:(\.\d{0,2})?)$/;
+        if (!currencyRegex.test(confirmedMinAmt) || confirmedMinAmt < 0) {
+            setErrorMsg('Minimum amount is in the wrong format! Also omit the $ sign.')
+            return validationState.INVALID
+        }
+
+        if (confirmedRname == null || confirmedAddr == null || confirmedMinAmt == null) {
+            console.log("all null???? should never happen... but ok, shouldnt have submitted yet")
+            return validationState.NOCHANGE
+        }
+        return validationState.SUBMIT_UPDATE
+    }
+
+    const validationState = {
+        SUBMIT_UPDATE: 'submit form',
+        SUBMIT_NOUPDATE: 'redirect',
+        NOCHANGE: 'nochange',
+        INVALID: 'invalid'
+    }
+
     useEffect(() => {
-        if ((confirmedRname == rname && confirmedAddr == address && confirmedMinAmt == min_amount)
-        || confirmedRname == '' || confirmedAddr == '' || confirmedMinAmt == ''
-        || confirmedRname == null || confirmedAddr == null || confirmedMinAmt == null) {
-            console.log("no change detected; not submitting to server")
-        } else {
-            
-            axios.put('/api/restaurant/' + res_id, {
-                rname: confirmedRname,
-                address: confirmedAddr,
-                min_amount: confirmedMinAmt
-            })
-                .then(res => {
-                    console.log(res)
-                    if (res.status == 200) {
-                        toggleEdit()
-                    }
+        const validity = validateConfirmed()
+
+        switch (validity) {
+            case validationState.SUBMIT_UPDATE:
+                axios.put('/api/restaurant/' + res_id, {
+                    rname: confirmedRname,
+                    address: confirmedAddr,
+                    min_amount: confirmedMinAmt
                 })
-                .catch(err => {
-                    console.log(err)
-                });
+                    .then(res => {
+                        console.log(res)
+                        if (res.status == 200) {
+                            toggleEdit()
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    });
+                break
+            case validationState.SUBMIT_NOUPDATE:
+                if (edit) {
+                    toggleEdit()
+                }
+                break
+            case validationState.INVALID:
+                setHasFormError(true)
+            default:
+                console.log('nothing will be done.')
         }
 
     }, [confirmedRname, confirmedAddr, confirmedMinAmt]);
@@ -76,15 +123,22 @@ export default function RProfile(props) {
         {edit?
           <div className="container">
             <Grid>
-              <Grid.Column floated='left' >
-                <Header as='h2' dividing={true} textAlign="center" style={{ paddingTop: '1em', paddingBottom: '0.5em' }}>Edit profile</Header>
-              </Grid.Column>
-              <Grid.Column floated='right' >
-                <ButtonConditional />
-              </Grid.Column>
+              <Grid.Row columns={2} verticalAlign='bottom'>
+                <Grid.Column textAlign='right'>
+                    <Header as='h2' textAlign="center" style={{ paddingTop: '1em', paddingBottom: '0.5em' }}>Edit profile</Header>
+                </Grid.Column>
+                <Grid.Column textAlign='center'>
+                    <ButtonConditional />
+                </Grid.Column>
+              </Grid.Row>
             </Grid>
+            <Divider />
             <div className="form">
-              <Form>
+              <Form error>
+                {hasFormError?
+                <div><Message error content={errorMsg} header='Please check your inputs!' /></div>
+                : <div></div>
+                }
                 <Form.Field>
                   <label>Restaurant name</label>
                   <input placeholder='rname pls'
