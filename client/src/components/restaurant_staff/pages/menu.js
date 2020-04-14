@@ -12,23 +12,15 @@ export default function ResMenu(props) {
 
     const [show, setShow] = useState(false);
     const [show2, setShow2] = useState(false);
-    const [canModifyMenu, setCanModifyMenu] = useState(false);
-    const [menuItems, setMenuItems] = useState([]);
-    const [foodCategories, setFoodCategories] = useState([]);
     const [rid, setRid] = useState('');
+    const [canModifyMenu, setCanModifyMenu] = useState(false);
+    const [foodCategories, setFoodCategories] = useState([]);
     const [rFoodCats, setRFoodCats] = useState([]);
 
     useEffect( () => {
         runWithRid( userInfo => {
             const rid = userInfo.rid;
             setRid(rid);
-            axios.get('/api/restaurant/menu/' + rid)
-                .then( res => {
-                    if (res.status == 200) {
-                        setShow(true)
-                        setMenuItems(res.data)
-                    }
-                });
             axios.get('/api/restaurant/foodCategories/all')
                 .then( res => {
                     if (res.status == 200) {
@@ -70,7 +62,7 @@ export default function ResMenu(props) {
 
             <h1>who am i that i see... menu?</h1>
             <p>{JSON.stringify(menuItems)}</p>
-            <RMenu menu={menuItems} r_categories={rFoodCats} />
+            <RMenu rid={rid} rCategories={rFoodCats} allCategories={foodCategories}/>
           </div>
         : <div>
             <p>am loading, please wait while we fetch data</p>

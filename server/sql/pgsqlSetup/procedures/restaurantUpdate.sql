@@ -71,6 +71,19 @@ CREATE OR REPLACE PROCEDURE
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE PROCEDURE
+    updateAvailabilityOf(
+        _fid     TEXT,
+        _avail     BOOLEAN
+    ) AS $$
+
+    BEGIN
+        UPDATE MenuItems
+        SET available = _avail
+        WHERE food_id = _fid;
+    END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE PROCEDURE
     incrementSoldFoodItem(
         _fid     TEXT
     ) AS $$

@@ -15,6 +15,7 @@ const getRestaurantFoodCategories = require('./methods/getRestaurantFoodCategori
 const getRestaurantMenuItems = require('./methods/getMenu');
 const getFoodItem = require('./methods/getFoodItem');
 const updateFoodItem = require('./methods/updateFoodItem');
+const updateFoodAvailability = require('./methods/updateFoodAvailability');
 const updateFoodItemCategory = require('./methods/updateFoodItemCategory');
 const deleteFoodItem = require('./methods/deleteFoodItem');
 const getRestaurantReviews = require('./methods/getReviews');
@@ -38,6 +39,9 @@ rRouter.route('/menu/:rid/:fid')
     .get(getFoodItem)
     .put(updateFoodItem)
     .delete(deleteFoodItem);
+
+rRouter.route('/menu/:rid/:fid/makeAvailable')
+    .put(updateFoodAvailability);
 
 rRouter.route('/foodCategories/all')
     .get(getFoodCategories);
