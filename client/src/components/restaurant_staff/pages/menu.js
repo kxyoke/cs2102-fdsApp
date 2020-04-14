@@ -11,7 +11,6 @@ export default function ResMenu(props) {
     const history = useHistory();
 
     const [show, setShow] = useState(false);
-    const [show2, setShow2] = useState(false);
     const [rid, setRid] = useState('');
     const [canModifyMenu, setCanModifyMenu] = useState(false);
     const [foodCategories, setFoodCategories] = useState([]);
@@ -32,7 +31,7 @@ export default function ResMenu(props) {
                 .then( res => {
                     if (res.status == 200) {
                         setRFoodCats(res.data)
-                        setShow2(true)
+                        setShow(true)
                     }
                 });
         })
@@ -54,15 +53,16 @@ export default function ResMenu(props) {
     return(
         <div className="ResMenu">
           <Header/>
-        {show && show2 && canModifyMenu?
+        {show && canModifyMenu?
           <div className='container'>
             <Button color='yellow' style={{ marginTop: '1em', marginBottom: '0.5em' }} 
                 circular icon='add'
                 onClick={e => segueToAddItem()} />
 
             <h1>who am i that i see... menu?</h1>
-            <p>{JSON.stringify(menuItems)}</p>
-            <RMenu rid={rid} rCategories={rFoodCats} allCategories={foodCategories}/>
+            <div className='container'>
+              <RMenu rid={rid} rCategories={rFoodCats} allCategories={foodCategories}/>
+            </div>
           </div>
         : <div>
             <p>am loading, please wait while we fetch data</p>

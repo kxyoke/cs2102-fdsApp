@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
+
 import { Pagination } from 'semantic-ui-react'
+import FoodItemCardGroup from './utils/FoodItemCards'
 
 import axios from 'axios'
 
 export default function RMenu(props) {
+    const history = useHistory();
+
     const numFoodPerPage = 8;
     const cat_all = 'All';
 
@@ -22,8 +27,9 @@ export default function RMenu(props) {
             axios.get('/api/restaurant/menu/' + rid)
                 .then(res => {
                     if (res.status == 200) {
-                        setCurrentCatItems(res.data)
-                        setLoading(false)
+                        console.log(res.data)
+                        setMenu(res.data)
+                        setIsLoading(false)
                     }
                 });
     }, [])
@@ -41,7 +47,7 @@ export default function RMenu(props) {
         const startIncl = (pageNum - 1) * numFoodPerPage
         const endExcl = pageNum * numFoodPerPage
         setShownItems(currentCatItems.slice(startIncl, endExcl))
-    }, [pageNum])
+    }, [pageNum, currentCatItems])
 
     function filter(cat) {
         if (cat == cat_all) {
@@ -57,7 +63,7 @@ export default function RMenu(props) {
                 filtered.push(menu[i])
             }
         }
-        return filtered;
+        setCurrentCatItems(filtered)
     }
 
     function formatIntoCardInput(foodItem) {
@@ -111,15 +117,20 @@ export default function RMenu(props) {
 
     return (
       <div>
+        {isLoading?
         <p>Halo</p>
-        <FoodItemCardGroup formattedFoodItems={itemsShownInPage.map( formatIntoCardInput )} />
-        <Pagination 
-          activePage={pageNum} 
-          totalPages={Math.ceil(currentCatItems.length / numFoodPerPage)} 
-          onPageChange={ (e, pgnum) => setPageNum(pgnum) } 
-          defaultActivePage={1}
-          ellipsisItem={null}
-          />
+        : 
+        <div>
+          <p> gimme sth? {JSON.stringify(menu)} </p>
+          <FoodItemCardGroup formattedFoodItems={itemsShownInPage.map( formatIntoCardInput )} />
+          <Pagination 
+            activePage={pageNum} 
+            totalPages={Math.ceil(currentCatItems.length / numFoodPerPage)} 
+            onPageChange={ (e, pgnum) => setPageNum(pgnum) } 
+            ellipsisItem={null}
+            />
+        </div>
+        }
       </div>
     )
 }

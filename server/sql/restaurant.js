@@ -28,7 +28,7 @@ queries.get = {
 }
 
 queries.update = {
-    profile: `UPDATE Restaurants SET rname = $2, address = $3, min_amount = $4 WHERE res_id = $1`, /*res_id, rname, address, min_amt*/
+    profile: `CALL updateRestaurantProfile($1, $2, $3, $4)`, /*res_id, rname, address, min_amt*/
     foodItem: `CALL updateRestaurantFoodItem($1, $2, $3, $4, $5, $6, $7)`, /*fid, price, dailyLmt, name, desc, imgpath, category*/
     foodItemCategory: `CALL updateCategoryOf($1, $2)`, /*fid, cat*/
     foodItemAvailability: `CALL updateAvailabilityOf($1, $2)`, /*fid, avail*/
