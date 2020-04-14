@@ -64,8 +64,8 @@ CREATE OR REPLACE FUNCTION insertNonExistentFoodCategory()
         RETURN NEW;
     END;
 $$ LANGUAGE plpgsql;
-DROP TRIGGER IF EXISTS defaultFoodCategoryAlwaysPresent ON FoodItems;
-CREATE TRIGGER defaultFoodCategoryAlwaysPresent
+DROP TRIGGER IF EXISTS foodCategoryAlwaysPresent ON FoodItems;
+CREATE TRIGGER foodCategoryAlwaysPresent
     BEFORE INSERT OR UPDATE ON FoodItems
     FOR EACH ROW
     EXECUTE PROCEDURE insertNonExistentFoodCategory();
@@ -73,7 +73,7 @@ CREATE TRIGGER defaultFoodCategoryAlwaysPresent
 CREATE OR REPLACE FUNCTION maintainFoodCategories()
     RETURNS TRIGGER AS $$
     BEGIN
-        IF NOT EXISTS (SELECT 1 FROM FoodItems I WHERE I.category = OLD.category) THEN
+        IF OLD.category <> 'Others' AND NOT EXISTS (SELECT 1 FROM FoodItems I WHERE I.category = OLD.category) THEN
             DELETE FROM FoodCategories
             WHERE category = OLD.category;
         END IF;
