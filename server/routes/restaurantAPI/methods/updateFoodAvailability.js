@@ -9,6 +9,9 @@ module.exports = (req, res) => {
 
     pool.query(rsql.update.foodItemAvailability, [fid, avail],
         (qerr, qres) => {
+            if (qerr) {
+                throw qerr;
+            }
             res.send(qres)
         })
 };

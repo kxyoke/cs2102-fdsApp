@@ -1,10 +1,6 @@
 var express = require('express');
 var rRouter = express.Router();
 
-// import functions? as consts
-// possibly import the auth handler
-//const authHandler = require('../auth/?')
-
 const retrieveStaffIdAndRid = require('./methods/getStaffAndRidFromSession');
 
 const getRestaurant = require('./methods/getProfile');

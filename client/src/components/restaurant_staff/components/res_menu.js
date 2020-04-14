@@ -9,13 +9,14 @@ import axios from 'axios'
 export default function RMenu(props) {
     const history = useHistory();
 
-    const numFoodPerPage = 8;
+    const numFoodPerPage = 2;
     const cat_all = 'All';
 
     const { rid, rCategories, allCategories } = props;
 
     const [menu, setMenu] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [didChangeAvailability, setDidChangeAvailability] = useState(false);
 
     const [pageNum, setPageNum] = useState(1);
     const [itemsShownInPage, setShownItems] = useState([]);
@@ -39,13 +40,22 @@ export default function RMenu(props) {
     }, [menu])
 
     useEffect(() => {
+        if (didChangeAvailability) {
+            setDidChangeAvailability(false)
+            filter(currentCat)
+        }
+    }, [didChangeAvailability])
+
+    useEffect(() => {
         setPageNum(1);
         filter(currentCat)
     }, [currentCat])
 
     useEffect(() => {
+        console.log("page num changed to: "+pageNum)
         const startIncl = (pageNum - 1) * numFoodPerPage
         const endExcl = pageNum * numFoodPerPage
+        console.log("so start end became: "+startIncl+" "+endExcl)
         setShownItems(currentCatItems.slice(startIncl, endExcl))
     }, [pageNum, currentCatItems])
 
@@ -92,6 +102,7 @@ export default function RMenu(props) {
                                 break
                             }
                         }
+                        setDidChangeAvailability(true)
                     }
                 });
         }
@@ -118,15 +129,14 @@ export default function RMenu(props) {
     return (
       <div>
         {isLoading?
-        <p>Halo</p>
+        <p>Halo plz wait</p>
         : 
         <div>
-          <p> gimme sth? {JSON.stringify(menu)} </p>
           <FoodItemCardGroup formattedFoodItems={itemsShownInPage.map( formatIntoCardInput )} />
           <Pagination 
             activePage={pageNum} 
             totalPages={Math.ceil(currentCatItems.length / numFoodPerPage)} 
-            onPageChange={ (e, pgnum) => setPageNum(pgnum) } 
+            onPageChange={ (e, pgnum) => {setPageNum(pgnum.activePage)} } 
             ellipsisItem={null}
             />
         </div>
