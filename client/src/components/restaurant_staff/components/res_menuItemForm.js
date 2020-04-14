@@ -35,6 +35,14 @@ export default function RMenuItemEdit(props) {
     }, [props])
 
     useEffect(() => {
+        if (category == null) {
+            setCategory(cat_others)
+        } else {
+            setCategory(category)
+        }
+    }, [category])
+
+    useEffect(() => {
         if (newCategory == cat_others) {
             setShowOtherCategory(true)
         } else {
@@ -49,7 +57,7 @@ export default function RMenuItemEdit(props) {
             setErrorMsg('Food name should not be empty!')
             return false;
         }
-        if (withCat == '') {
+        if (withCat == '' || withCat == null) {
             setErrorMsg('Category should not be empty!')
             return false;
         }
@@ -91,7 +99,8 @@ export default function RMenuItemEdit(props) {
             category: cat
         }
         
-        //console.log(JSON.stringify(reqBody))
+        console.log("submitting form...!")
+        console.log(JSON.stringify(reqBody))
 
         if (isAdd) {
             submitAdd(reqBody)
@@ -113,7 +122,7 @@ export default function RMenuItemEdit(props) {
     }
 
     function submitEdit(reqBody) {
-        axios.post('/api/restaurant/menu/' + res_id + '/' + food_id, reqBody)
+        axios.put('/api/restaurant/menu/' + res_id + '/' + food_id, reqBody)
             .then(res => {
                 if (res.status == 200) {
                     returnToMenu()
@@ -154,7 +163,7 @@ export default function RMenuItemEdit(props) {
             </Form.Group>
             <Form.Group widths='equal'>
               <Form.Field label='Food category' control='select'
-                defaultValue={category}
+                defaultValue={category == null ? "Others" : category}
                 onChange={ e => setCategory(e.target.value) } >
                 {foodCategories.map( c => (
                     <option value={c.category}>{c.category}</option>
