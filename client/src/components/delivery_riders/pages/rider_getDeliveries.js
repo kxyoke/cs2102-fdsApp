@@ -11,6 +11,7 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import clsx from "clsx";
+import {Link} from "react-router-dom";
 
 function convertIfNull(variable) {
     if (variable == null) {
@@ -79,6 +80,7 @@ export default function RDeliveries(props) {
                                                 <TableCell>Arrive At Restaurant Time</TableCell>
                                                 <TableCell>Collected Order Time</TableCell>
                                                 <TableCell>Delivered Order Time</TableCell>
+                                                <TableCell>Link</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -91,6 +93,7 @@ export default function RDeliveries(props) {
                                                     <TableCell>{convertIfNull(content.dr_arrive_res)}</TableCell>
                                                     <TableCell>{convertIfNull(content.dr_leave_res)}</TableCell>
                                                     <TableCell>{convertIfNull(content.dr_arrive_cus)}</TableCell>
+                                                    <TableCell><Link to={{ pathname: '/deliveryRider/getDeliveryDetails', state: content }}>More Details</Link></TableCell>
                                                 </TableRow>
                                             )}
                                         </TableBody>

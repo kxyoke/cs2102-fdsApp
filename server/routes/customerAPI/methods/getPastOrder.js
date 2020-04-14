@@ -5,9 +5,11 @@ module.exports =  async (req, res,next) => {
     console.log(req.user);
     var out= [];
     const data = await pool.query(sql.customer.queries.get_orders, [req.user.usr_id])
+    console.log(data.rows);
     for (const d of data.rows) {
+        console.log(d);
+
         const x = await fc.foodItemConvert(d);
-        // console.log(x);
         const output = {
             order_id:d.order_id,
             res_id:d.res_id,

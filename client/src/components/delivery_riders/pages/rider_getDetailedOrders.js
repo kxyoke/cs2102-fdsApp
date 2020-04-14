@@ -12,6 +12,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import clsx from "clsx";
 import { Link } from 'react-router-dom';
+import {Button} from "react-bootstrap";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -35,16 +36,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function RDetailedOrders(props) {
     const classes = useStyles();
-    const original = props.location.detailedOrders;
-    const url = '/api/deliveryRider/orders/' + original.res_id + '&' + original.listofitems.join(',');
-    const [detailedOrders, setDetailedOrders] = useState([]);
-    console.log(original);
+    const originalorder = props.location.state;
+    const [message, setMessage] = useState("");
+    const url = '/api/deliveryRider/orders/' + originalorder.order_id;
+    const urlForUser = '/api/deliveryRider/pickup';
+    const [detailedListOfItems, setDetailedListOfItems] = useState([]);
     useEffect( ()=> {
         const fetchData = async () => {
             await axios.get(url )
                 .then(res=> {
                     if(res.data.length > 0) {
-                        console.log(res.data);
+                        setDetailedListOfItems(res.data);
                     }
                 });
         };
@@ -52,46 +54,77 @@ export default function RDetailedOrders(props) {
 
     }, [])
 
+    function handlePickUpOrder() {
+        axios.post(url, [originalorder.order_id], {
+                headers: {
+                    "Content-Type" : "application/json",
+                }
+            }).then(res=> {
+                console.log(res.data);
+                if(res.status === 200) {
+                    alert("You have picked up the order");
+                }
+            }).catch(err => {
+                console.log(err);
+                if(err.response.status === 422) {
+                    setMessage("You already have a delivery that is in progress, please complete the delivery before picking up a new request");
+                }
+            });
+    }
 
     return(
         <div>
             <div className={classes.root}>
                 <SideBar/>
-                {/*<main className={classes.content}>*/}
-                {/*    <div className={classes.appBarSpacer} />*/}
-                {/*    <h1>Current Orders</h1>*/}
-                {/*    <Container maxWidth="lg" >*/}
-                {/*        <Grid container spacing={1}>*/}
-                {/*            <Grid item xs={12} md={12} lg={12}>*/}
-                {/*                <Paper className={clsx(classes.paper, 24)}>*/}
-                {/*                    <Table size="lg">*/}
-                {/*                        <TableHead>*/}
-                {/*                            <TableRow>*/}
-                {/*                                <TableCell>Order ID</TableCell>*/}
-                {/*                                <TableCell>Restaurant Name</TableCell>*/}
-                {/*                                <TableCell>Restaurant Address</TableCell>*/}
-                {/*                                <TableCell>Order Time</TableCell>*/}
-                {/*                                <TableCell>Link</TableCell>*/}
-                {/*                            </TableRow>*/}
-                {/*                        </TableHead>*/}
-                {/*                        {console.log(orders)}*/}
-                {/*                        <TableBody>*/}
-                {/*                            {orders.map(orders => (*/}
-                {/*                                <TableRow>*/}
-                {/*                                    <TableCell>{orders.order_id}</TableCell>*/}
-                {/*                                    <TableCell>{orders.rname}</TableCell>*/}
-                {/*                                    <TableCell>{orders.address}</TableCell>*/}
-                {/*                                    <TableCell>{orders.place_order_time}</TableCell>*/}
-                {/*                                    <TableCell><Link to={{ pathname: '/deliveryRider/getOrderDetails', state: { order: orders} }}>More Details</Link></TableCell>*/}
-                {/*                                </TableRow>*/}
-                {/*                            ))}*/}
-                {/*                        </TableBody>*/}
-                {/*                    </Table>*/}
-                {/*                </Paper>*/}
-                {/*            </Grid>*/}
-                {/*        </Grid>*/}
-                {/*    </Container>*/}
-                {/*</main>*/}
+                <main className={classes.content}>
+                    <div className={classes.appBarSpacer} />
+                    <div class="row justify-content-md-center">
+
+                        { message.length > 0 ?
+                            <div class="alert alert-danger" role="alert" >
+                                <p class="text-center">
+                                    <strong>{message}  </strong>
+                                </p>
+                            </div>
+                            : null
+                        }
+
+                    </div>
+                    <h1>Current Orders</h1>
+                    <Container maxWidth="lg" >
+                        <Grid container spacing={1}>
+                            <Grid item xs={12} md={12} lg={12}>
+                                <Paper className={clsx(classes.paper, 24)}>
+                                    <h4>Order ID: {originalorder.order_id}</h4>
+                                    <h4>Restaurant Name: {originalorder.rname}</h4>
+                                    <h4>Restaurant Address: {originalorder.address}</h4>
+                                    <h4>Order Time: {originalorder.place_order_time}</h4>
+                                    <Table size="lg">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Order ID</TableCell>
+                                                <TableCell>Order Item</TableCell>
+                                                <TableCell>Quantity</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {detailedListOfItems.map(items => (
+                                                <TableRow>
+                                                    <TableCell>{items.id}</TableCell>
+                                                    <TableCell>{items.name}</TableCell>
+                                                    <TableCell>{items.qty}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                    <Button block bsSize="large"  onClick={() => handlePickUpOrder()}>
+                                        Pick Up Order
+                                    </Button>
+                                </Paper>
+                            </Grid>
+                        </Grid>
+                    </Container>
+                </main>
             </div>
         </div>
 

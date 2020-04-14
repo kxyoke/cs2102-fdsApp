@@ -29,6 +29,7 @@ import RDeliveries from "./components/delivery_riders/pages/rider_getDeliveries"
 import FTEditSchedule from "./components/delivery_riders/pages/rider_editschedule";
 import ROrders from "./components/delivery_riders/pages/rider_getOrders";
 import RDetailedOrders from "./components/delivery_riders/pages/rider_getDetailedOrders";
+import RDetailedDeliveries from "./components/delivery_riders/pages/rider_getDetailedDeliveries";
 
 export default function Routes() {
 
@@ -47,6 +48,7 @@ export default function Routes() {
               <Route path='/deliveryRider/schedule' component={WithRiderAuth(RSchedule)}/>
               <Route path='/deliveryRider/editSchedule' component={WithRiderAuth(FTEditSchedule)}/>
               <Route path='/deliveryRider/getDeliveries' component={WithRiderAuth(RDeliveries)}/>
+              <Route path='/deliveryRider/getDeliveryDetails' component={WithRiderAuth(RDetailedDeliveries)}/>
               <Route path='/deliveryRider/getOrders' component={WithRiderAuth(ROrders)}/>
               <Route path='/deliveryRider/getOrderDetails' component={WithRiderAuth(RDetailedOrders)}/>
               <Route path='/restaurant' component={WithResStaffAuth(ResHome)}/>

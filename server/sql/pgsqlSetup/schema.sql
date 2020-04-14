@@ -160,7 +160,8 @@ CREATE TABLE Deliveries (
     dr_arrive_res     TIMESTAMP,
     dr_leave_res      TIMESTAMP,
     dr_arrive_cus     TIMESTAMP,
-    FOREIGN KEY(order_id) REFERENCES Orders,
+    delivery_fee INTEGER DEFAULT 3,
+    FOREIGN KEY(order_id) REFERENCES Orders On Delete CASCADE ,
     FOREIGN KEY(rusr_id) REFERENCES Riders
 );
 

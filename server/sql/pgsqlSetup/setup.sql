@@ -3,13 +3,13 @@
 \i ./function.sql
 \i ./procedures/addUsers.sql
 \i ./triggers.sql
-
+\i ./init.sql
 \i ./procedures/customer.sql
 
 \i ./procedures/restaurantAdd.sql
 \i ./procedures/restaurantDelete.sql
 \i ./procedures/restaurantUpdate.sql
-\i ./procedures/editFRiderSchedule.sql
-\i ./procedures/getDetailedOrders.sql
-\i ./init.sql
-
+\i ./procedures/riders/editFRiderSchedule.sql
+\i ./procedures/riders/getDetailedOrders.sql
+\i ./procedures/riders/checkIfRiderDriving.sql
+\i ./procedures/riders/updateDeliveryTime.sql

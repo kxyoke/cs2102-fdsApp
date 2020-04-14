@@ -12,12 +12,18 @@ const updateWorkSchedule = require('./methods/updateWorkSchedule');
 const getDeliveries = require('./methods/getDeliveries');
 const getOrder = require('./methods/getOrder');
 const getCurrentOrder = require('./methods/getCurrentOrder');
+const getCurrentDelivery = require('./methods/getCurrentDelivery');
 const getOrderDetails = require('./methods/getOrderDetails');
 const updateDeliveryTime = require('./methods/updateDeliveryTime');
+const postIsRiderDriving = require('./methods/postIsRiderDriving');
+const updateOrder =  require('./methods/updateOrder');
 
 riRouter.route('/profile')
    .get(getProfile)
    .put(updateProfile);
+
+riRouter.route('/home/delivery')
+    .get(getCurrentDelivery)
 
 riRouter.route('/schedule/:riid')
    .get(getWorkSchedule)
@@ -33,8 +39,13 @@ riRouter.route('/deliveries/:riid/:oid')
 riRouter.route('/orders')
     .get(getOrder);
 
+riRouter.route('/updateOrder')
+    .post(updateOrder);
+
 riRouter.route('/orders/:oid')
-    .get(getOrderDetails);
+    .get(getOrderDetails)
+    .post(postIsRiderDriving);
+
 
 module.exports = riRouter;
 
