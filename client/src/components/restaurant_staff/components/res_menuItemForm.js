@@ -173,6 +173,8 @@ export default function RMenuItemEdit(props) {
                 : <p>Select 'Others' to input your own category.</p>
               }
             </Form.Group>
+            <Form.TextArea label='Description' placeholder='Tell us more about your food item' 
+                onChange={ e => setDesc(e.target.value) } />
             <Form.Group grouped>
               <Form.Field label='Food image' control='input'
                 defaultValue={imagepath} placeholder='idk somehow change to fiel selection? idk how this works. good to have.'
