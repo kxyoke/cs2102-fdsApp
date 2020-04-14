@@ -39,7 +39,6 @@ CREATE OR REPLACE PROCEDURE
         UPDATE FoodItems
         SET name        = _fname,
             description = _fdesc,
-            imagepath   = _fimgpath,
             category    = _fcategory
         WHERE
             food_id = _fid;
@@ -49,6 +48,12 @@ CREATE OR REPLACE PROCEDURE
             daily_limit = _dailyLmt
         WHERE
             food_id = _fid;
+
+        IF _fimgpath IS NOT NULL AND _fimgpath <> '' THEN
+            UPDATE FoodItems
+            SET imagepath = _fimgpath
+            WHERE food_id = _fid;
+        END IF;
     END;
 $$ LANGUAGE plpgsql;
 

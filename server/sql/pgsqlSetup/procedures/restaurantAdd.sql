@@ -16,10 +16,16 @@ CREATE OR REPLACE PROCEDURE
     ) AS $$
 
     BEGIN
-        INSERT INTO FoodItems(food_id, name, description, imagepath, category) 
-        VALUES(food_id, fname, fdesc, imagepath, category);
+        INSERT INTO FoodItems(food_id, name, description, category) 
+        VALUES(food_id, fname, fdesc, category);
         INSERT INTO MenuItems(res_id, food_id, price, daily_limit)
         VALUES(res_id, food_id, price, daily_limit);
+
+        IF imagepath IS NOT NULL AND imagepath <> '' THEN
+            UPDATE FoodItems
+            SET imagepath = imagepath
+            WHERE food_id = food_id;
+        END IF;
     END;
 $$ LANGUAGE plpgsql;
 

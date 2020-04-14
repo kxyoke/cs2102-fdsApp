@@ -52,6 +52,7 @@ export default function RMenuItemEdit(props) {
 
     function validate(withCat) {
         const currencyRegex = /^[0-9]\d*(?:(\.\d{0,2})?)$/;
+        const positiveIntRegex = /^[1-9]\d*$/;
 
         if (newName == '') {
             setErrorMsg('Food name should not be empty!')
@@ -65,7 +66,7 @@ export default function RMenuItemEdit(props) {
             setErrorMsg('Please input a valid price! Also omit the $ sign.')
             return false;
         }
-        if (isNaN(newLimit) || newLimit <= 0) {
+        if (!positiveIntRegex.test(newLimit) || newLimit <= 0) {
             setErrorMsg('Please input a valid limit!')
             return false;
         }
