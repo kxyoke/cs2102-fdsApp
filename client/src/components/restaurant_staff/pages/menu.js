@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import Header from '../layouts/header';
-import { Button } from 'semantic-ui-react';
+import { Button, Popup } from 'semantic-ui-react';
 
 import axios from 'axios'
 import RMenu from '../components/res_menu'
@@ -54,9 +54,14 @@ export default function ResMenu(props) {
           <Header/>
         {show && canModifyMenu?
           <div className='container'>
-            <Button color='yellow' style={{ marginTop: '1em', marginBottom: '0.5em' }} 
+            <Popup
+              trigger={<Button color='yellow' style={{ marginTop: '1em', marginBottom: '0.5em' }} 
                 circular icon='add'
                 onClick={e => segueToAddItem()} />
+              }
+              content='Add a new item!'
+              inverted
+            />
 
             <h1>who am i that i see... menu?</h1>
             <div className='container'>

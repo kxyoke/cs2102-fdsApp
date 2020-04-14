@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 
-import { Pagination } from 'semantic-ui-react'
+import { Tab, Pagination } from 'semantic-ui-react'
 import FoodItemCardGroup from './utils/FoodItemCards'
 
 import axios from 'axios'
@@ -13,6 +13,24 @@ export default function RMenu(props) {
     const cat_all = 'All';
 
     const { rid, rCategories, allCategories } = props;
+
+    function makePanes() {
+        const tabPane = () => 
+            <Tab.Pane>
+              <FoodItemCardGroup formattedFoodItems={itemsShownInPage.map( formatIntoCardInput )} />
+            </Tab.Pane>
+        let panes = [{
+            menuItem: cat_all,
+            render: tabPane
+        }];
+        for (var i = 0; i < rCategories.length; i++) {
+            panes.push({
+                menuItem: rCategories[i],
+                render: tabPane
+            })
+        }
+        return panes;
+    }
 
     const [menu, setMenu] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -126,14 +144,22 @@ export default function RMenu(props) {
         //upon done, will return to menu; so entire data will alr reload by itself.
     }
 
+    function changeTabToIdx(idx) {
+        if (idx == 0) {
+            setShowingCat(cat_all)
+        } else {
+            setShowingCat(rCategories[idx - 1])
+        }
+    }
+
     return (
       <div>
         {isLoading?
         <p>Halo plz wait</p>
         : 
         <div>
-          <FoodItemCardGroup formattedFoodItems={itemsShownInPage.map( formatIntoCardInput )} />
-          <Pagination 
+          <Tab panes={makePanes()} onTabChange={ (e,tab) => changeTabToIdx(tab.activeIndex) } />
+            <Pagination 
             activePage={pageNum} 
             totalPages={Math.ceil(currentCatItems.length / numFoodPerPage)} 
             onPageChange={ (e, pgnum) => {setPageNum(pgnum.activePage)} } 
