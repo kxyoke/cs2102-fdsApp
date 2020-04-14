@@ -37,7 +37,7 @@ CREATE TABLE FoodItems (
     food_id            TEXT PRIMARY KEY,
     name               TEXT,
     description        TEXT,
-    imagepath          VARCHAR(255),
+    imagepath          TEXT DEFAULT 'https://react.semantic-ui.com/images/wireframe/image.png',
     category           TEXT NOT NULL DEFAULT 'Others',
     FOREIGN KEY (category) REFERENCES FoodCategories 
     -- NO ACTION ON CASCADE?

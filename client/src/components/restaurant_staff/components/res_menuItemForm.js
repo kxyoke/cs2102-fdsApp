@@ -99,9 +99,6 @@ export default function RMenuItemEdit(props) {
             category: cat
         }
         
-        console.log("submitting form...!")
-        console.log(JSON.stringify(reqBody))
-
         if (isAdd) {
             submitAdd(reqBody)
         } else {

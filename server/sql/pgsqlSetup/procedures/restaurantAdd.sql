@@ -11,7 +11,7 @@ CREATE OR REPLACE PROCEDURE
         fdesc      TEXT,
         price       NUMERIC, /*if NULL, not supposed to be rendered on customer side.*/
         daily_limit INTEGER,
-        imagepath   VARCHAR(255),
+        imagepath   TEXT,
         category    TEXT
     ) AS $$
 

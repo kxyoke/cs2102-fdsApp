@@ -39,12 +39,11 @@ export default function ResMenu(props) {
     }, [])
 
     function segueToAddItem() {
-        console.log("requested to add item")
         history.push({
             pathname: '/restaurant/menu/edit',
             state: {
                 isAdd: true,
-                foodCategories: foodCategories,
+                allCategories: foodCategories,
                 foodItem: {res_id: rid}
             }
         })

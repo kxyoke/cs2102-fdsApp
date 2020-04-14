@@ -31,7 +31,7 @@ CREATE OR REPLACE PROCEDURE
         _dailyLmt    INTEGER,
         _fname       TEXT,
         _fdesc       TEXT,
-        _fimgpath    VARCHAR(255),
+        _fimgpath    TEXT,
         _fcategory   TEXT
     ) AS $$
 

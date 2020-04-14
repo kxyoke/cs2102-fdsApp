@@ -1,5 +1,7 @@
 \i ./schema.sql
 
+INSERT INTO FoodCategories(category) VALUES ('Others');
+
 \i ./function.sql
 \i ./procedures/addUsers.sql
 \i ./triggers.sql
