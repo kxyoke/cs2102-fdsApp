@@ -13,12 +13,11 @@ import Paper from "@material-ui/core/Paper";
 import clsx from "clsx";
 import { Link } from 'react-router-dom';
 
-
 function convertIfNull(variable) {
     if (variable == null) {
         return "-";
     } else {
-        return variable;
+        return new Date (variable).toLocaleString();
     }
 }
 

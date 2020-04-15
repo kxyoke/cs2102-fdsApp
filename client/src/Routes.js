@@ -30,6 +30,8 @@ import FTEditSchedule from "./components/delivery_riders/pages/rider_editschedul
 import ROrders from "./components/delivery_riders/pages/rider_getOrders";
 import RDetailedOrders from "./components/delivery_riders/pages/rider_getDetailedOrders";
 import RDetailedDeliveries from "./components/delivery_riders/pages/rider_getDetailedDeliveries";
+import RSummary from "./components/delivery_riders/pages/rider_getSummary";
+import RPTSchedule from "./components/delivery_riders/pages/rider_getPTSchedule";
 
 export default function Routes() {
 
@@ -48,9 +50,11 @@ export default function Routes() {
               <Route path='/deliveryRider/schedule' component={WithRiderAuth(RSchedule)}/>
               <Route path='/deliveryRider/editSchedule' component={WithRiderAuth(FTEditSchedule)}/>
               <Route path='/deliveryRider/getDeliveries' component={WithRiderAuth(RDeliveries)}/>
+              <Route path='/deliveryRider/getPTSchedule' component={WithRiderAuth(RPTSchedule)}/>
               <Route path='/deliveryRider/getDeliveryDetails' component={WithRiderAuth(RDetailedDeliveries)}/>
               <Route path='/deliveryRider/getOrders' component={WithRiderAuth(ROrders)}/>
               <Route path='/deliveryRider/getOrderDetails' component={WithRiderAuth(RDetailedOrders)}/>
+              <Route path='/deliveryRider/summary' component={WithRiderAuth(RSummary)}/>
               <Route path='/restaurant' component={WithResStaffAuth(ResHome)}/>
             <Route path='/fdsManager' component={WithFdsAuth(FHome)}/>
 

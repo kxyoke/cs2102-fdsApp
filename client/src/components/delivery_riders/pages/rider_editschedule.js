@@ -35,7 +35,7 @@ export default function FTEditSchedule(props) {
 
 
     const shifts = [
-        {value: "0", label: ''},
+        {value: "0", label: 'Not Working'},
         {value:"1", label: 'Shift 1 (10am to 2pm and 3pm to 7pm)'},
         {value:"2", label:'Shift 2 (11am to 3pm and 4pm to 8pm)'},
         {value:"3", label:'Shift 3 (12pm to 4pm and 5pm to 9pm)'},
@@ -44,7 +44,6 @@ export default function FTEditSchedule(props) {
 
     function updateIdentity(e, no)  {
         setMessage('');
-        console.log(e.value);
         const newIds = schedule.slice();//copy the array
         newIds[no] = e.value;
         setSchedule(newIds); //set the new state

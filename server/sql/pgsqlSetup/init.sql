@@ -352,7 +352,7 @@ INSERT INTO Users (usr_id,userName,password_digest) VALUES('1m8gqm68RT', 'Kendal
 INSERT INTO Users (usr_id,userName,password_digest) VALUES('QTBFUUAtkQ', 'Melynda', '$2b$10$Av1h4TEPhnOtHI8.rvdXgeumJefRSHI29dyEuMVK5OqUNoDoWz0IC'); --5jizaArecF
 INSERT INTO Users (usr_id,userName,password_digest) VALUES('kft5sEPPfY', 'Leo', '$2b$10$8uRtKU.2ZBqdRD6BtcmM1.TNq3qc9YYZLuz/0OA1IgpigS4qaht6.'); --vNzalktKAG
 INSERT INTO Users (usr_id,userName,password_digest) VALUES('DmbBGwkICv', 'Xavier', '$2b$10$3.ew8P8rZSOx3y801HEJ8O5ANHEGcxG1WahLuFTYm/sArO1wzdg2e'); --x2yLwAfGsk
-INSERT INTO Users (usr_id,userName,password_digest) VALUES('4SGV6IVoJe', 'Jackeline', '$2b$10$BmIAg8UUJ5LB9n4FQQwE1e.x72Awddv5rztrYB92DUemFGW2T640e'); --rv6p0Dpitw
+INSERT INTO Users (usr_id,userName,password_digest) VALUES('4SGV6IVoJe', 'Jackeline', '$2b$10$DadfX3XUT1PeKJ/C706jbeOE.zA.tt3tXYDmmCAhqOHjbdEI3zwDa'); --rv6p0Dpitw
 INSERT INTO Users (usr_id,userName,password_digest) VALUES('YbbWUGXoed', 'Josue', '$2b$10$5T6A29RUBMuiu.SX.fp6wO1onRT0pfjoruiERlYP62KSVXV9SV9iK'); --IHHLfz6Aus
 INSERT INTO Users (usr_id,userName,password_digest) VALUES('3OkiKAnqj', 'Tory', '$2b$10$yffcf8Tw5NH/mjr.F46sl.271nlp1qt0fz/3g2dWDvinUOtRvdJvq'); --CbX5JUBkDe
 INSERT INTO Users (usr_id,userName,password_digest) VALUES('wLYHFO52JC', 'Erin', '$2b$10$G0uOae3GDWLBkt6nmpKPuO0BQ0yDXNABnUnL7ARV6s6/AGuTT/f7q'); --L8Jbwe6MRm

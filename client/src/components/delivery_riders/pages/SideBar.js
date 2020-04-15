@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Link,Redirect } from 'react-router-dom'
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -19,7 +19,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HeaderIcons from "../layout/header";
+import BarChartIcon from '@material-ui/icons/BarChart';
 import ListAltIcon from '@material-ui/icons/ListAlt';
+import axios from "axios";
 
 const drawerWidth = 240;
 
@@ -104,14 +106,29 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SideBar() {
     const classes = useStyles();
+    const url = '/api/deliveryRider/checkFullTime';
     const [open, setOpen] = React.useState(true);
+    const [isFullTime, setFullTime]  = React.useState("/deliveryRider/schedule");
     const handleDrawerOpen = () => {
         setOpen(true);
     };
     const handleDrawerClose = () => {
         setOpen(false);
     };
+    useEffect( ()=> {
+        const fetchData = async () => {
+            await axios.get(url)
+                .then(res=> {
+                    if(res.data.length > 0) {
+                        setFullTime("/deliveryRider/schedule");
+                    } else {
+                        setFullTime( "/deliveryRider/getPTSchedule");
+                    }
+                });
+        };
+        fetchData()
 
+    }, [])
     return (
         <div className={classes.root}>
             <CssBaseline />
@@ -158,7 +175,7 @@ export default function SideBar() {
                         </ListItemIcon>
                         <ListItemText primary="Pick Up Orders" />
                     </ListItem>
-                    <ListItem button component={Link} to="/deliveryRider/schedule">
+                    <ListItem button component={Link} to={isFullTime}>
                         <ListItemIcon>
                             <ScheduleIcon />
                         </ListItemIcon>
@@ -169,6 +186,12 @@ export default function SideBar() {
                             <MotorcycleIcon />
                         </ListItemIcon>
                         <ListItemText primary="Delivery Records" />
+                    </ListItem>
+                    <ListItem button component={Link} to="/deliveryRider/summary">
+                        <ListItemIcon>
+                            <BarChartIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Summary" />
                     </ListItem>
                 </List>
                 <Divider />

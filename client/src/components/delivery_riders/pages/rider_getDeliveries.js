@@ -17,7 +17,7 @@ function convertIfNull(variable) {
     if (variable == null) {
         return "-";
     } else {
-        return variable;
+        return new Date (variable).toLocaleString();
     }
 }
 
@@ -86,8 +86,8 @@ export default function RDeliveries(props) {
                                         <TableBody>
                                             {deliveries.map((content) =>
                                                 <TableRow>
-                                                    <TableCell>{convertIfNull(content.order_id)}</TableCell>
-                                                    <TableCell>{convertIfNull(content.rusr_id)}</TableCell>
+                                                    <TableCell>{content.order_id}</TableCell>
+                                                    <TableCell>{content.rusr_id}</TableCell>
                                                     <TableCell>{convertIfNull(content.place_order_time)}</TableCell>
                                                     <TableCell>{convertIfNull(content.dr_leave_for_res)}</TableCell>
                                                     <TableCell>{convertIfNull(content.dr_arrive_res)}</TableCell>

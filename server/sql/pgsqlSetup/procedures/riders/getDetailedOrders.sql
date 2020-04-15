@@ -6,7 +6,6 @@ DECLARE
     arrayToReturn text[] := array[]::text[];
 BEGIN
     select * into arrayToReturn from MenuItems where MenuItems.res_id = $1 ;
-    RAISE EXCEPTION '%', arrayToReturn;
     RETURN arrayToReturn;
 END;
 $$ LANGUAGE plpgsql;

@@ -41,9 +41,9 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function RSchedule(props) {
+export default function RPTSchedule(props) {
     const classes = useStyles();
-    const url = '/api/deliveryRider/schedule/:riid' ;
+    const url = '/api/deliveryRider/parttimeschedule' ;
     const [schedule, setSchedule] = useState(Array.from({length: 7},()=>
         []));
     const timeRange = [];
@@ -97,7 +97,7 @@ export default function RSchedule(props) {
                             for (var curtime = 10; curtime < 22; curtime++) {
                                 var time = Moment(curtime,format);
                                 if (time.isBetween(beforeTime1,afterTime1) || time.isBetween(beforeTime2,afterTime2)
-                                || time.isSame(beforeTime1) || time.isSame(beforeTime2)) {
+                                    || time.isSame(beforeTime1) || time.isSame(beforeTime2)) {
                                     emptyArray.push("true");
                                 } else {
                                     emptyArray.push('-');
@@ -107,7 +107,7 @@ export default function RSchedule(props) {
                         }
 
                         setSchedule(twoDArray);
-                        }
+                    }
 
 
                 });
@@ -118,8 +118,8 @@ export default function RSchedule(props) {
 
 
 
-        return(
-            <div>
+    return(
+        <div>
             <div className={classes.root}>
                 <SideBar/>
                 <main className={classes.content}>
@@ -140,13 +140,6 @@ export default function RSchedule(props) {
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {schedule.map( (exacttime) =>
-                                                 <TableRow>
-                                                     {exacttime.map( (exactvalue) => exactvalue === "true" ?
-                                                        <TableCell>Working</TableCell> :
-                                                        <TableCell>{exactvalue}</TableCell> )}
-                                                 </TableRow>
-                                            )}
                                         </TableBody>
                                     </Table>
                                 </Paper>
@@ -161,8 +154,8 @@ export default function RSchedule(props) {
                     </Link>
                 </main>
             </div>
-            </div>
+        </div>
 
-        )
+    )
 }
 

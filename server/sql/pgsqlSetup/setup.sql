@@ -13,3 +13,4 @@
 \i ./procedures/riders/getDetailedOrders.sql
 \i ./procedures/riders/checkIfRiderDriving.sql
 \i ./procedures/riders/updateDeliveryTime.sql
+\i ./procedures/riders/getFilteredDeliveries.sql
