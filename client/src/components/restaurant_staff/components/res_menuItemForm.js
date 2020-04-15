@@ -140,7 +140,7 @@ export default function RMenuItemEdit(props) {
       <div className="menuEditForm">
         {isAdd?
           <div>
-            <Header as='h2' dividing={true} textAlgin="center" style={{ paddingTop: '1em', paddingBottom: '1em', display: 'flex', justifyContent: 'center'}}>Add a new food item</Header>
+            <Header as='h2' dividing={true} textAlign="center" style={{ paddingTop: '1em', paddingBottom: '1em', display: 'flex', justifyContent: 'center'}}>Add a new food item</Header>
           </div>
         : <div>
             <Header as='h2' dividing={true} textAlign='center' style={{ paddingTop: '1em', paddingBottom: '1em' ,display: 'flex', justifyContent: 'center'}}>Edit food item: {name}</Header>
@@ -149,18 +149,18 @@ export default function RMenuItemEdit(props) {
         <div className="container" style={{ paddingTop: '1.5em' }}>
           <Form error>
             <Form.Group widths='equal'>
-              <Form.Field label='Food name' control='input'
+              <Form.Field required label='Food name' control='input'
                 defaultValue={name} placeholder='food name here'
                 onChange={ e => setName(e.target.value) } />
-              <Form.Field label='Price ($)' control='input'
+              <Form.Field required label='Price ($)' control='input'
                 defaultValue={price} placeholder='omit $'
                 onChange={ e => setPrice(e.target.value) } />
-              <Form.Field label='Daily qty available' control='input'
+              <Form.Field required label='Daily qty available' control='input'
                 defaultValue={daily_limit} placeholder='daily limit'
                 onChange={ e => setLimit(e.target.value) } />
             </Form.Group>
             <Form.Group widths='equal'>
-              <Form.Field label='Food category' control='select'
+              <Form.Field required label='Food category' control='select'
                 defaultValue={category == null ? "Others" : category}
                 onChange={ e => setCategory(e.target.value) } >
                 {foodCategories.map( c => (

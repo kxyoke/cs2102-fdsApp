@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 
-import { Tab, Pagination } from 'semantic-ui-react'
+import { Tab, Pagination, Loader } from 'semantic-ui-react'
 import FoodItemCardGroup from './utils/FoodItemCards'
 
 import axios from 'axios'
@@ -155,7 +155,7 @@ export default function RMenu(props) {
     return (
       <div>
         {isLoading?
-        <p>Halo plz wait</p>
+        <Loader active />
         : 
         <div>
           <Tab panes={makePanes()} onTabChange={ (e,tab) => changeTabToIdx(tab.activeIndex) } />

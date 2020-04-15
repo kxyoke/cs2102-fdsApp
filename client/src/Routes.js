@@ -27,6 +27,7 @@ import ResReview from './components/restaurant_staff/pages/review';
 import ResMenu from './components/restaurant_staff/pages/menu';
 import ResMenuEdit from './components/restaurant_staff/pages/menuForm';
 import ResPromo from './components/restaurant_staff/pages/promo';
+import ResPromoEdit from './components/restaurant_staff/pages/promoForm';
 import ResOrder from './components/restaurant_staff/pages/order';
 
 import LoginHome from './components/login/home_before_login';
@@ -52,7 +53,8 @@ export default function Routes() {
             
             <Route path='/restaurant/profile' component={WithResStaffAuth(ResProfile)}/>
             <Route path='/restaurant/reviews' component={WithResStaffAuth(ResReview)}/>
-            <Route path='/restaurant/promos' component={WithResStaffAuth(ResPromo)}/>
+            <Route exact path='/restaurant/promos' component={WithResStaffAuth(ResPromo)}/>
+            <Route path='/restaurant/promos/edit' component={WithResStaffAuth(ResPromoEdit)}/>
             <Route exact path='/restaurant/menu' component={WithResStaffAuth(ResMenu)}/>
             <Route path='/restaurant/menu/edit' component={WithResStaffAuth(ResMenuEdit)}/>
             <Route path='/restaurant/orders' component={WithResStaffAuth(ResOrder)}/>
