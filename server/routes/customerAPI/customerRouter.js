@@ -4,7 +4,7 @@ var cRouter = express.Router()
 //cart
 const viewCart = require('./methods/viewCart')
 const addCartItem = require('./methods/addCartItem')
-const deleteCartItem = require('./methods/deleteCartItems')
+const updateCartItem = require('./methods/updateCartItemQty')
 const emptyCart = require('./methods/emptyCart')
 
 //restaurant
@@ -30,7 +30,13 @@ cRouter.route('/review')
 
 cRouter.route('/cart')
     .get(viewCart)
-    .post(addCartItem);
+    .post(updateCartItem);
+    
+cRouter.post('/cart/add/',
+        addCartItem)
+
+
+    
 
 // cRouter.route('/cart/:cid/:cartItemId')
 //         .post()

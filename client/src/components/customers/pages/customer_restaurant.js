@@ -10,12 +10,9 @@ export default function RestaurantMenu(props) {
     const [menuItem, setMenuItem] = useState([]);
     useEffect( ()=> {
         const fetchData = async () => {
-        console.log(props);
         await axios.get(url)
             .then(res=> {
-                console.log(res.data);
                 if(res.data.length > 0) {
-
                 setShow(true);
                 setMenuItem(res.data);
                 }
@@ -30,12 +27,15 @@ export default function RestaurantMenu(props) {
         <div>
         <Header></Header>
         <div class="container">
+        <h1 class="center">
+            {rname}
+        </h1>
         {show?
        
         <ul class="list-unstyled">
   
         {menuItem.map(e=><li class="d-inline border  table-cell">
-        <MenuItem foodItem={e}/>
+        <MenuItem foodItem={e} res_id={res_id}/>
         </li>)}
         </ul>
         

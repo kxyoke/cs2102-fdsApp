@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import Axios from 'axios';
 
 export default function MenuItem (props) {
     const {food_id, price, name, description} = props.foodItem;
@@ -11,6 +12,24 @@ export default function MenuItem (props) {
 
     function increment() {
         setQty(qty+1);
+    }
+
+    function addToCart() {
+      console.log("add to cart")
+      if (qty > 0) {
+        Axios.post('/api/customer/cart/add', 
+                  {food_id: food_id,
+                  res_id: props.res_id,
+                    qty: qty})
+            .then(res=> {
+              if(res.data) {
+                alert(res.data);
+              } else {
+                alert("added to the cart");
+              }
+            });
+          }
+
     }
      return (
        <React.Fragment>
@@ -44,7 +63,7 @@ export default function MenuItem (props) {
         </button> 
         </div>
         <div class ="col-3">
-        <button type="button" onClick={(e)=> console.log('Click')} class="btn btn-success" style={{display:"flex",float:'left'}}>Add To Cart</button>
+        <button type="button" onClick={addToCart} class="btn btn-success" style={{display:"flex",float:'left'}}>Add To Cart</button>
         </div>
       </div> 
       </div>  
