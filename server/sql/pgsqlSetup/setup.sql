@@ -2,6 +2,8 @@
 
 INSERT INTO FoodCategories(category) VALUES ('Others');
 
+\i ./views.sql
+
 \i ./function.sql
 \i ./procedures/addUsers.sql
 \i ./triggers.sql

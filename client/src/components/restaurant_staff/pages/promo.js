@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-import { Button } from 'semantic-ui-react'
-import Header from '../layouts/header';
+import { Button, Header } from 'semantic-ui-react'
+import ResHeader from '../layouts/header';
 
 import { useHistory } from 'react-router-dom'
 import PromoEdit from './promoForm'
+import PromoTable from '../components/utils/PromoCards'
 
 import runWithRid from './performWithRid'
-import ResUtils from '../components/utils/utils.js'
+import Utils from '../components/utils/utils'
 
 export default function ResPromo(props) {
     const history = useHistory()
@@ -52,13 +53,18 @@ export default function ResPromo(props) {
 
     return(
       <div className="ResPromo">
-        <Header/>
+        <ResHeader/>
         {show? 
         <div>
           <Button color='yellow' style={{ maginTop: '1em', marginBottom: '0.5em' }}
             onClick={e => segueToAddItem()}
             >Add a promo</Button>
-          <p>replace this para with my ttables when u done with add</p>
+          <Header as='h2'>Active promotions</Header>
+          <PromoTable activeStatus={Utils.PROMO_STATUS.active} promos={activePromos} />
+          <Header as='h2'>Future promotions</Header>
+          <PromoTable activeStatus={Utils.PROMO_STATUS.future} promos={futurePromos} />
+          <Header as='h2'>Past promotions</Header>
+          <PromoTable activeStatus={Utils.PROMO_STATUS.past} promos={pastPromos} />
         </div>
         : <div><p>loading</p></div>
         }

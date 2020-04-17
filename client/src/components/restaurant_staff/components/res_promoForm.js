@@ -35,21 +35,11 @@ export default function PromoForm(props) {
         require('assert').strict.equal(typed[0], 'DEFAULT')
         // TODO: promo extensions with other types.
 
-        let tokens = typed[1].split(';')
-        //min_amt;isAbsNot%;discount
-        var promoType = true;
-        if (tokens[1] == 'absolute') {
-            promoType = true
-        } else if (tokens[1] == 'percent') {
-            promoType = false
-        } else {
-            console.log('wtf is wrong wif my life')
-            console.log('original was ' + tokens[1])
-        }
+        let defaultProps = Utils.getDefaultPromoDescProps(desc)
 
-        setMinAmount(tokens[0])
-        setPromoType(promoType)
-        setDiscount(tokens[2])
+        setMinAmount(defaultProps.minAmount)
+        setPromoType(defaultProps.isAbs)
+        setDiscount(defaultProps.discount)
     }
 
     const [hasStartDateError, setHasStartDateError] = useState(false)
@@ -128,10 +118,9 @@ export default function PromoForm(props) {
         console.log("startdate is " + Utils.formatDateString(selectedStartDate))
         const isValid = validate()
         if (isValid) {
-            console.log("the wonderful desc is now: " + getCurrentDesc())
             const reqBody = {
                 pid: pid,
-                description: getCurrentDesc(),
+                description: Utils.getPromoDesc(minAmount, isAbsoluteNotPercent, discount2Decimal),
                 start_day: Utils.formatDateString(selectedStartDate),
                 end_day: Utils.formatDateString(selectedEndDate)
             }
@@ -159,10 +148,6 @@ export default function PromoForm(props) {
                     });
             }
         }
-    }
-
-    function getCurrentDesc() {
-        return 'DEFAULT:'+minAmount+';'+(isAbsoluteNotPercent? 'absolute' : 'percent')+';'+discount2Decimal
     }
 
     function returnToPromos() {

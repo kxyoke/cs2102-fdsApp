@@ -22,9 +22,13 @@ queries.get = {
     allOrders:
         `SELECT * FROM Orders WHERE res_id = $1`,
     allPromos: /*[res_id]*/
-        `SELECT * FROM Promotions WHERE res_id = $1 ORDER BY end_day ASC, start_day ASC`,
-    allCurrentOrFuturePromos: /*[res_id, now_timestamp]*/
-        `SELECT * FROM Promotions WHERE res_id = $1 AND end_day > $2 ORDER BY start_day ASC`
+        `SELECT * FROM PromotionsWithOrderStats WHERE res_id = $1 ORDER BY end_day ASC, start_day ASC`,
+    allCurrentPromos: /*[res_id, now_timestamp]*/
+        `SELECT * FROM PromotionsWithOrderStats WHERE res_id = $1 AND end_day >= $2 AND start_day <= $2 ORDER BY start_day ASC, end_day ASC`,
+    allFuturePromos:
+        `SELECT * FROM PromotionsWithOrderStats WHERE res_id = $1 AND end_day > $2 AND start_day > $2 ORDER BY start_day ASC, end_day ASC`,
+    allPastPromos:
+        `SELECT * FROM PromotionsWithOrderStats WHERE res_id = $1 AND end_day < $2 AND start_day < $2 ORDER BY end_day DESC`
 }
 
 queries.update = {

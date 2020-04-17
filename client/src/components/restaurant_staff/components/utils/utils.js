@@ -25,8 +25,33 @@ const utils = {
         console.log("date parsed as: " + formattedString)
 
         return formattedString;
-    }
+    },
 
+    getPromoDesc: (minAmount, isAbsoluteNotPercent, discount2Decimal) => {
+        return 'DEFAULT:'+minAmount+';'+(isAbsoluteNotPercent? 'absolute' : 'percent')+';'+discount2Decimal
+    },
+
+    getDefaultPromoDescProps: (fulldesc) => {
+        let typed = fulldesc.split('|')
+
+        let tokens = typed[1].split(';')
+        //min_amt;isAbsNot%;discount
+        var promoType = true;
+        if (tokens[1] == 'absolute') {
+            promoType = true
+        } else if (tokens[1] == 'percent') {
+            promoType = false
+        } else {
+            console.log('wtf is wrong wif my life')
+            console.log('original was ' + tokens[1])
+        }
+
+        return {
+            minAmount: tokens[0],
+            isAbs: promoType,
+            discount: tokens[2]
+        }
+    },
 
 }
 
