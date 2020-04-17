@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Button, Container, Divider, Header, Message, Form, Input } from 'semantic-ui-react'
 
+import Utils from './utils/utils'
 import axios from 'axios'
 
 export default function RMenuItemEdit(props) {
@@ -51,8 +52,8 @@ export default function RMenuItemEdit(props) {
     }, [newCategory])
 
     function validate(withCat) {
-        const currencyRegex = /^[0-9]\d*(?:(\.\d{0,2})?)$/;
-        const positiveIntRegex = /^[1-9]\d*$/;
+        const currencyRegex = Utils.currencyRegex;
+        const positiveIntRegex = Utils.positiveIntRegex;
 
         if (newName == '') {
             setErrorMsg('Food name should not be empty!')
