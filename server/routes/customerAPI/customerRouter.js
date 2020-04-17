@@ -5,7 +5,7 @@ var cRouter = express.Router()
 const viewCart = require('./methods/viewCart')
 const addCartItem = require('./methods/addCartItem')
 const updateCartItem = require('./methods/updateCartItemQty')
-const emptyCart = require('./methods/emptyCart')
+
 
 //restaurant
 const getResList = require('./methods/getResList')
@@ -16,6 +16,7 @@ const getCProfile = require('./methods/getCProfile')
 const updateCProfile = require('./methods/updateCProfile')
 const getAddresses = require('./methods/getAddresses')
 const updateAddress = require('./methods/updateAddress')
+const deleteAddress = require('./methods/deleteAddress')
 const getCardInfo = require('./methods/getCardInfo')
 const getCoupons = require('./methods/getCoupons')
 const getPastOrders = require('./methods/getPastOrder')
@@ -51,6 +52,7 @@ cRouter.route('/profile')
 cRouter.route('/address')
         .get(getAddresses)
         .post(updateAddress);
+cRouter.post('/address/delete', deleteAddress)      
 cRouter.route('/card')
         .get(getCardInfo);
 

@@ -12,7 +12,9 @@ customer.queries = {
     update_cart:'UPDATE cartItems SET qty=$3 WHERE usr_id =$1 AND food_id = $2'
 }
 customer.function = {
-    add_cart: "call addCartItem($1,$2,$3,$4)"
+    add_cart: "call addCartItem($1,$2,$3,$4)",
+    update_address:"call updateAddress($1, $2,$3)",
+    delete_address:"call deleteAddress($1, $2)"
 }
 
 module.exports = customer;

@@ -7,6 +7,9 @@ export default function CAddress (props) {
     const [address, setAddress] = useState([]);
     const [show, setShow] = useState(false);
 
+   
+    
+
     useEffect(() => {
         const fetchData = async () => {
             await Axios.get('/api/customer/address')
@@ -39,7 +42,7 @@ export default function CAddress (props) {
                 <tbody>
                     {address.map(cp=> 
                         
-                        <AddressItem address={cp}/>
+                        <AddressItem address={cp} props={props}/>
                         
                     )}
                     
