@@ -32,7 +32,7 @@ const utils = {
     },
 
     getDefaultPromoDescProps: (fulldesc) => {
-        let typed = fulldesc.split('|')
+        let typed = fulldesc.split(':')
 
         let tokens = typed[1].split(';')
         //min_amt;isAbsNot%;discount
@@ -51,6 +51,13 @@ const utils = {
             isAbs: promoType,
             discount: tokens[2]
         }
+    },
+
+    getPrettyPromoDesc: (minAmount, isAbsoluteNotPercent, discount2Decimal) => {
+        return 'Min spending of $'+minAmount+' to get '
+            + (isAbsoluteNotPercent? "$" : "")
+            + discount2Decimal + (isAbsoluteNotPercent? "" : "%" )
+            + ' discount off.'
     },
 
 }

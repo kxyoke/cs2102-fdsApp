@@ -1,10 +1,23 @@
 import React from 'react'
 import Utils from './utils'
+import { useHistory } from 'react-router-dom'
 
-import { Table } from 'semantic-ui-react'
+import { Table, Button } from 'semantic-ui-react'
 
 export default function PromoTable(props) {
+    const history = useHistory()
+
     const { activeStatus, promos } = props
+
+    function segueToEdit(promo) {
+        history.push({
+            pathname: '/restaurant/promos/edit',
+            state: {
+                isAdd: false,
+                promo: promo
+            }
+        })
+    }
 
     const tableColor = () => {
         switch (activeStatus) {
@@ -23,6 +36,7 @@ export default function PromoTable(props) {
         <Table color={tableColor()} key={tableColor()}>
           <Table.Header>
             <Table.Row>
+              <Table.HeaderCell/>
               <Table.HeaderCell>Promo Id</Table.HeaderCell>
               <Table.HeaderCell>Start Date</Table.HeaderCell>
               <Table.HeaderCell>End Date</Table.HeaderCell>
@@ -34,7 +48,7 @@ export default function PromoTable(props) {
 
           <Table.Body>
             {promos.map( promo => (
-                <PromoTableRow promo={promo} />
+                <PromoTableRow promo={promo} editHandler={e => segueToEdit(promo)} />
             ))}
           </Table.Body>
         </Table>
@@ -43,22 +57,25 @@ export default function PromoTable(props) {
 
 function PromoTableRow(props) {
     const { pid, start_day, end_day, description, num_orders } = props.promo;
-    const today = Date()
-    let numDaysActive = today < Date(start_day)
+    const { editHandler } = props
+
+    const today = new Date()
+    let numDaysActive = today < new Date(start_day)
         ? 0
-        : today > Date(end_day)
+        : today > new Date(end_day)
             ? 0
-            : (today.getTime() - start_day.getTime()) / (1000 * 3600 * 24);
+            : Math.ceil(Math.abs(today - new Date(start_day)) / (1000 * 3600 * 24));
     let aveOrders = num_orders / numDaysActive;
 
-    let descProps = Utils.getDefaultPromoDescriptionProps(description)
-    let promoDesc = Utils.getPromoDesc(descProps.minAmount, descProps.isAbs, descProps.discount)
+    let descProps = Utils.getDefaultPromoDescProps(description)
+    let promoDesc = Utils.getPrettyPromoDesc(descProps.minAmount, descProps.isAbs, descProps.discount)
 
     return (
       <Table.Row>
+        <Table.Cell><Button color='olive' onClick={editHandler}>Edit</Button></Table.Cell>
         <Table.Cell>{pid}</Table.Cell>
-        <Table.Cell>{start_day}</Table.Cell>
-        <Table.Cell>{end_day}</Table.Cell>
+        <Table.Cell>{new Date(start_day).toLocaleString()}</Table.Cell>
+        <Table.Cell>{new Date(end_day).toLocaleString()}</Table.Cell>
         <Table.Cell>{promoDesc}</Table.Cell>
         <Table.Cell>{numDaysActive}</Table.Cell>
         <Table.Cell>{aveOrders}</Table.Cell>

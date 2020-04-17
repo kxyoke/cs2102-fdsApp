@@ -27,18 +27,44 @@ export default function ResPromo(props) {
            setRid(rid);
            setShow(true);
            //TODO add other axios requests to crawl the various promos.
-           reloadActivePromos()
-           reloadFuturePromos()
-           reloadPastPromos()
+           reloadActivePromos(rid)
+           reloadFuturePromos(rid)
+           reloadPastPromos(rid)
        });
     }, [])
 
-    function reloadActivePromos() {
-
+    function reloadActivePromos(rid) {
+        axios.get('/api/restaurant/promos/active/' + rid)
+            .then(res => {
+                if (res.status == 200) {
+                    setActivePromos(res.data)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            });
     }
-    function reloadFuturePromos() {
+    function reloadFuturePromos(rid) {
+        axios.get('/api/restaurant/promos/future/' + rid)
+            .then(res => {
+                if (res.status == 200) {
+                    setFuturePromos(res.data)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            });
     }
-    function reloadPastPromos() {
+    function reloadPastPromos(rid) {
+        axios.get('/api/restaurant/promos/past/' + rid)
+            .then(res => {
+                if (res.status == 200) {
+                    setPastPromos(res.data)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            });
     }
 
     function segueToAddItem() {
@@ -55,8 +81,8 @@ export default function ResPromo(props) {
       <div className="ResPromo">
         <ResHeader/>
         {show? 
-        <div>
-          <Button color='yellow' style={{ maginTop: '1em', marginBottom: '0.5em' }}
+        <div className='container'>
+          <Button color='yellow' style={{ maginTop: '5em', marginBottom: '0.5em' }}
             onClick={e => segueToAddItem()}
             >Add a promo</Button>
           <Header as='h2'>Active promotions</Header>

@@ -24,14 +24,14 @@ export default function PromoForm(props) {
     
     useEffect(() => {
         if (!isAdd) {
-            setStartDate(start_day)
-            setEndDate(end_day)
+            setStartDate(new Date(start_day))
+            setEndDate(new Date(end_day))
             setDescription(description)
         }
     }, [props])
 
     function setDescription(desc) {
-        let typed = desc.split('|')
+        let typed = desc.split(':')
         require('assert').strict.equal(typed[0], 'DEFAULT')
         // TODO: promo extensions with other types.
 

@@ -20,6 +20,10 @@ const getRestaurantPromos = require('./methods/getPromos');
 const addRestaurantPromo = require('./methods/addPromo');
 const updateRestaurantPromo = require('./methods/updatePromo');
 
+const getActiveRPromos = require('./methods/getActivePromos');
+const getFutureRPromos = require('./methods/getFuturePromos');
+const getPastRPromos = require('./methods/getPastPromos');
+
 rRouter.route('/')
     .get(retrieveStaffIdAndRid);
 
@@ -54,11 +58,18 @@ rRouter.route('/reviews/:rid')
 rRouter.route('/orders/:rid')
     .get(getRestaurantOrders);
 
-rRouter.route('/promos/:rid')
+rRouter.route('/promos/all/:rid')
     .get(getRestaurantPromos)
     .post(addRestaurantPromo);
 
-rRouter.route('/promos/:rid/:pid')
+rRouter.route('/promos/active/:rid')
+    .get(getActiveRPromos);
+rRouter.route('/promos/future/:rid')
+    .get(getFutureRPromos);
+rRouter.route('/promos/past/:rid')
+    .get(getPastRPromos);
+
+rRouter.route('/promos/specific/:rid/:pid')
     .put(updateRestaurantPromo);
 
 module.exports = rRouter;
