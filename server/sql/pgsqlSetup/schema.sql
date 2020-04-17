@@ -176,6 +176,10 @@ CREATE TABLE Promotions (
     CONSTRAINT res_id_notnull_if_type  CHECK (
         (promotype = 'RES' AND res_id IS NOT NULL)
         OR (promotype = 'FDS' AND res_id IS NULL)
+    ),
+    CONSTRAINT res_promo_default_format CHECK(
+        description NOT LIKE 'DEFAULT:%'
+        OR description SIMILAR TO 'DEFAULT:([1-9]*[0-9]+(\.[0-9]{0,2})?);(absolute|percent);([1-9]*[0-9]+(\.[0-9]{0,2})?)'
     )
 );
 
