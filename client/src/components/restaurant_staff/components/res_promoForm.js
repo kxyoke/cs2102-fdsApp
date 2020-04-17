@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import axios from 'axios'
 import Utils from './utils/utils'
 
@@ -6,6 +7,8 @@ import { Form, Button, Message, Header } from 'semantic-ui-react'
 import DatetimePicker from './utils/DatetimePicker'
 
 export default function PromoForm(props) {
+    const history = useHistory();
+
     const today = new Date()
     const tomorrow = new Date(today)
     tomorrow.setDate(tomorrow.getDate() + 1)
@@ -102,17 +105,20 @@ export default function PromoForm(props) {
                 content: 'Valid and up to 2 decimals without the $ please!'
             })
             setHasDiscountError(true)
+            return false
         } else if (isAbsoluteNotPercent && discount2Decimal > minAmount) {
             setDiscountError({
                 content: 'Are you sure you want to give them more discount than spent?'
             })
             setHasDiscountError(true)
+            return false;
         } else if (!isAbsoluteNotPercent && 
             (discount2Decimal > 100 || discount2Decimal < 0)) {
             setDiscountError({
                 content: 'Check your percentage discount!'
             })
             setHasDiscountError(true)
+            return false;
         }
         
         return true
@@ -121,9 +127,47 @@ export default function PromoForm(props) {
     function submitForm(e) {
         console.log("startdate is " + Utils.formatDateString(selectedStartDate))
         const isValid = validate()
-        
+        if (isValid) {
+            console.log("the wonderful desc is now: " + getCurrentDesc())
+            const reqBody = {
+                pid: pid,
+                description: getCurrentDesc(),
+                start_day: Utils.formatDateString(selectedStartDate),
+                end_day: Utils.formatDateString(selectedEndDate)
+            }
+            console.log(JSON.stringify(reqBody))
+
+            if (isAdd) {
+                axios.post('/api/restaurant/promos/' + res_id, reqBody)
+                    .then(res => {
+                        if (res.status == 200) {
+                            returnToPromos()
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    });
+            } else {
+                axios.put('/api/restaurant/promos/' + res_id + '/' + pid, reqBody)
+                    .then(res => {
+                        if (res.status == 200) {
+                            returnToPromos()
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    });
+            }
+        }
     }
 
+    function getCurrentDesc() {
+        return 'DEFAULT:'+minAmount+';'+(isAbsoluteNotPercent? 'absolute' : 'percent')+';'+discount2Decimal
+    }
+
+    function returnToPromos() {
+        history.push('/restaurant/promos')
+    }
 
     return (
       <div>
