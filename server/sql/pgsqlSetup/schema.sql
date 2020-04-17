@@ -168,15 +168,21 @@ CREATE TABLE Promotions (
     pid             TEXT PRIMARY KEY,
     promotype       VARCHAR(255) NOT NULL
                             CHECK(promotype in('FDS', 'RES')),
-    res_id          TEXT DEFAULT NULL,
     description     TEXT NOT NULL,
     start_day       TIMESTAMP NOT NULL,
     end_day         TIMESTAMP NOT NULL,
-    FOREIGN KEY(res_id) REFERENCES Restaurants,
-    CONSTRAINT res_id_notnull_if_type  CHECK (
-        (promotype = 'RES' AND res_id IS NOT NULL)
-        OR (promotype = 'FDS' AND res_id IS NULL)
-    )
+);
+
+CREATE TABLE ResPromotions (
+    pid             TEXT PRIMARY KEY,
+    res_id          TEXT NOT NULL,
+    min_amount      NUMERIC NOT NULL CHECK(min_amount >= 0),
+    discountType    TEXT NOT NULL CHECK(discountType in ('absolute', 'percent')),
+    discountValue   NUMERIC NOT NULL CHECK(discountValue >= 0),
+    CONSTRAINT resPromos_fkey FOREIGN KEY (pid) REFERENCES Promotions 
+                            DEFERRABLE INITIALLY IMMEDIATE
+                            ON DELETE CASCADE,
+    FOREIGN KEY(res_id) REFERENCES Restaurants ON DELETE CASCADE
 );
 
 
