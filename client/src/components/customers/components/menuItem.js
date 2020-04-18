@@ -33,6 +33,7 @@ export default function MenuItem (props) {
     }
      return (
        <React.Fragment>
+       <li class="d-inline border  table-cell" >
        <div class="border  border-secondary" >
         <div class="media w-100 h-25 ">
         <img src="/assets/noImage.png" class="mr-3" alt="..."/>
@@ -57,7 +58,7 @@ export default function MenuItem (props) {
         <button  className="quantity-input__modifier quantity-input__modifier--left" onClick={decrement}>
           &mdash;
         </button>
-        <input className="quantity-input__screen" type="text" value={qty} readonly />
+        <input className="quantity-input__screen" type="text" value={qty} readOnly />
         <button className="quantity-input__modifier quantity-input__modifier--right" onClick={increment}>
           &#xff0b;
         </button> 
@@ -71,6 +72,7 @@ export default function MenuItem (props) {
         </div>
       </div>
       </div>
+      </li>
       </React.Fragment>
      )
 }

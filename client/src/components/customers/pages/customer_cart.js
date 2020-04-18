@@ -1,4 +1,4 @@
-import React ,{useReducer, useState, useEffect} from 'react';
+import React ,{useState, useEffect} from 'react';
 import CartItem from "../components/cartItem";
 import Header from '../layout/header';
 import Axios from 'axios';
@@ -13,7 +13,14 @@ export default function CCart(props) {
         
     }
     function updateTotal(update) {
+        const ct = total + update;
+        if(ct === 0 ) {
+            setTotal(0);
+        } else {
+
+        
         setTotal(roundToTwo(total+update));
+        }
     }
 
     console.log(props.history);

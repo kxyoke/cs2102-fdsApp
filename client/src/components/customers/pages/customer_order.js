@@ -11,7 +11,6 @@ export default function COrder(props) {
             await axios.get('/api/customer/order')
             .then (res => {
                 if(res.data.length > 0) {
-                    console.log(res.data);
                     setPastOrders(res.data);
                     setShow(true);
                 }
@@ -30,17 +29,17 @@ export default function COrder(props) {
             <p> </p>
              {show?
                 <div class ="row justify-content-md-center" className="MyReviews">
-                <table class="table">
-                    <thread class ="thead-dark">
+                <ul class="table">
+                    
                     
                     {pastOrders.map(re => 
                         
-                        <OrderItem order={re}/>
+                        <OrderItem key={re.order_id} order={re}/>
                         
                     )}
                    
-                    </thread>
-                </table>
+                    
+                </ul>
             </div>
              : 
              <div class ="mx-auto" style={{width:"350px"}}>

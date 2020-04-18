@@ -11,7 +11,7 @@ module.exports =  (req, res, next) => {
             console.log(err.message)
             return res.send(err.message)
         } else {
-            res.sendStatus(200);
+            res.send("Added to cart");
         }
     })
 

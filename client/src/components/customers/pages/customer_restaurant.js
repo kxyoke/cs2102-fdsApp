@@ -21,7 +21,7 @@ export default function RestaurantMenu(props) {
         };
         fetchData()
         
-    }, [])
+    }, [url])
 
     return (
         <div>
@@ -34,9 +34,9 @@ export default function RestaurantMenu(props) {
        
         <ul class="list-unstyled">
   
-        {menuItem.map(e=><li class="d-inline border  table-cell">
-        <MenuItem foodItem={e} res_id={res_id}/>
-        </li>)}
+        {menuItem.map((e, i)=>
+        <MenuItem key ={i} foodItem={e} res_id={res_id}/>
+        )}
         </ul>
         
         :<div class ="mx-auto" style={{width:"350px"}}>

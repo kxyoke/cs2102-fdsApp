@@ -1,7 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Link, Redirect,
-        useRouteMatch, useParams 
-} from 'react-router-dom';
+import { Route, Switch} from 'react-router-dom';
 import WithCustomerAuth from './tool/withCustomerAuth';
 import WithRiderAuth from './tool/withRiderAuth';
 import WithResStaffAuth from './tool/withResStaff'
