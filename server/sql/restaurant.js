@@ -11,8 +11,8 @@ queries.get = {
         `SELECT category FROM FoodCategories ORDER BY category ASC`,
     rFoodCategories: /*[res_id]*/
         `SELECT DISTINCT category FROM FoodItems NATURAL JOIN MenuItems WHERE res_id = $1 ORDER BY category ASC`,
-    foodItem: /*[food_id]*/
-        `SELECT * FROM MenuItems NATURAL JOIN FoodItems WHERE food_id = $1`,
+    foodItems: /*[[food_id]]*/
+        `SELECT * FROM MenuItems NATURAL JOIN FoodItems WHERE food_id = ANY($1)`,
     allReviews: /*[res_id]*/
         `SELECT order_id, usr_id, listOfItems, food_rev, delivery_rating FROM Reviews NATURAL JOIN Orders WHERE res_id = $1 ORDER BY delivery_rating DESC`,
     allIncompleteOrders: /*[res_id]*/
