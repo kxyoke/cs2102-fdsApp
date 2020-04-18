@@ -33,3 +33,12 @@ BEGIN
     AND address = old_address;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE PROCEDURE updateCard(u_id VARCHAR(255), card INTEGER)
+AS $$
+BEGIN
+    UPDATE Customers
+    SET card_num = card
+    WHERE usr_id = u_id;
+END;
+$$ LANGUAGE plpgsql;

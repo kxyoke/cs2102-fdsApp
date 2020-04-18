@@ -14,7 +14,8 @@ customer.queries = {
 customer.function = {
     add_cart: "call addCartItem($1,$2,$3,$4)",
     update_address:"call updateAddress($1, $2,$3)",
-    delete_address:"call deleteAddress($1, $2)"
+    delete_address:"call deleteAddress($1, $2)",
+    update_card:"call updateCard($1, $2)",
 }
 
 module.exports = customer;

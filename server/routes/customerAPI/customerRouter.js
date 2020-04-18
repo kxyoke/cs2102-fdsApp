@@ -14,6 +14,7 @@ const getResMenu = require('./methods/getRestMenu')
 //customer
 const getCProfile = require('./methods/getCProfile')
 const updateCProfile = require('./methods/updateCProfile')
+const deleteAccount = require('./methods/deleteAccount')
 const getAddresses = require('./methods/getAddresses')
 const updateAddress = require('./methods/updateAddress')
 const deleteAddress = require('./methods/deleteAddress')
@@ -47,8 +48,8 @@ cRouter.get('/menu/:rid', getResMenu);
 
 cRouter.route('/profile')
         .get(getCProfile)
-        .put(updateCProfile);
-
+        .post(updateCProfile);
+cRouter.post('/delete', deleteAccount);
 cRouter.route('/address')
         .get(getAddresses)
         .post(updateAddress);

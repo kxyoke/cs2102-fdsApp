@@ -141,7 +141,7 @@ CREATE TABLE Orders (
     listOfItems    TEXT[][] NOT NULL,
     status         VARCHAR(20) NOT NULL 
                              CHECK (status in('pending', 'in progress', 'complete')),
-    FOREIGN KEY(usr_id) REFERENCES Customers,
+    FOREIGN KEY(usr_id) REFERENCES Customers ON DELETE CASCADE,
     FOREIGN KEY(res_id) REFERENCES Restaurants
 );
 
