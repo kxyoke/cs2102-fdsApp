@@ -5,22 +5,31 @@ import { Form,Button, FormGroup,FormControl, ControlLabel } from "react-bootstra
 import axios from "axios";
 export default function CustomerEditAddress(props) {
     const [address, setAddress] = useState('');
-    const {oldAddress} = props.location.state;
+    const {oldAddress, action} = props.location.state;
+    const [isUpdate, setIsUpdate] = useState(true);
     useState(()=> {
-        if(oldAddress !== undefined) {
+        if(oldAddress !== undefined && action === 'update') {
             setAddress(oldAddress);
+        }else if(oldAddress !== undefined && action === 'add') {
+            setIsUpdate(false);
         } else {
             props.history.goBack();
         }
     })
 
     function validateForm() {
-        return address.length>0 && oldAddress !== address;
+        switch (action) {
+            case "add":
+                return address.length>0; 
+            default :
+                return address.length>0 && oldAddress !== address.trim();
+        }
+        
     }
 
      function handleSubmit(event) {
         event.preventDefault();
-        axios.post('/api/customer/address', {oldAddress:oldAddress, newAddress:address})
+        axios.post('/api/customer/address', {oldAddress:oldAddress, newAddress:address.trim()})
             .then(res=> {
                 if(res.status!==200) {
                 alert(res.data);
@@ -69,10 +78,15 @@ export default function CustomerEditAddress(props) {
         
         <div className="SignUp">
           <Form onSubmit={handleSubmit}>
-              <form>
+              
                 <div>
                 <FormGroup controlId="address" bsSize="large">
-                <ControlLabel>address</ControlLabel>
+                {isUpdate? 
+                    <ControlLabel>Edit Address :</ControlLabel>
+                :
+                    <ControlLabel>Add New Address :</ControlLabel>
+                }
+                
                   <FormControl
                     value={address}
                     onChange={e => {
@@ -81,19 +95,26 @@ export default function CustomerEditAddress(props) {
                 />
                 </FormGroup>
                 </div>
-              </form>
+              
               <div className="well" style={wellStyles}>
-            
+            {isUpdate?
               <Button block bsStyle="success" disabled={!validateForm()} type="submit">
                 Edit
               </Button>
+              : 
+              <Button block bsStyle="success" disabled={!validateForm()} type="submit">
+                Add
+              </Button>
+            }
             </div>
           </Form>
-          <div className="well" style={wellStyles}>
-          <Button block bsStyle="danger" onClick={deleteBox}>
-                Delete
-              </Button>
-              </div>
+          {isUpdate? 
+            <div className="well" style={wellStyles}>
+                <Button block bsStyle="danger" onClick={deleteBox}>
+                    Delete
+                </Button>
+            </div>
+            : null}
            
         </div>
        
