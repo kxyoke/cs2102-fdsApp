@@ -10,8 +10,10 @@ module.exports = (req, res) => {
     log.info('Querying rMenuItems from list')
     //const rid = req.params.rid;
     const fids = req.params.fid;
+    const formattedFidArray = '{' + fids.slice(1,-1) + '}'
+    console.log(formattedFidArray)
 
-    pool.query(rsql.get.foodItem, [fids],
+    pool.query(rsql.get.foodItems, [formattedFidArray],
         (q_err, q_res) => {
             if (q_err) {
                 throw q_err;

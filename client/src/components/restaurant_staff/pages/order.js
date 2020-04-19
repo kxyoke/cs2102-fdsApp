@@ -3,6 +3,7 @@ import MyHeader from '../layouts/header';
 import { Header, Tab, Pagination } from 'semantic-ui-react'
 
 import axios from 'axios'
+import runWithRid from './performWithRid'
 import OrdersTable from '../components/utils/OrdersTable'
 
 export default function ResOrder(props) {
@@ -16,15 +17,13 @@ export default function ResOrder(props) {
                 <Tab.Pane>
                   <OrdersTable orders={ordersToShow.map( 
                     addSetPreparedHandlerToOrder
-                  )}
-                    isCurrent={true} />
+                  )} />
                 </Tab.Pane>
         }, {
             menuItem: tabs[1],
             render: () => 
                 <Tab.Pane>
-                  <OrdersTable orders={ordersToShow}
-                    isCurrent={false} />
+                  <OrdersTable orders={ordersToShow} />
                 </Tab.Pane>
         }]
         return panes
@@ -69,7 +68,7 @@ export default function ResOrder(props) {
         const startIncl = (pageNum - 1) * numOrdersPerPage
         const endExcl = pageNum * numOrdersPerPage
         setOrdersToShow(currentTabItems.slice(startIncl, endExcl))
-    }, [pageNum])
+    }, [pageNum, currentTabItems])
 
     useEffect(() => {
         setPageNum(1)
@@ -84,6 +83,7 @@ export default function ResOrder(props) {
         order.setPreparedHandler = (e) => {
             console.log("TODO: write to orders table that i am done")
             //TODO: axios put
+            //axios.put('/api/restaurant/
             //TODO: move order from incomplete to complete
             // should be let updated = incompleteOrders.filter( ... ); set
             // then __ = the added (idt can push cus same entity); set.
