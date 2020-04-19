@@ -14,3 +14,6 @@
 \i ./procedures/riders/checkIfRiderDriving.sql
 \i ./procedures/riders/updateDeliveryTime.sql
 \i ./procedures/riders/getFilteredDeliveries.sql
+\i ./procedures/riders/editPTRiderSchedule.sql
+\i ./procedures/riders/getFilteredWorkingHours.sql
+\i ./procedures/riders/getRiderSalary.sql

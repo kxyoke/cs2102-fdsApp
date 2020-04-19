@@ -55,7 +55,9 @@ export default function RSummary(props) {
     const [filter, setFilter] = useState([0,0,0,0]);
     const [deliveriesCount, setDeliveriesCount] = useState(0);
     const [deliveries, setDeliveries] = useState([]);
-    const [salary, setSalary] = useState([]);
+    const [salary, setSalary] = useState(0);
+    const [workingHours, setWorkingHours] = useState(0);
+    const [deliveryFee, setDeliveryFee] = useState(0);
 
     const months = [
         {value: "0", label: 'Select the month'},
@@ -106,22 +108,37 @@ export default function RSummary(props) {
                         if(res.data.length > 0) {
                             setDeliveriesCount(res.data.length);
                             setDeliveries(res.data);
+                            var initialDeliveryFee = 0;
+                            for (var i = 0; i < res.data.length; i++) {
+                                initialDeliveryFee = initialDeliveryFee + res.data[i].getfiltereddeliveries.delivery_fee;
+                            }
+                            setDeliveryFee(initialDeliveryFee);
+                            console.log(initialDeliveryFee);
                         }
                 });
             };
             const fetchDataSalary = async () => {
-                await axios.get(urlSalary, {
+                await axios.get(urlSalary)
+                    .then(res=> {
+                        if(res.data.length > 0) {
+                            setSalary(res.data[0].getridersalary);
+                        }
+                    });
+            };
+            const fetchWorkingHours = async () => {
+                await axios.get(urlHours, {
                     params: {
                         filter: filter
                     }
                 }).then(res=> {
                     if(res.data.length > 0) {
-                        setSalary(res.data);
-                        console.log(res.data);
+                        setWorkingHours(res.data[0].getfilteredworkinghours);
                     }
                 });
             };
-            fetchDataDelivery()
+            fetchDataDelivery();
+            fetchDataSalary();
+            fetchWorkingHours();
         }
 
     }
@@ -187,20 +204,22 @@ export default function RSummary(props) {
                                     </Form>
                                 <Paper className={classes.paper}>
                                     <h2>Total Deliveries within this Period: {deliveriesCount}</h2>
+                                    <h2>Total Delivery Fee earned within this period: {deliveryFee}</h2>
                                     <Table size="lg">
                                         <TableHead>
                                             <TableRow>
                                                 <TableCell>Order ID</TableCell>
                                                 <TableCell>Order Time</TableCell>
+                                                <TableCell>Delivery Fee</TableCell>
                                                 <TableCell>Link</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {console.log(deliveries[0])}
                                             {deliveries.map((content) =>
                                                 <TableRow>
                                                     <TableCell>{content.getfiltereddeliveries.order_id}</TableCell>
                                                     <TableCell>{convertIfNull(content.getfiltereddeliveries.place_order_time)}</TableCell>
+                                                    <TableCell>{content.getfiltereddeliveries.delivery_fee}</TableCell>
                                                     <TableCell><Link to={{ pathname: '/deliveryRider/getDeliveryDetails', state: content.getfiltereddeliveries }}>More Details</Link></TableCell>
                                                 </TableRow>
                                             )}
@@ -209,6 +228,12 @@ export default function RSummary(props) {
                                 </Paper>
                             </Grid>
                         </Grid>
+                        <Paper classes={classes.paper}>
+                            <h2>Total Monthly Salary: {salary} </h2>
+                        </Paper>
+                        <Paper classes={classes.paper}>
+                            <h2>Total Working Hours: {workingHours} </h2>
+                        </Paper>
                     </Container>
                 </main>
             </div>

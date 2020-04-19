@@ -17,7 +17,8 @@ import Paper from "@material-ui/core/Paper";
 import clsx from "clsx";
 import Moment from 'moment';
 import Button from "@material-ui/core/Button";
-
+import {Tabs, Tab, Row, Col, Nav} from 'react-bootstrap';
+import SimpleTabs from "./TabPanel";
 function preventDefault(event) {
     event.preventDefault();
 }
@@ -25,6 +26,7 @@ function preventDefault(event) {
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
+        flexGrow: 1,
     },
     appBarSpacer: theme.mixins.toolbar,
     content: {
@@ -41,12 +43,28 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
+function createtwoDArray() {
+    return [
+        ["Monday", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+        ["Tuesday", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+        ["Wednesday", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+        ["Thursday", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+        ["Friday", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+        ["Saturday", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+        ["Sunday", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+    ];
+}
 export default function RPTSchedule(props) {
     const classes = useStyles();
     const url = '/api/deliveryRider/parttimeschedule' ;
-    const [schedule, setSchedule] = useState(Array.from({length: 7},()=>
-        []));
+    const [schedule, setSchedule] = useState([createtwoDArray() ,createtwoDArray() ,createtwoDArray() ,createtwoDArray() ] );
     const timeRange = [];
+    const [value, setValue] = React.useState(0);
+
+    const handleSelect = (event, newValue) => {
+        setValue(newValue);
+    };
+
     for (var i = 10; i < 22; i++) {
         var exacttime = i + ":00";
         timeRange.push(exacttime);
@@ -77,39 +95,23 @@ export default function RPTSchedule(props) {
             await axios.get(url)
                 .then(res=> {
                     if(res.data.length > 0) {
-                        var twoDArray = [
-                            ["Monday", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-                            ["Tuesday", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-                            ["Wednesday", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-                            ["Thursday", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-                            ["Friday", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-                            ["Saturday", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-                            ["Sunday", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
-                        ]
+                        var presetSchedule = [createtwoDArray() ,createtwoDArray() ,createtwoDArray() ,createtwoDArray() ];
                         for (var k = 0; k < res.data.length; k++) {
-                            var emptyArray = [];
                             var format = 'hh:mm';
-                            var beforeTime1 = Moment(res.data[k].start_time1, format);
-                            var afterTime1 = Moment(res.data[k].end_time1, format);
-                            var beforeTime2 = Moment(res.data[k].start_time2, format);
-                            var afterTime2 = Moment(res.data[k].end_time2, format);
-                            emptyArray.push(convertToDay(res.data[k].day));
+                            var beforeTime1 = Moment(res.data[k].start_time, format);
+                            var afterTime1 = Moment(res.data[k].end_time, format);
+                            var dayOfWeek = res.data[k].dayofweek;
+                            var actualweek = res.data[k].week;
+                            console.log(actualweek)
                             for (var curtime = 10; curtime < 22; curtime++) {
                                 var time = Moment(curtime,format);
-                                if (time.isBetween(beforeTime1,afterTime1) || time.isBetween(beforeTime2,afterTime2)
-                                    || time.isSame(beforeTime1) || time.isSame(beforeTime2)) {
-                                    emptyArray.push("true");
-                                } else {
-                                    emptyArray.push('-');
+                                if (time.isBetween(beforeTime1,afterTime1) || time.isSame(beforeTime1)) {
+                                    presetSchedule[actualweek - 1][dayOfWeek - 1][curtime - 9] = "true";
                                 }
                             }
-                            twoDArray[res.data[k].day - 1] = emptyArray;
                         }
-
-                        setSchedule(twoDArray);
+                        setSchedule(presetSchedule);
                     }
-
-
                 });
         };
         fetchData()
@@ -128,30 +130,14 @@ export default function RPTSchedule(props) {
                     <Container maxWidth="lg" >
                         <Grid container spacing={1}>
                             <Grid item xs={12} md={12} lg={12}>
-                                <Paper className={clsx(classes.paper, 24)}>
-                                    <Table size="lg">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>Day</TableCell>
-                                                {timeRange.map( (exacttime) => (
-                                                        <TableCell> {exacttime} </TableCell>
-                                                    )
-                                                )}
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                        </TableBody>
-                                    </Table>
+                                <Paper className={classes.root}>
+                                   <SimpleTabs schedule={schedule} timeRange = {timeRange} />
                                 </Paper>
                             </Grid>
-
                         </Grid>
+
                     </Container>
-                    <Link to="/deliveryRider/editSchedule">
-                        <Button renderAs="button">
-                            <span>Edit Schedule</span>
-                        </Button>
-                    </Link>
+
                 </main>
             </div>
         </div>

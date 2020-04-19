@@ -18,7 +18,6 @@ module.exports =  async (req, res,next) => {
             out.push(list);
         }
         ;
-        console.log(out);
         res.send(out);
     }
 

@@ -32,7 +32,7 @@ import RDetailedOrders from "./components/delivery_riders/pages/rider_getDetaile
 import RDetailedDeliveries from "./components/delivery_riders/pages/rider_getDetailedDeliveries";
 import RSummary from "./components/delivery_riders/pages/rider_getSummary";
 import RPTSchedule from "./components/delivery_riders/pages/rider_getPTSchedule";
-
+import PTEditSchedule from "./components/delivery_riders/pages/rider_editPTSchedule";
 export default function Routes() {
 
     /* NOTE: LoginHome will need to have auth to autologin if already logged in, i.e. autoredirect to __Home. */
@@ -49,6 +49,7 @@ export default function Routes() {
             <Route exact path='/deliveryRider' component={WithRiderAuth(RHome)}/>
               <Route path='/deliveryRider/schedule' component={WithRiderAuth(RSchedule)}/>
               <Route path='/deliveryRider/editSchedule' component={WithRiderAuth(FTEditSchedule)}/>
+              <Route path='/deliveryRider/editPTSchedule' component={WithRiderAuth(PTEditSchedule)}/>
               <Route path='/deliveryRider/getDeliveries' component={WithRiderAuth(RDeliveries)}/>
               <Route path='/deliveryRider/getPTSchedule' component={WithRiderAuth(RPTSchedule)}/>
               <Route path='/deliveryRider/getDeliveryDetails' component={WithRiderAuth(RDetailedDeliveries)}/>

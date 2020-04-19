@@ -66,8 +66,10 @@ export default function FTEditSchedule(props) {
         })
             .catch(err => {
                 if(err.response.status === 422) {
-                    console.log(err);
-                    setMessage("As a Full Time Rider, you must have 5 consecutive work days and no more than 5 work days!");
+                    if(err.response.status === 422) {
+                        console.log(err.response.data);
+                        setMessage(err.response.data);
+                    }
                 }
             })
 

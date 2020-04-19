@@ -8,7 +8,7 @@ const updateProfile = require('./methods/updateProfile');
 const getWorkSchedule = require('./methods/getWorkSchedule');
 const updateWorkSchedule = require('./methods/updateWorkSchedule');
 const getPartTimeSchedule = require('./methods/getPartTimeSchedule');
-
+const updatePartTimeSchedule = require('./methods/updatePartTimeSchedule');
 //delivery
 const getDeliveries = require('./methods/getDeliveries');
 const getOrder = require('./methods/getOrder');
@@ -20,6 +20,7 @@ const postIsRiderDriving = require('./methods/postIsRiderDriving');
 const updateOrder =  require('./methods/updateOrder');
 const getSummaryOrders = require('./methods/getSummaryOrders');
 const getSummarySalary = require('./methods/getSummarySalary');
+const getSummaryWorkingHours = require('./methods/getSummaryWorkingHours');
 const getFullTime = require('./methods/getFullTime');
 
 riRouter.route('/profile')
@@ -56,11 +57,15 @@ riRouter.route('/summary/orders')
 riRouter.route('/summary/salary')
     .get(getSummarySalary);
 
+riRouter.route('/summary/hours')
+    .get(getSummaryWorkingHours);
+
 riRouter.route('/checkFullTime')
     .get(getFullTime);
 
 riRouter.route('/parttimeschedule')
-    .get(getPartTimeSchedule);
+    .get(getPartTimeSchedule)
+    .post(updatePartTimeSchedule);
 
 module.exports = riRouter;
 

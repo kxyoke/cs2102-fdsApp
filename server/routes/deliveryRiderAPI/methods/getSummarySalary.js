@@ -1,12 +1,11 @@
 const pool = require('../../../db'); // psql db
+const risql = require('../../../sql/riders');
 
 module.exports = (req, res) => {
-    /*
-        pool.query('SELECT * FROM Restaurants',
-            (q_err, q_res) => {
-                res.json(q_res.rows)
-            });
-    //https://www.freecodecamp.org/news/fullstack-react-blog-app-with-express-and-psql/
-    */
-    res.send('Queried get summarySalary.');
+
+    pool.query(risql.function.get_rider_base_salary, [req.user.usr_id],
+        (q_err, q_res) => {
+            console.log(q_res);
+            res.json(q_res.rows);
+        });
 };
