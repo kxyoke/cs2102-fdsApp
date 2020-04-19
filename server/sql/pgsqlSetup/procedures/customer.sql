@@ -34,6 +34,15 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE PROCEDURE 
+    addAddress(u_id VARCHAR(255),
+            new_address TEXT
+            ) AS $$
+BEGIN
+    INSERT INTO Customers_address VALUES(u_id, new_address, NOW());
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE OR REPLACE PROCEDURE updateCard(u_id VARCHAR(255), card INTEGER)
 AS $$
 BEGIN

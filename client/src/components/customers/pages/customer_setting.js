@@ -61,6 +61,7 @@ export default function CSetting(props)  {
         Axios.post("/api/customer/profile", {card:card})
             .then(res=> {
                 alert(res.data);
+                setOldCard(card);
                 setCard('');
             }).catch(error=> {
                alert(error.response);
@@ -69,15 +70,15 @@ export default function CSetting(props)  {
             })
         
     }
-    function deleteAccount(event) {
-        console.log("delete Account");
-        Axios.post('/api/customer/delete').then(
-            res=> {
-                console.log(res.data);
+    // function deleteAccount(event) {
+    //     console.log("delete Account");
+    //     Axios.post('/api/customer/delete').then(
+    //         res=> {
+    //             console.log(res.data);
                 
-            }
-        )
-    }
+    //         }
+    //     )
+    // }
 
     function validUserName() {
         return oldUsername.trim() !== username.trim() && username.length>0;
@@ -87,7 +88,7 @@ export default function CSetting(props)  {
     }
     function validCard() {
         // TODO: check for card need
-        return card !== oldCard && card.length >0;
+        return card !== oldCard && card.length >=9;
     }
     return(
             
@@ -170,12 +171,12 @@ export default function CSetting(props)  {
                      </Form>
                 
 
-                     <div className="well" style={deleteStyles}>
+                     {/* <div className="well" style={deleteStyles}>
                      <Button block bsStyle="danger" 
                             onClick={deleteAccount} >
                         Delete account
                      </Button>
-                     </div>
+                     </div> */}
              </div>
              </div>
         }

@@ -9,8 +9,10 @@ export default function CustomerEditAddress(props) {
     const [isUpdate, setIsUpdate] = useState(true);
     useState(()=> {
         if(oldAddress !== undefined && action === 'update') {
+            console.log(oldAddress);
             setAddress(oldAddress);
         }else if(oldAddress !== undefined && action === 'add') {
+            console.log(oldAddress);
             setIsUpdate(false);
         } else {
             props.history.goBack();
@@ -32,17 +34,26 @@ export default function CustomerEditAddress(props) {
         axios.post('/api/customer/address', {oldAddress:oldAddress, newAddress:address.trim()})
             .then(res=> {
                 if(res.status!==200) {
-                alert(res.data);
-                setAddress(oldAddress);
+                    alert(res.data);
+                    if(oldAddress === null) {
+                        
+                    } else {
+                        setAddress(oldAddress);
+                    }
                 }else {
                     alert("update successfully");
                     props.history.goBack();
                 }
             }).catch (err=> {
                 if(err.response.status === 409) {
-                    
                     alert(err.response.data);
-                    setAddress(oldAddress);
+                    if(oldAddress === null || action === "add") {
+                        setAddress('')
+                    }else {
+                        setAddress(oldAddress);
+                    }
+                    
+                    
 
                 }
             })

@@ -22,7 +22,7 @@ CREATE TRIGGER checkInsertUser
     FOR EACH ROW
     EXECUTE FUNCTION checkInsertUser();
 
---
+--CUSTOMER
 CREATE OR REPLACE FUNCTION checkInsertCartItem() RETURNS TRIGGER AS $$
 BEGIN
     IF EXISTS (
@@ -78,7 +78,7 @@ CREATE TRIGGER checkCartItem
     EXECUTE FUNCTION checkCartItem();
 
 
-
+--RESTAURANT
 CREATE OR REPLACE FUNCTION insertNonExistentFoodCategory()
     RETURNS TRIGGER AS $$
     BEGIN

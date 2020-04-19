@@ -22,7 +22,7 @@ users.function ={
     addRestaurantStaff: 'CALL addResStaff($1,$2,$3, $4, $5, $6, $7)',
     update_username:"call updateUsername($1, $2)",
     update_password:"call updatePassword($1, $2)",
-    delete_user:"call deleteAccount($1)"
+  
 }
 
 module.exports = users;

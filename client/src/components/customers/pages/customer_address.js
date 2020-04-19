@@ -13,8 +13,15 @@ export default function CAddress (props) {
 
     function addAddress() {
         console.log("address");
-        props.history.push({pathname:"/customer/editAddress",
-            state:{action: "add", oldAddress:address[0].address}})
+        if (address.length<5) {
+            props.history.push({pathname:"/customer/editAddress",
+                state:{action: "add", oldAddress:null}})
+        }else {
+
+        
+            props.history.push({pathname:"/customer/editAddress",
+                state:{action: "add", oldAddress:address[0].address}})
+        }
     }
 
     function addBox() {

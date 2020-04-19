@@ -16,6 +16,7 @@ customer.function = {
     update_address:"call updateAddress($1, $2,$3)",
     delete_address:"call deleteAddress($1, $2)",
     update_card:"call updateCard($1, $2)",
+    add_address:"call addAddress($1, $2)"
 }
 
 module.exports = customer;

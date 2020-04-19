@@ -30,7 +30,7 @@ module.exports = async (req, res, next) => {
     }
     else if(req.body.card) {
         console.log("update card")
-        pool.query(sql.customer.function.update_card, [req,user,usr_id, req.body.card], err=> {
+        pool.query(sql.customer.function.update_card, [req.user.usr_id, req.body.card], err=> {
             if(err) {
                 console.log(err.message);
                 return res.status(443).send(err.message);

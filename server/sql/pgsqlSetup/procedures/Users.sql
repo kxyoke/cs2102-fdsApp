@@ -67,10 +67,4 @@ END;
 $$ LANGUAGE plpgsql;
 
 
-CREATE OR REPLACE PROCEDURE deleteAccount(u_id VARCHAR(255)) AS $$
-BEGIN
-    DELETE FROM Users
-    WHERE usr_id = u_id;
-END;
-$$ LANGUAGE plpgsql;
 
