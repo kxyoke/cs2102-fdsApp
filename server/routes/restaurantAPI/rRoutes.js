@@ -15,7 +15,8 @@ const updateFoodAvailability = require('./methods/updateFoodAvailability');
 const updateFoodItemCategory = require('./methods/updateFoodItemCategory');
 const deleteFoodItem = require('./methods/deleteFoodItem');
 const getRestaurantReviews = require('./methods/getReviews');
-const getRestaurantOrders = require('./methods/getOrders');
+const getRestaurantCurrentOrders = require('./methods/getCurrentOrders');
+const getRestaurantCompletedOrders = require('./methods/getCompletedOrders');
 const getRestaurantPromos = require('./methods/getPromos');
 const addRestaurantPromo = require('./methods/addPromo');
 const updateRestaurantPromo = require('./methods/updatePromo');
@@ -55,8 +56,10 @@ rRouter.route('/foodCategories/change/:fid')
 rRouter.route('/reviews/:rid')
     .get(getRestaurantReviews);
 
-rRouter.route('/orders/:rid')
-    .get(getRestaurantOrders);
+rRouter.route('/orders/current/:rid')
+    .get(getRestaurantCurrentOrders);
+rRouter.route('/orders/completed/:rid')
+    .get(getRestaurantCompletedOrders);
 
 rRouter.route('/promos/all/:rid')
     .get(getRestaurantPromos)

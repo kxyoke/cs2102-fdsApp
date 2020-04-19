@@ -3,10 +3,10 @@ const log = require('../../../logger');
 const rsql = require('../../../sql/restaurant');
 
 module.exports = (req, res) => {
-    log.info('Querying get rOrders.');
+    log.info('Querying get current rOrders.');
     const rid = req.params.rid;
 
-    pool.query(rsql.get.allOrders, [rid],
+    pool.query(rsql.get.allIncompleteOrders, [rid],
         (qerr, qres) => {
             if (qerr) {
                 throw qerr;

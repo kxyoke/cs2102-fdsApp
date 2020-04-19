@@ -16,11 +16,9 @@ queries.get = {
     allReviews: /*[res_id]*/
         `SELECT order_id, usr_id, listOfItems, food_rev, delivery_rating FROM Reviews NATURAL JOIN Orders WHERE res_id = $1 ORDER BY delivery_rating DESC`,
     allIncompleteOrders: /*[res_id]*/
-        `SELECT order_id, O.usr_id as c_id, total, payment, listOfItems, status, D.usr_id as dr_id, place_order_time as order_time FROM Orders O JOIN Deliveries D using (order_id) WHERE res_id = $1 AND status <> 'complete' ORDER BY order_time ASC`,
+        `SELECT order_id, O.usr_id as c_id, total, payment, listOfItems, status, is_prepared, D.usr_id as dr_id, place_order_time as order_time FROM Orders O JOIN Deliveries D using (order_id) WHERE res_id = $1 AND status <> 'complete' ORDER BY is_prepared DESC, order_time ASC`,
     allCompletedOrders: /*[res_id]*/
         `SELECT order_id, O.usr_id as c_id, total, payment, listOfItems, status, D.usr_id as dr_id, place_order_time, dr_leave_res as sent_food_time, dr_arrive_customer as complete_time FROM Orders WHERE res_id = $1 AND status = 'complete' ORDER BY complete_time DESC`,
-    allOrders:
-        `SELECT * FROM Orders WHERE res_id = $1`,
     allPromos: /*[res_id]*/
         `SELECT * FROM PromotionsWithOrderStats WHERE res_id = $1 ORDER BY end_day ASC, start_day ASC`,
     allCurrentPromos: /*[res_id]*/
