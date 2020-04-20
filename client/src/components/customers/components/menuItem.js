@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import Axios from 'axios';
 
 export default function MenuItem (props) {
     const {food_id, price, name, description} = props.foodItem;
@@ -12,8 +13,27 @@ export default function MenuItem (props) {
     function increment() {
         setQty(qty+1);
     }
+
+    function addToCart() {
+      console.log("add to cart")
+      if (qty > 0) {
+        Axios.post('/api/customer/cart/add', 
+                  {food_id: food_id,
+                  res_id: props.res_id,
+                    qty: qty})
+            .then(res=> {
+              if(res.data) {
+                alert(res.data);
+              } else {
+                alert("added to the cart");
+              }
+            });
+          }
+
+    }
      return (
        <React.Fragment>
+       <li class="d-inline border  table-cell" >
        <div class="border  border-secondary" >
         <div class="media w-100 h-25 ">
         <img src="/assets/noImage.png" class="mr-3" alt="..."/>
@@ -38,13 +58,13 @@ export default function MenuItem (props) {
         <button  className="quantity-input__modifier quantity-input__modifier--left" onClick={decrement}>
           &mdash;
         </button>
-        <input className="quantity-input__screen" type="text" value={qty} readonly />
+        <input className="quantity-input__screen" type="text" value={qty} readOnly />
         <button className="quantity-input__modifier quantity-input__modifier--right" onClick={increment}>
           &#xff0b;
         </button> 
         </div>
         <div class ="col-3">
-        <button type="button" onClick={(e)=> console.log('Click')} class="btn btn-success" style={{display:"flex",float:'left'}}>Add To Cart</button>
+        <button type="button" onClick={addToCart} class="btn btn-success" style={{display:"flex",float:'left'}}>Add To Cart</button>
         </div>
       </div> 
       </div>  
@@ -52,6 +72,7 @@ export default function MenuItem (props) {
         </div>
       </div>
       </div>
+      </li>
       </React.Fragment>
      )
 }

@@ -19,9 +19,9 @@ export default function RestaurantItem(props) {
          <div class="card-header">
          {rname}
         </div>
-                <img src = '/assets/noImage.png' class="card-img-top" height="140" width="42" ></img> 
+                <img src = '/assets/noImage.png' alt="restaurant" class="card-img-top" height="140" width="42" ></img> 
                 <div class="card">
-                    <a onClick={enterRestaurant} class="btn btn-primary"> Enter the restaurant</a>
+                    <button onClick={enterRestaurant} class="btn btn-primary"> Enter the restaurant</button>
                 </div>  
          </div>
          </React.Fragment>
