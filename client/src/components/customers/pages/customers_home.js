@@ -39,8 +39,8 @@ export default function CHome (props) {
             <div class="container">
             <div className="Restaurants">
                 <div class="card-columns">
-                  {currentRes.map(restaurant => (
-                      <RestaurantItem restaurant={restaurant} props={props} />
+                  {currentRes.map((restaurant, i) => (
+                      <RestaurantItem key={i} restaurant={restaurant} props={props} />
                   ))}
                   </div>
                     <div class="row justify-content-md-center">

@@ -1,7 +1,7 @@
 \i ./schema.sql
 
 \i ./function.sql
-\i ./procedures/addUsers.sql
+\i ./procedures/Users.sql
 \i ./triggers.sql
 
 \i ./procedures/customer.sql

@@ -103,7 +103,7 @@ CREATE TABLE CartItems (
     food_id         TEXT,
     qty             INTEGER DEFAULT 0,
     PRIMARY KEY (usr_id, food_id),
-    FOREIGN KEY (usr_id) REFERENCES Customers ON DELETE CASCADE,
+    FOREIGN KEY (usr_id) REFERENCES Users ON DELETE CASCADE,
     FOREIGN KEY (res_id) REFERENCES Restaurants,
     FOREIGN Key (food_id) REFERENCES FoodItems
 );
@@ -141,7 +141,7 @@ CREATE TABLE Orders (
     listOfItems    TEXT[][] NOT NULL,
     status         VARCHAR(20) NOT NULL 
                              CHECK (status in('pending', 'in progress', 'complete')),
-    FOREIGN KEY(usr_id) REFERENCES Customers,
+    FOREIGN KEY(usr_id) REFERENCES Customers ON DELETE CASCADE,
     FOREIGN KEY(res_id) REFERENCES Restaurants
 );
 
