@@ -4,12 +4,12 @@
 
 CREATE OR REPLACE PROCEDURE
     deleteFoodItem(
-        fid     TEXT
+        _fid     TEXT
     ) AS $$
 
     BEGIN
         DELETE FROM FoodItems
-        WHERE food_id = fid;
+        WHERE food_id = _fid;
     END;
 $$ LANGUAGE plpgsql;
 

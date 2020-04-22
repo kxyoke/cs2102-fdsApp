@@ -37,8 +37,8 @@ CREATE TABLE FoodItems (
     food_id            TEXT PRIMARY KEY,
     name               TEXT,
     description        TEXT,
-    imagepath          VARCHAR(255),
-    category           TEXT NOT NULL DEFAULT 'Others',
+    imagepath          TEXT DEFAULT 'https://react.semantic-ui.com/images/wireframe/image.png',
+    category           TEXT NOT NULL DEFAULT 'unknown',
     FOREIGN KEY (category) REFERENCES FoodCategories 
     -- NO ACTION ON CASCADE?
 );
@@ -141,6 +141,7 @@ CREATE TABLE Orders (
     listOfItems    TEXT[][] NOT NULL,
     status         VARCHAR(20) NOT NULL 
                              CHECK (status in('pending', 'in progress', 'complete')),
+    is_prepared     BOOLEAN NOT NULL DEFAULT FALSE,
     FOREIGN KEY(usr_id) REFERENCES Customers ON DELETE CASCADE,
     FOREIGN KEY(res_id) REFERENCES Restaurants
 );
@@ -176,6 +177,10 @@ CREATE TABLE Promotions (
     CONSTRAINT res_id_notnull_if_type  CHECK (
         (promotype = 'RES' AND res_id IS NOT NULL)
         OR (promotype = 'FDS' AND res_id IS NULL)
+    ),
+    CONSTRAINT res_promo_default_format CHECK(
+        description NOT LIKE 'DEFAULT:%'
+        OR description SIMILAR TO 'DEFAULT:([1-9]*[0-9]+(\.[0-9]{0,2})?);(absolute|percent);([1-9]*[0-9]+(\.[0-9]{0,2})?)'
     )
 );
 
