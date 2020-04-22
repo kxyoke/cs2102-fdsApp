@@ -1,8 +1,9 @@
 const sql = {};
 
 sql.users = require('./users.js');
-sql.restaurant_staff = require('./restaurant_staff.js');
-sql.fdsManager = require('./manager.js');
-
+sql.rQueries = require('./restaurant.js');
+sql.customer = require('./customer');
+sql.fdsManager = require('./fdsManager');
 
 module.exports = sql;
+

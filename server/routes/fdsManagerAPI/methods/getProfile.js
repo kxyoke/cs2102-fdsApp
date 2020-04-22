@@ -6,7 +6,7 @@ module.exports = (req, res) => {
     log.info('Queried get fdsManager profile.');
     const mid = req.user.usr_id;
 
-    pool.query(sql.fdsManager.get.profile, [mid],
+    pool.query(sql.fdsManager.queries.get_profile, [mid],
         (err, data) => {
             if (err) {
                 throw err;

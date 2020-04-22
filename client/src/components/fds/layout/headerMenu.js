@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import LogoutButton from "../../logoutButton";
 
-function Header() {
+function HeaderMenu() {
 
     return (
         <div className = "sticky-top" >
@@ -41,4 +41,4 @@ const linkStyle = {
     textDecoration:'none'
 }
 
-export default Header
+export default HeaderMenu

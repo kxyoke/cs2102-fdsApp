@@ -19,35 +19,40 @@ const updateAddress = require('./methods/updateAddress')
 const getCardInfo = require('./methods/getCardInfo')
 const getCoupons = require('./methods/getCoupons')
 const getPastOrders = require('./methods/getPastOrder')
-const useCoupon = require('./methods/useCoupon')
 
-cRouter.route('/')
+const useCoupon = require('./methods/useCoupon')
+const getReviews = require('./methods/viewReview')
+cRouter.route('/res')
         .get(getResList);
 
-cRouter.route('/cart/:cid')
+cRouter.route('/review')
+        .get(getReviews);  
+
+cRouter.route('/cart')
     .get(viewCart)
-    .put(emptyCart);
+    .post(addCartItem);
 
-cRouter.route('/cart/:cid/:cartItemId')
-        .post(addCartItem)
-        .delete(deleteCartItem);
+// cRouter.route('/cart/:cid/:cartItemId')
+//         .post()
+//         .delete(deleteCartItem);
 
-cRouter.route('/:rid')
-    .get(getResMenu);
+cRouter.get('/menu/:rid', getResMenu);
 
-cRouter.route('/:cid')
+cRouter.route('/profile')
         .get(getCProfile)
         .put(updateCProfile);
 
-cRouter.route('/address/:cid')
+cRouter.route('/address')
         .get(getAddresses)
         .post(updateAddress);
-cRouter.route('/card/:cid')
+cRouter.route('/card')
         .get(getCardInfo);
-cRouter.route('/order/:cid')
+
+cRouter.route('/order')
         .get(getPastOrders);
 
-cRouter.route('coupon/:cid/:cpid')
+
+cRouter.route('/coupon')
         .get(getCoupons)
         .put(useCoupon);
 

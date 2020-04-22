@@ -1,13 +1,19 @@
 import React,{useState, useEffect} from 'react'
-import Header from '../layout/header'
+import HeaderMenu from '../layout/headerMenu'
+import { Header } from 'semantic-ui-react'
 import axios from 'axios';
 
 export default function FProfile(props) {
 
     return(
-        <div>
-            <Header/>
-            <h1>Profile</h1>
+        <div className="Profile">
+            <HeaderMenu/>
+            <Header 
+                as='h1' 
+                textAlign='center'
+                content='User Profile'
+                subheader='Manage your login details'
+            />
         </div>
     )
 }

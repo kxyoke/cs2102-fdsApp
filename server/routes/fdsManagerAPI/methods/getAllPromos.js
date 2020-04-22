@@ -5,7 +5,7 @@ const sql = require('../../../sql');
 module.exports = (req, res) => {
     log.info('Queried get all fdsManager promos.');
 
-    pool.query(sql.fdsManager.get.allPromos,
+    pool.query(sql.fdsManager.queries.get_allPromos,
         (err, data) => {
             if (err) {
                 throw err;

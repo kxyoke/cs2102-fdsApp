@@ -4,22 +4,22 @@ var mRouter = express.Router();
 const getProfile = require('./methods/getProfile');
 const updatePassword = require('./methods/updatePassword');
 const addCoupon = require('./methods/addCoupon');
-const getCoupon = require('./methods/getCoupon');
+const getCoupons = require('./methods/getCoupons');
 const updateCoupon = require('./methods/updateCoupon');
 const addFdsManagerPromo = require('./methods/addPromo');
 const getAllFdsManagerPromos = require('./methods/getAllPromos');
 const getFdsManagerPromo = require('./methods/getPromo');
 const updateFdsManagerPromo = require('./methods/updatePromo');
 
-mRouter.route('/:mid')
+mRouter.route('/')
     .get(getProfile)
     .put(updatePassword)
 
-mRouter.route('/coupon/')
+mRouter.route('/coupons/')
     .post(addCoupon)
+    .get(getCoupons)
 
 mRouter.route('/coupon/:cid')
-    .get(getCoupon)
     .put(updateCoupon);
 
 mRouter.route('/promos')

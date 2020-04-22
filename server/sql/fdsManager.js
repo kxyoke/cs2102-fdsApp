@@ -1,28 +1,24 @@
-const queries = {};
+const fdsManager = {};
 
-queries.get = {
-    profile:
+fdsManager.queries = {
+    get_profile:
         'SELECT * FROM FdsManagers WHERE usr_id = $1',
-    allPromos:
-        'SELECT * FROM Promotions WHERE promotype = ''FDS''',
-    promo:
+    get_allPromos:
+        'SELECT pid, description, start_day, end_day FROM Promotions WHERE promotype = \'FDS\'',
+    get_promo:
         'SELECT * FROM Promotions WHERE pid = %1',
-    coupon:
-        'SELECT * FROM Coupons WHERE coupon_id = %1',
-}
-
-queries.update = {
-    password:
+    get_coupons:
+        'SELECT * FROM Coupons',
+    update_password:
         'CALL updateManagerPassword($1, $2)', //usr_id, password
-    promo:
+    update_promo:
         'CALL updateManagerPromo($1, $2, $3, $4)', // pid, description, start_day, end_day
-    coupon:
+    update_coupon:
         'CALL updateCoupon($1, $2, $3)', //coupon_id, description, expiry_date
-}
-
-queries.add = {
-    promo:
+    add_promo:
         'CALL addManagerPromo($1, $2, $3, $4)',//pid, description, start_day, end_day
-    coupon:
+    add_coupon:
         'CALL addCoupon($1, $2, $3)' //coupon_id, description, expiry_date
 }
+
+module.exports = fdsManager;

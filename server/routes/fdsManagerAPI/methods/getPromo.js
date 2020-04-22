@@ -6,11 +6,11 @@ module.exports = (req, res) => {
     log.info('Queried get fdsManager promo.');
     const pid = req.params.pid;
 
-    pool.query(sql.fdsManager.get.promo, [mid],
+    pool.query(sql.fdsManager.get.promo, [req.user.usr_id],
         (err, data) => {
             if (err) {
                 throw err;
             }
-            res.json(data.rows);
+            res.send(data.rows);
         })
 };
