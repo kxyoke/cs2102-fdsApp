@@ -7,11 +7,13 @@ const rsql = require('../../../sql/restaurant');
  *  - fid
  */
 module.exports = (req, res) => {
-    log.info('Querying rMenuItem')
+    log.info('Querying rMenuItems from list')
     //const rid = req.params.rid;
-    const fid = req.params.fid;
+    const fids = req.params.fid;
+    const formattedFidArray = '{' + fids.slice(1,-1) + '}'
+    console.log(formattedFidArray)
 
-    pool.query(rsql.get.foodItem, [fid],
+    pool.query(rsql.get.foodItems, [formattedFidArray],
         (q_err, q_res) => {
             if (q_err) {
                 throw q_err;

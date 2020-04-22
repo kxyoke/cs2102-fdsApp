@@ -8,10 +8,11 @@ export default function OrderItem(props) {
         for(const food of listofitems) {
             setFoodList(old => [...old, food.name])
         }
-    }, [])
+    }, [listofitems])
 
     return (
         <React.Fragment>
+        
             <div class="card text-left">
                 <div class="card-header">
                 <div class="row">
@@ -43,6 +44,7 @@ export default function OrderItem(props) {
                 </div>
             </div>
             <p> </p>
+           
         </React.Fragment>
 
     )

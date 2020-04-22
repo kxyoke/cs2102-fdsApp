@@ -22,24 +22,34 @@ CREATE TRIGGER checkInsertUser
     FOR EACH ROW
     EXECUTE FUNCTION checkInsertUser();
 
---
+--CUSTOMER
 CREATE OR REPLACE FUNCTION checkInsertCartItem() RETURNS TRIGGER AS $$
 BEGIN
     IF EXISTS (
         SELECT 1 
         FROM cartitems
-        WHERE usr_id = NEW.usr_id) THEN
-        RAISE EXCEPTION 'user has a cart';
-    END IF;
-
-    IF EXISTS (
-        SELECT 1 
-        FROM cartitems
         WHERE usr_id = NEW.usr_id
         and food_id = NEW.food_id) THEN
-        RAISE EXCEPTION 'user has the item in the cart';
+        UPDATE cartitems 
+        SET qty = NEW.qty
+        WHERE usr_id = NEW.usr_id AND food_id = NEW.food_id;
+        RETURN NULL;
     END IF;
 
+    IF new.res_id 
+        NOT IN (
+            SELECT DISTINCT res_id
+            FROM cartitems
+            WHERE new.usr_id = usr_id
+        ) 
+        AND 
+        EXISTS (
+            SELECT 1
+            FROM cartitems
+            WHERE usr_id = new.usr_id
+        )
+         THEN RAISE EXCEPTION 'You have food from different restaurant, clear your cart if you want to order from other restaurants!';
+    END IF;
     IF new.food_id 
         NOT IN(SELECT food_id FROM MenuItems WHERE new.res_id = res_id)
         THEN RAISE EXCEPTION 'The food is from different restaurant';
@@ -48,13 +58,27 @@ BEGIN
     END
     --check for rest
 $$ LANGUAGE plpgsql;
-DROP TRIGGER IF EXISTS checkInsertCartItem ON Users;
+DROP TRIGGER IF EXISTS checkInsertCartItem ON cartitems;
 CREATE TRIGGER checkInsertCartItem
-    BEFORE UPDATE OR INSERT ON cartitems
+    BEFORE INSERT OR UPDATE OF food_id, usr_id ON cartitems
     FOR EACH ROW
     EXECUTE FUNCTION checkInsertCartItem();
 
+CREATE OR REPLACE FUNCTION checkCartItem() RETURNS TRIGGER AS $$
+BEGIN
+    DELETE FROM cartitems where qty=0;
+    RETURN NULL;
+    END
+    --check for rest
+$$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS checkCartItem ON cartitems;
+CREATE TRIGGER checkCartItem
+    AFTER INSERT OR UPDATE OF qty ON cartitems
+    FOR EACH ROW
+    EXECUTE FUNCTION checkCartItem();
 
+
+--RESTAURANT
 CREATE OR REPLACE FUNCTION insertNonExistentFoodCategory()
     RETURNS TRIGGER AS $$
     BEGIN
@@ -64,8 +88,8 @@ CREATE OR REPLACE FUNCTION insertNonExistentFoodCategory()
         RETURN NEW;
     END;
 $$ LANGUAGE plpgsql;
-DROP TRIGGER IF EXISTS defaultFoodCategoryAlwaysPresent ON FoodItems;
-CREATE TRIGGER defaultFoodCategoryAlwaysPresent
+DROP TRIGGER IF EXISTS foodCategoryAlwaysPresent ON FoodItems;
+CREATE TRIGGER foodCategoryAlwaysPresent
     BEFORE INSERT OR UPDATE ON FoodItems
     FOR EACH ROW
     EXECUTE PROCEDURE insertNonExistentFoodCategory();
@@ -73,7 +97,7 @@ CREATE TRIGGER defaultFoodCategoryAlwaysPresent
 CREATE OR REPLACE FUNCTION maintainFoodCategories()
     RETURNS TRIGGER AS $$
     BEGIN
-        IF NOT EXISTS (SELECT 1 FROM FoodItems I WHERE I.category = OLD.category) THEN
+        IF OLD.category <> 'Others' AND NOT EXISTS (SELECT 1 FROM FoodItems I WHERE I.category = OLD.category) THEN
             DELETE FROM FoodCategories
             WHERE category = OLD.category;
         END IF;
