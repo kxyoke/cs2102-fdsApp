@@ -74,6 +74,8 @@ export default function CCart(props) {
                     )}
                     
                     <div>
+                        <h5 class='text-right'> Subtotal:</h5>
+                        <h5 class='text-right'>Delivery fee:</h5>
                         <h4 class='text-right'>Total : {total}</h4>
                     </div>
                     </div>

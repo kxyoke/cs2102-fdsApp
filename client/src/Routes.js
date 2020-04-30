@@ -10,7 +10,6 @@ import WithNoAuth from './tool/withNoAuth';
 import CHome from './components/customers/pages/customers_home';
 import COrder from './components/customers/pages/customer_order';
 import CReviews from './components/customers/pages/customer_reviews';
-import CProfile from './components/customers/pages/customer_profile';
 import CCoupons from './components/customers/pages/customer_coupons';
 import CAddress from './components/customers/pages/customer_address';
 import CSetting from './components/customers/pages/customer_setting';
@@ -63,7 +62,6 @@ export default function Routes() {
             <Route exact path='/customer' component={WithCustomerAuth(CHome)}/>
             <Route path='/customer/order' component={WithCustomerAuth(COrder)}/>
             <Route path='/customer/reviews' component= {WithCustomerAuth(CReviews)}/> 
-            <Route path='/customer/profile' component={WithCustomerAuth(CProfile)}/>
             <Route path='/customer/resMenu' component={WithCustomerAuth(RestaurantMenu)}/>
             <Route path='/customer/coupon' component={WithCustomerAuth(CCoupons)}/>
             <Route path='/customer/address' component={WithCustomerAuth(CAddress)}/>
