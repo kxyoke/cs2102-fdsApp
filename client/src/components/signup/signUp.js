@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState, useEffect } from "react";
 import Select from 'react-select';
 import { Button, FormGroup, FormControl, ControlLabel, Form } from "react-bootstrap";
 import "./signup.css";
@@ -6,6 +6,21 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from 'axios';
 
 export default function SignUp(props) {
+    const [restaurants, setRestaurants] = useState([]);
+
+    useEffect(() => {
+        axios.get('/api/signup/restaurant')
+            .then(res => {
+                if (res.status == 200) {
+                    setRestaurants(res.data)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [])
+
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
@@ -15,6 +30,9 @@ export default function SignUp(props) {
     const [resName, setResName] = useState('');
     const [min_amt, setMinAmt] = useState(20);
     const [resAddress, setResAddress] = useState('');
+
+    const [res_id, setRid] = useState('');
+    const [isUnderExistingRes, setIsExistingRes] = useState(false);
 
     const riders = [
       {value:'part', label:"Part-time rider"},
@@ -30,23 +48,32 @@ export default function SignUp(props) {
         setMessage('');
         setIdentity(e.value);
         if(e.value === 'restaurantStaff') {
-          alert("You will need to register restaurant at the same time");
+          alert("Please register or select your restaurant.");
         }
     }
 
+    function validateCustomer() {
+          return username.length > 0 && password.length > 0 
+          && password2 ===password ;
+    }
+    function validateDeliveryRider() {
+          return username.length > 0 && password.length > 0 
+          && password2 ===password && (riderType === 'full' || riderType === 'part')
+    }
+    function validateResStaff() {
+          return username.length > 0 && password.length > 0 
+          && password2 ===password && resName.length > 0
+          && min_amt !=='' && resAddress.length>0
+    }
 
     function validateForm() {
       switch (identity) {
         case "customer":
-          return username.length > 0 && password.length > 0 
-          && password2 ===password ;
+            return validateCustomer()
         case "restaurantStaff":
-          return username.length > 0 && password.length > 0 
-          && password2 ===password && resName.length > 0
-          && min_amt !=='' && resAddress.length>0
+            return validateResStaff()
         case 'deliveryRider':
-          return username.length > 0 && password.length > 0 
-          && password2 ===password && (riderType === 'full' || riderType === 'part')
+            return validateDeliveryRider()
         default:
           return false;
 
@@ -61,14 +88,18 @@ export default function SignUp(props) {
                     riderType:riderType,
                     resName: resName,
                     min_amt:min_amt,
-                    resAddress:resAddress
+                    resAddress:resAddress,
+                    res_id: res_id,
+                    isNewRes: !isUnderExistingRes
                   })
           .then(res=>{
             console.log(res);
             setPassword('');
             if(res.status === 200) {
-              alert("sign up successfully! You can login now");
+              alert("Sign up successful! Try logging in now!");
               props.history.push('/');
+            } else {
+                alert(res.data)
             }
         })
         .catch(err => {
@@ -77,10 +108,76 @@ export default function SignUp(props) {
             setMessage("Username is taken!")
             setPassword('');
             setPassword2('');
+          } else if (err.response.status === 423) {
+              setMessage("Restaurant name is taken!")
+              setPassword('')
+              setPassword2('')
           }
         })
 
       }
+
+    function setResDetails(res) {
+        setRid(res.res_id)
+        setResName(res.rname)
+        setMinAmt(res.min_amount)
+        setResAddress(res.address)
+    }
+    function resDetailsForm() {
+        return (
+            <div>
+            {isUnderExistingRes ? (
+                <Select placeholder = {<div>Select your restaurant</div> } 
+                  onChange = {e => setResDetails(e.value)} 
+                  options={restaurants.map( r => ({value: r, label: r.rname}) )} 
+                  required/>
+            ) : (
+                <form>
+                <div class = 'form-row'>
+                  <div class = 'form-group col-md-6'>
+                  <FormGroup controlId="resName" bsSize="large">
+                    <ControlLabel>Restaurant name</ControlLabel>
+                    <FormControl
+                      autoFocus
+                      type="resName"
+                      value={resName}
+                      placeholder="Restaurant Name"
+                      onChange={e => {setMessage('');
+                      setResName(e.target.value)}}
+                    />
+                  </FormGroup>
+ 
+                  </div>
+                  <div class = 'form-group col-md-6'>
+                  <FormGroup controlId="minimumSpending" bsSize="large">
+                    <ControlLabel>Minimum spending ($) </ControlLabel>
+                    <FormControl
+                      autoFocus
+                      type="minimumSpending"
+                      value={min_amt}
+                      onChange={e => {setMessage('');
+                      setMinAmt(e.target.value)}}
+                    />
+                  </FormGroup>
+                  </div>
+                </div>
+
+                <div>
+                <FormGroup controlId="address" bsSize="large">
+                <ControlLabel>address</ControlLabel>
+                  <FormControl
+                    value={resAddress}
+                    onChange={e => {setMessage('');
+                    setResAddress(e.target.value)}}
+                    type="address"
+                />
+                </FormGroup>
+                </div>
+              </form>
+            )}
+            </div>
+        )
+    }
 
     return (
         
@@ -149,48 +246,16 @@ export default function SignUp(props) {
               }
             </FormGroup>
               {identity === 'restaurantStaff'
-              ? <form>
-                <div class = 'form-row'>
-                  <div class = 'form-group col-md-6'>
-                  <FormGroup controlId="resName" bsSize="large">
-                    <ControlLabel>Restaurant name</ControlLabel>
-                    <FormControl
-                      autoFocus
-                      type="resName"
-                      value={resName}
-                      placeholder="Restaurant Name"
-                      onChange={e => {setMessage('');
-                      setResName(e.target.value)}}
+              ? <div>
+                <div class='form-group form-check'>
+                  <input type='checkbox' class='form-check-input' id='isSelectRes'
+                    checked={isUnderExistingRes}
+                    onChange={e => setIsExistingRes(e.target.checked)}
                     />
-                  </FormGroup>
- 
-                  </div>
-                  <div class = 'form-group col-md-6'>
-                  <FormGroup controlId="minimumSpending" bsSize="large">
-                    <ControlLabel>Minimum spending ($) </ControlLabel>
-                    <FormControl
-                      autoFocus
-                      type="minimumSpending"
-                      value={min_amt}
-                      onChange={e => {setMessage('');
-                      setMinAmt(e.target.value)}}
-                    />
-                  </FormGroup>
-                  </div>
+                  <label class='form-check-label' for='isSelectRes'> Select existing restaurant instead.</label>
                 </div>
-
-                <div>
-                <FormGroup controlId="address" bsSize="large">
-                <ControlLabel>address</ControlLabel>
-                  <FormControl
-                    value={resAddress}
-                    onChange={e => {setMessage('');
-                    setResAddress(e.target.value)}}
-                    type="address"
-                />
-                </FormGroup>
+                  {resDetailsForm()}
                 </div>
-              </form>
               :null}
             
 
