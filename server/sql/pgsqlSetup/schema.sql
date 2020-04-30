@@ -154,7 +154,7 @@ CREATE TABLE Reviews (
 
 CREATE TABLE Deliveries (
     order_id          TEXT PRIMARY KEY,
-    rusr_id            VARCHAR(255),
+    usr_id            VARCHAR(255),
     place_order_time  TIMESTAMP NOT NULL,
     dr_leave_for_res  TIMESTAMP,
     dr_arrive_res     TIMESTAMP,
@@ -162,7 +162,7 @@ CREATE TABLE Deliveries (
     dr_arrive_cus     TIMESTAMP,
     delivery_fee INTEGER DEFAULT 3,
     FOREIGN KEY(order_id) REFERENCES Orders On Delete CASCADE ,
-    FOREIGN KEY(rusr_id) REFERENCES Riders
+    FOREIGN KEY(usr_id) REFERENCES Riders
 );
 
 CREATE TABLE Promotions (

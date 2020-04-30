@@ -57,7 +57,7 @@ BEGIN
             AND ((start_time1 <= startDayTime AND end_time1 >= startDayTime) OR (start_time2 <= startDayTime AND end_time2 >= endDayTime));
 
             IF (numFTRider + numPTRider < 5) THEN
-                errorMessage := 'You cannot change the work slot at week ' || $1 || ', day ' ||  dayNum || ',time ' || startDayTime || ' as if you do so less than 5 riders are at the time';
+                errorMessage := 'You cannot change the work slot at week ' || $1 || ', day ' ||  dayNum || ',time ' || startDayTime || ' as if you do so less than 5 riders are at the time. ' ;
                 RAISE EXCEPTION '%', errorMessage;
             END IF;
             startDayTime := startDayTime + interval '1 hour';

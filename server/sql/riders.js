@@ -3,11 +3,11 @@ const riders = {}
 riders.queries = {
     find_schedule_by_username: 'SELECT * FROM Mws NATURAL JOIN Shifts WHERE usr_id = $1',
     get_part_time_schedule: 'SELECT * FROM Wws WHERE usr_id = $1',
-    get_recent_deliveries: 'SELECT * FROM Deliveries NATURAL JOIN Orders NATURAL JOIN Restaurants WHERE rusr_id = $1 ORDER BY Deliveries.place_order_time DESC',
-    get_available_orders: 'SELECT * FROM Orders NATURAL JOIN Restaurants NATURAL JOIN Deliveries WHERE Orders.status = $1  ORDER BY Deliveries.place_order_time DESC',
+    get_recent_deliveries: 'SELECT * FROM Orders NATURAL JOIN Restaurants INNER JOIN Deliveries ON Deliveries.order_id = Orders.order_id WHERE Deliveries.usr_id = $1 ORDER BY Deliveries.place_order_time DESC',
+    get_available_orders: 'SELECT *  FROM Orders NATURAL JOIN Restaurants INNER JOIN Deliveries ON Deliveries.order_id = Orders.order_id WHERE Orders.status = $1  ORDER BY Deliveries.place_order_time DESC',
     get_foodName:"SELECT name FROM foodItems WHERE food_id = $1",
     get_detailed_orders: "SELECT * from Orders WHERE order_id = $1 ",
-    get_current_deliveries: "SELECT * FROM Orders NATURAL JOIN Restaurants NATURAL JOIN Deliveries WHERE Orders.status = $2 AND Deliveries.rusr_id = $1",
+    get_current_deliveries: "SELECT * FROM Orders NATURAL JOIN Restaurants INNER JOIN Deliveries ON Deliveries.order_id = Orders.order_id WHERE Orders.status = $2 AND Deliveries.usr_id = $1",
     get_full_time_rider: "SELECT * FROM Fulltimerider Where usr_id = $1",
 }
 
