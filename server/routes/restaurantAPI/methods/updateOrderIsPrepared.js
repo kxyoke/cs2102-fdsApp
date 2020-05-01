@@ -11,8 +11,9 @@ module.exports = (req, res) => {
             if (qerr) {
                 console.log(qerr)
                 res.status(500).send(qerr);
+            } else {
+                res.sendStatus(200)
             }
-            res.sendStatus(200)
         })
 };
 

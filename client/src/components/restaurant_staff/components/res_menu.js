@@ -49,6 +49,8 @@ export default function RMenu(props) {
                         console.log(res.data)
                         setMenu(res.data)
                         setIsLoading(false)
+                    } else {
+                        alert(res)
                     }
                 });
     }, [])
@@ -105,6 +107,8 @@ export default function RMenu(props) {
                         //also remove from this menu so dunnid reload
                         let updated = menu.filter( item => item.food_id != foodItem.food_id );
                         setMenu(updated);
+                    } else {
+                        alert(res)
                     }
                 });
         }
@@ -121,6 +125,8 @@ export default function RMenu(props) {
                             }
                         }
                         setDidChangeAvailability(true)
+                    } else {
+                        alert(res)
                     }
                 });
         }

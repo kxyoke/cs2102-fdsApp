@@ -38,6 +38,8 @@ export default function ResPromo(props) {
             .then(res => {
                 if (res.status == 200) {
                     setActivePromos(res.data)
+                } else {
+                    alert(res)
                 }
             })
             .catch(err => {
@@ -49,6 +51,8 @@ export default function ResPromo(props) {
             .then(res => {
                 if (res.status == 200) {
                     setFuturePromos(res.data)
+                } else {
+                    alert(res)
                 }
             })
             .catch(err => {
@@ -60,6 +64,8 @@ export default function ResPromo(props) {
             .then(res => {
                 if (res.status == 200) {
                     setPastPromos(res.data)
+                } else {
+                    alert(res)
                 }
             })
             .catch(err => {

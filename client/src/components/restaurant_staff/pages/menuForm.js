@@ -22,6 +22,8 @@ export default function ResMenuEdit(props) {
                     if (res.status == 200) {
                         setFoodCategories(res.data)
                         setShow(true)
+                    } else {
+                        alert(res)
                     }
                 });
         })

@@ -4,18 +4,6 @@ const rsql = require('../../../sql/restaurant');
 
 const shortid = require('shortid');
 
-/* Req params should have:
- *  - rid
- * Req body should have:
- *  - name
- *  - description
- *  - price
- *  - dailyLimit
- *  - imgPath
- *
- * Res should contain:
- *  - fid != NULL, if successful.
- */
 module.exports = (req, res) => {
     log.info('Querying add rMenuItem.');
     const rid = req.params.rid;
@@ -32,13 +20,11 @@ module.exports = (req, res) => {
         [rid, fid, fname, fdesc, price, daily_lmt, fimgPath, fcat],
         (q_err, q_res) => {
             if (q_err) {
-                throw q_err;
+                console.log(q_err)
+                res.status(500).send(q_err)
+            } else {
+                res.sendStatus(200)
             }
-            res.json(q_res.rows)
         })
 };
-
-/*
-//https://www.freecodecamp.org/news/fullstack-react-blog-app-with-express-and-psql/
-*/
 

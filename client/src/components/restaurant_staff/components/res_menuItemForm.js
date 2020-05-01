@@ -125,6 +125,8 @@ export default function RMenuItemEdit(props) {
             .then(res => {
                 if (res.status == 200) {
                     returnToMenu()
+                } else {
+                    alert('Submission not successful. Please try again.')
                 }
             })
             .catch(err => {

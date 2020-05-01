@@ -21,6 +21,8 @@ export default function ResReview(props) {
                     if (res.status == 200) {
                         setReviews(res.data)
                         setLoading(false)
+                    } else {
+                        alert(res)
                     }
                 })
                 .catch( err => {

@@ -10,9 +10,11 @@ module.exports = (req, res) => {
     pool.query(rsql.del.foodItem, [fid],
         (qerr, qres) => {
             if (qerr) {
-                throw qerr;
+                console.log(qerr);
+                res.status(500).send(qerr);
+            } else {
+                res.sendStatus(200)
             }
-            res.json(qres.rows)
         })
 };
 

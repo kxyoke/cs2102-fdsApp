@@ -6,6 +6,8 @@ import Utils from './utils/utils'
 import { Form, Button, Message, Header } from 'semantic-ui-react'
 import DatetimePicker from './utils/DatetimePicker'
 
+const assert = require('assert')
+
 export default function PromoForm(props) {
     const history = useHistory();
 
@@ -32,7 +34,7 @@ export default function PromoForm(props) {
 
     function setDescription(desc) {
         let typed = desc.split(':')
-        require('assert').strict.equal(typed[0], 'DEFAULT')
+        assert(typed[0] == 'DEFAULT', "Promo not default promo. error.")
         // TODO: promo extensions with other types.
 
         let defaultProps = Utils.getDefaultPromoDescProps(desc)
@@ -127,20 +129,24 @@ export default function PromoForm(props) {
             console.log(JSON.stringify(reqBody))
 
             if (isAdd) {
-                axios.post('/api/restaurant/promos/' + res_id, reqBody)
+                axios.post('/api/restaurant/promos/all/' + res_id, reqBody)
                     .then(res => {
                         if (res.status == 200) {
                             returnToPromos()
+                        } else {
+                            alert('Submission unsuccessful. Please try again.')
                         }
                     })
                     .catch(err => {
                         console.log(err)
                     });
             } else {
-                axios.put('/api/restaurant/promos/' + res_id + '/' + pid, reqBody)
+                axios.put('/api/restaurant/promos/specific/' + res_id + '/' + pid, reqBody)
                     .then(res => {
                         if (res.status == 200) {
                             returnToPromos()
+                        } else {
+                            alert('Submission unsuccessful. Plese try again.')
                         }
                     })
                     .catch(err => {

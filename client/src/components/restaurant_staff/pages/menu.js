@@ -25,6 +25,8 @@ export default function ResMenu(props) {
                     if (res.status == 200) {
                         setFoodCategories(res.data)
                         setCanModifyMenu(true)
+                    } else {
+                        alert(res)
                     }
                 });
             axios.get('/api/restaurant/foodCategories/' + rid)
@@ -32,6 +34,8 @@ export default function ResMenu(props) {
                     if (res.status == 200) {
                         setRFoodCats(res.data)
                         setShow(true)
+                    } else {
+                        alert(res)
                     }
                 });
         })
