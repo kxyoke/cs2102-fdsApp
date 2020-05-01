@@ -1,7 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Link, Redirect,
-        useRouteMatch, useParams 
-} from 'react-router-dom';
+import { Route, Switch} from 'react-router-dom';
 import WithCustomerAuth from './tool/withCustomerAuth';
 import WithRiderAuth from './tool/withRiderAuth';
 import WithResStaffAuth from './tool/withResStaff'
@@ -17,10 +15,21 @@ import CCoupons from './components/customers/pages/customer_coupons';
 import CAddress from './components/customers/pages/customer_address';
 import CSetting from './components/customers/pages/customer_setting';
 import RestaurantMenu from './components/customers/pages/customer_restaurant';
+import CustomerEditAddress from './components/customers/pages/customer_editAddress';
+
 import CCart from './components/customers/pages/customer_cart';
 import RHome from './components/delivery_riders/pages/home';
 import FHome from './components/fds/pages/home';
-import ResHome from './components/restaurant_staff/page/home';
+
+import ResHome from './components/restaurant_staff/pages/home';
+import ResProfile from './components/restaurant_staff/pages/profile';
+import ResReview from './components/restaurant_staff/pages/review';
+import ResMenu from './components/restaurant_staff/pages/menu';
+import ResMenuEdit from './components/restaurant_staff/pages/menuForm';
+import ResPromo from './components/restaurant_staff/pages/promo';
+import ResPromoEdit from './components/restaurant_staff/pages/promoForm';
+import ResOrder from './components/restaurant_staff/pages/order';
+
 import LoginHome from './components/login/home_before_login';
 import Login from './components/login/login_page';
 import SignUp from './components/signup/signUp';
@@ -56,9 +65,20 @@ export default function Routes() {
               <Route path='/deliveryRider/getOrders' component={WithRiderAuth(ROrders)}/>
               <Route path='/deliveryRider/getOrderDetails' component={WithRiderAuth(RDetailedOrders)}/>
               <Route path='/deliveryRider/summary' component={WithRiderAuth(RSummary)}/>
-              <Route path='/restaurant' component={WithResStaffAuth(ResHome)}/>
+            <Route path='/deliveryRider' component={WithRiderAuth(RHome)}/>
+            <Route exact path='/restaurant' component={WithResStaffAuth(ResHome)}/>
             <Route path='/fdsManager' component={WithFdsAuth(FHome)}/>
 
+            
+            <Route path='/restaurant/profile' component={WithResStaffAuth(ResProfile)}/>
+            <Route path='/restaurant/reviews' component={WithResStaffAuth(ResReview)}/>
+            <Route exact path='/restaurant/promos' component={WithResStaffAuth(ResPromo)}/>
+            <Route path='/restaurant/promos/edit' component={WithResStaffAuth(ResPromoEdit)}/>
+            <Route exact path='/restaurant/menu' component={WithResStaffAuth(ResMenu)}/>
+            <Route path='/restaurant/menu/edit' component={WithResStaffAuth(ResMenuEdit)}/>
+            <Route path='/restaurant/orders' component={WithResStaffAuth(ResOrder)}/>
+
+            
             <Route exact path='/customer' component={WithCustomerAuth(CHome)}/>
             <Route path='/customer/order' component={WithCustomerAuth(COrder)}/>
             <Route path='/customer/reviews' component= {WithCustomerAuth(CReviews)}/> 
@@ -66,6 +86,7 @@ export default function Routes() {
             <Route path='/customer/resMenu' component={WithCustomerAuth(RestaurantMenu)}/>
             <Route path='/customer/coupon' component={WithCustomerAuth(CCoupons)}/>
             <Route path='/customer/address' component={WithCustomerAuth(CAddress)}/>
+            <Route path='/customer/editAddress' component={WithCustomerAuth(CustomerEditAddress)}/>
             <Route path='/customer/setting' component={WithCustomerAuth(CSetting)}/>
             <Route path='/customer/cart' component={WithCustomerAuth(CCart)}/>
             <Route render={() => <h1>404 Not found</h1>}/>

@@ -6,7 +6,7 @@ const rsql = require('../../../sql/restaurant');
  *  - rid
  */
 module.exports = (req, res) => {
-    log.info('Querying add rProfile.');
+    log.info('Querying get rProfile.');
     const rid = req.params.rid;
 
     pool.query(rsql.get.profile, [rid],

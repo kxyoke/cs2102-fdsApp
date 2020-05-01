@@ -35,10 +35,11 @@ BEGIN
 
     RETURN QUERY SELECT to_json(a) FROM (
         SELECT *
-        FROM Deliveries
+        FROM Deliveries JOIN Orders ON Orders.order_id = Deliveries.order_id
         WHERE place_order_time >= startDate
         AND place_order_time < endDate
-        AND rusr_id = $1
+        AND Deliveries.usr_id = $1
+        AND Orders.status = 'complete'
     ) a;
 END;
 $$ LANGUAGE plpgsql;
