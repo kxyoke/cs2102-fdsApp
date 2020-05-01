@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Select from 'react-select';
-import { Button, FormGroup, FormControl, ControlLabel, Form } from "react-bootstrap";
-import "./signup.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { Button, Form, Segment, Select, Header } from 'semantic-ui-react';
+
 import axios from 'axios';
 
 export default function SignUp(props) {
@@ -33,21 +31,23 @@ export default function SignUp(props) {
 
     const [res_id, setRid] = useState('');
     const [isUnderExistingRes, setIsExistingRes] = useState(false);
+    const [resPassword, setResPassword] = useState('')
+    const [resPassword2, setResPassword2] = useState('')
 
     const riders = [
-      {value:'part', label:"Part-time rider"},
-      {value:'full', label:"Full-time rider"}
+      {key: 'p', value:'part', text:"Part-time rider"},
+      {key: 'f', value:'full', text:"Full-time rider"}
     ];
     const options = [
-        {value:"customer", label: 'Customer'},
-        {value:"restaurantStaff", label:'Restaurant Staff'},
-        {value:"deliveryRider", label:'Delivery Rider'}
+        {key: 'c', value:"customer", text: 'Customer'},
+        {key: 'r', value:"restaurantStaff", text:'Restaurant Staff'},
+        {key: 'dr', value:"deliveryRider", text:'Delivery Rider'}
     ];
 
-    function updateIdentity(e)  {
+    function updateIdentity(e, target)  {
         setMessage('');
-        setIdentity(e.value);
-        if(e.value === 'restaurantStaff') {
+        setIdentity(target.value);
+        if(target.value === 'restaurantStaff') {
           alert("Please register or select your restaurant.");
         }
     }
@@ -61,9 +61,11 @@ export default function SignUp(props) {
           && password2 ===password && (riderType === 'full' || riderType === 'part')
     }
     function validateResStaff() {
-          return username.length > 0 && password.length > 0 
+        let userValid = username.length > 0 && password.length > 0 
           && password2 ===password && resName.length > 0
-          && min_amt !=='' && resAddress.length>0
+        let resValid = min_amt !=='' && resAddress.length>0
+          && resPassword2 === resPassword && resPassword.length > 0
+        return userValid && (isUnderExistingRes || resValid)
     }
 
     function validateForm() {
@@ -90,7 +92,8 @@ export default function SignUp(props) {
                     min_amt:min_amt,
                     resAddress:resAddress,
                     res_id: res_id,
-                    isNewRes: !isUnderExistingRes
+                    isNewRes: !isUnderExistingRes, //equiv to isResManager.
+                    resPassword: resPassword
                   })
           .then(res=>{
             console.log(res);
@@ -112,6 +115,10 @@ export default function SignUp(props) {
               setMessage("Restaurant name is taken!")
               setPassword('')
               setPassword2('')
+          } else if (err.response.status === 421) {
+              setMessage('Restaurant password incorrect!')
+              setResPassword('')
+              setResPassword2('')
           }
         })
 
@@ -127,53 +134,73 @@ export default function SignUp(props) {
         return (
             <div>
             {isUnderExistingRes ? (
-                <Select placeholder = {<div>Select your restaurant</div> } 
-                  onChange = {e => setResDetails(e.value)} 
-                  options={restaurants.map( r => ({value: r, label: r.rname}) )} 
+              <div>
+                <Form.Field placeholder='Select your restaurant --'
+                  control={Select} label='Select your restaurant'
+                  onChange = {(e, target) => setResDetails(target.value)} 
+                  options={restaurants.map( r => ({key: r.rname, value: r, text: r.rname}) )} 
                   required/>
+                <Form.Input label='Restaurant password'
+                  onChange={e => setResPassword(e.target.value)}
+                  />
+              </div>
             ) : (
-                <form>
-                <div class = 'form-row'>
-                  <div class = 'form-group col-md-6'>
-                  <FormGroup controlId="resName" bsSize="large">
-                    <ControlLabel>Restaurant name</ControlLabel>
-                    <FormControl
+                <div>
+                  <Form.Group widths='equal'>
+                    <Form.Field fluid
+                      label='Restaurant name'
                       autoFocus
-                      type="resName"
+                      control='input'
                       value={resName}
                       placeholder="Restaurant Name"
                       onChange={e => {setMessage('');
                       setResName(e.target.value)}}
                     />
-                  </FormGroup>
- 
-                  </div>
-                  <div class = 'form-group col-md-6'>
-                  <FormGroup controlId="minimumSpending" bsSize="large">
-                    <ControlLabel>Minimum spending ($) </ControlLabel>
-                    <FormControl
+                    <Form.Field fluid
+                      label='Minimum spending ($)'
                       autoFocus
-                      type="minimumSpending"
+                      control='input'
                       value={min_amt}
                       onChange={e => {setMessage('');
                       setMinAmt(e.target.value)}}
                     />
-                  </FormGroup>
-                  </div>
-                </div>
-
-                <div>
-                <FormGroup controlId="address" bsSize="large">
-                <ControlLabel>address</ControlLabel>
-                  <FormControl
+                  </Form.Group>
+                
+                <Form.Group>
+                  <Form.Field fluid
+                    label='Address'
                     value={resAddress}
                     onChange={e => {setMessage('');
                     setResAddress(e.target.value)}}
-                    type="address"
+                    control='input'
                 />
-                </FormGroup>
-                </div>
-              </form>
+                </Form.Group>
+                
+                <Form.Group widths='equal'>
+                  <Form.Field fluid
+                    label='Restaurant Password for Staffs'
+                    value={resPassword}
+                    onChange={e => {setMessage('');
+                    setResPassword(e.target.value)}}
+                    control='input'
+                    type='password'
+                  />
+                  <Form.Field fluid
+                    label='Re-enter your restaurant password.'
+                    value={resPassword2}
+                    onChange={e=> {setMessage('');
+                    setResPassword2(e.target.value)}}
+                    control='input'
+                    type='password'
+                  />
+                  {resPassword === resPassword2 && resPassword.length >0 && resPassword2.length>0
+                  ?<small>Passwords match.</small>
+                  : resPassword2.length > 0
+                    ?<small >Passwords do not match.</small>
+                    : null
+                  }
+                </Form.Group>
+              </div>
             )}
             </div>
         )
@@ -181,10 +208,8 @@ export default function SignUp(props) {
 
     return (
         
-        <div className="SignUp">
-        <div class ="container">
-        <div class="row justify-content-md-center">
-        
+      <div className ="container" >
+        <div>        
           { message.length > 0 ?
             <div class="alert alert-danger" role="alert" >
             <p class="text-center">
@@ -194,49 +219,47 @@ export default function SignUp(props) {
               : null
           }
 
-          </div>
         </div>
 
-          <Form onSubmit={handleSubmit}>
-          <Select placeholder = {<div>Select your identity</div> } 
-          onChange = {updateIdentity} options={options} required/>
+        <Segment.Group className='container' style={{ paddingTop: '2em', paddingBottom: '1em', display: 'flex', justifyContent: 'center'}}>
+        <Header as='h2' divider>Sign up</Header>
+        <Segment placeholder>
+        <Form className='container'>
+          
+          <Form.Field control={Select} placeholder = {<div>Select your identity</div> } 
+            onChange = {updateIdentity} options={options} required/>
           {identity === 'deliveryRider'?
-          <div>
-          <p> </p>
-          <Select placeholder ={<div>Select rider type</div>}
-          onChange = {(e)=>{
+            <Form.Field control={Select} placeholder ={<div>Select rider type</div>}
+              onChange = {(e)=>{
               setMessage('');
               setRiderType(e.value)}}
              options={riders} required/>
-          </div>
           : null}
-            <FormGroup controlId="username" bsSize="large">
-              <ControlLabel>Username</ControlLabel>
-              <FormControl
+
+            <Form.Group widths='equal'>
+              <Form.Input fluid
+                label='Username'
                 autoFocus
-                type="username"
                 value={username}
                 onChange={e => {
                   setMessage('');
                   setUsername(e.target.value)}}
               />
-            </FormGroup>
-            <FormGroup controlId="password" bsSize="large">
-              <ControlLabel>Password</ControlLabel>
-              <FormControl
+            </Form.Group>
+            <Form.Group widths='equal'>
+              <Form.Input fluid
+                label='Password'
+                type='password'
                 value={password}
                 onChange={e => {setMessage('');
                 setPassword(e.target.value)}}
-                type="password"
               />
-            </FormGroup>
-            <FormGroup controlId="password2" bsSize="large">
-              <ControlLabel>Enter your password again</ControlLabel>
-              <FormControl
+              <Form.Input fluid
+                label='Enter your password again.'
                 value={password2}
+                type='password'
                 onChange={e=> {setMessage('');
                 setPassword2(e.target.value)}}
-                type="password"
               />
               {password === password2 &&password.length >0 &&password2.length>0
               ?<small>password are the same</small>
@@ -244,42 +267,44 @@ export default function SignUp(props) {
                 ?<small >passwords are not the same</small>
                 : null
               }
-            </FormGroup>
-              {identity === 'restaurantStaff'
-              ? <div>
-                <div class='form-group form-check'>
-                  <input type='checkbox' class='form-check-input' id='isSelectRes'
-                    checked={isUnderExistingRes}
-                    onChange={e => setIsExistingRes(e.target.checked)}
+            </Form.Group>
+           
+            </Form>
+            </Segment>
+
+            {identity === 'restaurantStaff'
+            ? <Segment.Group>
+               <Segment inverted className='container'> 
+               <Form inverted>
+                <Form.Group grouped>
+                  <Form.Field control='input' type='radio'
+                    label='Create a new restaurant as manager.'
+                    checked={!isUnderExistingRes}
+                    value={false}
+                    onChange={e => setIsExistingRes(!e.target.checked)}
                     />
-                  <label class='form-check-label' for='isSelectRes'> Select existing restaurant instead.</label>
-                </div>
-                  {resDetailsForm()}
-                </div>
+                  <Form.Field control='input' type='radio'
+                    label='Select an existing restaurant as staff.'
+                    onChange={e => setIsExistingRes(e.target.checked)}
+                    value={true}
+                    checked={isUnderExistingRes}
+                    />
+                </Form.Group>
+                <Form.Group>
+                {resDetailsForm()}
+                </Form.Group>
+               </Form>
+               </Segment>
+              </Segment.Group>
               :null}
-            
 
-             
-              <div>
-                <div class="form-group form-check" >
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1" required/>
-                  <label class="form-check-label" for="exampleCheck1" > Agree to Terms and Conditions</label>
-                </div>
-          
-              
-
-              <Button block bsSize="large" disabled={!validateForm()} type="submit">
+             <Segment className='container'>
+              <Button disabled={!validateForm()} onClick={handleSubmit}>
                 Sign Up
               </Button>
-            </div>
-          </Form>
-        </div>
+            </Segment>
+        </Segment.Group>
+      </div>
     );
 }
-
-/*
- * Adapted from:
- * https://serverless-stack.com/chapters/create-a-login-page.html
- *
- */
 

@@ -13,13 +13,15 @@ users.queries = {
     find_customer_by_id: 'SELECT * FROM customers WHERE usr_id = $1',
     find_rider_by_id: 'SELECT * FROM riders WHERE usr_id = $1',
     find_fds_by_id:'SELECT * FROM fdsmanagers WHERE usr_id = $1',
+    get_res_pwd: 'SELECT password_digest FROM Restaurants WHERE res_id = $1',
 }
 
 users.function ={
     addCustomer: 'CALL addCustomer($1,$2,$3)',
     addFullTimeRider: 'CALL addFullTimeRider($1,$2,$3)',
     addPartTimeRider: 'CALL addPartTimeRider($1,$2,$3)',
-    addRestaurantStaff: 'CALL addResStaff($1,$2,$3, $4, $5, $6, $7, $8)',
+    addRestaurantStaffAndRes: 'CALL addResStaffAndRes($1,$2,$3, $4, $5, $6, $7, $8)',
+    addRestaurantStaffOnly: 'CALL addResStaffOnly($1,$2,$3, $4)',
     update_username:"call updateUsername($1, $2)",
     update_password:"call updatePassword($1, $2)",
   

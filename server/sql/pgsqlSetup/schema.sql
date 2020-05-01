@@ -23,9 +23,10 @@ DROP TABLE IF EXISTS CartItems CASCADE;
 
 CREATE TABLE Restaurants (
     res_id           TEXT PRIMARY KEY,
-    rname            TEXT NOT NULL,
+    rname            TEXT UNIQUE NOT NULL,
     address          TEXT NOT NULL,
-    min_amount       NUMERIC NOT NULL
+    min_amount       NUMERIC NOT NULL,
+    password_digest      VARCHAR(255) NOT NULL DEFAULT '$2b$10$bfU45HrpdNwgzn5Gfhv96.Xw8/Nbl857GVARB3.bK8VwMoZa0lj22' --'default'
 );
 
 /* restrict in-app deletion of categories? */
@@ -68,12 +69,13 @@ CREATE TABLE FdsManagers (
     FOREIGN KEY (usr_id) REFERENCES Users ON DELETE CASCADE
 );
 
-CREATE TABLE RestaurantStaffs (
+CREATE TABLE RestaurantStaffs ( -- note 1 res only 1 manager typically
     usr_id         VARCHAR(255) NOT NULL,
-    res_id         TEXT,
+    res_id         TEXT NOT NULL,
+    is_manager     BOOLEAN NOT NULL,
     PRIMARY KEY(usr_id),
     FOREIGN KEY (usr_id) REFERENCES Users ON DELETE CASCADE,
-    FOREIGN KEY (res_id) REFERENCES Restaurants 
+    FOREIGN KEY (res_id) REFERENCES Restaurants ON DELETE CASCADE
 );
 
 CREATE TABLE Customers (
