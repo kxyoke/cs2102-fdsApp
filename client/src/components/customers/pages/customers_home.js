@@ -5,6 +5,7 @@ import Pagination from '../components/pagination';
 import RestaurantItem from '../components/restaurantItem';
 import axios from 'axios';
 import FuzzySearch from 'fuzzy-search';
+import {Loader} from 'semantic-ui-react';
 
 export default function CHome (props) {
     const [loading, setLoading] = useState(true);
@@ -45,31 +46,34 @@ export default function CHome (props) {
     
         return (
             <div className="Home">
-            <Header/>
-            <SearchBar search ={search}/>
-            <p> </p>
-            <div class="container">
-            {fullRestaurantList.length?
-            <div>
-            {restaurants.length?
-            <div className="Restaurants">
-                <div class="card-columns">
-                  {currentRes.map((restaurant, i) => (
-                      <RestaurantItem key={i} restaurant={restaurant} props={props} />
-                  ))}
-                  </div>
-                    <div class="row justify-content-md-center">
-                        <Pagination itemPerPage={restaurantPerPage} totalItem={restaurants.length} paginate={paginate}/>
-                    </div>
-            </div>
-            : <p> There are no restaurant matching your search.....</p>
-            }
-            </div>
-            : <div>
-            {loading? null: <p> Currently, there is not restaurant available....</p>}
-            </div>
-            }
-            </div>
+                <Header/>
+                <SearchBar search ={search}/>
+                <p> </p>
+                {loading?
+                    <Loader active inline='centered'>Loading</Loader> 
+                    :
+                    <div class="container">
+                        {fullRestaurantList.length?
+                            <div>
+                                {restaurants.length?
+                                <div className="Restaurants">
+                                    <div class="card-columns">
+                                    {currentRes.map((restaurant, i) => (
+                                        <RestaurantItem key={i} restaurant={restaurant} props={props} />
+                                    ))}
+                                    </div>
+                                        <div class="row justify-content-md-center">
+                                            <Pagination itemPerPage={restaurantPerPage} totalItem={restaurants.length} paginate={paginate}/>
+                                        </div>
+                                </div>
+                                : <p> There are no restaurant matching your search.....</p>
+                                }
+                            </div>
+                        :
+                        <p> Currently, there is not restaurant available....</p>}
+                     </div>
+                }
+                    
             </div>
         )
     

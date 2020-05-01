@@ -3,8 +3,9 @@ import Header from '../layout/header'
 import {Button} from 'react-bootstrap'
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-import Axios from 'axios'
-import AddressItem from '../components/addressItem'
+import Axios from 'axios';
+import AddressItem from '../components/addressItem';
+import {Loader} from "semantic-ui-react";
 
 export default function CAddress (props) {
     const [address, setAddress] = useState([]);
@@ -55,7 +56,9 @@ export default function CAddress (props) {
             <div>
             <Header/>
              <div class ="container" className="MyAddress">
-            {loading? null :
+            {loading? 
+                <Loader active inline='centered'>Loading</Loader> 
+             :
             <div> 
              {show?
              
