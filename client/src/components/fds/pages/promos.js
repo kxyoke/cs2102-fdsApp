@@ -27,7 +27,7 @@ export default function FPromos(props) {
             pathname: '/fdsManager/promos/edit',
             state: {
                 isEdit: false,
-                promo: null
+                promo: {}
             }
         })
     }
@@ -45,7 +45,7 @@ export default function FPromos(props) {
             <Button primary attached='top' onClick={add} icon='add' content='Launch Promotion'/>
             <Segment>
             {show?
-            <Table>
+            <Table textAlign='center'>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell>Promotion ID</Table.HeaderCell>

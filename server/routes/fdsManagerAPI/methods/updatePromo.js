@@ -4,16 +4,33 @@ const sql = require('../../../sql');
 
 module.exports = (req, res) => {
     log.info('Queried update fdsManager promo.');
-    const pid = req.params.pid;
-    const ptype = req.body.ptype;
-    const pdesc = req.body.description;
-    const startDay = req.body.start_day;
-    const endDay = req.body.end_day;
+    const { pid, start_day, end_day, promoType, discountType, discountValue } = req.body;
+    const startDate = new Date(start_day);
+    const endDate = new Date(end_day);
+    var pdesc = null;
+    var errorMessage = "default error message";
+    const discountRegex = /^(?:\d*\.\d{1,2}|\d+)$/;
+ 
+    if (endDate <= startDate) {
+        errorMessage = "End date/time cannot be the same as or before start date/time.";
+    } else if (promoType == 'delivery') {
+        pdesc = "FDS-wide free delivery";
+    } else if (promoType == 'discount' && discountValue == null) {
+        errorMessage = "Please enter a discount value.";
+    } else if (!discountRegex.test(discountValue)) {
+        errorMessage = "Discount value should only be numeric and have up to 2 decimals.";
+    } else {
+        if (discountType == 'dollars') {
+            pdesc = "$" + discountValue + " discount for a customer's first order.";
+        } else {
+            pdesc = discountValue + "% discount for a customer's first order.";
+        }
+    }
 
-    pool.query(sql.fdsManager.update.promo, [pid, ptype, pdesc, startDay, endDay],
+    pool.query(sql.fdsManager.queries.update_promo, [pid, pdesc, start_day, end_day],
         (err, data) => {
             if (err) {
-                throw err;
+                return res.status(409).send(errorMessage);
             }
             res.json(data.rows);
         })

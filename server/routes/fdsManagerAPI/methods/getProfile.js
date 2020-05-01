@@ -4,13 +4,14 @@ const sql = require('../../../sql');
 
 module.exports = (req, res) => {
     log.info('Queried get fdsManager profile.');
-    const mid = req.user.usr_id;
+    const uid = req.user.usr_id;
+    const username = req.user.username;
 
-    pool.query(sql.fdsManager.queries.get_profile, [mid],
+    pool.query(sql.fdsManager.queries.get_profile, [uid],
         (err, data) => {
             if (err) {
                 throw err;
             }
-            res.json(data.rows);
+            res.json({usr_id: uid, username: username});
         })
 };

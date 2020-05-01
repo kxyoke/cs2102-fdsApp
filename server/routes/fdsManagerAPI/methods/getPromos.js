@@ -3,14 +3,13 @@ const log = require('../../../logger');
 const sql = require('../../../sql');
 
 module.exports = (req, res) => {
-    log.info('Queried get fdsManager promo.');
-    const pid = req.params.pid;
+    log.info('Queried get all fdsManager promos.');
 
-    pool.query(sql.fdsManager.get.promo, [req.user.usr_id],
+    pool.query(sql.fdsManager.queries.get_promos,
         (err, data) => {
             if (err) {
                 throw err;
             }
-            res.send(data.rows);
+            res.json(data.rows);
         })
 };

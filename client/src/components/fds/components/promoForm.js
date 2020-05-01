@@ -2,18 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom'
 import { Form, Button, Grid, Segment, Table } from 'semantic-ui-react'
 import CustomDatePicker from './CustomDatePicker'
+import Utils from '../../restaurant_staff/components/utils/utils'
 import axios from 'axios';
 
 export default function PromoForm(props) {
-    const {isEdit, promo} = props;
+    const { isEdit, promo } = props;
 
     const [pid, setPid] = useState(null);
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [description, setDescription] = useState([]);
-    const [isFirstTime, setPromoType] = useState(null);
-    const [isPercentage, setDiscountType] = useState(null);
-    const [discountValue, setDiscountValue] = useState(0);
+    const [promoType, setPromoType] = useState('delivery');
+    const [discountType, setDiscountType] = useState('dollars');
+    const [discountValue, setDiscountValue] = useState(null);
     const history = useHistory();
 
     useEffect(() => {
@@ -27,8 +28,17 @@ export default function PromoForm(props) {
     }, [props])
 
     function submit() {
+        const reqBody = {
+            pid: pid,
+            start_day: Utils.formatDateString(startDate),
+            end_day: Utils.formatDateString(endDate),
+            promoType: promoType,
+            discountType: discountType,
+            discountValue: discountValue
+        }
+
         if (isEdit) {
-            axios.put('/api/fdsManager/promos/' + pid)
+            axios.put('/api/fdsManager/promos/' + pid, reqBody)
                 .then(res => {
                     if (res.status == 200) {
                         history.push('/fdsManager/promos/');
@@ -39,7 +49,7 @@ export default function PromoForm(props) {
                     console.log(err);
                 });
         } else {
-            axios.post('/api/fdsManager/promos')
+            axios.post('/api/fdsManager/promos', reqBody)
                 .then(res => {
                     if (res.status == 200) {
                         history.push('/fdsManager/promos/');
@@ -57,7 +67,7 @@ export default function PromoForm(props) {
             {isEdit?
                 <Segment basic>
                     <Grid.Row>
-                        <Table>
+                        <Table textAlign='center'>
                             <Table.Header>
                                 <Table.HeaderCell>Promotion ID</Table.HeaderCell>
                                 <Table.HeaderCell>Description</Table.HeaderCell>
@@ -95,18 +105,18 @@ export default function PromoForm(props) {
                         />
                     </Form.Group>
                     <Form.Field required label='Promotion type' control='select' onChange={e => setPromoType(e.target.value)}>
-                        <option value={true}>First Time Discount</option>
-                        <option value={false}>Free Delivery</option>
+                        <option value='delivery'>Free Delivery</option>
+                        <option value='discount'>First Time Discount</option>
                     </Form.Field>
                     <Form.Group widths='equal'>
                         <Form.Field label='Discount type' control='select' onChange={e => setDiscountType(e.target.value)}>
-                            <option value={true}>Percentage</option>
-                            <option value={false}>Dollars</option>
+                            <option value='dollars'>Dollars</option>
+                            <option value='percentage'>Percentage</option>
                         </Form.Field>
                         <Form.Input 
                             label='Discount value' 
                             placeholder='up to 2 decimals'
-                            onChange={e => setDiscountValue(e.target.value)} 
+                            onChange={e => setDiscountValue(e.target.value)}
                         />
                     </Form.Group>
                 </Form>

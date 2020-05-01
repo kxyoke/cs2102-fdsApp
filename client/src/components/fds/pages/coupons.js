@@ -46,11 +46,10 @@ export default function FCoupons(props) {
             <Button primary attached='top' onClick={add} icon='add' content='Offer Coupon'/>
             <Segment>
             {show?
-            <Table>
+            <Table textAlign='center'>
                 <Table.Header>
                     <Table.Row>
-                    <Table.HeaderCell>Coupon ID</Table.HeaderCell>
-                    <Table.HeaderCell>User ID</Table.HeaderCell>
+                    <Table.HeaderCell>Coupon Group ID</Table.HeaderCell>
                     <Table.HeaderCell>Desciption</Table.HeaderCell>
                     <Table.HeaderCell>Expiry Date</Table.HeaderCell>
                     <Table.HeaderCell></Table.HeaderCell>

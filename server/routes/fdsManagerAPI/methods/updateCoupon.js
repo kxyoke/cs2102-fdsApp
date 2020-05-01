@@ -4,14 +4,43 @@ const sql = require('../../../sql');
 
 module.exports = (req, res) => {
     log.info('Queried update coupon.');
-    const cid = req.params.cid;
-    const cdesc = req.body.description;
-    const expDate = req.body.expiry_date;
+    const { coupon_group_id, expiry_date, couponType, discountType, discountValue, targetCustomers, customerActivity } = req.body;
+    const expDate = new Date(expiry_date);
+    var cdesc = null;
+    var errorMessage = "default error message";
+    const discountRegex = /^(?:\d*\.\d{1,2}|\d+)$/;
+    const activityRegex = /^\d+$/;
 
-    pool.query(sql.fdsManagerupdate.coupon, [cid, cdesc, expDate],
+    if (couponType == 'delivery') {
+        cdesc = "FDS-wide free delivery";
+    } else if (couponType == 'discount' && discountValue == null) {
+        errorMessage = "Please enter a discount value.";
+    } else if (!discountRegex.test(discountValue)) {
+        errorMessage = "Discount value should only be numeric and have up to 2 decimals.";
+    } else if (couponType == 'discount' && customerActivity == null) {
+        errorMessage = "Please enter the desired customer activity.";
+    } else if (!activityRegex.test(customerActivity)) {
+        errorMessage = "Customer activity should only be whole numbers.";
+    } else {
+        if (discountType == 'dollars') {
+            cdesc = "$" + discountValue + " discount for ";
+        } else {
+            cdesc = discountValue + "% discount for ";
+        }
+
+        if (targetCustomers == 'inactive') {
+            cdesc += "inactive customers during the past ";
+        } else {
+            cdesc += "active customers during the past ";
+        }
+
+        cdesc += customerActivity + " month/s";
+    }
+
+    pool.query(sql.fdsManager.queries.update_coupon, [coupon_group_id, cdesc, expDate],
         (err, data) => {
             if (err) {
-                throw err;
+                return res.status(409).send(errorMessage);
             }
             res.json(data.rows);
         })

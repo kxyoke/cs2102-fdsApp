@@ -5,7 +5,7 @@ import { Header } from 'semantic-ui-react'
 import axios from 'axios';
 
 export default function FCouponEdit(props) {
-    const {isEdit, coupon} = props.location.state
+    const { isEdit, coupon } = props.location.state
 
     return(
         <div className="CouponEdit" style={{textAlign:'center'}}>

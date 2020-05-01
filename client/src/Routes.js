@@ -22,6 +22,7 @@ import RHome from './components/delivery_riders/pages/home';
 
 import FHome from './components/fds/pages/home';
 import FProfile from './components/fds/pages/profile';
+import FProfileEdit from './components/fds/pages/profileEdit';
 import FPromos from './components/fds/pages/promos';
 import FPromoEdit from './components/fds/pages/promoEdit';
 import FCoupons from './components/fds/pages/coupons';
@@ -55,7 +56,8 @@ export default function Routes() {
             <Route path='/deliveryRider' component={WithRiderAuth(RHome)}/>
             
             <Route exact path='/fdsManager' component={WithFdsAuth(FHome)}/>
-            <Route path='/fdsManager/profile' component={WithFdsAuth(FProfile)}/>
+            <Route exact path='/fdsManager/profile' component={WithFdsAuth(FProfile)}/>
+            <Route path='/fdsManager/profile/edit' component={WithFdsAuth(FProfileEdit)}/>
             <Route exact path='/fdsManager/promos' component={WithFdsAuth(FPromos)}/>
             <Route path='/fdsManager/promos/edit' component={WithFdsAuth(FPromoEdit)}/>
             <Route exact path='/fdsManager/coupons' component={WithFdsAuth(FCoupons)}/>

@@ -3,14 +3,10 @@ const fdsManager = {};
 fdsManager.queries = {
     get_profile:
         'SELECT * FROM FdsManagers WHERE usr_id = $1',
-    get_allPromos:
-        'SELECT pid, description, start_day, end_day FROM Promotions WHERE promotype = \'FDS\'',
-    get_promo:
-        'SELECT * FROM Promotions WHERE pid = %1',
+    get_promos:
+        'SELECT * FROM Promotions WHERE promotype = \'FDS\'',
     get_coupons:
-        'SELECT * FROM Coupons',
-    update_password:
-        'CALL updateManagerPassword($1, $2)', //usr_id, password
+        'SELECT * FROM CouponGroups',
     update_promo:
         'CALL updateManagerPromo($1, $2, $3, $4)', // pid, description, start_day, end_day
     update_coupon:
