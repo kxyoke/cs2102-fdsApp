@@ -16,6 +16,8 @@ const updateFoodAvailability = require('./methods/updateFoodAvailability');
 const updateFoodItemCategory = require('./methods/updateFoodItemCategory');
 const deleteFoodItem = require('./methods/deleteFoodItem');
 
+const updateFoodSold = require('./methods/updateFoodSold');
+
 const getRestaurantReviews = require('./methods/getReviews');
 
 const getRestaurantCurrentOrders = require('./methods/getCurrentOrders');
@@ -45,6 +47,9 @@ rRouter.route('/menu/:rid/:fid')
     .get(getFoodItem)
     .put(updateFoodItem)
     .delete(deleteFoodItem);
+
+rRouter.route('/menu/:rid/:fid/sold')
+    .put(updateFoodSold);
 
 rRouter.route('/menu/:rid/:fid/makeAvailable')
     .put(updateFoodAvailability);

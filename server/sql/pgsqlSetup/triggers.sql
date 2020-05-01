@@ -88,26 +88,40 @@ CREATE OR REPLACE FUNCTION insertNonExistentFoodCategory()
         RETURN NEW;
     END;
 $$ LANGUAGE plpgsql;
-DROP TRIGGER IF EXISTS foodCategoryAlwaysPresent ON FoodItems;
+DROP TRIGGER IF EXISTS foodCategoryAlwaysPresent ON MenuItems;
 CREATE TRIGGER foodCategoryAlwaysPresent
-    BEFORE INSERT OR UPDATE ON FoodItems
+    BEFORE INSERT OR UPDATE ON MenuItems
     FOR EACH ROW
     EXECUTE PROCEDURE insertNonExistentFoodCategory();
 
 CREATE OR REPLACE FUNCTION maintainFoodCategories()
     RETURNS TRIGGER AS $$
     BEGIN
-        IF OLD.category <> 'Others' AND NOT EXISTS (SELECT 1 FROM FoodItems I WHERE I.category = OLD.category) THEN
+        IF OLD.category <> 'Others' AND NOT EXISTS (SELECT 1 FROM MenuItems I WHERE I.category = OLD.category) THEN
             DELETE FROM FoodCategories
             WHERE category = OLD.category;
         END IF;
         RETURN OLD;
     END;
 $$ LANGUAGE plpgsql;
-DROP TRIGGER IF EXISTS keepOnlyNonEmptyFoodCategories ON FoodItems;
+DROP TRIGGER IF EXISTS keepOnlyNonEmptyFoodCategories ON MenuItems;
 CREATE TRIGGER keepOnlyNonEmptyFoodCategories
-    AFTER UPDATE OR DELETE ON FoodItems
+    AFTER UPDATE OR DELETE ON MenuItems
     FOR EACH ROW
         EXECUTE PROCEDURE maintainFoodCategories();
 
+CREATE OR REPLACE FUNCTION dailySoldUnderLimit()
+    RETURNS TRIGGER AS $$
+    BEGIN
+        IF NEW.num_sold > (SELECT daily_limit FROM MenuItems I WHERE I.res_id = NEW.res_id AND I.food_id = NEW.food_id) THEN
+            RAISE EXCEPTION 'Daily limit cannot be exceeded after it is newly set!';
+        END IF;
+        RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS ensureDailyLimitNotExceeded ON MenuItemsSold;
+CREATE TRIGGER ensureDailyLimitNotExceeded
+    BEFORE INSERT OR UPDATE ON MenuItemsSold
+    FOR EACH ROW
+        EXECUTE PROCEDURE dailySoldUnderLimit();
 

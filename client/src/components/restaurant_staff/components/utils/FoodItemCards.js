@@ -41,7 +41,7 @@ function FoodItemCard ({fooditem, onEditHandler, onDeleteHandler, onAvailability
     const isStillAvailable = (food) => food.daily_sells < food.daily_limit;
 
     return (
-        <Card color={isStillAvailable? fooditem.available ? 'green' : 'red' : 'orange'}>
+        <Card color={isStillAvailable(fooditem)? fooditem.available ? 'green' : 'red' : 'orange'}>
           <Card.Content>
             <Image floated='right' size='medium' 
               src={foodImage(fooditem)}

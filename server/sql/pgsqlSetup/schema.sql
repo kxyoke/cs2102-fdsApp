@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS Users CASCADE; 
 DROP TABLE IF EXISTS Restaurants CASCADE;
 DROP TABLE IF EXISTS MenuItems CASCADE;
-DROP TABLE IF EXISTS FoodItems CASCADE;
+DROP TABLE IF EXISTS MenuItemsSold CASCADE;
 DROP TABLE IF EXISTS FoodCategories CASCADE;
 DROP TABLE IF EXISTS RestaurantStaffs CASCADE;
 DROP TABLE IF EXISTS Customers CASCADE;
@@ -34,27 +34,30 @@ CREATE TABLE FoodCategories (
     category        TEXT PRIMARY KEY
 );
 
-CREATE TABLE FoodItems (
-    food_id            TEXT PRIMARY KEY,
+CREATE TABLE MenuItems (
+    res_id             TEXT,
+    food_id            TEXT,
     name               TEXT,
     description        TEXT,
     imagepath          TEXT DEFAULT 'https://react.semantic-ui.com/images/wireframe/image.png',
-    category           TEXT NOT NULL DEFAULT 'unknown',
-    FOREIGN KEY (category) REFERENCES FoodCategories 
-    -- NO ACTION ON CASCADE?
+    category           TEXT NOT NULL DEFAULT '???',
+    
+    price           NUMERIC,
+    daily_limit     INTEGER DEFAULT 20,
+    available       BOOLEAN DEFAULT true,
+    PRIMARY KEY (res_id, food_id),
+    FOREIGN KEY (res_id) REFERENCES Restaurants,
+    FOREIGN KEY (category) REFERENCES FoodCategories ON DELETE SET DEFAULT
 );
 
-CREATE TABLE MenuItems (
-    res_id      TEXT NOT NULL,
-    food_id     TEXT PRIMARY KEY,
-    price       NUMERIC,
-    daily_limit INTEGER DEFAULT 20,
-    daily_sells INTEGER DEFAULT 0,
-    --
-    available  BOOLEAN DEFAULT true,
-    FOREIGN KEY (res_id) REFERENCES Restaurants,
-    FOREIGN KEY (food_id) REFERENCES FoodItems ON DELETE CASCADE
-);
+CREATE TABLE MenuItemsSold (
+    res_id          TEXT,
+    food_id         TEXT,
+    day             DATE DEFAULT current_date,
+    num_sold        INTEGER DEFAULT 0 CHECK(num_sold >= 0),
+    PRIMARY KEY (res_id, food_id, day),
+    FOREIGN KEY (res_id, food_id) REFERENCES MenuItems
+); --and add trigger so num_sold <= daily_limit.
 
 
 
@@ -107,7 +110,7 @@ CREATE TABLE CartItems (
     PRIMARY KEY (usr_id, food_id),
     FOREIGN KEY (usr_id) REFERENCES Users ON DELETE CASCADE,
     FOREIGN KEY (res_id) REFERENCES Restaurants,
-    FOREIGN Key (food_id) REFERENCES FoodItems
+    FOREIGN Key (res_id, food_id) REFERENCES MenuItems
 );
 
 CREATE TABLE Riders (

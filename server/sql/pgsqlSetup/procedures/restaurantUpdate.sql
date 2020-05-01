@@ -26,6 +26,7 @@ $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE PROCEDURE
     updateRestaurantFoodItem(
+        _rid         TEXT,
         _fid         TEXT,
         _fprice      NUMERIC,
         _dailyLmt    INTEGER,
@@ -36,79 +37,67 @@ CREATE OR REPLACE PROCEDURE
     ) AS $$
 
     BEGIN
-        UPDATE FoodItems
-        SET name        = _fname,
-            description = _fdesc,
-            category    = _fcategory
-        WHERE
-            food_id = _fid;
-
         UPDATE MenuItems
         SET price       = _fprice,
+            name        = _fname,
+            description = _fdesc,
+            category    = _fcategory,
             daily_limit = _dailyLmt
         WHERE
-            food_id = _fid;
+            food_id = _fid AND res_id = _rid;
 
         IF _fimgpath IS NOT NULL AND _fimgpath <> '' THEN
-            UPDATE FoodItems
+            UPDATE MenuItems
             SET imagepath = _fimgpath
-            WHERE food_id = _fid;
+            WHERE food_id = _fid AND res_id = _rid;
         END IF;
     END;
 $$ LANGUAGE plpgsql;
 
+/*
 CREATE OR REPLACE PROCEDURE
     updateCategoryOf(
+        _rid     TEXT,
         _fid     TEXT,
         _cat     TEXT
     ) AS $$
 
     BEGIN
-        UPDATE FoodItems
+        UPDATE MenuItems
         SET category = _cat
-        WHERE food_id = _fid;
-        /*
-        DELETE FROM FoodCategories
-        WHERE category = _cat
-        AND NOT EXISTS (SELECT 1 FROM FoodItems WHERE category = _cat);
-        */
+        WHERE food_id = _fid AND res_id = _rid;
     END;
 $$ LANGUAGE plpgsql;
-
+*/
 CREATE OR REPLACE PROCEDURE
     updateAvailabilityOf(
+        _rid     TEXT,
         _fid     TEXT,
-        _avail     BOOLEAN
+        _avail   BOOLEAN
     ) AS $$
 
     BEGIN
         UPDATE MenuItems
         SET available = _avail
-        WHERE food_id = _fid;
+        WHERE food_id = _fid AND res_id = _rid;
     END;
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE PROCEDURE
     incrementSoldFoodItem(
-        _fid     TEXT
+        _rid     TEXT,
+        _fid     TEXT,
+        _amt     INTEGER
     ) AS $$
 
     BEGIN
-        UPDATE MenuItems
-        SET daily_sells = daily_sells + 1
-        WHERE food_id = _fid;
-    END;
-$$ LANGUAGE plpgsql;
+        IF (_rid, _fid, current_date) NOT IN (SELECT res_id, food_id FROM MenuItemsSold) THEN
+            INSERT INTO MenuItemsSold(res_id, food_id) VALUES(_rid, _fid);
+        END IF;
 
-CREATE OR REPLACE PROCEDURE
-    resetDailySellsForFoodItem(
-        _fid     TEXT
-    ) AS $$
-
-    BEGIN
-        UPDATE MenuItems
-        SET daily_sells = DEFAULT
-        WHERE food_id = _fid;
+        UPDATE MenuItemsSold
+        SET daily_sells = daily_sells + _amt
+        WHERE food_id = _fid AND res_id = _rid;
     END;
 $$ LANGUAGE plpgsql;
 

@@ -3,12 +3,12 @@ const log = require('../../../logger');
 const rsql = require('../../../sql/restaurant');
 
 module.exports = (req, res) => {
-    log.info('Querying update rMenuItem category.');
+    log.info('Querying update rMenuItem sold number.');
     const rid = req.params.rid;
     const fid = req.params.fid;
-    const cat = req.body.category;
+    const sold = req.body.amountSold;
 
-    pool.query(rsql.update.foodItemCategory, [rid, fid, cat],
+    pool.query(rsql.update.dailySoldFoodItemCount, [rid, fid, sold],
         (qerr, qres) => {
             if (qerr) {
                 console.log(qerr)

@@ -4,6 +4,7 @@ const rsql = require('../../../sql/restaurant');
 
 module.exports = (req, res) => {
     log.info('Querying update rMenuItem.');
+    const rid = req.params.rid;
     const fid = req.params.fid;
     const price = req.body.price;
     const dailyLmt = req.body.daily_limit;
@@ -13,7 +14,7 @@ module.exports = (req, res) => {
     const cat = req.body.category;
 
     pool.query(rsql.update.foodItem,
-        [fid, price, dailyLmt, name, desc, imgPath, cat],
+        [rid, fid, price, dailyLmt, name, desc, imgPath, cat],
         (qerr, qres) => {
             if (qerr) {
                 console.log(qerr)

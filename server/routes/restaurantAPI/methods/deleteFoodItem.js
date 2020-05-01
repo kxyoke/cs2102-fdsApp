@@ -4,10 +4,10 @@ const rsql = require('../../../sql/restaurant');
 
 module.exports = (req, res) => {
     log.info('Querying delete rMenuItem.');
-    //const rid = req.params.rid;
+    const rid = req.params.rid;
     const fid = req.params.fid;
 
-    pool.query(rsql.del.foodItem, [fid],
+    pool.query(rsql.del.foodItem, [rid,fid],
         (qerr, qres) => {
             if (qerr) {
                 console.log(qerr);
