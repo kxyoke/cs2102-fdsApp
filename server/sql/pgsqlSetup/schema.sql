@@ -195,6 +195,7 @@ CREATE TABLE Coupons (
     coupon_id        TEXT PRIMARY KEY,
     coupon_group_id  TEXT NOT NULL,
     usr_id           VARCHAR(255) NOT NULL,
+    is_used          BOOLEAN NOT NULL,
     FOREIGN KEY (coupon_group_id) REFERENCES Coupons,
     FOREIGN KEY (usr_id) REFERENCES Customers
 );
