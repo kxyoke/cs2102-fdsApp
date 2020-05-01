@@ -5,6 +5,7 @@ const retrieveStaffIdAndRid = require('./methods/getStaffAndRidFromSession');
 
 const getRestaurant = require('./methods/getProfile');
 const updateRestaurant = require('./methods/updateProfile');
+
 const addMenuFoodItem = require('./methods/addMenuFoodItem');
 const getFoodCategories = require('./methods/getFoodCategories');
 const getRestaurantFoodCategories = require('./methods/getRestaurantFoodCategories');
@@ -14,9 +15,13 @@ const updateFoodItem = require('./methods/updateFoodItem');
 const updateFoodAvailability = require('./methods/updateFoodAvailability');
 const updateFoodItemCategory = require('./methods/updateFoodItemCategory');
 const deleteFoodItem = require('./methods/deleteFoodItem');
+
 const getRestaurantReviews = require('./methods/getReviews');
+
 const getRestaurantCurrentOrders = require('./methods/getCurrentOrders');
 const getRestaurantCompletedOrders = require('./methods/getCompletedOrders');
+const setOrderIsPrepared = require('./methods/updateOrderIsPrepared');
+
 const getRestaurantPromos = require('./methods/getPromos');
 const addRestaurantPromo = require('./methods/addPromo');
 const updateRestaurantPromo = require('./methods/updatePromo');
@@ -60,6 +65,8 @@ rRouter.route('/orders/current/:rid')
     .get(getRestaurantCurrentOrders);
 rRouter.route('/orders/completed/:rid')
     .get(getRestaurantCompletedOrders);
+rRouter.route('/orders/setPrepared/:oid')
+    .put(setOrderIsPrepared);
 
 rRouter.route('/promos/all/:rid')
     .get(getRestaurantPromos)

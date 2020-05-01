@@ -22,7 +22,7 @@ queries.get = {
          FROM Orders O JOIN Deliveries D using (order_id) 
          WHERE res_id = $1 AND status <> 'complete' ORDER BY is_prepared DESC, order_time ASC`,
     allCompletedOrders: /*[res_id]*/
-        `SELECT order_id, res_id, O.usr_id as c_id, total, payment, listOfItems, status, D.usr_id as dr_id, place_order_time, dr_leave_res as sent_food_time, dr_arrive_cus as complete_time 
+        `SELECT order_id, res_id, O.usr_id as c_id, total, payment, listOfItems, status, D.usr_id as dr_id, place_order_time as order_time, dr_leave_res as sent_food_time, dr_arrive_cus as complete_time 
           FROM Orders O JOIN Deliveries D using (order_id)
           WHERE res_id = $1 AND status = 'complete' ORDER BY complete_time DESC`,
     allPromos: /*[res_id]*/
@@ -42,7 +42,9 @@ queries.update = {
     foodItemAvailability: `CALL updateAvailabilityOf($1, $2)`, /*fid, avail*/
     dailySoldFoodItemCount: `CALL incrementSoldFoodItem($1)`, /*fid*/
     resetDailySells: `CALL resetDailySellsForFoodItem($1)`, /*fid*/
-    promo: `CALL updateRestaurantPromo($1, $2, $3, $4)` /*pid, desc, startDay, endDay*/
+    promo: `CALL updateRestaurantPromo($1, $2, $3, $4)`, /*pid, desc, startDay, endDay*/
+    orderIsPrepared: `UPDATE Orders SET is_prepared = TRUE WHERE order_id = $1`, /*oid*/
+
 }
 
 queries.add = {

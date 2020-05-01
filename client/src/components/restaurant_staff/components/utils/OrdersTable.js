@@ -56,8 +56,8 @@ function OrdersCard(props) {
         
     }, [listofitems])
 
-    const header = (order_id, total) => `${order_id} with total of $${total}`
-    const metadata = (order_time, c_id, payment, dr_id) => `Ordered at ${order_time.toLocaleString()} by ${c_id} using ${payment}${dr_id != null ? "; delivery rider " +  dr_id : ''}`
+    const header = (order_id, total) => `Order #${order_id} with total of $${total}`
+    const metadata = (order_timestring, c_id, payment, dr_id) => `Ordered at ${new Date(order_timestring).toLocaleString()} by ${c_id} using ${payment}${dr_id != null ? "; delivery rider " +  dr_id : ''}`
     const desc = (listofitems) => is_prepared? 'You have finished preparing for this order.' 
                     :`You have ${totalNumItems(listofitems)} items to prepare in total.`
 
@@ -68,7 +68,7 @@ function OrdersCard(props) {
             : <Button color='red' onChange={setPreparedHandler}
                 floated='right'>Set as prepared</Button>}
           <Card.Header>{header(order_id, total)}</Card.Header>
-          <Card.Meta>{metadata(new Date(order_time), c_id, payment, dr_id)}</Card.Meta>
+          <Card.Meta>{metadata(order_time, c_id, payment, dr_id)}</Card.Meta>
           <Card.Description>{desc(listofitems)}</Card.Description>
         </Card.Content>
         { foods.map( food => <Card.Content extra>
