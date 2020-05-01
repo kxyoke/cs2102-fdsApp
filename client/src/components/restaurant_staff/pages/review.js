@@ -34,7 +34,7 @@ export default function ResReview(props) {
         <MyHeader/>
           <div className='container' style={{ marginTop: '5em', marginBottom: '1em'}}>
             <Header as='h2'>Order reviews</Header>
-            <ReviewsCardGroup reviews={reviews} />
+            <ReviewsCardGroup reviews={reviews} res_id={rid} />
           </div>
         </div>
     )

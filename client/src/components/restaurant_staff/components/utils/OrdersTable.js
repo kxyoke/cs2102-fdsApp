@@ -47,10 +47,11 @@ function OrdersCard(props) {
             .then(res => {
                 if (res.status == 200) {
                     setFoods(res.data)
+                } else {
+                    alert(res)
                 }
             })
             .catch(err => {
-                //TODO: is server err thrown here? idk see shuting's pr
                 console.log(err)
             });
         
