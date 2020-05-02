@@ -19,7 +19,14 @@ import CustomerEditAddress from './components/customers/pages/customer_editAddre
 
 import CCart from './components/customers/pages/customer_cart';
 import RHome from './components/delivery_riders/pages/home';
+
 import FHome from './components/fds/pages/home';
+import FProfile from './components/fds/pages/profile';
+import FProfileEdit from './components/fds/pages/profileEdit';
+import FPromos from './components/fds/pages/promos';
+import FPromoEdit from './components/fds/pages/promoEdit';
+import FCoupons from './components/fds/pages/coupons';
+import FCouponEdit from './components/fds/pages/couponEdit';
 
 import ResHome from './components/restaurant_staff/pages/home';
 import ResProfile from './components/restaurant_staff/pages/profile';
@@ -47,10 +54,16 @@ export default function Routes() {
             <Route path = '/signUp' component= {WithNoAuth(SignUp)}/>
            
             <Route path='/deliveryRider' component={WithRiderAuth(RHome)}/>
-            <Route exact path='/restaurant' component={WithResStaffAuth(ResHome)}/>
-            <Route path='/fdsManager' component={WithFdsAuth(FHome)}/>
-
             
+            <Route exact path='/fdsManager' component={WithFdsAuth(FHome)}/>
+            <Route exact path='/fdsManager/profile' component={WithFdsAuth(FProfile)}/>
+            <Route path='/fdsManager/profile/edit' component={WithFdsAuth(FProfileEdit)}/>
+            <Route exact path='/fdsManager/promos' component={WithFdsAuth(FPromos)}/>
+            <Route path='/fdsManager/promos/edit' component={WithFdsAuth(FPromoEdit)}/>
+            <Route exact path='/fdsManager/coupons' component={WithFdsAuth(FCoupons)}/>
+            <Route path='/fdsManager/coupons/edit' component={WithFdsAuth(FCouponEdit)}/>
+
+            <Route path='/restaurant' component={WithResStaffAuth(ResHome)}/>
             <Route path='/restaurant/profile' component={WithResStaffAuth(ResProfile)}/>
             <Route path='/restaurant/reviews' component={WithResStaffAuth(ResReview)}/>
             <Route exact path='/restaurant/promos' component={WithResStaffAuth(ResPromo)}/>

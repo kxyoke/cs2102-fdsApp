@@ -1,14 +1,20 @@
-import React, { Component } from 'react';
-import LogoutButton from '../../logoutButton';
+import React, { Component } from 'react'
+import HeaderMenu from '../layout/headerMenu'
+import LogoutButton from '../../logoutButton'
+import { Header } from 'semantic-ui-react'
+import axios from 'axios';
 
-export default class FHome extends Component {
+export default function FHome(props) {
 
-    render() {
-        return(
-            <div>
-            <h1>FDS Home page</h1>
-            <LogoutButton/>
-            </div>
-        )
-    }
+    return(
+        <div className="Home">
+            <HeaderMenu/>
+            <Header 
+                as='h1' 
+                textAlign='center'
+                content='FDS Manager Homepage'
+                subheader='View application statistics'
+            />
+        </div>
+    )
 }

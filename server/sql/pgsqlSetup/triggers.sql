@@ -110,4 +110,5 @@ CREATE TRIGGER keepOnlyNonEmptyFoodCategories
     FOR EACH ROW
         EXECUTE PROCEDURE maintainFoodCategories();
 
+--FDS MANAGER
 
