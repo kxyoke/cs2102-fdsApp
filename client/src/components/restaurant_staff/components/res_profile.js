@@ -99,6 +99,7 @@ export default function RProfile(props) {
                     })
                     .catch(err => {
                         console.log(err)
+                        alert('Restaurant name belongs to another restaurant!')
                     });
                 break
             case validationState.SUBMIT_NOUPDATE:
