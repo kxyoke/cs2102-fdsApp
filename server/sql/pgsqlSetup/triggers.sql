@@ -156,3 +156,5 @@ CREATE TRIGGER updateDailySellsWhenOrdered
     FOR EACH ROW
         EXECUTE PROCEDURE autoUpdateDailySells();
 
+--FDS MANAGER
+

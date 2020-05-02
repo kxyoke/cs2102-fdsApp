@@ -15,6 +15,7 @@ DROP TABLE IF EXISTS Orders CASCADE;
 DROP TYPE IF EXISTS OrderItem CASCADE;
 DROP TABLE IF EXISTS Deliveries CASCADE;
 DROP TABLE IF EXISTS Promotions CASCADE;
+DROP TABLE IF EXISTS CouponGroups CASCADE;
 DROP TABLE IF EXISTS Coupons CASCADE;
 DROP TABLE IF EXISTS Wws CASCADE;
 DROP TABLE IF EXISTS Mws CASCADE;
@@ -189,12 +190,18 @@ CREATE TABLE Promotions (
     )
 );
 
+CREATE TABLE CouponGroups (
+    coupon_group_id  TEXT PRIMARY KEY,
+    description      VARCHAR(255) NOT NULL,
+    expiry_date      TIMESTAMP
+);
 
 CREATE TABLE Coupons (
-    coupon_id       TEXT PRIMARY KEY,
-    usr_id          VARCHAR(255),
-    description     VARCHAR(255) NOT NULL,
-    expiry_date     TIMESTAMP,
+    coupon_id        TEXT PRIMARY KEY,
+    coupon_group_id  TEXT NOT NULL,
+    usr_id           VARCHAR(255) NOT NULL,
+    is_used          BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (coupon_group_id) REFERENCES Coupons,
     FOREIGN KEY (usr_id) REFERENCES Customers
 );
 

@@ -14,5 +14,7 @@ INSERT INTO FoodCategories(category) VALUES ('Others');
 \i ./procedures/restaurantDelete.sql
 \i ./procedures/restaurantUpdate.sql
 
+\i ./procedures/manager.sql
+
 \i ./init.sql
 
