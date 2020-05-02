@@ -133,18 +133,18 @@ CREATE OR REPLACE FUNCTION autoUpdateDailySells()
         today    Date := current_date;
         fidCount TEXT[];
     BEGIN
-        FOREACH fidCount IN ARRAY NEW.listOfItems
+        FOREACH fidCount SLICE 1 IN ARRAY NEW.listOfItems
         LOOP
-            IF (NEW.res_id, fidCount[0], today) IN 
+            IF (NEW.res_id, fidCount[1], today) IN 
                 (SELECT res_id, food_id, day FROM MenuItemsSold) THEN
                 UPDATE MenuItemsSold
-                SET num_sold = num_sold + CAST(fidCount[1] AS INTEGER)
+                SET num_sold = num_sold + CAST(fidCount[2] AS INTEGER)
                 WHERE res_id = NEW.res_id
-                 AND food_id = fidCount[0]
+                 AND food_id = fidCount[1]
                  AND   day   = today;
             ELSE
                 INSERT INTO MenuItemsSold(res_id, food_id, day, num_sold)
-                VALUES(NEW.res_id, fidCount[0], today, CAST(fidCount[1] AS INTEGER));
+                VALUES(NEW.res_id, fidCount[1], today, CAST(fidCount[2] AS INTEGER));
             END IF;
         END LOOP;
         RETURN NEW;
