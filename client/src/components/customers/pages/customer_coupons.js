@@ -39,6 +39,7 @@ export default function CCoupons(props) {
                         <th scope="col">Coupon Id</th>
                         <th scope="col">Description</th>
                         <th scope="col">Expiry date</th>
+                        <th scope="col" > Status </th>
                         </tr>
                     </thead>
                     <tbody>
