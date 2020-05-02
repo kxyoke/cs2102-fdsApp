@@ -8,12 +8,22 @@ export default function COrder(props) {
     const [loading, setLoading] = useState(true);
     const [pastOrders, setPastOrders] = useState([]);
     const [show, setShow] = useState(false);
+
+    function orderedByTime(a,b) {
+        const time_a = new Date(a.ordertime);
+        const time_b = new Date(b.ordertime);
+        return time_a-time_b;
+    }
     useEffect( () => {
         const fetchData = async () => {
 
             await axios.get('/api/customer/order')
             .then (res => {
                 if(res.data.length > 0) {
+                     res.data.sort((a,b)=> 
+                        new Date(b.ordertime) - new Date(a.ordertime)
+                    );
+                    
                     setPastOrders(res.data);
                     setShow(true);
                     setLoading(false);

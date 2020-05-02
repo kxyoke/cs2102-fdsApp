@@ -24,11 +24,17 @@ const getPastOrders = require('./methods/getPastOrder')
 
 const useCoupon = require('./methods/useCoupon')
 const getReviews = require('./methods/viewReview')
+const getPendingReviews = require('./methods/getPendingReview')
+const addReviews = require('./methods/addReviews')
+
 cRouter.route('/res')
         .get(getResList);
 
 cRouter.route('/review')
-        .get(getReviews);  
+        .get(getReviews)
+        .post(addReviews);  
+cRouter.route('/review/pending')
+        .get(getPendingReviews); 
 
 cRouter.route('/cart')
     .get(viewCart)

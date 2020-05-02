@@ -51,3 +51,13 @@ BEGIN
     WHERE usr_id = u_id;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE PROCEDURE 
+    addReview(o_id TEXT,
+            rev TEXT,
+            rate NUMERIC
+            ) AS $$
+BEGIN
+    INSERT INTO Reviews VALUES(o_id, rev, rate);
+END;
+$$ LANGUAGE plpgsql;

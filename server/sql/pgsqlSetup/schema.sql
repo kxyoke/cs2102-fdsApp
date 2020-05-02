@@ -153,7 +153,7 @@ CREATE TABLE Orders (
 CREATE TABLE Reviews (
     order_id        TEXT PRIMARY KEY,
     food_rev        TEXT,
-    delivery_rating NUMERIC CHECK(delivery_rating >0 AND delivery_rating<=10),
+    delivery_rating NUMERIC CHECK(delivery_rating >0 AND delivery_rating<=5),
     FOREIGN KEY(order_id) REFERENCES Orders
 );
 
