@@ -135,7 +135,8 @@ CREATE OR REPLACE FUNCTION autoUpdateDailySells()
     BEGIN
         FOREACH fidCount IN ARRAY NEW.listOfItems
         LOOP
-            IF (NEW.res_id, fidCount[0], today) IN SELECT res_id, food_id, day FROM MenuItemsSold THEN
+            IF (NEW.res_id, fidCount[0], today) IN 
+                (SELECT res_id, food_id, day FROM MenuItemsSold) THEN
                 UPDATE MenuItemsSold
                 SET num_sold = num_sold + CAST(fidCount[1] AS INTEGER)
                 WHERE res_id = NEW.res_id
@@ -143,7 +144,7 @@ CREATE OR REPLACE FUNCTION autoUpdateDailySells()
                  AND   day   = today;
             ELSE
                 INSERT INTO MenuItemsSold(res_id, food_id, day, num_sold)
-                VALUES(NEW.res_id, fidCount[0], today, CAST(fidCount[1] AS INTEGER);
+                VALUES(NEW.res_id, fidCount[0], today, CAST(fidCount[1] AS INTEGER));
             END IF;
         END LOOP;
         RETURN NEW;
