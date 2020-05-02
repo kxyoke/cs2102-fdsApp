@@ -125,3 +125,33 @@ CREATE TRIGGER ensureDailyLimitNotExceeded
     FOR EACH ROW
         EXECUTE PROCEDURE dailySoldUnderLimit();
 
+
+-- Addition to Orders to update daily_sells
+CREATE OR REPLACE FUNCTION autoUpdateDailySells()
+    RETURNS TRIGGER AS $$
+    DECLARE
+        today    Date := current_date;
+        fidCount TEXT[];
+    BEGIN
+        FOREACH fidCount IN ARRAY NEW.listOfItems
+        LOOP
+            IF (NEW.res_id, fidCount[0], today) IN SELECT res_id, food_id, day FROM MenuItemsSold THEN
+                UPDATE MenuItemsSold
+                SET num_sold = num_sold + CAST(fidCount[1] AS INTEGER)
+                WHERE res_id = NEW.res_id
+                 AND food_id = fidCount[0]
+                 AND   day   = today;
+            ELSE
+                INSERT INTO MenuItemsSold(res_id, food_id, day, num_sold)
+                VALUES(NEW.res_id, fidCount[0], today, CAST(fidCount[1] AS INTEGER);
+            END IF;
+        END LOOP;
+        RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS updateDailySellsWhenOrdered ON Orders;
+CREATE TRIGGER updateDailySellsWhenOrdered
+    AFTER INSERT ON Orders
+    FOR EACH ROW
+        EXECUTE PROCEDURE autoUpdateDailySells();
+
