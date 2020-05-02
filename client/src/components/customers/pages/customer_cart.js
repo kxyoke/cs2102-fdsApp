@@ -53,7 +53,7 @@ export default function CCart(props) {
             .then(Axios.spread((...res)=> {
                 const res1 = res[0];
                 const res2=res[1];
-                console.log(res2.data);
+
 
                 if(res1.data !== 'empty') {
                     setCarts(res1.data);

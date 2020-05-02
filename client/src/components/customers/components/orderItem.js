@@ -2,13 +2,9 @@ import React, {useState, useEffect} from 'react';
 
 export default function OrderItem(props) {
     const {order_id, rname, payment, total,  listofitems, status, ordertime} = props.order;
-    const [foodList, setFoodList] = useState([])
+   
     const time = new Date (ordertime);
-    useEffect(() => {
-        for(const food of listofitems) {
-            setFoodList(old => [...old, food.name])
-        }
-    }, [listofitems])
+   
 
     return (
         <React.Fragment>
@@ -32,7 +28,20 @@ export default function OrderItem(props) {
                         Restaurant : {rname}
                     </h5>
                     <p class="card-text"> 
-                        Food order: {foodList.join()}
+                        
+                    
+                    <label>Food order:</label>
+                    {listofitems.map(item=> (
+                        <div class="row">
+                            <div class="col-1"/>
+                            <div class="col-8">
+                                {item.name}
+                            </div>
+                            <div class="col">
+                                {item.qty}x
+                            </div>
+                        </div>
+                    ))}
                     </p>
                     <p> </p>
                     <p class="card-text"> 
