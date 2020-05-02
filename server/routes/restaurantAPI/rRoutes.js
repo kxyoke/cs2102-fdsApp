@@ -2,6 +2,8 @@ var express = require('express');
 var rRouter = express.Router();
 
 const retrieveStaffIdAndRid = require('./methods/getStaffAndRidFromSession');
+const updateUserPwd = require('./methods/updateUserPwd');
+const updateResPwd = require('./methods/updateResPwd');
 
 const getRestaurant = require('./methods/getProfile');
 const updateRestaurant = require('./methods/updateProfile');
@@ -38,6 +40,11 @@ rRouter.route('/')
 rRouter.route('/:rid')
     .get(getRestaurant)
     .put(updateRestaurant);
+
+rRouter.route('/userPwd/:uid')
+    .put(updateUserPwd);
+rRouter.route('/resPwd/:rid')
+    .put(updateResPwd);
 
 rRouter.route('/menu/:rid')
     .post(addMenuFoodItem)

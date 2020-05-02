@@ -2,11 +2,13 @@ const queries = {};
 
 queries.get = {
     allRestaurants:
-        `SELECT * FROM Restaurants ORDER BY rname ASC`,
-    rid: /*[staff_id]*/
-        `SELECT usr_id as staff_id, res_id as rid FROM RestaurantStaffs WHERE usr_id = $1`,
-    profile: /*[res_id]*/
+        `SELECT res_id, rname, address, min_amount FROM Restaurants ORDER BY rname ASC`,
+    userInfo: /*[staff_id]*/
+        `SELECT usr_id as staff_id, res_id as rid, is_manager FROM RestaurantStaffs WHERE usr_id = $1`,
+    allRDetails: /*[res_id}*/
         `SELECT * FROM Restaurants WHERE res_id = $1`,
+    profile: /*[res_id]*/
+        `SELECT res_id, rname, address, min_amount FROM Restaurants WHERE res_id = $1`,
     allMenuItems: /*[res_id]*/
         `SELECT res_id, food_id, name, description, imagepath, category, price, daily_limit, available, current_date as day, COALESCE(num_sold, 0) as daily_sells FROM MenuItems NATURAL LEFT JOIN (SELECT * FROM MenuItemsSold WHERE res_id = $1 AND day = current_date) as M WHERE res_id = $1 ORDER BY name ASC, price DESC`,
     allFoodCategories:
@@ -37,6 +39,7 @@ queries.get = {
 
 queries.update = {
     profile: `CALL updateRestaurantProfile($1, $2, $3, $4)`, /*res_id, rname, address, min_amt*/
+    resPwd: `UPDATE Restaurants SET password_digest = $2 WHERE res_id = $1`, /*res_id, pwdHash*/
     foodItem: `CALL updateRestaurantFoodItem($1, $2, $3, $4, $5, $6, $7, $8)`, /*rid, fid, price, dailyLmt, name, desc, imgpath, category*/
     foodItemCategory: `CALL updateCategoryOf($1, $2, $3)`, /*rid, fid, cat*/
     foodItemAvailability: `CALL updateAvailabilityOf($1, $2, $3)`, /*rid, fid, avail*/
