@@ -25,7 +25,7 @@ const getFullTime = require('./methods/getFullTime');
 
 riRouter.route('/profile')
    .get(getProfile)
-   .put(updateProfile);
+   .post(updateProfile);
 
 riRouter.route('/home/delivery')
     .get(getCurrentDelivery)

@@ -16,6 +16,12 @@ import Button from "@material-ui/core/Button";
 import {Col, Form, FormGroup} from "react-bootstrap";
 import Select from "react-select";
 import Row from "react-bootstrap/lib/Row";
+import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
+import ScheduleIcon from '@material-ui/icons/Schedule';
+import MotorcycleIcon from '@material-ui/icons/Motorcycle';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import FilterListIcon from '@material-ui/icons/FilterList';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,6 +41,13 @@ const useStyles = makeStyles((theme) => ({
     },
     choices: {
         zIndex: 1000,
+    },
+    container: {
+        paddingTop: theme.spacing(3),
+        paddingBottom: theme.spacing(3),
+    },
+    gridAlign: {
+        justify: 'flex-end',
     }
 }));
 
@@ -118,7 +131,11 @@ export default function RSummary(props) {
                 });
             };
             const fetchDataSalary = async () => {
-                await axios.get(urlSalary)
+                await axios.get(urlSalary, {
+                    params: {
+                        filter: filter
+                    }
+                })
                     .then(res=> {
                         if(res.data.length > 0) {
                             setSalary(res.data[0].getridersalary);
@@ -149,8 +166,10 @@ export default function RSummary(props) {
                 <SideBar/>
                 <main className={classes.content}>
                     <div className={classes.appBarSpacer} />
-                    <h1>Summary</h1>
                     <Container maxWidth="lg" >
+                        <div  className={classes.container}>
+                            <span style={{color:'#5a5c69',  fontSize: '40px'}}>Summary</span>
+                        </div>
                         <div className="container">
                             <div className="row justify-content-md-center">
 
@@ -162,7 +181,6 @@ export default function RSummary(props) {
                                     </div>
                                     : null
                                 }
-
                             </div>
                         </div>
                         <Grid container spacing={1}>
@@ -194,46 +212,100 @@ export default function RSummary(props) {
                                                 </FormGroup>
                                             </Col>
                                         </Row>
-                                        <Row>
+                                        <Row align={"center"}>
                                             <Col xs={12} md={12} lg={12} >
-                                                <Button style={{alignSelf:'center'}}  type="submit">
+                                                <Button
+                                                    variant="contained"
+                                                    color="secondary"
+                                                    className={classes.button}
+                                                    startIcon={<FilterListIcon/>}
+                                                    type="submit"
+                                                >
                                                     Filter
                                                 </Button>
                                             </Col>
                                         </Row>
                                     </Form>
-                                <Paper className={classes.paper}>
-                                    <h2>Total Deliveries within this Period: {deliveriesCount}</h2>
-                                    <h2>Total Delivery Fee earned within this period: {deliveryFee}</h2>
-                                    <Table size="lg">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>Order ID</TableCell>
-                                                <TableCell>Order Time</TableCell>
-                                                <TableCell>Delivery Fee</TableCell>
-                                                <TableCell>Link</TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {deliveries.map((content) =>
+                                <Container maxWidth="lg" className={classes.container}>
+                                    <Paper className={classes.paper}>
+                                        <Table size="lg">
+                                            <TableHead>
                                                 <TableRow>
-                                                    <TableCell>{content.getfiltereddeliveries.order_id}</TableCell>
-                                                    <TableCell>{convertIfNull(content.getfiltereddeliveries.place_order_time)}</TableCell>
-                                                    <TableCell>{content.getfiltereddeliveries.delivery_fee}</TableCell>
-                                                    <TableCell><Link to={{ pathname: '/deliveryRider/getDeliveryDetails', state: content.getfiltereddeliveries }}>More Details</Link></TableCell>
+                                                    <TableCell>Order ID</TableCell>
+                                                    <TableCell>Order Time</TableCell>
+                                                    <TableCell>Delivery Fee</TableCell>
+                                                    <TableCell>Link</TableCell>
                                                 </TableRow>
-                                            )}
-                                        </TableBody>
-                                    </Table>
+                                            </TableHead>
+                                            <TableBody>
+                                                {deliveries.map((content) =>
+                                                    <TableRow>
+                                                        <TableCell>{content.getfiltereddeliveries.order_id}</TableCell>
+                                                        <TableCell>{convertIfNull(content.getfiltereddeliveries.place_order_time)}</TableCell>
+                                                        <TableCell>{content.getfiltereddeliveries.delivery_fee}</TableCell>
+                                                        <TableCell><Link to={{ pathname: '/deliveryRider/getDeliveryDetails', state: content.getfiltereddeliveries }}>More Details</Link></TableCell>
+                                                    </TableRow>
+                                                )}
+                                            </TableBody>
+                                        </Table>
+                                    </Paper>
+                                </Container>
+                            </Grid>
+                        </Grid>
+                        <Grid container spacing={1}>
+                            <Grid item xs={3} md={3} lg={3}>
+                                <Paper className={classes.paper}>
+                                    <Grid container spacing={1}>
+                                        <Grid item xs={4} md={4} lg={4} >
+                                            <AccountBalanceWalletIcon style={ {fontSize:'60px'}}/>
+                                        </Grid>
+                                        <Grid item xs={8} md={8} lg={8} align={"right"} >
+                                            <p>Total Base Salary </p>
+                                            <h2>${salary} </h2>
+                                        </Grid>
+                                    </Grid>
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={3} md={3} lg={3}>
+                                <Paper className={classes.paper}>
+                                    <Grid container spacing={1}>
+                                        <Grid item xs={4} md={4} lg={4} >
+                                            <ScheduleIcon style={ {fontSize:'60px'}}/>
+                                        </Grid>
+                                        <Grid item xs={8} md={8} lg={8} align={"right"} >
+                                            <p >Total Working Hours</p>
+                                            <h2>{workingHours} hours</h2>
+                                        </Grid>
+                                    </Grid>
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={3} md={3} lg={3}>
+                                <Paper className={classes.paper}>
+                                    <Grid container spacing={1}>
+                                        <Grid item xs={4} md={4} lg={4} >
+                                            <MotorcycleIcon style={ {fontSize:'60px'}}/>
+                                        </Grid>
+                                        <Grid item xs={8} md={8} lg={8} align={"right"} >
+                                            <p >Total Deliveries</p>
+                                            <h2>{deliveriesCount}</h2>
+                                        </Grid>
+                                    </Grid>
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={3} md={3} lg={3}>
+                                <Paper className={classes.paper}>
+                                    <Grid container spacing={1}>
+                                        <Grid item xs={4} md={4} lg={4} >
+                                            <MonetizationOnIcon style={ {fontSize:'60px'}}/>
+                                        </Grid>
+                                        <Grid item xs={8} md={8} lg={8} align={"right"} >
+                                            <p >Total Delivery Fee</p>
+                                            <h2>${deliveryFee}</h2>
+                                        </Grid>
+                                    </Grid>
                                 </Paper>
                             </Grid>
                         </Grid>
-                        <Paper classes={classes.paper}>
-                            <h2>Total Monthly Salary: {salary} </h2>
-                        </Paper>
-                        <Paper classes={classes.paper}>
-                            <h2>Total Working Hours: {workingHours} </h2>
-                        </Paper>
                     </Container>
                 </main>
             </div>

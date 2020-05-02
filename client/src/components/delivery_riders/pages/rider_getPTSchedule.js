@@ -40,7 +40,10 @@ const useStyles = makeStyles((theme) => ({
         overflow: 'auto',
         flexDirection: 'column',
     },
-
+    container: {
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+    },
 }));
 
 function createtwoDArray() {
@@ -126,8 +129,10 @@ export default function RPTSchedule(props) {
                 <SideBar/>
                 <main className={classes.content}>
                     <div className={classes.appBarSpacer} />
-                    <h1>Work Schedule</h1>
                     <Container maxWidth="lg" >
+                        <div  className={classes.container}>
+                            <span style={{color:'#5a5c69',  fontSize: '40px'}}>Work Schedule</span>
+                        </div>
                         <Grid container spacing={1}>
                             <Grid item xs={12} md={12} lg={12}>
                                 <Paper className={classes.root}>

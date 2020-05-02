@@ -13,9 +13,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Divider from "@material-ui/core/Divider";
 import {makeStyles} from "@material-ui/core/styles";
 import Person from "@material-ui/icons/Person";
-import ListItem from "@material-ui/core/ListItem";
 import axios from "axios";
-
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,6 +36,7 @@ export default function HeaderIcons() {
         setOpenProfile(null);
     };
     const [navigate, setNavigate] = useState(false);
+    const history = useHistory();
 
     function logout(e) {
         e.preventDefault();
@@ -47,6 +47,11 @@ export default function HeaderIcons() {
                 setNavigate(true);
             }
         })
+    }
+
+    function changeToProfile(e) {
+        e.preventDefault();
+        history.push("/deliveryRider/profile");
     }
 
     return (
@@ -94,7 +99,10 @@ export default function HeaderIcons() {
                                                 onClick={handleCloseProfile}
                                                 className={classes.dropdownItem}
                                             >
-                                                Profile
+                                                <div onClick={changeToProfile}
+                                                     style={{display: "flex", float: 'right'}}>
+                                                    Profile
+                                                </div>
                                             </MenuItem>
                                             <MenuItem
                                                 onClick={handleCloseProfile}

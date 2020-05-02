@@ -14,6 +14,7 @@ import TableBody from "@material-ui/core/TableBody";
 import Grid from "@material-ui/core/Grid";
 import {Link} from "react-router-dom";
 import Button from "@material-ui/core/Button";
+import EditIcon from '@material-ui/icons/Edit';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -50,6 +51,9 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         backgroundColor: theme.palette.background.paper,
     },
+    container: {
+        paddingBottom: theme.spacing(2),
+    },
 }));
 
 export default function SimpleTabs(props) {
@@ -62,6 +66,7 @@ export default function SimpleTabs(props) {
 
     return (
         <div className={classes.root}>
+            <div>
             <AppBar position="static">
                 <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" centered>
                     <Tab label="Week One" {...a11yProps(0)} />
@@ -158,11 +163,19 @@ export default function SimpleTabs(props) {
                     </TableBody>
                 </Table>
             </TabPanel>
-            <Link to={{pathname:"/deliveryRider/editPTSchedule", state: {weekNum:value}}}>
-                <Button renderAs="button">
-                    <span>Edit Schedule</span>
-                </Button>
-            </Link>
+            </div>
+            <div align={"center"} className={classes.container}>
+                <Link to={{pathname:"/deliveryRider/editPTSchedule", state: {weekNum:value}}} >
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        className={classes.button}
+                        startIcon={<EditIcon/>}
+                        renderAs="button">
+                        <span>Edit Schedule</span>
+                    </Button>
+                </Link>
+            </div>
         </div>
     );
 }

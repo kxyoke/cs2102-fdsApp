@@ -9,6 +9,7 @@ riders.queries = {
     get_detailed_orders: "SELECT * from Orders WHERE order_id = $1 ",
     get_current_deliveries: "SELECT * FROM Orders NATURAL JOIN Restaurants INNER JOIN Deliveries ON Deliveries.order_id = Orders.order_id WHERE Orders.status = $2 AND Deliveries.usr_id = $1",
     get_full_time_rider: "SELECT * FROM Fulltimerider Where usr_id = $1",
+    get_profile: "SELECT userName FROM Users WHERE usr_id = $1"
 }
 
 riders.function = {
@@ -16,7 +17,7 @@ riders.function = {
     edit_PTschedule_by_username: 'CALL editPTRiderSchedule($1,$2,$3)',
     check_if_rider_driving: 'CALL checkIfRiderDriving($1,$2)',
     update_delivery_time: 'CALL updateDeliveryTime($1,$2)',
-    get_rider_base_salary: "SELECT getRiderSalary($1)",
+    get_rider_base_salary: "SELECT getRiderSalary($1, $2)",
     get_filtered_deliveries: 'SELECT getFilteredDeliveries($1, $2)',
     get_filtered_working_hours: 'SELECT getFilteredWorkingHours($1,$2)'
 }

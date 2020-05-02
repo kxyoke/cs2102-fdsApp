@@ -91,8 +91,8 @@ const useStyles = makeStyles((theme) => ({
         overflow: 'auto',
     },
     container: {
-        paddingTop: theme.spacing(4),
-        paddingBottom: theme.spacing(4),
+        paddingTop: theme.spacing(3),
+        paddingBottom: theme.spacing(3),
     },
     paper: {
         padding: theme.spacing(2),
@@ -221,14 +221,14 @@ export default function Dashboard() {
             <SideBar/>
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
-                <Container maxWidth="lg" className={classes.container}>
-                    <div className="row justify-content-md-center">
-                        <h1>Current Delivery</h1>
+                <Container maxWidth="lg" >
+                    <div  className={classes.container}>
+                        <span style={{color:'#5a5c69',  fontSize: '40px'}}>DashBoard - Current Deliveries</span>
                     </div>
                     <Grid container spacing={3}>
                         {/* Chart */}
                         <Grid item xs={12} md={12} lg={12}>
-                            <Paper className={50}>
+                            <Paper className={classes.paper}>
                                 {displayOrder(currentDelivery)}
                             </Paper>
                         </Grid>

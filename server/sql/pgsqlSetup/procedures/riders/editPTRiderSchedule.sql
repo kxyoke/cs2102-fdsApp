@@ -1,6 +1,4 @@
 DROP PROCEDURE IF EXISTS editPTRiderSchedule(VARCHAR(255),text[],text);
-DROP PROCEDURE IF EXISTS editPTRiderSchedule(VARCHAR(255),json,text);
-DROP PROCEDURE IF EXISTS editPTRiderSchedule(VARCHAR(255),text[][],text);
 DROP FUNCTION IF EXISTS check_time_constraints();
 DROP PROCEDURE IF EXISTS checkPTTotalRiderWorking(INTEGER);
 

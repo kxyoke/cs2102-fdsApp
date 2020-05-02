@@ -26,11 +26,11 @@ BEGIN
     startDay := identifyDay($2[2]);
     endDay := identifyDay($2[4]);
     IF startDay = endDay AND $2[1] = $2[3] THEN
-        startDate := TO_DATE('2020/' || CAST($2[1] AS TEXT) || '/' || startDay, 'YYYY/MM/DD');
+        startDate := TO_DATE(date_part('year',Now()) || '/' || CAST($2[1] AS TEXT) || '/' || startDay, 'YYYY/MM/DD');
         endDate := startDate + interval '1 week';
     ELSE
-        startDate := TO_DATE('2020/' || CAST($2[1] AS TEXT) || '/' || startDay, 'YYYY/MM/DD');
-        endDate := TO_DATE('2020/' || CAST($2[3] AS TEXT) || '/' || endDay, 'YYYY/MM/DD');
+        startDate := TO_DATE(date_part('year',Now()) || '/' || CAST($2[1] AS TEXT) || '/' || startDay, 'YYYY/MM/DD');
+        endDate := TO_DATE(date_part('year',Now()) || '/' || CAST($2[3] AS TEXT) || '/' || endDay, 'YYYY/MM/DD');
     END IF;
 
     RETURN QUERY SELECT to_json(a) FROM (

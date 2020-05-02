@@ -33,7 +33,6 @@ $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION getFilteredWorkingHours(rider_id text, time_range text[] ) RETURNS INTEGER AS $$
 DECLARE
-    arrayToReturn text[] := array[]::text[];
     startWeek INTEGER := CAST ($2[2] AS INTEGER);
     endWeek INTEGER := CAST ($2[4] AS INTEGER);
     startMonth INTEGER := CAST ($2[1] AS INTEGER);

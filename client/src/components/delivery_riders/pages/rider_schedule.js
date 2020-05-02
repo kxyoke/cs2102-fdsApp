@@ -17,6 +17,9 @@ import Paper from "@material-ui/core/Paper";
 import clsx from "clsx";
 import Moment from 'moment';
 import Button from "@material-ui/core/Button";
+import EditIcon from '@material-ui/icons/Edit';
+import Row from "react-bootstrap/lib/Row";
+import {Col, Form} from "react-bootstrap";
 
 function preventDefault(event) {
     event.preventDefault();
@@ -38,7 +41,15 @@ const useStyles = makeStyles((theme) => ({
         overflow: 'auto',
         flexDirection: 'column',
     },
-
+    container: {
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+    },
+    special: {
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+        paddingLeft: theme.spacing(2.5),
+    },
 }));
 
 export default function RSchedule(props) {
@@ -124,8 +135,10 @@ export default function RSchedule(props) {
                 <SideBar/>
                 <main className={classes.content}>
                     <div className={classes.appBarSpacer} />
-                    <h1>Work Schedule</h1>
                     <Container maxWidth="lg" >
+                        <div  className={classes.container}>
+                            <span style={{color:'#5a5c69',  fontSize: '40px'}}>Work Schedule</span>
+                        </div>
                         <Grid container spacing={1}>
                             <Grid item xs={12} md={12} lg={12}>
                                 <Paper className={clsx(classes.paper, 24)}>
@@ -151,14 +164,24 @@ export default function RSchedule(props) {
                                     </Table>
                                 </Paper>
                             </Grid>
-
+                            <Row align={"center"}>
+                                <Col xs={12} md={12} lg={12} className={classes.special}>
+                                    <Link to="/deliveryRider/editSchedule">
+                                        <Button
+                                            variant="contained"
+                                            color="secondary"
+                                            className={classes.button}
+                                            startIcon={<EditIcon/>}
+                                            renderAs="button"
+                                        >
+                                            <span>Edit Schedule</span>
+                                        </Button>
+                                    </Link>
+                                </Col>
+                            </Row>
                         </Grid>
                     </Container>
-                    <Link to="/deliveryRider/editSchedule">
-                        <Button renderAs="button">
-                            <span>Edit Schedule</span>
-                        </Button>
-                    </Link>
+
                 </main>
             </div>
             </div>
