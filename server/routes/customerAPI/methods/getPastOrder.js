@@ -1,6 +1,6 @@
 const pool = require('../../../db'); // psql db
 const sql = require('../../../sql');
-const fc = require('../function');
+const fc = require('../utils');
 module.exports =  async (req, res,next) => {
     console.log(req.user);
     var out= [];

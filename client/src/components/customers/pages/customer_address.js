@@ -21,14 +21,14 @@ export default function CAddress (props) {
 
         
             props.history.push({pathname:"/customer/editAddress",
-                state:{action: "add", oldAddress:address[0].address}})
+                state:{action: "add", oldAddress:address[4].address}})
         }
     }
 
     function addBox() {
         confirmAlert({
             title:'Add address message',
-            message: `You have five addresses recorded. By adding new address, "${address[0].address} "will be delete from the record. Do you wish to continue?`,
+            message: `You have five addresses recorded. By adding new address, "${address[4].address} "will be delete from the record. Do you wish to continue?`,
             buttons:[
                 {label:'Yes',
                   onClick:()=> {addAddress();

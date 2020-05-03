@@ -21,6 +21,7 @@ const deleteAddress = require('./methods/deleteAddress')
 const getCardInfo = require('./methods/getCardInfo')
 const getCoupons = require('./methods/getCoupons')
 const getPastOrders = require('./methods/getPastOrder')
+const placeOrder = require('./methods/placeOrder')
 
 const useCoupon = require('./methods/useCoupon')
 const getReviews = require('./methods/viewReview')
@@ -43,22 +44,17 @@ cRouter.route('/cart')
 cRouter.post('/cart/add/',
         addCartItem)
 
-
-    
-
-// cRouter.route('/cart/:cid/:cartItemId')
-//         .post()
-//         .delete(deleteCartItem);
-
 cRouter.get('/menu/:rid', getResMenu);
 
 cRouter.route('/profile')
         .get(getCProfile)
         .post(updateCProfile);
-cRouter.post('/delete', deleteAccount);
+
+
 cRouter.route('/address')
         .get(getAddresses)
         .post(updateAddress);
+
 cRouter.post('/address/delete', deleteAddress)      
 cRouter.route('/card')
         .get(getCardInfo);
@@ -66,10 +62,11 @@ cRouter.route('/card')
 cRouter.route('/order')
         .get(getPastOrders);
 
-
 cRouter.route('/coupon')
         .get(getCoupons)
         .put(useCoupon);
+
+cRouter.post('/placeOrder', placeOrder);
 
 module.exports = cRouter;
 

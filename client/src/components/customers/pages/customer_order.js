@@ -9,11 +9,7 @@ export default function COrder(props) {
     const [pastOrders, setPastOrders] = useState([]);
     const [show, setShow] = useState(false);
 
-    function orderedByTime(a,b) {
-        const time_a = new Date(a.ordertime);
-        const time_b = new Date(b.ordertime);
-        return time_a-time_b;
-    }
+    
     useEffect( () => {
         const fetchData = async () => {
 

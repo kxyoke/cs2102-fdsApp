@@ -5,11 +5,23 @@ export default function OrderItem(props) {
    
     const time = new Date (ordertime);
    
-
+    function themeBorder() {
+        if(status ==="complete") {
+            return 'card text-left';
+        } 
+        return 'card text-left border-success';
+    }
+    function themeBody() {
+        if(status === "complete") {
+            return 'card-body';
+        } else {
+            return "card-body text-success";
+        }
+    }
     return (
         <React.Fragment>
         
-            <div class="card text-left">
+            <div class={themeBorder()}>
                 <div class="card-header">
                 <div class="row">
                     <div class="col">
@@ -23,7 +35,7 @@ export default function OrderItem(props) {
                      </div>
                 </div>
                 </div>
-                <div class="card-body">
+                <div class={themeBody()}>
                     <h5 class="card-title">
                         Restaurant : {rname}
                     </h5>

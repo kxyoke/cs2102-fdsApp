@@ -32,7 +32,7 @@ export default function CouponItem(props) {
                 ? <td> Used</td>
                 :expired()
                     ? <td style={{color:"red"}}>expired</td>
-                    : <td>-</td>}
+                    : <td>Active</td>}
             </tr>
         </React.Fragment>
 

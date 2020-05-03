@@ -37,6 +37,12 @@ export default function CouponModal(props) {
                        <Form.Button content="submit">Use</Form.Button>
                    </Form> 
                 </Modal.Content>
+                <Modal.Actions>
+                    <Button 
+                        negative
+                        onClick ={handleClose}
+                        >Close</Button>
+                </Modal.Actions>
             </Modal>
 
     )

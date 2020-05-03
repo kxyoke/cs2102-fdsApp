@@ -2,7 +2,8 @@ import React ,{useState, useEffect} from 'react';
 import CartItem from "../components/cartItem";
 import Header from '../layout/header';
 import Axios from 'axios';
-import {Divider, Loader, Dropdown} from 'semantic-ui-react';
+import PaymentButton from '../components/paymentModal'
+import {Divider, Loader, Dropdown, Input, Button} from 'semantic-ui-react';
 import CouponModal from '../components/useCouponModal';
 export default function CCart(props) {
     //general 
@@ -11,11 +12,12 @@ export default function CCart(props) {
     const [show, setShow] = useState(false);
     const [total, setTotal] = useState(0);
     const [subtotal, setSubtotal] = useState(0);
-    const [deliveryFee, setDeliveryFee] = useState(2.99);
-    const [coupon, setCoupon] = useState('');
+    const [deliveryFee, setDeliveryFee] = useState(3);
+    const [coupon, setCoupon] = useState(null);
     const [addresses, setAddresses] = useState([]);
-    const [recentAddress, setRecentAddress]=useState('');
+    const [deliveryAddress, setDeliveryAddress]=useState('');
     const [payment, setPayment] = useState("card");
+    const [card, setCard] = useState('');
     function roundToTwo(num) {
         return +(Math.round(num + "e+2")  + "e-2");
         
@@ -43,17 +45,21 @@ export default function CCart(props) {
   
         setTotal(roundToTwo(temp+deliveryFee));
     }
+    function redirectTOHomePage() {
+        props.history.push('/customer');
+    }
 
     useEffect(() => {
         const fetchData = async()=> {
             await Axios.all([
             Axios.get('/api/customer/cart'),
-            Axios.get('/api/customer/address')
+            Axios.get('/api/customer/address'),
+            Axios.get('/api/customer/card')
             ])
             .then(Axios.spread((...res)=> {
                 const res1 = res[0];
                 const res2=res[1];
-
+                const res3=res[2];
 
                 if(res1.data !== 'empty') {
                     setCarts(res1.data);
@@ -62,9 +68,11 @@ export default function CCart(props) {
                 } else {
                     setShow(false)
                 }
-                setAddresses(res2.data);
-                setRecentAddress(res2.data[0].address);
+                
+                setDeliveryAddress(res2.data[0].address);
+                processAddress(res2.data);
                 setLoading(false);
+                setCard(res3.data.cardnumber);
             })
             ).catch(err=> {
                 console.log(err)
@@ -73,6 +81,17 @@ export default function CCart(props) {
         fetchData();
     }, [])
 
+    function processAddress(address) {
+        console.log(address);
+        address.forEach(add=> {
+            add.text=add.address;
+            add.value=add.address;
+            console.log(add);
+        })
+        console.log(address);
+        setAddresses(address);
+
+    }
 
     function back(e) {
         if(carts.length>0) {
@@ -92,21 +111,23 @@ export default function CCart(props) {
         //show the coupon in the price
     }
 
-    function editAddress() {
+    function editAddress(e) {
         //TODO:
         //change the delivery address
         //show the list of address stored in the database
         //allow update of new address
+        console.log("update address");
+        props.history.push("/customer/address");
     }
+
 
     //TODO:
     //make Delivery time a drop down that allow the user to change the time
     //post request to server once the customer place the order
     
-    const option =[
-        {text:1, value: 1},
-        {text:2, value:2},
-        {text:3, value:3}
+    const paymentOption =[
+        {text:'card', value: 'card'},
+        {text:'cash', value:'cash'},
     ]
     return (
         
@@ -168,7 +189,7 @@ export default function CCart(props) {
                     <label>Address </label>
                     <div class="row">
                         <div class="col">
-                            <address > {recentAddress}</address>
+                            <address > {deliveryAddress}</address>
                         </div>
                         <div class ="col-auto ml-md-auto">
                           
@@ -176,38 +197,36 @@ export default function CCart(props) {
                                 button
                                 floating
                                 labeled
-                                options={option}
                                 text="edit"
-                                onClick={(e)=> {
-                                        console.log(e.value);
-                                        console.log(e.text)}}
-                            />
+                                direction="left"
+                            >
+                                <Dropdown.Menu>
+                                <Dropdown.Header content="Address"/>
+                                    {addresses.map((option)=> (
+                                        <Dropdown.Item key={option.value} {...option}
+                                            onClick={(e,data)=>{
+                                                console.log(data);
+                                                console.log(e)
+                                                setDeliveryAddress(data.address)}
+                                            }
+                                        />
+                                    ))}
+                                <Button
+                                 color="orange"
+                                 attached="bottom"
+                                 content="use new address"
+                                 onClick={editAddress}
+                                ></Button>
+                                </Dropdown.Menu>
+                            </Dropdown>
                         </div>
                     </div>
                     
                     </div>
-                    <Divider/>
-                    <div class = "row">
-                        <div class="col">
-                        <p>Delivery time:ASAP(30mins)</p>
-                        </div>
-                        <div class ="col-auto ml-md-auto">
-                        <Dropdown
-                                button
-                                floating
-                                labeled
-                                options={option}
-                                text="change"
-                            />
-                        </div>
-                        
-                    </div>
-                    
-                    
                     <Divider/>
                     <div class="row">
                         <div class="col">
-                        <p> payment :{payment}</p>
+                        <p> payment : {payment} {payment==="card"? card: ''} </p>
                         </div>
                         <div class ="col-auto ml-md-auto">
                         
@@ -215,11 +234,22 @@ export default function CCart(props) {
                                 button
                                 floating
                                 labeled
-                                options={option}
+                                options={paymentOption}
                                 text="change"
+                                onChange={(e, data)=> setPayment(data.value)}
                             />
                         </div>
                     </div>
+                    
+                    <Divider/>
+                    <div class = "row">
+                        <div class="col">
+                        <p>Delivery time:ASAP(~40mins)</p>
+                        </div>
+                    </div>
+                    
+                    
+                   
                     
                     <Divider/>
                     </div>
@@ -232,7 +262,7 @@ export default function CCart(props) {
                 
                <button class="btn btn-light" onClick={back}>Back to Restaurant/home</button>
                {show? 
-                <button class="btn btn-danger" onClick={back}>Pay and place order</button>
+                <PaymentButton redirectTOHomePage={redirectTOHomePage} address={deliveryAddress} payment={payment} total={total} deliveryFee={deliveryFee} coupon={coupon}/>
                 : null}
             </div>
             }

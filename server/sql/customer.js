@@ -6,10 +6,11 @@ customer.queries = {
     get_foodName:"SELECT name FROM MenuItems WHERE food_id = $1",
     get_review:"SELECT order_id, rname, food_rev, delivery_rating FROM reviews NATURAL JOIN (orders JOIN restaurants USING (res_id)) WHERE usr_id = $1" ,
     get_pendingReview: "SELECT order_id, (select rname FROM restaurants WHERE orders.res_id = restaurants.res_id), place_order_time FROM orders JOIN deliveries Using (order_id) WHERE order_id NOT IN (SELECT order_id FROM reviews) AND orders.status = 'complete' AND orders.usr_id = $1 AND NOW()::DATE -place_order_time::DATE <= 30 AND NOW()::DATE - place_order_time::DATE >=0 ORDER BY place_order_time DESC",
-    get_address:"SELECT address FROM Customers_address WHERE usr_id = $1",
+    get_address:"SELECT address FROM Customers_address WHERE usr_id = $1 ORDER BY last_use_time DESC",
     get_coupons:"SELECT coupon_id, description, expiry_date, is_used FROM Coupons NATURAL JOIN coupongroups WHERE usr_id = $1",
     get_profile: "SELECT card_num ,reward_points FROM Customers WHERE usr_id = $1",
     get_cart: 'SELECT res_id, (SELECT rname FROM Restaurants where res_id = cartitems.res_id) as rname, food_id, (SELECT name FROM menuitems where food_id = cartitems.food_id) as foodname, qty, (SELECT price FROM MenuItems WHERE res_id = cartitems.res_id and food_id=cartitems.food_id)as price FROM cartitems WHERE usr_id = $1',
+    get_cart_for_backend:'SELECT res_id, food_id, qty FROM cartitems WHERE usr_id = $1',
     update_cart:'UPDATE cartItems SET qty=$3 WHERE usr_id =$1 AND food_id = $2',
     
 }
@@ -19,7 +20,8 @@ customer.function = {
     delete_address:"call deleteAddress($1, $2)",
     update_card:"call updateCard($1, $2)",
     add_address:"call addAddress($1, $2)",
-    add_review:"call addReview($1,$2,$3)"
+    add_review:"call addReview($1,$2,$3)",
+    place_order:"call placeOrder($1,$2,$3,$4,$5,$6,$7,$8)",
 }
 
 module.exports = customer;

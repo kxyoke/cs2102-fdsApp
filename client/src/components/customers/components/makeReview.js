@@ -42,40 +42,43 @@ export default function ReviewModal(props) {
         })
     }
     return (
-        <Modal
-            trigger={<Button onClick={handleOpen}>Make review</Button>}
-            open={open}
-            onClose={handleClose}
-            size='tiny'
-            >
-                <Modal.Header>Use coupon</Modal.Header>
-                <Modal.Content>
-                   <Form onSubmit={handleSubmit}>
-                       <Form.Field>
-                           <label>Food review</label>
-                           <Form.Input
-                            placeholder="Give a review on the food"
-                            name="foodReview"
-                            value={foodReview}
-                            onChange={(e)=>setFoodReview(e.target.value)}
-                            />
-                       </Form.Field>
-                       <Form.Field>
-                           <Rating maxRating={5} onRate={handleRate}/>
-                       </Form.Field>
-                       <Form.Button 
-                        content="submit"
-                        disabled ={!valid()}
-                        >Submit</Form.Button>
-                   </Form> 
-                </Modal.Content>
-                <Modal.Actions>
-                    <Button 
-                        negative
-                        onClick ={handleClose}
-                        >Close</Button>
-                </Modal.Actions>
-            </Modal>
+        <div display='flex'>
+            <Modal
+                trigger={<Button onClick={handleOpen}>Make review</Button>}
+                open={open}
+                onClose={handleClose}
+                size='tiny'
+                centered='true'
+                >
+                    <Modal.Header>Use coupon</Modal.Header>
+                    <Modal.Content>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Field>
+                            <label>Food review</label>
+                            <Form.Input
+                                placeholder="Give a review on the food"
+                                name="foodReview"
+                                value={foodReview}
+                                onChange={(e)=>setFoodReview(e.target.value)}
+                                />
+                        </Form.Field>
+                        <Form.Field>
+                            <Rating maxRating={5} onRate={handleRate}/>
+                        </Form.Field>
+                        <Form.Button 
+                            content="submit"
+                            disabled ={!valid()}
+                            >Submit</Form.Button>
+                    </Form> 
+                    </Modal.Content>
+                    <Modal.Actions>
+                        <Button 
+                            negative
+                            onClick ={handleClose}
+                            >Close</Button>
+                    </Modal.Actions>
+                </Modal>
+            </div>
 
     )
     
