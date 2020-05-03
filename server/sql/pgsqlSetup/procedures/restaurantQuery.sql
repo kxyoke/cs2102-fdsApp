@@ -65,3 +65,26 @@ CREATE OR REPLACE FUNCTION getCost( _rid         TEXT,
     END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION getFoodNumOrders(_rid        TEXT,
+                                            _fid        TEXT,
+                                            _from       TIMESTAMP,
+                                            _to         TIMESTAMP)
+    RETURNS INTEGER AS $$
+    numOrders       INTEGER := 0;
+    fidCount        TEXT[];
+    BEGIN
+        FOREACH fidCount SLICE 1 IN (
+            SELECT listOfItems 
+            FROM Orders JOIN Deliveries USING (order_id)
+            WHERE res_id = _rid
+            AND place_order_time >= _from
+            AND place_order_time <= _to
+        ) LOOP
+            IF fidCount[1] = _fid THEN
+                numOrders := numOrders + 1;
+            END IF;
+        END LOOP;
+        RETURN numOrders;
+    END;
+$$ LANGUAGE plpgsql;
+
