@@ -41,7 +41,7 @@ export default function CReviews(props) {
 
     function orderTime(place_order_time) {
         const time = new Date(place_order_time);
-        return time.toLocaleString;
+        return time.toLocaleString();
     }
 
     function update(order_id) {
@@ -109,7 +109,7 @@ export default function CReviews(props) {
                                                         <Table.Row>
                                                             <Table.Cell> {re.rname}</Table.Cell>
                                                             <Table.Cell> {orderTime(re.place_order_time)}</Table.Cell>
-                                                            <Table.Cell> <ReviewModal order_id = {re.order_id} /></Table.Cell>
+                                                            <Table.Cell> <ReviewModal order_id = {re.order_id} update={update} /></Table.Cell>
                                                         </Table.Row>
                                                     )}
                                                 </Table.Body>

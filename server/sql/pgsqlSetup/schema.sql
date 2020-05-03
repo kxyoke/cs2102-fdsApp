@@ -139,6 +139,7 @@ CREATE TABLE Orders (
     usr_id         VARCHAR(255) NOT NULL,
     res_id         TEXT NOT NULL,
     total          NUMERIC NOT NULL,
+    destination_address        TEXT NOT NULL,
     isCheckedOut   BOOLEAN,
     payment        VARCHAR(255) NOT NULL 
                                 CHECK (payment IN ('card', 'cash')),
@@ -159,6 +160,7 @@ CREATE TABLE Reviews (
 
 CREATE TABLE Deliveries (
     order_id          TEXT PRIMARY KEY,
+    delivery_fee      NUMERIC DEFAULT 3,
     usr_id            VARCHAR(255) NOT NULL,
     place_order_time  TIMESTAMP NOT NULL,
     dr_leave_for_res  TIMESTAMP,
