@@ -1,6 +1,9 @@
 import React from "react"
 import ScheduleList from "./ScheduleList"
 import axios from 'axios';
+import Container from "@material-ui/core/Container";
+import Row from "react-bootstrap/lib/Row";
+
 class Test extends React.Component {
 
     state = {
@@ -51,52 +54,57 @@ class Test extends React.Component {
         });
     }
     render() {
-        let { scheduleList } = this.state
+        let { scheduleList } = this.state;
         return (
-            <div className="content">
-                <form onSubmit={this.handleSubmit} onChange={this.handleChange} >
-                    <div className="row" style={{ marginTop: 20 }}>
-                        <div className="col-sm-10">
-                            <div className="container">
-                                <div className="row justify-content-md-center">
+            <Container maxWidth="lg"  style={{padding: '40px'}}>
+                <div >
+                    <span style={{color:'#5a5c69',  fontSize: '40px'}}>Editing Schedule</span>
+                </div>
+                <div className="content" >
+                    <form onSubmit={this.handleSubmit} onChange={this.handleChange} >
+                        <div className="row" style={{ marginTop: 20 }}>
+                            <div className="col-sm-10">
+                                <div className="container">
+                                    <div className="row justify-content-md-center">
 
-                                    {this.state.message.length > 0 ?
-                                        <div className="alert alert-danger" role="alert">
-                                            <p className="text-center">
-                                                <strong>{this.state.message}  </strong>
-                                            </p>
-                                        </div>
-                                        : null
-                                    }
+                                        {this.state.message.length > 0 ?
+                                            <div className="alert alert-danger" role="alert">
+                                                <p className="text-center">
+                                                    <strong>{this.state.message}  </strong>
+                                                </p>
+                                            </div>
+                                            : null
+                                        }
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="card">
-                                <div className="card-header text-center">Editing Week {this.props.weekNum + 1} Schedule</div>
-                                <div className="card-body">
-                                    <table className="table">
-                                        <thead>
-                                        <tr>
-                                            <th className="required" >Day of Week</th>
-                                            <th className="required" >Start Time</th>
-                                            <th>End Time</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <ScheduleList add={this.addNewRow} delete={this.clickOnDelete.bind(this)} scheduleList={scheduleList} />
-                                        </tbody>
-                                        <tfoot>
-                                            <tr><td colSpan="4">
-                                                <button onClick={this.addNewRow} type="button" className="btn btn-primary text-center">Add a new row<i className="fa fa-plus-circle" aria-hidden="true"></i></button>
-                                            </td></tr>
-                                        </tfoot>
-                                    </table>
+                                <div className="card">
+                                    <div className="card-header text-center">Editing Week {this.props.weekNum + 1} Schedule</div>
+                                    <div className="card-body">
+                                        <table className="table">
+                                            <thead>
+                                            <tr>
+                                                <th className="required" >Day of Week</th>
+                                                <th className="required" >Start Time</th>
+                                                <th>End Time</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <ScheduleList add={this.addNewRow} delete={this.clickOnDelete.bind(this)} scheduleList={scheduleList} />
+                                            </tbody>
+                                            <tfoot>
+                                                <tr><td colSpan="4">
+                                                    <button onClick={this.addNewRow} type="button" className="btn btn-primary text-center">Add a new row<i className="fa fa-plus-circle" aria-hidden="true"></i></button>
+                                                </td></tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div className="card-footer text-center"> <button type="submit" className="btn btn-primary text-center">Submit</button></div>
                                 </div>
-                                <div className="card-footer text-center"> <button type="submit" className="btn btn-primary text-center">Submit</button></div>
                             </div>
                         </div>
-                    </div>
-                </form>
-            </div>
+                    </form>
+                </div>
+            </Container>
         )
     }
 }

@@ -103,7 +103,11 @@ CREATE FUNCTION check_time_constraints() RETURNS trigger AS $check_time_constrai
         RETURN NEW;
     END;
 $check_time_constraints$ LANGUAGE plpgsql;
-
+DROP TRIGGER IF EXISTS check_time_constraints ON WWS;
+CREATE TRIGGER check_time_constraints
+    BEFORE UPDATE OR INSERT ON WWS
+    FOR EACH ROW
+    EXECUTE FUNCTION check_time_constraints();
 
 
 
