@@ -15,7 +15,7 @@ import CAddress from './components/customers/pages/customer_address';
 import CSetting from './components/customers/pages/customer_setting';
 import RestaurantMenu from './components/customers/pages/customer_restaurant';
 import CustomerEditAddress from './components/customers/pages/customer_editAddress';
-
+import ViewOrder from './components/customers/pages/customer_viewOrder';
 import CCart from './components/customers/pages/customer_cart';
 import RHome from './components/delivery_riders/pages/home';
 
@@ -81,6 +81,7 @@ export default function Routes() {
             <Route path='/customer/editAddress' component={WithCustomerAuth(CustomerEditAddress)}/>
             <Route path='/customer/setting' component={WithCustomerAuth(CSetting)}/>
             <Route path='/customer/cart' component={WithCustomerAuth(CCart)}/>
+            <Route path='/customer/current' component={WithCustomerAuth(ViewOrder)}/>
             <Route render={() => <h1>404 Not found</h1>}/>
           </Switch>
         </div>

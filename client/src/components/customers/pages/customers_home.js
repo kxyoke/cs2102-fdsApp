@@ -5,27 +5,41 @@ import Pagination from '../components/pagination';
 import RestaurantItem from '../components/restaurantItem';
 import axios from 'axios';
 import FuzzySearch from 'fuzzy-search';
-import {Loader} from 'semantic-ui-react';
+import {Loader, Message} from 'semantic-ui-react';
 
 export default function CHome (props) {
+    console.log(props.history);
     const [loading, setLoading] = useState(true);
     const [restaurants, setRestaurants] = useState([]);
     const [currentPage, setCurrentPage]=useState(1);
     const [restaurantPerPage] =useState(10);
     const [fullRestaurantList, setFullRestaurantList]= useState([]);
+    const [message,setMessage] = useState('');
     const searcher =new FuzzySearch(fullRestaurantList, ['rname'], {
         caseSensitive:false,
     });
 
     useEffect( ()=> {
         const fetchData = async () => {
-        await axios.get('/api/customer/res')
-        .then (res=> {
-            setFullRestaurantList(res.data);
-            setRestaurants(res.data);
-            setLoading(false);
-            
-        })
+        await axios.all([
+            axios.get('/api/customer/res'),
+            axios.get('/api/customer/status')
+            ])
+            .then (axios.spread((...res)=> {
+                const list = res[0];
+                const status= res[1];
+                if(status.data !== 'OK') {
+                    
+                    setMessage(status.data);
+                }
+                
+                setFullRestaurantList(list.data);
+                setRestaurants(list.data);
+                setLoading(false);
+                
+            })
+            )
+        
         
         };
         fetchData();
@@ -47,12 +61,21 @@ export default function CHome (props) {
         return (
             <div className="Home">
                 <Header/>
+                
                 <SearchBar search ={search}/>
                 <p> </p>
                 {loading?
                     <Loader active inline='centered'>Loading</Loader> 
                     :
                     <div class="container">
+                    {message.length>0
+                ? <Message
+                    info
+                    onDismiss={()=> setMessage('')}   
+                    >
+                    {message} &nbsp;<a href='/customer/current'>Click to view</a>&nbsp;.
+                    </Message>
+                : null}
                         {fullRestaurantList.length?
                             <div>
                                 {restaurants.length?

@@ -14,7 +14,6 @@ const getResMenu = require('./methods/getRestMenu')
 //customer
 const getCProfile = require('./methods/getCProfile')
 const updateCProfile = require('./methods/updateCProfile')
-const deleteAccount = require('./methods/deleteAccount')
 const getAddresses = require('./methods/getAddresses')
 const updateAddress = require('./methods/updateAddress')
 const deleteAddress = require('./methods/deleteAddress')
@@ -27,9 +26,16 @@ const useCoupon = require('./methods/useCoupon')
 const getReviews = require('./methods/viewReview')
 const getPendingReviews = require('./methods/getPendingReview')
 const addReviews = require('./methods/addReviews')
-
+const ordersNotComplete = require('./methods/isOrderNotcomplete')
+const inCompleteOrder = require('./methods/inCompleteOrders')
+const delivery = require('./methods/getDelivery')
 cRouter.route('/res')
         .get(getResList);
+
+cRouter.get('/status',ordersNotComplete);
+cRouter.get('/processingOrder/', inCompleteOrder);
+
+cRouter.get('/delivery/:order_id', delivery)
 
 cRouter.route('/review')
         .get(getReviews)

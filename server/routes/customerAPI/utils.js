@@ -31,11 +31,6 @@ module.exports = {
             const temp = [item.food_id, item.qty.toString()];
             listofitems.push(temp);
         }
-
-
-
-
-        console.log(listofitems);
         return listofitems;
     }
 
