@@ -3,7 +3,7 @@ import {Button, Form, Modal, Rating} from 'semantic-ui-react';
 import Axios from "axios";
 
 export default function ReviewModal(props) {
-    const {order_id} = props;
+    const {order_id, rname, update} = props;
     const [open, setOpen] = useState(false);
     const [foodReview, setFoodReview] = useState('');
     const [rating, setRating] = useState(0);
@@ -13,6 +13,9 @@ export default function ReviewModal(props) {
 
     const handleRate =(e, {rating}) => {
         setRating(rating);
+    }
+    const valid = () => {
+        return foodReview.length>0 && rating>0;
     }
     const handleSubmit=()=> {
         console.log(rating);
@@ -28,7 +31,14 @@ export default function ReviewModal(props) {
                 console.log(res.data);
                 alert(res.data);
                 //pending for debug
-                props.update(order_id);
+                const newReview = {
+                    delivery_rating:rating,
+                    food_rev:foodReview,
+                    order_id:order_id,
+                    rname:rname
+                }
+                update(order_id, newReview);
+                handleClose()
         })
     }
     return (
@@ -53,9 +63,18 @@ export default function ReviewModal(props) {
                        <Form.Field>
                            <Rating maxRating={5} onRate={handleRate}/>
                        </Form.Field>
-                       <Form.Button content="submit">Submit</Form.Button>
+                       <Form.Button 
+                        content="submit"
+                        disabled ={!valid()}
+                        >Submit</Form.Button>
                    </Form> 
                 </Modal.Content>
+                <Modal.Actions>
+                    <Button 
+                        negative
+                        onClick ={handleClose}
+                        >Close</Button>
+                </Modal.Actions>
             </Modal>
 
     )

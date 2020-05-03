@@ -40,14 +40,16 @@ export default function CReviews(props) {
     }, []);
 
     function orderTime(place_order_time) {
+        console.log(reviews);
         const time = new Date(place_order_time);
         return time.toLocaleString();
     }
 
-    function update(order_id) {
-        //pending for debug
+    function update(order_id, newReview) {
         const temp = pendingReview.filter(item=> item.order_id !== order_id);
         setPendingReview(temp);
+        console.log(newReview);
+        setReviews(prev=>[...prev, newReview]);
     }
 
   
@@ -109,7 +111,7 @@ export default function CReviews(props) {
                                                         <Table.Row>
                                                             <Table.Cell> {re.rname}</Table.Cell>
                                                             <Table.Cell> {orderTime(re.place_order_time)}</Table.Cell>
-                                                            <Table.Cell> <ReviewModal order_id = {re.order_id} update={update} /></Table.Cell>
+                                                            <Table.Cell> <ReviewModal order_id = {re.order_id} rname={re.rname} update={update} /></Table.Cell>
                                                         </Table.Row>
                                                     )}
                                                 </Table.Body>
