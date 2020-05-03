@@ -186,7 +186,7 @@ CREATE TABLE Promotions (
     ),
     CONSTRAINT res_promo_default_format CHECK(
         description NOT LIKE 'DEFAULT:%'
-        OR description SIMILAR TO 'DEFAULT:([1-9]*[0-9]+(\.[0-9]{0,2})?);(absolute|percent);([1-9]*[0-9]+(\.[0-9]{0,2})?)'
+        OR description SIMILAR TO 'DEFAULT:(absolute|percent);([1-9]*[0-9]+(\.[0-9]{0,2})?);([1-9]*[0-9]+(\.[0-9]{0,2})?)'
     )
 );
 

@@ -1,5 +1,18 @@
 const utils = {
 
+    /*FDS-GREGORIAN DATE CONVERSION*/
+    getDate_startEndOfWeek = (wkNum) => {
+        //assuming fds 1st day = 1/1/2020
+        let d0 = new Date(2020, 0);
+        //assuming wk starts from wk 1 (not 0)
+        let startOfWeek = new Date();
+        startOfWeek.setDate(d0.getDate() + (wkNum-1) * 7);
+        let endOfWeek = new Date();
+        endOfWeek.setDate(d0.getDate() + wkNum * 7);
+        return [startOfWeek, endOfWeek];
+    },
+
+    /*PROMO STUFF*/
     PROMO_STATUS: {
         active: 'active',
         future: 'future',
@@ -28,7 +41,7 @@ const utils = {
     },
 
     getPromoDesc: (minAmount, isAbsoluteNotPercent, discount2Decimal) => {
-        return 'DEFAULT:'+minAmount+';'+(isAbsoluteNotPercent? 'absolute' : 'percent')+';'+discount2Decimal
+        return 'DEFAULT:'+(isAbsoluteNotPercent? 'absolute' : 'percent')+';'+minAmount+';'+discount2Decimal
     },
 
     getDefaultPromoDescProps: (fulldesc) => {
@@ -37,9 +50,9 @@ const utils = {
         let tokens = typed[1].split(';')
         //min_amt;isAbsNot%;discount
         var promoType = true;
-        if (tokens[1] == 'absolute') {
+        if (tokens[0] == 'absolute') {
             promoType = true
-        } else if (tokens[1] == 'percent') {
+        } else if (tokens[0] == 'percent') {
             promoType = false
         } else {
             console.log('wtf is wrong wif my life')
@@ -47,7 +60,7 @@ const utils = {
         }
 
         return {
-            minAmount: tokens[0],
+            minAmount: tokens[1],
             isAbs: promoType,
             discount: tokens[2]
         }

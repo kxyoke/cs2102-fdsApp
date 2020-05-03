@@ -37,6 +37,14 @@ queries.get = {
         `SELECT * FROM PromotionsWithOrderStats WHERE res_id = $1 AND end_day < NOW() AND start_day < NOW() ORDER BY end_day DESC`
 }
 
+queries.stats = { //excl promos ^
+    numOrdersCompleted: /*res_id, startdate, enddate*/
+        `SELECT count(*) as total FROM Orders O JOIN Deliveries D USING (order_id) WHERE res_id = $1 AND COALESCE(dr_arrive_cus >= $2, FALSE) AND COALESCE(dr_arrive_cus <= $3, FALSE)`,
+    totalCostOrders: /*res_id, startdate, enddate*/
+        `SELECT sum(total) as total FROM ResOrderProfits WHERE res_id = $1 AND COALESCE(complete_time >= $2, FALSE) AND COALESCE(complete_time <= $3, FALSE)`,
+
+}
+
 queries.update = {
     profile: `CALL updateRestaurantProfile($1, $2, $3, $4)`, /*res_id, rname, address, min_amt*/
     resPwd: `UPDATE Restaurants SET password_digest = $2 WHERE res_id = $1`, /*res_id, pwdHash*/
