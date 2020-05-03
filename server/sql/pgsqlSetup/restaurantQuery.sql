@@ -21,7 +21,7 @@ AS $$
         END IF;
         amt := CAST(split_part(desStr, ';', 1) AS NUMERIC);
         discount := CAST(split_part(desStr, ';', 3) AS NUMERIC);
-        RETURN (amt, discount, dType);
+        RETURN;
     END;
 $$ LANGUAGE plpgsql;
 
@@ -34,6 +34,7 @@ CREATE OR REPLACE FUNCTION getCost( _rid         TEXT,
         fidCount    TEXT[];
         fid         TEXT;
         cnt         INTEGER;
+        pDescs      TEXT[];
         pDesc       TEXT;
         details     RECORD;
     BEGIN
@@ -45,12 +46,14 @@ CREATE OR REPLACE FUNCTION getCost( _rid         TEXT,
         END LOOP;
 
         --Add PROMOTION DISCOUNTS (any that matches condition)
-        FOREACH pDesc IN ( -- as a nice fds we allow composed promotions
+        pDescs := ARRAY (  -- as a nice fds we allow composed promotions
             SELECT description FROM Promotions 
             WHERE res_id IS NOT DISTINCT FROM _rid 
             AND start_day <= _orderTime AND end_day >= _orderTime
             ORDER BY description ASC --so we take absolute discounts then perc :]
-        ) LOOP
+        );
+        FOREACH pDesc IN ARRAY pDescs
+        LOOP
             details := getResDefaultPromo(pDesc);
             IF total >= details.amount_to_qualify THEN
                 IF details.default_type = '%' THEN
@@ -70,16 +73,20 @@ CREATE OR REPLACE FUNCTION getFoodNumOrders(_rid        TEXT,
                                             _from       TIMESTAMP,
                                             _to         TIMESTAMP)
     RETURNS INTEGER AS $$
+    DECLARE
     numOrders       INTEGER := 0;
+    lists           TEXT[][];
     fidCount        TEXT[];
     BEGIN
-        FOREACH fidCount SLICE 1 IN (
+        lists := ARRAY (
             SELECT listOfItems 
             FROM Orders JOIN Deliveries USING (order_id)
             WHERE res_id = _rid
             AND place_order_time >= _from
             AND place_order_time <= _to
-        ) LOOP
+        );
+        FOREACH fidCount SLICE 1 IN ARRAY lists 
+        LOOP
             IF fidCount[1] = _fid THEN
                 numOrders := numOrders + 1;
             END IF;
