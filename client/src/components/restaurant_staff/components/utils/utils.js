@@ -8,10 +8,11 @@ const utils = {
     getDate_startEndOfMonth: (monthNum) => {
         let d0 = fdsD1;
         //assuming wk/month starts from wk/month 1 (not 0)
-        let startOfMonth = new Date();
-        startOfMonth.setDate(d0.getDate() + (monthNum-1) * 7 * 4);
-        let endOfMonth = new Date();
-        endOfMonth.setDate(d0.getDate() + monthNum * 7 * 4);
+        let startOfMonth = new Date(2020, 0);
+        startOfMonth.setDate(startOfMonth.getDate() + (monthNum - 1) * 7 * 4);
+        let endOfMonth = new Date(2020, 0);
+        endOfMonth.setDate(endOfMonth.getDate() + monthNum * 7 * 4);
+        console.log(JSON.stringify({start: startOfMonth, end: endOfMonth}))
         return {start: startOfMonth, end: endOfMonth};
     },
 
@@ -43,8 +44,6 @@ const utils = {
             d.getMinutes().toString().padStart(2, '0'),
             d.getSeconds().toString().padStart(2, '0')
         ].join(':');
-
-        console.log("date parsed as: " + formattedString)
 
         return formattedString;
     },

@@ -12,13 +12,13 @@ export default function RHome(props) {
     const [isLoadingNum, setIsLoadingNum] = useState(true);
     const [isLoadingCost, setIsLoadingCost] = useState(true);
     const [isLoadingFoods, setIsLoadingFoods] = useState(true);
-    const [month, setMonth] = useState(Utils.getMonthOf(new Date()));
+    const [month, setMonth] = useState(0);
 
     const [numOrders, setNumOrders] = useState(0);
     const [totalEarned, setEarned] = useState(0);
     const [top5Favs, setFavs] = useState([]);
 
-    let monthOptions = [...Array(Utils.getMonthOf(new Date())).keys()]
+    let monthOptions = [...Array(Utils.getMonthOf(new Date()) + 1).keys()]
         .map(v => v == 0 
             ? {key: v, text: `All time statistics`, value: v} 
             : {key: v, text: `FDS Month ${v}`, value: v});
@@ -82,12 +82,21 @@ export default function RHome(props) {
     function FoodIcon(props) {
         const {name, imagepath, price, numorders} = props.food;
         return (
-            <Segment circular style={{width: 350, height: 350}}>
+            <Segment circular style={{width: 250, height: 250,
+                backgroundImage: `url(${imagepath})`,
+                backgroundPosition: 'center',
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat'
+                }}>
+             <Segment circular style={{
+                 width: '100%', height: '100%', 
+                 backgroundColor: 'rgba(200,200,200,0.65)'
+                }}>
               <Header as='h2' textAlign='center'>
                 {name} (${price})
                 <Header.Subheader>Ordered in {numorders} orders!</Header.Subheader>
-                <Header.Subheader><Image src={imagepath} size='small' circular /></Header.Subheader>
               </Header>
+             </Segment>
             </Segment>
         )
     }
@@ -101,7 +110,7 @@ export default function RHome(props) {
     }
 
     return (
-      <div>
+      <div className='container'>
         <Header as='h2' icon textAlign='center'>
           <Icon name='chart pie' circular />
           <Header.Content>Dashboard :]</Header.Content>
@@ -113,21 +122,30 @@ export default function RHome(props) {
           search
           selection
           options={monthOptions}
-          defaultValue={month}
           loading={isLoadingNum || isLoadingCost || isLoadingFoods}
           onChange={ (e,data) => {setMonth(data.value)} }
         />
 
-        <Statistic.Group width='two'>
+      <Segment inverted color='olive'>
+        <Segment.Group horizontal>
+          <Segment textAlign='center' size='large'>
           <Statistic>
             <Statistic.Value><Icon name='edit outline' />{numOrders}</Statistic.Value>
-            </Statistic>
+            <Statistic.Label>COMPLETED ORDERS</Statistic.Label>
+          </Statistic>
+          </Segment>
+
+          <Segment textAlign='center' size='large'>
           <Statistic>
             <Statistic.Value><Icon name='dollar sign' />{totalEarned}</Statistic.Value>
+            <Statistic.Label>IN TOTAL</Statistic.Label>
           </Statistic>
-        </Statistic.Group>
+          </Segment>
+        </Segment.Group>
+      </Segment>
 
-        {top5Favs.map(f => <FoodIcon food={f} />)}
+        {top5Favs.slice(0,2).map(f => <FoodIcon food={f} />)}
+        {top5Favs.slice(2).map(f => <FoodIcon food={f} />)}
         {top5Favs.length >= 5 ? null
             : [...Array(5 - top5Favs.length).keys()].map(x => <FoodIconBlob />)}
 

@@ -39,7 +39,7 @@ CREATE OR REPLACE FUNCTION getCost( _rid         TEXT,
         FOREACH fidCount SLICE 1 IN ARRAY _listOfItems
         LOOP
             fid := fidCount[1];
-            cnt := CAST(fidCount[1] AS INTEGER);
+            cnt := CAST(fidCount[2] AS INTEGER);
             total := total + cnt * (SELECT price FROM MenuItems WHERE res_id = _rid AND food_id = fid);
         END LOOP;
 
