@@ -43,26 +43,24 @@ export default function MenuItem (props) {
           <p> 
           </p>
         <p class="d- text-warning font-weight-bold">${price}</p>
-        {/* <Form>
-        <div class="d- btn-group position-relative" role="group" aria-label="Basic example">
-        <Button type="button" class="btn btn-secondary">-</Button>
-         <input type="text" class="form-control" >{qty}</input>
-        <Button type="button" class="btn btn-secondary">+</Button>
-        </div>
-        </Form> */}
-        {/* source : https://codepen.io/mystroken/pen/Moraab?__cf_chl_jschl_tk__=598df5dc8e56e5fee5ef75b7fa1f390d0cc50a34-1586334282-0-ATfTNxQ7hMcfAASFpJnlkVq1X1gSelLAQQT5bcBfbf3AaULH4bHd0GbC_Rank3FGInemEV2CooY48tlCKTQD_T8BCfCjLMZE30splh7U5pdjfLRshXxNMpVcf4ROM_CX5YVRugyQunGYzCMCdc2aFF-iS4q_XJHoDC-4WQHSClh_WUMjqiwAtS6tsV3HHdkPN_1_qD3-9J-v5FIUcmwnNS1XNqvX1TVBPvWIud2f1hWZZ7Yg1z5QYkDLdZTKZJuckemf08Q5BszlJHm9ml5W96DMmxzvalbADIPKKgx7YBZ6kj1CMl79mllCNUp0-hlzlQQBQaJSDggaKrOU22G2sd7cFOJ8aBdNcwchTAOEio6Y */}
+        
         
         <div className="quantity-input">
         <div class= "row">
-        <div class="col align-self-left">
-        <button  className="quantity-input__modifier quantity-input__modifier--left" onClick={decrement}>
-          &mdash;
-        </button>
-        <input className="quantity-input__screen" type="text" value={qty} readOnly />
-        <button className="quantity-input__modifier quantity-input__modifier--right" onClick={increment}>
-          &#xff0b;
-        </button> 
-        </div>
+
+          <div class="col-8 align-self-left">
+          <div class="input-group sm-1" >
+            <div class="input-group-prepend">
+              <button class="btn btn-outline-secondary" type="button" onClick={decrement}>-</button>
+            </div>
+            <input type="text" value={qty}  style={inputStyle} readOnly/>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" onClick={increment}>+</button>
+            </div>
+          </div>
+          </div>
+
+       
         <div class ="col-3">
         <button type="button" onClick={addToCart} class="btn btn-success" style={{display:"flex",float:'left'}}>Add To Cart</button>
         </div>
@@ -75,4 +73,8 @@ export default function MenuItem (props) {
       </li>
       </React.Fragment>
      )
+}
+
+const inputStyle= {
+  width:30
 }

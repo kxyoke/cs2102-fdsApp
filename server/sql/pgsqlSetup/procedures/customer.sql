@@ -51,3 +51,57 @@ BEGIN
     WHERE usr_id = u_id;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE PROCEDURE 
+    addReview(o_id TEXT,
+            rev TEXT,
+            rate NUMERIC
+            ) AS $$
+BEGIN
+    INSERT INTO Reviews VALUES(o_id, rev, rate);
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE PROCEDURE
+    placeOrder(o_id TEXT,
+                u_id VARCHAR(255),
+                r_id TEXT,
+                _total NUMERIC,
+                address TEXT,
+                payBy VARCHAR(255),
+                items TEXT[][],
+                d_fee NUMERIC
+                )
+AS $$
+
+BEGIN
+    INSERT INTO orders(
+                        order_id,
+                        usr_id, 
+                        res_id, 
+                        total, 
+                        destination_address, 
+                        payment, 
+                        listofitems, 
+                        status) 
+                VALUES (
+                    o_id,
+                    u_id,
+                    r_id,
+                    _total,
+                    address,
+                    payBy,
+                    items,
+                    'pending'
+                );
+
+    INSERT INTO deliveries(order_id, delivery_fee,place_order_time)
+                VALUES(o_id,d_fee,NOW());
+
+    DELETE FROM CartItems WHERE usr_id= u_id;
+
+    UPDATE customers 
+        SET last_order_time = NOW() 
+        WHERE usr_id = u_id;
+END;
+$$ LANGUAGE plpgsql;

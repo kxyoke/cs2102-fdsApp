@@ -7,7 +7,9 @@ module.exports = (req, res, next) => {
             console.log("Database fail to get the data");
             return res.send(err);
         }
-        res.send({cardnumber: data.rows[0].card_num});
+        var cardnumber= data.rows[0].card_num.toString();
+        const len = cardnumber.length;
+        cardnumber= cardnumber.replace(cardnumber.substring(3, len-3), "*".repeat(len-6));
+        res.send({cardnumber: cardnumber});
     })
-    res.send('Queried update profile');
 };
