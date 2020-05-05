@@ -66,6 +66,7 @@ export default function RHome(props) {
             .then(res => {
                 if (res.status == 200) {
                     console.log(res.data)
+                    console.log(res.data.length)
                     setFavs(res.data)
                     setIsLoadingFoods(false)
                 } else {
@@ -79,13 +80,13 @@ export default function RHome(props) {
     }, [month])
 
     function FoodIcon(props) {
-        const {name, imagepath, price, numOrders} = props.food;
+        const {name, imagepath, price, numorders} = props.food;
         return (
-            <Segment circular style={{width: 175, height: 175}}>
-              <Header as='h2'>
+            <Segment circular style={{width: 350, height: 350}}>
+              <Header as='h2' textAlign='center'>
                 {name} (${price})
-                <Header.Subheader>Ordered in {numOrders}!</Header.Subheader>
-                <Header.Subheader><Image src={imagepath} size='mini' circular /></Header.Subheader>
+                <Header.Subheader>Ordered in {numorders} orders!</Header.Subheader>
+                <Header.Subheader><Image src={imagepath} size='small' circular /></Header.Subheader>
               </Header>
             </Segment>
         )
@@ -127,8 +128,8 @@ export default function RHome(props) {
         </Statistic.Group>
 
         {top5Favs.map(f => <FoodIcon food={f} />)}
-        {top5Favs.length == 5 ? null
-            : [...Array(5 - top5Favs - 1).keys()].map(x => <FoodIconBlob />)}
+        {top5Favs.length >= 5 ? null
+            : [...Array(5 - top5Favs.length).keys()].map(x => <FoodIconBlob />)}
 
       </div>
     )

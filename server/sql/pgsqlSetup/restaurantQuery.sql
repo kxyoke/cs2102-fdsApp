@@ -6,20 +6,18 @@ CREATE OR REPLACE FUNCTION getResDefaultPromo(description TEXT,
 AS $$
     DECLARE
         desStr      TEXT;
-        amt         NUMERIC;
-        discount    NUMERIC;
-        dType       TEXT;
     BEGIN
         IF split_part(description, ':', 1) <> 'DEFAULT' THEN
             RAISE EXCEPTION 'can only use this fn on default res promos.';
         END IF;
         desStr := split_part(description, ':', 2);
-        IF split_part(desStr, ';', 2) = 'absolute' THEN
-            dType := '$';
+        RAISE NOTICE 'got %',desStr;
+        IF split_part(desStr, ';', 1) = 'absolute' THEN
+            default_type := '$';
         ELSE
-            dType := '%';
+            default_type := '%';
         END IF;
-        amt := CAST(split_part(desStr, ';', 1) AS NUMERIC);
+        amount_to_qualify := CAST(split_part(desStr, ';', 2) AS NUMERIC);
         discount := CAST(split_part(desStr, ';', 3) AS NUMERIC);
         RETURN;
     END;
@@ -38,7 +36,6 @@ CREATE OR REPLACE FUNCTION getCost( _rid         TEXT,
         pDesc       TEXT;
         details     RECORD;
     BEGIN
-        RAISE '%', _listofitems;
         FOREACH fidCount SLICE 1 IN ARRAY _listOfItems
         LOOP
             fid := fidCount[1];
@@ -53,6 +50,10 @@ CREATE OR REPLACE FUNCTION getCost( _rid         TEXT,
             AND start_day <= _orderTime AND end_day >= _orderTime
             ORDER BY description ASC --so we take absolute discounts then perc :]
         );
+        IF COALESCE(pDescs = '{}', TRUE) THEN
+            RETURN total;
+        END IF;
+
         FOREACH pDesc IN ARRAY pDescs
         LOOP
             details := getResDefaultPromo(pDesc);
@@ -86,6 +87,10 @@ CREATE OR REPLACE FUNCTION getFoodNumOrders(_rid        TEXT,
             AND place_order_time >= _from
             AND place_order_time <= _to
         );
+        IF COALESCE(lists = '{}', TRUE) THEN
+            RETURN 0;
+        END IF;
+
         FOREACH fidCount SLICE 1 IN ARRAY lists 
         LOOP
             IF fidCount[1] = _fid THEN

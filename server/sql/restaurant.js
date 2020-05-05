@@ -76,7 +76,7 @@ queries.stats = { //excl promos ^
            AND COALESCE(dr_arrive_cus >= $2, FALSE) 
            AND COALESCE(dr_arrive_cus <= $3, FALSE)`,
     totalCostOrders: /*res_id, startdate, enddate*/
-        `SELECT sum(total) as total 
+        `SELECT COALESCE(sum(total), 0) as total 
          FROM ResOrderProfits 
          WHERE res_id = $1 
            AND COALESCE(complete_time >= $2, FALSE) 
