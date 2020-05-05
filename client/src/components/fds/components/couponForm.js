@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom'
 import { Form, Button, Grid, Segment, Table } from 'semantic-ui-react'
-import CustomDatePicker from './CustomDatePicker'
-import Utils from '../../restaurant_staff/components/utils/utils'
+import CustomDatePicker from './customDatePicker'
+import ResUtils from '../../restaurant_staff/components/utils/utils'
+import Utils from './utils/utils'
 import axios from 'axios';
 
 export default function CouponForm(props) {
@@ -21,16 +22,19 @@ export default function CouponForm(props) {
     useEffect(() => {
         if (isEdit) {
             const {coupon_group_id, description, expiry_date} = props.coupon;
+            var couponProps = Utils.fdsCouponParser(description);
+            var couponDesc = Utils.getCouponDesc(couponProps.couponType, couponProps.discountType, couponProps.discountValue);
+
             setCouponGroupId(coupon_group_id)
             setExpiryDate(new Date(expiry_date))
-            setDescription(description)
+            setDescription(couponDesc)
         }
     }, [props])
 
     function submit() {
         const reqBody = {
             coupon_group_id: couponGroupId,
-            expiry_date: Utils.formatDateString(expiryDate),
+            expiry_date: ResUtils.formatDateString(expiryDate),
             couponType: couponType,
             discountType: discountType,
             discountValue: discountValue,
@@ -111,6 +115,9 @@ export default function CouponForm(props) {
                             placeholder='up to 2 decimals'
                             onChange={e => setDiscountValue(e.target.value)} 
                         />
+                    </Form.Group>
+                    {!isEdit?
+                    <Form.Group widths='equal'>
                         <Form.Field label='Target Customers' control='select' onChange={e => setTargetCustomers(e.target.value)}>
                             <option value='inactive'>Inactive</option>
                             <option value='active'>Active</option>
@@ -121,6 +128,8 @@ export default function CouponForm(props) {
                             onChange={e => setCustomerActivity(e.target.value)} 
                         />
                     </Form.Group>
+                    : null
+                    }
                 </Form>
             </Grid.Row>
             <Grid.Row>
