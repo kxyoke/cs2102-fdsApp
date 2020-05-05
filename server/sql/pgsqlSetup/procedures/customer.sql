@@ -99,9 +99,6 @@ BEGIN
                 VALUES(o_id,d_fee,NOW());
 
     DELETE FROM CartItems WHERE usr_id= u_id;
-
-    UPDATE customers 
-        SET last_order_time = NOW() 
-        WHERE usr_id = u_id;
+    UPDATE Customers set reward_points = _total * 100 + reward_points WHERE usr_id = u_id;
 END;
 $$ LANGUAGE plpgsql;

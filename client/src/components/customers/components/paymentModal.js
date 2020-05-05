@@ -41,7 +41,7 @@ export default function PaymentModal(props) {
     }, 5000);
     return (
         <Modal
-            trigger={<Button color="red" onClick={handleOpen}>Pay and place order</Button>}
+            trigger={<Button color="red" disabled={props.disabled} onClick={handleOpen}>Pay and place order</Button>}
             open={open}
             basic 
             onClose={handleClose}

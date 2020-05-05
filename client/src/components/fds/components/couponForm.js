@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom'
 import { Form, Button, Grid, Segment, Table } from 'semantic-ui-react'
-import CustomDatePicker from './customDatePicker'
+import CustomDatePicker from './CustomDatePicker'
 import ResUtils from '../../restaurant_staff/components/utils/utils'
 import Utils from './utils/utils'
 import axios from 'axios';

@@ -3,8 +3,10 @@ import CartItem from "../components/cartItem";
 import Header from '../layout/header';
 import Axios from 'axios';
 import PaymentButton from '../components/paymentModal'
-import {Divider, Loader, Dropdown, Input, Button} from 'semantic-ui-react';
+import {Divider, Loader, Dropdown, Button} from 'semantic-ui-react';
 import CouponModal from '../components/useCouponModal';
+import Utils from '../../fds/components/utils/utils';
+import Rutil from '../../restaurant_staff/components/utils/utils';
 export default function CCart(props) {
     //general 
     const [loading, setLoading] = useState(true);
@@ -13,11 +15,19 @@ export default function CCart(props) {
     const [total, setTotal] = useState(0);
     const [subtotal, setSubtotal] = useState(0);
     const [deliveryFee, setDeliveryFee] = useState(3);
-    const [coupon, setCoupon] = useState(null);
+    const [coupon, setCoupon] = useState('');
+    const [cDiscount, setCDiscount] = useState(0);
+    const [applied, setApplied] = useState(true);
     const [addresses, setAddresses] = useState([]);
     const [deliveryAddress, setDeliveryAddress]=useState('');
     const [payment, setPayment] = useState("card");
     const [card, setCard] = useState('');
+    const [fdsPromotionDetail, setFdsPromotionDetail]=useState({promotype:"", discountType:"", discountValue:""});
+    const [resPromotionDetail, setResPromotionDetail] = useState({minAmount:'', isAbs:'', discount:''});
+    const [rd, setRd]=useState(0);
+    const [fd,setFd] = useState(0);
+    var rDiscount=0;
+    var fDiscount=0;
     function roundToTwo(num) {
         return +(Math.round(num + "e+2")  + "e-2");
         
@@ -28,9 +38,10 @@ export default function CCart(props) {
             setTotal(0);
             setSubtotal(0);
         } else {
-
+            
+            
             setSubtotal(roundToTwo(ct));
-            setTotal(roundToTwo(ct+deliveryFee));
+            setTotal(roundToTwo(ct+deliveryFee-cDiscount-fDiscount-rDiscount));
         }
     }
     async function getTotal(input) {
@@ -54,13 +65,18 @@ export default function CCart(props) {
             await Axios.all([
             Axios.get('/api/customer/cart'),
             Axios.get('/api/customer/address'),
-            Axios.get('/api/customer/card')
+            Axios.get('/api/customer/card'),
+            Axios.get('/api/customer/promo/current'),
             ])
             .then(Axios.spread((...res)=> {
                 const res1 = res[0];
                 const res2=res[1];
                 const res3=res[2];
+                const res4= res[3];
+              
 
+              
+                
                 if(res1.data !== 'empty') {
                     setCarts(res1.data);
                     setShow(true);
@@ -71,27 +87,137 @@ export default function CCart(props) {
                 
                 setDeliveryAddress(res2.data[0].address);
                 processAddress(res2.data);
-                setLoading(false);
+                processPromotions(res4.data);
                 setCard(res3.data.cardnumber);
+                setLoading(false);
+
+                
             })
             ).catch(err=> {
                 console.log(err)
             })
         }
         fetchData();
+       
     }, [])
 
     function processAddress(address) {
-        console.log(address);
         address.forEach(add=> {
             add.text=add.address;
             add.value=add.address;
-            console.log(add);
         })
-        console.log(address);
         setAddresses(address);
 
     }
+    function applyPromo() {
+        if(fdsPromotionDetail.discountValue !== "" ) {
+           
+            if(fdsPromotionDetail.promotype === 'delivery') {
+                fDiscount=3;
+            } else {
+                if(fdsPromotionDetail.discountType ==='percent') {
+                    fDiscount = roundToTwo(parseFloat(fdsPromotionDetail.discountValue)*total);
+                    
+                } else {
+                    if( total < fdsPromotionDetail.discountValue) {
+
+                    } else {
+                        fDiscount= parseFloat(fdsPromotionDetail.discountValue);
+                    }
+                    
+                }
+            }
+        }
+            
+        if(resPromotionDetail.discount!=='') {
+
+            if( total<resPromotionDetail.minAmount) {
+
+            } else {
+                if(!resPromotionDetail.isAbs) {
+                    rDiscount =roundToTwo(parseFloat(resPromotionDetail.discount)/100 * total);
+                    
+                } else {
+                    rDiscount= parseFloat(resPromotionDetail.discount);
+                }
+            }
+            
+        }
+        if(total < rDiscount+fDiscount) {
+            if(rDiscount>fDiscount) {
+                rDiscount = 0;
+            } else {
+                fDiscount = 0;
+            }
+        }
+        updateTotal(0);
+        setRd(rDiscount);
+        setFd(fDiscount);
+        setApplied(true);
+    }
+
+    function processPromotions(promotions) {
+        var i;
+        for(i = 0; i < promotions.length; i++) {
+            
+            if(promotions[i].promotype === 'FDS') {
+               const fd= Utils.fdsPromoParser(promotions[i].description);
+               if(fdsPromotionDetail.discountValue.length>0) {
+                   if(fd.promoType==='delivery' && fdsPromotionDetail.promoType !== 'delivery') {
+                        if(fdsPromotionDetail.discountType==='dollars') {
+                            if(fdsPromotionDetail.discountValue < 3) {
+                                setFdsPromotionDetail(fd);
+                            }
+                        } else {
+                            if(fdsPromotionDetail.discountValue<50) {
+                                setFdsPromotionDetail(fd)
+                            }
+                        }
+                   } else if(fd.promoType!=='delivery' && fdsPromotionDetail.promoType === 'delivery') {
+                        if(fd.discountType==='dollars') {
+                            if(fd.discountValue> 3) {
+                                setFdsPromotionDetail(fd);
+                            }
+                        } else {
+                            if(fd.discountValue *total >=50) {
+                                setFdsPromotionDetail(fd)
+                            }
+                        }  
+                    }
+                }else {
+                   
+                    setFdsPromotionDetail(fd);
+                }
+               
+            } else {
+                const rd = Rutil.getDefaultPromoDescProps(promotions[i].description);
+                if(resPromotionDetail.discount.length>0) {
+
+                    
+                    if(rd.isAbs&&resPromotionDetail.isAbs) {
+                        if(rd.minAmount < total&& resPromotionDetail.discount < rd.discount) {
+                            setResPromotionDetail(rd);
+                        }
+
+                    } else if (rd.isAbs&& !resPromotionDetail.isAbs) {
+                        if(rd.minAmount<total &&
+                            rd.discount >= 50) {
+
+                            setResPromotionDetail(rd);
+                        }
+                    }
+                } else {
+                    setResPromotionDetail(rd);
+                }
+            }
+        }
+        if(i >0) {
+            setApplied(false);
+        }
+
+    }
+   
+    
 
     function back(e) {
         if(carts.length>0) {
@@ -103,22 +229,67 @@ export default function CCart(props) {
             props.history.push('/customer');
         }
     }
+    //one order can only use 1 coupon
+    function useCoupon(cp) {
+            
+       
+            switch (cp.detail.couponType) {
+                
+                case 'Discount':
+                    var discountAmt= 0;
+                    switch(cp.detail.discountType) {
+                        case 'percent':
+                            discountAmt = roundToTwo(parseFloat(cp.detail.discountValue)/100 * total);
+                            break;
+                        case 'dollars':
+                            discountAmt = parseFloat(cp.detail.discountValue);
+                            if(discountAmt -total<5) {
+                                discountAmt = 0;
+                                return alert("You total amount after applied should be more than $5");
+                            }
+                            break;
 
-    function useCoupon(description) {
-        //TODO:
-        //set the coupon constant
-        //update the total price
-        //show the coupon in the price
+
+                    }
+                    
+                    setTotal(prev => roundToTwo(prev-discountAmt));
+                    setCDiscount(prev=> roundToTwo(prev+ discountAmt));
+
+                    break;
+                case 'Delivery':
+                    setTotal(total=>roundToTwo(total-deliveryFee));
+                    setCDiscount("delivery");
+                    setDeliveryFee(0);
+                    break;
+
+            }
+
+            setCoupon(cp.coupon_id);
+        
+        
     }
 
+    function removeCoupon() {
+        if(cDiscount ==="delivery") {
+            setDeliveryFee(3);
+            setTotal(pre=> roundToTwo(pre+deliveryFee));
+           
+        } else {
+            
+            setTotal(pre=> roundToTwo(pre+cDiscount));
+            setCDiscount(0);
+        }
+        setCoupon('');
+
+    }
+
+    
+    
     function editAddress(e) {
-        //TODO:
-        //change the delivery address
-        //show the list of address stored in the database
-        //allow update of new address
-        console.log("update address");
         props.history.push("/customer/address");
     }
+
+
 
 
     //TODO:
@@ -129,6 +300,7 @@ export default function CCart(props) {
         {text:'card', value: 'card'},
         {text:'cash', value:'cash'},
     ]
+   
     return (
         
         <div>
@@ -136,9 +308,9 @@ export default function CCart(props) {
             {loading? 
                 <Loader active inline='centered'>Loading</Loader> 
                 :
-                
+               
             <div class="container">
-                {show?
+                {show && total >0?
                 <div>
                 <h3>Restaurant name: {carts[0].rname}</h3>
                     
@@ -167,6 +339,37 @@ export default function CCart(props) {
                             <h5 class='text-right'>${deliveryFee}</h5>
                         </div>
                     </div>
+                    {coupon !== '' && coupon !== 'delivery'?
+                    <div class="row">
+                        <div class="col">
+                            <h5 class='text-left'>coupon discount:</h5>
+                        </div>
+                        <div class="col">
+                            <h5 class='text-right'>-${cDiscount}</h5>
+                        </div>
+                    </div>
+                    :null}
+                    {applied && fdsPromotionDetail.discountType!== "" ?
+                    <div class="row">
+                        <div class="col">
+                            <h5 class='text-left'>FDS discount:</h5>
+                        </div>
+                        <div class="col">
+                            <h5 class='text-right'>-${fd}</h5>
+                        </div>
+                    </div>
+                    :null}
+                    {applied && resPromotionDetail.discount!="" ?
+                    <div class="row">
+                        <div class="col">
+                            <h5 class='text-left'>Restaurant discount:</h5>
+                        </div>
+                        <div class="col">
+                            <h5 class='text-right'>-${rd}</h5>
+                        </div>
+                    </div>
+                    :null}
+
                     {/* <button type="button" class="btn btn-link" >Use coupons</button> */}
                     
                     <div class="row">
@@ -180,10 +383,16 @@ export default function CCart(props) {
                         
                     </div>
                     </div>
-                    
-                    <CouponModal/>
-                    
+                    {coupon === ''?
+                        <CouponModal useCoupon={useCoupon}/>
+                        :
+                        <Button onClick={removeCoupon}>Remove coupon</Button>
+                    }
+                    {!applied
+                    ? <Button color="pink" onClick={applyPromo}>You can enjoy some promotions, Click to apply promotions</Button>
+                    :null}
                     <Divider/>
+                    
                     <div>
                     <label> Delivery details : </label>
                     <label>Address </label>
@@ -205,8 +414,6 @@ export default function CCart(props) {
                                     {addresses.map((option)=> (
                                         <Dropdown.Item key={option.value} {...option}
                                             onClick={(e,data)=>{
-                                                console.log(data);
-                                                console.log(e)
                                                 setDeliveryAddress(data.address)}
                                             }
                                         />
@@ -261,8 +468,8 @@ export default function CCart(props) {
                 }
                 
                <button class="btn btn-light" onClick={back}>Back to Restaurant/home</button>
-               {show? 
-                <PaymentButton redirectTOHomePage={redirectTOHomePage} address={deliveryAddress} payment={payment} total={total} deliveryFee={deliveryFee} coupon={coupon}/>
+               {show && total > 0? 
+                <PaymentButton disabled={total<5} redirectTOHomePage={redirectTOHomePage} address={deliveryAddress} payment={payment} total={total} deliveryFee={deliveryFee} coupon={coupon}/>
                 : null}
             </div>
             }

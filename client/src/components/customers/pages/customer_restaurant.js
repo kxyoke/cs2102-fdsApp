@@ -7,7 +7,7 @@ export default function RestaurantMenu(props) {
     const {res_id, rname} = props.location.state;
     const [show, setShow] = useState(false);
     const menuUrl = '/api/customer/menu/' + res_id;
-    const promotionUrl = '/api/restaurant/promos/active/'+res_id;
+    const promotionUrl = '/api/customer/promo/res/'+res_id;
     const [menuItem, setMenuItem] = useState([]);
     const [promotions, setPromotions] = useState([]);
 
@@ -29,6 +29,7 @@ export default function RestaurantMenu(props) {
                 if (promo.data.length > 0) {
                     setPromotions(promo.data)
                     processPromotion();
+                    console.log(promo.data)
                 }
             })).catch(err=>{
                 console.log(err)

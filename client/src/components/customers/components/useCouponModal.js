@@ -1,43 +1,84 @@
-import React, {useState} from "react";
-import {Button, Form, Modal} from 'semantic-ui-react';
-// import 'semantic-ui-css';
+import React, {useState, useEffect} from "react";
+import {Button, Dropdown, Modal} from 'semantic-ui-react';
 import Axios from "axios";
+import Utils from '../../fds/components/utils/utils'
+
 
 export default function CouponModal(props) {
     const [open, setOpen] = useState(false);
-    const [couponId, setCouponId] = useState('');
+    const [coupon, setCoupon] = useState(null);
+    const [couponOptions, setCouponOptions] = useState([]);
+    const [des, setDes] = useState('');
     const handleOpen=()=> setOpen(true);
     const handleClose = ()=> setOpen(false);
 
-    const handleSubmit=()=> {
-        console.log(couponId);
-        console.log("submit");
-        //axios to post to backend for use coupon
-        //the backend will handle the use of coupon
-        //on success update the total price on the cart page;
+    useEffect(() => {
+        const fetchData = async ()=> {
+                await Axios.get('/api/customer/usableCoupon')
+                            .then(res=> {
+                                processCoupon(res.data);
+
+                            })
+        }
+
+        fetchData();
+    }, [])
+
+    function processCoupon(coupons) {
+        coupons.forEach(coupon=> {
+            console.log(coupon);
+            const d = Utils.fdsCouponParser(coupon.description);
+            const s = Utils.getCouponDesc(d.couponType, d.discountType, d.discountValue);
+            coupon.text = s;
+            coupon.value = {
+                coupon_id:coupon.coupon_id,
+                detail :d
+            }
+            coupon.key=coupon.coupon_id;
+            delete coupon.description;
+        })
+
+        setCouponOptions(coupons);
+        
+        
     }
+    const handleChange =(e, data) => {
+        setDes(data.text);
+        setCoupon(data.value);
+        
+    }
+    
     return (
         <Modal
             trigger={<Button onClick={handleOpen}>Use Coupon</Button>}
             open={open}
             onClose={handleClose}
-            size='tiny'
+            size='large'
             >
                 <Modal.Header>Use coupon</Modal.Header>
                 <Modal.Content>
-                   <Form onSubmit={handleSubmit}>
-                       <Form.Field>
-                           <label>Type coupon id</label>
-                           <Form.Input
-                            name="coupon"
-                            value={couponId}
-                            onChange={(e)=>setCouponId(e.target.value)}
-                            />
-                       </Form.Field>
-                       <Form.Button content="submit">Use</Form.Button>
-                   </Form> 
+                   <Dropdown
+                       placeholder="Choose a coupon to use"
+                       selection
+                       fluid
+                       scrolling
+                       value={des}
+                       options={couponOptions}
+                       onChange={handleChange}
+                       >
+                      
+                   </Dropdown>
+
                 </Modal.Content>
                 <Modal.Actions>
+                    <Button 
+                        color='green'
+                        disabled={coupon===null}
+                        onClick ={()=> {
+                            props.useCoupon(coupon);
+                            handleClose()
+                        }}
+                        >Apply</Button>
                     <Button 
                         negative
                         onClick ={handleClose}

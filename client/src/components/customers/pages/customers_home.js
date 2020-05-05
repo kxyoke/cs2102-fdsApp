@@ -8,7 +8,6 @@ import FuzzySearch from 'fuzzy-search';
 import {Loader, Message} from 'semantic-ui-react';
 
 export default function CHome (props) {
-    console.log(props.history);
     const [loading, setLoading] = useState(true);
     const [restaurants, setRestaurants] = useState([]);
     const [currentPage, setCurrentPage]=useState(1);
@@ -23,11 +22,13 @@ export default function CHome (props) {
         const fetchData = async () => {
         await axios.all([
             axios.get('/api/customer/res'),
-            axios.get('/api/customer/status')
+            axios.get('/api/customer/status'),
+            axios.get('/api/customer/promo/fds')
             ])
             .then (axios.spread((...res)=> {
                 const list = res[0];
                 const status= res[1];
+                const promo = res[2];
                 if(status.data !== 'OK') {
                     
                     setMessage(status.data);
@@ -36,7 +37,8 @@ export default function CHome (props) {
                 setFullRestaurantList(list.data);
                 setRestaurants(list.data);
                 setLoading(false);
-                
+
+                console.log(promo.data);
             })
             )
         

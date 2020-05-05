@@ -18,10 +18,12 @@ const getAddresses = require('./methods/getAddresses')
 const updateAddress = require('./methods/updateAddress')
 const deleteAddress = require('./methods/deleteAddress')
 const getCardInfo = require('./methods/getCardInfo')
-const getCoupons = require('./methods/getCoupons')
+
 const getPastOrders = require('./methods/getPastOrder')
 const placeOrder = require('./methods/placeOrder')
 
+const getCoupons = require('./methods/getCoupons')
+const getUsableCoupon = require('./methods/getUsableCoupon')
 const useCoupon = require('./methods/useCoupon')
 const getReviews = require('./methods/viewReview')
 const getPendingReviews = require('./methods/getPendingReview')
@@ -29,6 +31,11 @@ const addReviews = require('./methods/addReviews')
 const ordersNotComplete = require('./methods/isOrderNotcomplete')
 const inCompleteOrder = require('./methods/inCompleteOrders')
 const delivery = require('./methods/getDelivery')
+
+const fdsPromo = require('./methods/getFDSpromo')
+const resPromo = require('./methods/getResPromo')
+const allPromo = require('./methods/getCurrentPromo')
+
 cRouter.route('/res')
         .get(getResList);
 
@@ -71,8 +78,13 @@ cRouter.route('/order')
 cRouter.route('/coupon')
         .get(getCoupons)
         .put(useCoupon);
+cRouter.get('/usableCoupon',getUsableCoupon)
 
 cRouter.post('/placeOrder', placeOrder);
+
+cRouter.get('/promo/res/:res_id', resPromo);
+cRouter.get('/promo/fds', fdsPromo);
+cRouter.get('/promo/current', allPromo);
 
 module.exports = cRouter;
 
