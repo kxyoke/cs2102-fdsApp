@@ -6,6 +6,8 @@ import axios from 'axios';
 export default function ResStaffChangePassword(props) {
     const { is_manager, staff_id, rid } = props.userResInfo;
 
+    const [username, setUsername] = useState('')
+    
     const [oldUserPwd, setOldUserPwd] = useState('')
     const [userPwd, setUserPwd] = useState('')
     const [userPwd2, setUserPwd2] = useState('')
@@ -15,6 +17,7 @@ export default function ResStaffChangePassword(props) {
     const [resPwd2, setResPwd2] = useState('')
 
     //error states
+    const [isUsernameTaken, setUsernameIsTaken] = useState(false)
     const [isUserPwdMatchError, setUserPwdMatchError] = useState(false)
     const [isResPwdMatchError, setResPwdMatchError] = useState(false)
 
@@ -27,6 +30,24 @@ export default function ResStaffChangePassword(props) {
         setOldResPwd('')
         setResPwd('')
         setResPwd2('')
+    }
+
+    function handleSubmitName(e) {
+        console.log('was here')
+        axios.put('/api/restaurant/username/' + staff_id, {
+            newName: username
+        })
+            .then(res => {
+                if (res.status == 200) {
+                    setUsernameIsTaken(false)
+                    alert('Username successfully changed to '+username+'!')
+                    setUsername('')
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                setUsernameIsTaken(true)
+            });
     }
 
     function handleSubmitUser(e) {
@@ -65,6 +86,9 @@ export default function ResStaffChangePassword(props) {
             });
     }
 
+    function validateUsername() {
+        return username.length > 0
+    }
     function validateUserPwd() {
         return userPwd == userPwd2 && userPwd.length > 0 && oldUserPwd.length > 0
     }
@@ -73,7 +97,23 @@ export default function ResStaffChangePassword(props) {
     }
 
     return (
+      <div className='container'>
       <Segment.Group>
+        <Segment inverted color='olive'>
+        <Header as='h2' dividing>Change your username</Header>
+        <Form error>
+          {isUsernameTaken 
+              ? (<Message error header='Username taken' content='Please try a different one.' />)
+              : null}
+          <Form.Input fluid label='Enter your new username'
+            onChange={e => setUsername(e.target.value)}
+            placeholder='Unique username'
+          />
+          <Button color='teal' onClick={handleSubmitName}
+            disabled={!validateUsername()}>Submit</Button>
+        </Form>
+        </Segment>
+
         <Segment>
         <Header as='h2' dividing>Change your account password</Header>
         <Form error success>
@@ -125,6 +165,7 @@ export default function ResStaffChangePassword(props) {
           </Segment></Segment.Group>
         ) : null}
       </Segment.Group>
+      </div>
     )
 }
 
