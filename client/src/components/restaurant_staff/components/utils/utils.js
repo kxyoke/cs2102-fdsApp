@@ -1,15 +1,24 @@
-const utils = {
+const fdsD1 = new Date(2020, 0) //assuming fds 1st day = 1/1/2020
 
+const utils = {
+    
     /*FDS-GREGORIAN DATE CONVERSION*/
-    getDate_startEndOfWeek = (wkNum) => {
-        //assuming fds 1st day = 1/1/2020
-        let d0 = new Date(2020, 0);
-        //assuming wk starts from wk 1 (not 0)
-        let startOfWeek = new Date();
-        startOfWeek.setDate(d0.getDate() + (wkNum-1) * 7);
-        let endOfWeek = new Date();
-        endOfWeek.setDate(d0.getDate() + wkNum * 7);
-        return [startOfWeek, endOfWeek];
+    fdsD1: fdsD1,
+    
+    getDate_startEndOfMonth: (monthNum) => {
+        let d0 = fdsD1;
+        //assuming wk/month starts from wk/month 1 (not 0)
+        let startOfMonth = new Date();
+        startOfMonth.setDate(d0.getDate() + (monthNum-1) * 7 * 4);
+        let endOfMonth = new Date();
+        endOfMonth.setDate(d0.getDate() + monthNum * 7 * 4);
+        return {start: startOfMonth, end: endOfMonth};
+    },
+
+    getMonthOf: (date) => {
+        let diffInMs = Math.abs(date - fdsD1);
+        let diffInWeeks = diffInMs / (1000 * 3600 * 24 * 7);
+        return 1 + Math.floor(diffInWeeks / 4);
     },
 
     /*PROMO STUFF*/

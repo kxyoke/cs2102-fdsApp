@@ -38,6 +38,7 @@ CREATE OR REPLACE FUNCTION getCost( _rid         TEXT,
         pDesc       TEXT;
         details     RECORD;
     BEGIN
+        RAISE '%', _listofitems;
         FOREACH fidCount SLICE 1 IN ARRAY _listOfItems
         LOOP
             fid := fidCount[1];
@@ -57,7 +58,7 @@ CREATE OR REPLACE FUNCTION getCost( _rid         TEXT,
             details := getResDefaultPromo(pDesc);
             IF total >= details.amount_to_qualify THEN
                 IF details.default_type = '%' THEN
-                    total := total * details.discount / 100;
+                    total := total * (1 - details.discount / 100);
                 ELSE
                     total := total - details.discount;
                 END IF;

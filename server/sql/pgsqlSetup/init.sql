@@ -537,6 +537,7 @@ insert into Parttimerider (usr_id, base_salary) values ('AmcgucKoDC', 1000);
 insert into Parttimerider (usr_id, base_salary) values ('GMHtneWRAn', 1000);
 
 
+INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status, total) VALUES (0,'E2hZ7b7soT',5,'cash', ARRAY [['2', '2']],'pending', 45);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status, total) VALUES (1,'E2hZ7b7soT',33,'cash', ARRAY [['9', '2']],'pending', 45);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (2,'qnXAuDyjP9',5,'card',ARRAY [['51', '1'], ['62', '2'], ['61','5']],'complete',30);
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VALUES (3,'nI8m8uwVwp',1,'card',ARRAY [['14','1'], ['23','1']],'pending',10);
@@ -591,6 +592,7 @@ INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total) VAL
 INSERT INTO reviews VALUES(2, 'The food is good', 5);
 INSERT INTO reviews VALUES(5, 'The food is good', 10);
 
+insert into Deliveries (order_id, usr_id, place_order_time) values (0, 'GMHtneWRAn', '2020-01-05 12:36:06');
 insert into Deliveries (order_id, usr_id, place_order_time) values (1, 'GMHtneWRAn', '2020-01-05 12:36:06');
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (2, 'AmcgucKoDC', '2020-02-09 11:46:11', '2020-01-02 07:10:16', '2020-02-05 00:59:35', '2020-03-16 16:21:37', '2020-02-11 16:52:59');
 insert into Deliveries (order_id, usr_id, place_order_time) values (3, 'Q-oQOZL5nV', '2020-02-15 09:08:54');
@@ -707,13 +709,13 @@ insert into Coupons (coupon_id, coupon_group_id, usr_id, is_used) values (48, 13
 insert into Coupons (coupon_id, coupon_group_id, usr_id, is_used) values (49, 13, 'qnXAuDyjP9', true);
 insert into Coupons (coupon_id, coupon_group_id, usr_id, is_used) values (50, 13, 'd8BmgbWqUb', false);
 
-INSERT INTO Promotions (pid,promotype, res_id, description,start_day,end_day) VALUES (1,'RES', 3, 'Cras eu tellus eu augue porttitor interdum. Sed auctor odio a purus. Duis elementum, dui quis accumsan convallis, ante lectus','2020-01-31 11:45:19','2020-09-30 11:45:19');
+INSERT INTO Promotions (pid,promotype, res_id, description,start_day,end_day) VALUES (1,'RES', 3, 'DEFAULT:absolute;3;2','2020-01-31 11:45:19','2020-09-30 11:45:19');
 INSERT INTO Promotions (pid,promotype,description,start_day,end_day) VALUES (2,'FDS','FDS-wide free delivery','2020-01-31 11:45:19','2020-02-07 11:45:19');
 INSERT INTO Promotions (pid,promotype,description,start_day,end_day) VALUES (3,'FDS','$8 discount for a customer''s first order','2020-01-21 11:45:19','2020-01-31 11:45:19');
 INSERT INTO Promotions (pid,promotype,description,start_day,end_day) VALUES (4,'FDS','25% discount for a customer''s first order','2020-03-31 12:00:19','2020-04-22 12:00:19');
 INSERT INTO Promotions (pid,promotype,res_id,description,start_day,end_day) VALUES (5,'RES', 4, 'purus, in molestie tortor nibh sit amet orci. Ut sagittis lobortis mauris. Suspendisse aliquet molestie','2019-04-23 12:00:19','2019-09-30 12:00:19');
-INSERT INTO Promotions (pid,promotype,res_id,description,start_day,end_day) VALUES (6,'RES', 21, 'nulla at sem molestie sodales. Mauris blandit enim consequat purus. Maecenas libero est, congue a, aliquet vel, vulputate','2019-05-31 22:00:19','2019-08-31 22:00:19');
-INSERT INTO Promotions (pid,promotype,res_id,description,start_day,end_day) VALUES (7,'RES', 32, 'consequat, lectus sit amet luctus vulputate, nisi sem semper erat, in consectetuer ipsum nunc id enim. Curabitur massa. Vestibulum accumsan','2020-01-01 00:00:00','2020-12-31 00:00:00');
+INSERT INTO Promotions (pid,promotype,res_id,description,start_day,end_day) VALUES (6,'RES', 21, 'DEFAULT:percent;3;10','2019-05-31 22:00:19','2019-08-31 22:00:19');
+INSERT INTO Promotions (pid,promotype,res_id,description,start_day,end_day) VALUES (7,'RES', 32, 'DEFAULT:absolute;3;2','2020-01-01 00:00:00','2020-12-31 00:00:00');
 INSERT INTO Promotions (pid,promotype,description,start_day,end_day) VALUES (8,'FDS','FDS-wide free delivery','2020-03-01 00:00:00','2020-12-31 00:00:00');
 INSERT INTO Promotions (pid,promotype,description,start_day,end_day) VALUES (9,'FDS','FDS-wide free delivery','2020-04-12 00:00:00','2020-12-31 00:00:00');
 INSERT INTO Promotions (pid,promotype,description,start_day,end_day) VALUES (10,'FDS','$10 discount for a customer''s first order','2019-11-03 00:00:00','2020-11-03 00:00:00');

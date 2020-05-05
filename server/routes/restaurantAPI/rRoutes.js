@@ -8,6 +8,10 @@ const updateResPwd = require('./methods/updateResPwd');
 const getRestaurant = require('./methods/getProfile');
 const updateRestaurant = require('./methods/updateProfile');
 
+const statsNumOrders = require('./methods/statsNumOrders');
+const statsTotalCost = require('./methods/statsTotalCostOrders');
+const statsTop5Favs = require('./methods/statsTop5Favs');
+
 const addMenuFoodItem = require('./methods/addMenuFoodItem');
 const getFoodCategories = require('./methods/getFoodCategories');
 const getRestaurantFoodCategories = require('./methods/getRestaurantFoodCategories');
@@ -93,6 +97,13 @@ rRouter.route('/promos/past/:rid')
 
 rRouter.route('/promos/specific/:rid/:pid')
     .put(updateRestaurantPromo);
+
+rRouter.route('/stats/orders/num/:rid/:startDate/:endDate')
+    .get(statsNumOrders);
+rRouter.route('/stats/orders/earnings/:rid/:startDate/:endDate')
+    .get(statsTotalCost);
+rRouter.route('/stats/favFoods/:rid/:startDate/:endDate')
+    .get(statsTop5Favs);
 
 module.exports = rRouter;
 
