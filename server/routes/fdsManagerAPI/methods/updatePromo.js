@@ -21,7 +21,7 @@ module.exports = (req, res) => {
         errorMessage = "Discount value should only be numeric and have up to 2 decimals.";
     } else {
         if (discountType == 'dollars') {
-            pdesc = "Discount:absolute;" + discountValue;
+            pdesc = "Discount:dollars;" + discountValue;
         } else {
             pdesc = "Discount:percent;" + discountValue;
         }

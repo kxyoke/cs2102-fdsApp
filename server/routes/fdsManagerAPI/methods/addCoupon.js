@@ -25,7 +25,7 @@ module.exports = (req, res) => {
         errorMessage = "Customer activity should only be whole numbers.";
     } else {
         if (discountType == 'dollars') {
-            cdesc = "Discount:absolute;" + discountValue;
+            cdesc = "Discount:dollars;" + discountValue;
         } else {
             cdesc = "Discount:percent;" + discountValue;
         }
