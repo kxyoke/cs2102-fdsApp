@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { Header, Image, Icon, Segment, Dropdown, Statistic } from 'semantic-ui-react'
+import { Header, Grid, Icon, Segment, Dropdown, Statistic } from 'semantic-ui-react'
 
 import axios from 'axios'
 import Utils from './utils/utils'
@@ -33,7 +33,6 @@ export default function RHome(props) {
             + '/' + Utils.formatDateString(monthDates.end))
             .then(res => {
                 if (res.status == 200) {
-                    console.log(res.data)
                     setNumOrders(res.data[0].total)
                     setIsLoadingNum(false)
                 } else {
@@ -49,7 +48,6 @@ export default function RHome(props) {
             + '/' + Utils.formatDateString(monthDates.end))
             .then(res => {
                 if (res.status == 200) {
-                    console.log(res.data)
                     setEarned(res.data[0].total)
                     setIsLoadingCost(false)
                 } else {
@@ -65,8 +63,6 @@ export default function RHome(props) {
             + '/' + Utils.formatDateString(monthDates.end))
             .then(res => {
                 if (res.status == 200) {
-                    console.log(res.data)
-                    console.log(res.data.length)
                     setFavs(res.data)
                     setIsLoadingFoods(false)
                 } else {
@@ -82,7 +78,7 @@ export default function RHome(props) {
     function FoodIcon(props) {
         const {name, imagepath, price, numorders} = props.food;
         return (
-            <Segment circular style={{width: 250, height: 250,
+            <Segment circular style={{width: 275, height: 275,
                 backgroundImage: `url(${imagepath})`,
                 backgroundPosition: 'center',
                 backgroundSize: 'cover',
@@ -103,7 +99,7 @@ export default function RHome(props) {
 
     function FoodIconBlob() {
         return (
-            <Segment circular secondary style={{width: 175, height: 175}}>
+            <Segment circular secondary style={{width: 275, height: 275}}>
               <Header as='h2'>NIL</Header>
             </Segment>
         )
@@ -144,10 +140,27 @@ export default function RHome(props) {
         </Segment.Group>
       </Segment>
 
-        {top5Favs.slice(0,2).map(f => <FoodIcon food={f} />)}
-        {top5Favs.slice(2).map(f => <FoodIcon food={f} />)}
+      <Grid centered verticallyAlign='middle' columns={3}>
+        {top5Favs.slice(0,2).map(f => (
+            <Grid.Column>
+              <FoodIcon food={f} />
+            </Grid.Column>
+        ))}
+        
+        <Grid.Row centered columns={4}>
+        {top5Favs.slice(2).map(f => (
+            <Grid.Column>
+              <FoodIcon food={f} />
+            </Grid.Column>
+        ))}
         {top5Favs.length >= 5 ? null
-            : [...Array(5 - top5Favs.length).keys()].map(x => <FoodIconBlob />)}
+            : [...Array(5 - top5Favs.length).keys()].map(x => (
+                <Grid.Column>
+                  <FoodIconBlob /> 
+                </Grid.Column>
+            ))}
+        </Grid.Row>
+      </Grid>
 
       </div>
     )
