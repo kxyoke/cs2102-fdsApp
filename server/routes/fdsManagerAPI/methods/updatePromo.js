@@ -14,16 +14,16 @@ module.exports = (req, res) => {
     if (endDate <= startDate) {
         errorMessage = "End date/time cannot be the same as or before start date/time.";
     } else if (promoType == 'delivery') {
-        pdesc = "FDS-wide free delivery";
+        pdesc = "Delivery:percent;100";
     } else if (promoType == 'discount' && discountValue == null) {
         errorMessage = "Please enter a discount value.";
     } else if (!discountRegex.test(discountValue)) {
         errorMessage = "Discount value should only be numeric and have up to 2 decimals.";
     } else {
         if (discountType == 'dollars') {
-            pdesc = "$" + discountValue + " discount for a customer's first order.";
+            pdesc = "Discount:absolute;" + discountValue;
         } else {
-            pdesc = discountValue + "% discount for a customer's first order.";
+            pdesc = "Discount:percent;" + discountValue;
         }
     }
 

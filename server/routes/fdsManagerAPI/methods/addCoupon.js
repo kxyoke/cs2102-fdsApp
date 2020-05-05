@@ -14,7 +14,7 @@ module.exports = (req, res) => {
     const activityRegex = /^\d+$/;
 
     if (couponType == 'delivery') {
-        cdesc = "FDS-wide free delivery";
+        cdesc = "Delivery:percent;100";
     } else if (couponType == 'discount' && discountValue == null) {
         errorMessage = "Please enter a discount value.";
     } else if (!discountRegex.test(discountValue)) {
@@ -25,18 +25,10 @@ module.exports = (req, res) => {
         errorMessage = "Customer activity should only be whole numbers.";
     } else {
         if (discountType == 'dollars') {
-            cdesc = "$" + discountValue + " discount for ";
+            cdesc = "Discount:absolute;" + discountValue;
         } else {
-            cdesc = discountValue + "% discount for ";
+            cdesc = "Discount:percent;" + discountValue;
         }
-
-        if (targetCustomers == 'inactive') {
-            cdesc += "inactive customers during the past ";
-        } else {
-            cdesc += "active customers during the past ";
-        }
-
-        cdesc += customerActivity + " month/s";
     }
 
     pool.query(sql.fdsManager.queries.add_coupon, [coupon_group_id, cdesc, expDate],
