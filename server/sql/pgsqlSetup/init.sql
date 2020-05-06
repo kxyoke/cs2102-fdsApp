@@ -1156,6 +1156,11 @@ INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,dest
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (53,'qnXAuDyjP9',2,'cash',ARRAY [['21','2']],'complete',17.81,'17 Ridge Oak Alley');
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (54,'qnXAuDyjP9',29,'card',ARRAY [['4','4']],'complete', 102.76,'17 Ridge Oak Alley');
 
+INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (55,'XoBAl4RsbO',40,'card',ARRAY [['10','1'],['5','3'],['1','1']],'complete', 28.40, '9 Howard Road 04-00');
+INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (56,'XoBAl4RsbO',40,'card',ARRAY [['5','3'],['3','6']],'complete', 49.40, '9 Howard Road 04-00');
+INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (57,'XoBAl4RsbO',40,'card',ARRAY [['2','1'],['6','1']],'complete', 23.20, '9 Howard Road 04-00');
+INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (58,'XoBAl4RsbO',40,'card',ARRAY [['7','2']],'in progress', 15.35, '9 Howard Road 04-00');
+INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (59,'XoBAl4RsbO',40,'card',ARRAY [['4','3']],'in progress', 15.35, '9 Howard Road 04-00');
 
 
 INSERT INTO reviews VALUES(2, 'The food is good', 5);
@@ -1229,6 +1234,13 @@ insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (48, '3OkiKAnqj', '2020-03-17 06:40:30', '2020-01-05 13:05:06', '2020-03-08 01:44:39', '2020-02-13 03:38:02', '2020-01-17 00:11:35');
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (49, '3OkiKAnqj', '2020-02-24 06:58:53', '2020-01-25 20:20:54', '2020-01-25 16:24:00', '2020-02-06 17:35:00', '2020-01-03 23:12:26');
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (50, '3OkiKAnqj', '2020-01-30 13:45:58', '2020-02-01 11:44:09', '2020-02-12 14:32:01', '2020-01-20 15:04:59', '2020-03-23 19:40:43');
+
+insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (55, 'AmcgucKoDC', '2020-04-28 13:45:58', '2020-04-28 13:50:09', '2020-04-28 13:59:01', '2020-04-28 14:10:59', '2020-04-28 14:18:43');
+insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (56, 'AmcgucKoDC', '2020-04-29 13:45:58', '2020-04-29 13:50:09', '2020-04-29 13:59:01', '2020-04-29 14:10:59', '2020-04-29 14:18:43');
+insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (57, 'AmcgucKoDC', '2020-04-30 13:45:58', '2020-04-30 13:50:09', '2020-04-30 13:59:01', '2020-04-30 14:10:59', '2020-04-30 14:18:43');
+insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res) values (58, 'AmcgucKoDC', '2020-04-28 13:45:58', '2020-04-28 13:50:09', '2020-04-28 13:59:01', '2020-04-28 14:10:59');
+insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res) values (59, 'AmcgucKoDC', '2020-04-28 13:45:58', '2020-04-28 13:50:09', '2020-04-28 13:59:01');
+
 
 insert into CouponGroups (coupon_group_id, description, expiry_date) values (1, 'Delivery:percent;100', '2020-11-18 21:59:38');
 insert into CouponGroups (coupon_group_id, description, expiry_date) values (2, 'Discount:percent;10', '2020-07-08 10:58:53');

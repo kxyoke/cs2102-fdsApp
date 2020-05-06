@@ -156,5 +156,22 @@ CREATE TRIGGER updateDailySellsWhenOrdered
     FOR EACH ROW
         EXECUTE PROCEDURE autoUpdateDailySells();
 
+CREATE OR REPLACE FUNCTION forceIsPrepared()
+    RETURNS TRIGGER AS $$
+    BEGIN
+        IF NEW.dr_leave_res IS NOT NULL THEN
+            UPDATE Orders
+            SET is_prepared = TRUE
+            WHERE order_id = NEW.order_id;
+        END IF;
+        RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS autoUpdateOrderIsPrepared ON Orders;
+CREATE TRIGGER autoUpdateOrderIsPrepared
+    AFTER INSERT ON Deliveries
+    FOR EACH ROW
+        EXECUTE PROCEDURE forceIsPrepared();
+
 --FDS MANAGER
 
