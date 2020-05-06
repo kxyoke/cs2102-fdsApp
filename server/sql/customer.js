@@ -15,10 +15,10 @@ customer.queries = {
     update_cart:'UPDATE cartItems SET qty=$3 WHERE usr_id =$1 AND food_id = $2 AND res_id = $4',
     get_order_not_complete: 'SELECT order_id, res_id, rname, total, payment, listofitems, status,(SELECT place_order_time FROM deliveries where order_id = orders.order_id) as orderTime FROM orders JOIN restaurants using (res_id) WHERE usr_id = $1 AND status <> \'complete\'',
     get_delivery_detail: 'SELECT dr_leave_for_res,dr_leave_res, dr_arrive_cus FROM deliveries WHERE order_id = $1',
-    get_fds_current_promos:  'SELECT description FROM Promotions WHERE promotype = \'FDS\' AND start_day < NOW() AND NOW() < end_day',
-    get_res_current_promos: 'SELECT description FROM promotions WHERE res_id = $1 AND start_day<NOW() AND NOW() < end_day',
+    get_fds_current_promos:  'SELECT description FROM Promotions WHERE promotype = \'FDS\' AND start_day <= NOW() AND NOW() <= end_day',
+    get_res_current_promos: 'SELECT description FROM promotions WHERE res_id IS NOT DISTINCT FROM $1 AND start_day<=NOW() AND NOW() <= end_day',
     get_all_current_promos:
-     'SELECT promotype, description FROM promotions WHERE start_day<NOW() AND NOW() < end_day AND res_id = (SELECT distinct res_id FROM cartitems WHERE usr_id = $1) UNION SELECT promotype, description FROM promotions WHERE start_day<NOW() AND NOW() < end_day',
+     'SELECT promotype, description FROM promotions WHERE start_day<=NOW() AND NOW() <= end_day AND (promotype = \'FDS\' OR res_id IS NOT DISTINCT FROM (SELECT distinct res_id FROM cartitems))',
      get_reward_points: 'SELECT reward_points FROM customers where usr_id = $1'
 }
 customer.function = {
