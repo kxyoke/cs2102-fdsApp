@@ -42,7 +42,7 @@ export default function CCart(props) {
         } else {
             
             setSubtotal(roundToTwo(ct));
-            setTotal(roundToTwo(ct+deliveryFee-cDiscount-fDiscount-rDiscount-5));
+            setTotal(roundToTwo(ct+deliveryFee-cDiscount-fDiscount-rDiscount));
         }
     }
     async function getTotal(input) {
