@@ -194,7 +194,7 @@ CREATE OR REPLACE FUNCTION autoUpdateOrderStatusToProgress()
     BEGIN
         IF NEW.dr_leave_for_res IS NOT NULL THEN
             UPDATE orders
-            SET status = 'in process'
+            SET status = 'in progress'
             WHERE orders.order_id = NEW.order_id;
         END IF;
         RETURN NEW;
