@@ -1,11 +1,13 @@
 const pool = require('../../../db'); // psql db
 const sql = require('../../../sql');
 const fc = require('../utils');
-module.exports =  async (req, res,next) => {
-    var out= [];
-    try {
-        const data = await pool.query(sql.customer.queries.get_orders, [req.user.usr_id]);
-      
+
+module.exports = async (req, res,next) => {
+    var out = [];
+    try{
+
+        const data = await pool.query(sql.customer.queries.get_order_not_complete, [req.user.usr_id]);
+           
         for (const d of data.rows) {
             const x = await fc.foodItemConvert(d);
             // console.log(x);
@@ -20,13 +22,13 @@ module.exports =  async (req, res,next) => {
                 ordertime: d.ordertime
             }
             out.push(output);
-        }     
-    }catch (e) {
-        console.log(e)
-        return res.status(500).send('server down');
-    }
+        }
+                  
+        } catch (err) {
+            console.log(err);
+            return res.status(500).send('Something went wrong');
+        }
 
+        res.send(out);
     
-    res.send(out);
-    
-}
+};

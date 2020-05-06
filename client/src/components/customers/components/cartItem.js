@@ -4,7 +4,6 @@ import Axios from 'axios';
 export default function CartItem (props) {
     var { food_id, price, qty, foodname} = props.cartItem;
     price= parseFloat(price);
-    console.log(props.parentProps);
     const [quantity, setQuantity] = useState(qty);
     function decrement() {
         if(quantity > 0) {
@@ -13,9 +12,9 @@ export default function CartItem (props) {
                 food_id:food_id,
                 qty:quantity-1
             }).then(res=> {
-                console.log(res);
+                props.updateTotal(-price);
             })
-            props.updateTotal(-price);
+            
 
         }
     }
@@ -26,9 +25,9 @@ export default function CartItem (props) {
             food_id:food_id,
             qty:quantity+1
         }).then(res=> {
-            console.log(res);
+           props.updateTotal(price);
         })
-        props.updateTotal(price);
+        
     }
     function deleteItem() {
         setQuantity(0);
@@ -46,26 +45,35 @@ export default function CartItem (props) {
         
          {quantity === 0 ? null:
         <div class="border  border-secondary" >
-         <div class="media-body">
-           <h6 class="mt-0">{foodname}</h6>
-           
-           <p> 
-           </p>
-         <p class="d- text ">${price}</p>
-         
-         <div className="quantity-input">
-         <div class= "row">
-         <div class="col align-self-left">
-         <button  className="quantity-input__modifier quantity-input__modifier--left" onClick={decrement}>
-           &mdash;
-         </button>
-         <input className="quantity-input__screen" type="text" value={quantity} readonly />
-         <button className="quantity-input__modifier quantity-input__modifier--right" onClick={increment}>
-           &#xff0b;
-         </button> 
-         </div>
-         <div class ="col-2">
-         <button type="button" onClick={deleteItem} class="btn btn-secondary" style={{display:"flex",float:'left'}}>x</button>
+         <div class="container">
+         <div class="row justify-content-start">
+          <div class="col-7 align-self-left">
+            <h6 class="mt-0 ">{foodname}</h6>
+            
+            <p> 
+            </p>
+          <p class="d- text ">${price}</p>
+          </div>
+          <div class="col">
+          <div className="quantity-input">
+          <div class= "row">
+
+          <div class="col-8 align-self-left">
+          <div class="input-group sm-1" >
+            <div class="input-group-prepend">
+              <button class="btn btn-outline-secondary" type="button" onClick={decrement}>-</button>
+            </div>
+            <input type="text" value={quantity}  style={inputStyle} readOnly/>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" onClick={increment}>+</button>
+            </div>
+          </div>
+          </div>
+
+          <div class ="col-2">
+          <button type="button" onClick={deleteItem} class="btn btn-secondary">x</button>
+          </div>
+          </div>
          </div>
        </div> 
        </div>  
@@ -79,4 +87,8 @@ export default function CartItem (props) {
        </React.Fragment>
        
      )
+}
+
+const inputStyle= {
+  width:30
 }

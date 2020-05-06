@@ -3,10 +3,10 @@ const utils = {
     fdsPromoParser: (desc) => {
         let typed = desc.split(':')
         let tokens = typed[1].split(';')
-
+        
         return {
             promoType: typed[0],
-            discountType: tokens[2],
+            discountType: tokens[0],
             discountValue: tokens[1]
         }
     },
@@ -14,10 +14,9 @@ const utils = {
     fdsCouponParser: (desc) => {
         let typed = desc.split(':')
         let tokens = typed[1].split(';')
-
         return {
             couponType: typed[0],
-            discountType: tokens[2],
+            discountType: tokens[0],
             discountValue: tokens[1]
         }
     },
@@ -26,8 +25,8 @@ const utils = {
         if (promoType == 'Delivery') {
             return "Application-wide free delivery"
         } else {
-            return (discountType == 'dollars'? "$": "") + discountValue 
-                + (discountType == 'percentage'? "": "%") + " off first order"
+            return (discountType === 'dollars'? "$": "") + discountValue 
+                + (discountType === 'percent'? "%": "") + " off first order"
         }
     },
 
@@ -35,8 +34,8 @@ const utils = {
         if (couponType == 'Delivery') {
             return "Free delivery"
         } else {
-            return (discountType == 'dollars'? "$": "") + discountValue 
-                + (discountType == 'percentage'? "": "%") + " discount on order"
+            return (discountType === 'dollars'? "$": "") + discountValue 
+                + (discountType === 'percent'? "%": "") + " discount on order"
         }
     },
 }

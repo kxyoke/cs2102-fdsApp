@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from '../layout/header'
 import { Form,Button, FormGroup,FormControl, ControlLabel } from "react-bootstrap";
 import Axios from 'axios';
+import {Loader, Label} from "semantic-ui-react";
 
 export default function CSetting(props)  {
     const [loading, setLoading] = useState(true);
@@ -93,7 +94,9 @@ export default function CSetting(props)  {
     return(
             
         <div>
-        {loading ? null :
+        {loading ? 
+            <Loader active inline='centered'>Loading</Loader> 
+         :
             <div >
             <Header/>
             {/* display of information?  */}
@@ -101,7 +104,8 @@ export default function CSetting(props)  {
              
                  <Form >
                     <FormGroup controlId="username" bsSize="large">
-                        <ControlLabel> Username : {oldUsername} {'   '}  </ControlLabel> {'  '} 
+                        <ControlLabel> Username : {oldUsername} {'   '} 
+                         <Label circular color="yellow" as="a">Reward Points: {rewardPoint}</Label></ControlLabel> {'  '} 
                         <FormControl
                             value={username}
                             type="username"
