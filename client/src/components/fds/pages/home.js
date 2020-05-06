@@ -3,6 +3,7 @@ import HeaderMenu from '../layout/headerMenu'
 import CustomMonthPicker from '../components/customMonthPicker'
 import GeneralSummary from '../components/generalSummary'
 import CustomerSummary from '../components/customerSummary'
+import LocationSummary from '../components/locationSummary'
 import RiderSummary from '../components/riderSummary'
 import { Button, Form, Header, Tab, Table, Segment } from 'semantic-ui-react'
 import Utils from '../components/utils/utils'
@@ -52,14 +53,14 @@ export default function FHome(props) {
                         <Table.Header>
                             <Table.Row>
                             <Table.HeaderCell>User ID</Table.HeaderCell>
-                            <Table.HeaderCell>Total Orders</Table.HeaderCell>
+                            <Table.HeaderCell>Total Number of Orders</Table.HeaderCell>
                             <Table.HeaderCell>Total Cost of Orders</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
                         <Table.Body>
                             {customerSummaries.map(cs=> 
                                 
-                                <CustomerSummary customerSummaries={cs} />
+                                <CustomerSummary customerSummary={cs} />
                                 
                             )}
                         </Table.Body>
@@ -70,7 +71,26 @@ export default function FHome(props) {
             },
             {
               menuItem: 'Location Summary',
-              render: () => <Tab.Pane attached={false}>Location Summary</Tab.Pane>,
+              render: () => <Tab.Pane attached={false}>
+                  {showLocation?
+                    <Table textAlign='center'>
+                        <Table.Header>
+                            <Table.Row>
+                            <Table.HeaderCell>Area</Table.HeaderCell>
+                            <Table.HeaderCell>Total Number of Orders</Table.HeaderCell>
+                            </Table.Row>
+                        </Table.Header>
+                        <Table.Body>
+                            {locationSummaries.map(ls=> 
+                                
+                                <LocationSummary locationSummary={ls} />
+                                
+                            )}
+                        </Table.Body>
+                    </Table>
+                        : "Loading.."
+                    }
+              </Tab.Pane>,
             },
             {
                 menuItem: 'Rider Summary',
@@ -90,7 +110,7 @@ export default function FHome(props) {
                             <Table.Body>
                                 {riderSummaries.map(rs=> 
                                     
-                                    <RiderSummary riderSummaries={rs} />
+                                    <RiderSummary riderSummary={rs} />
                                     
                                 )}
                             </Table.Body>

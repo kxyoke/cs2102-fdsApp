@@ -2,7 +2,7 @@ import React from 'react';
 import { Table } from 'semantic-ui-react'
 
 export default function RiderSummary(props) {
-    const { rider_id, salary, total_deliveries, avg_delivery_time, total_ratings, averge_rating } = props.riderSummaries;
+    const { rider_id, salary, total_deliveries, avg_delivery_time, total_ratings, averge_rating } = props.riderSummary;
     
     return (
             <Table.Row>
