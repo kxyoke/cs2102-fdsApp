@@ -133,7 +133,7 @@ export default function RHome(props) {
 
           <Segment textAlign='center' size='large'>
           <Statistic>
-            <Statistic.Value><Icon name='dollar sign' />{totalEarned}</Statistic.Value>
+            <Statistic.Value><Icon name='dollar sign' />{(Math.round(parseFloat(totalEarned) * 100)/100).toFixed(2)}</Statistic.Value>
             <Statistic.Label>IN TOTAL</Statistic.Label>
           </Statistic>
           </Segment>

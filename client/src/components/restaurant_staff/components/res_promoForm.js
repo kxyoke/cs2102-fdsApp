@@ -17,10 +17,11 @@ export default function PromoForm(props) {
     
     const { isAdd } = props
     const { res_id, pid, start_day, end_day, description } = props.promo
+    const { isAbs, minAmount, discount } = props.desc
 
     const [selectedStartDate, setStartDate] = useState(today);
     const [selectedEndDate, setEndDate] = useState(tomorrow);
-    const [minAmount, setMinAmount] = useState(0);
+    const [newMinAmount, setMinAmount] = useState(0);
     const [isAbsoluteNotPercent, setPromoType] = useState(false);
     const [discount2Decimal, setDiscount] = useState(0);
     
@@ -28,10 +29,14 @@ export default function PromoForm(props) {
         if (!isAdd) {
             setStartDate(new Date(start_day))
             setEndDate(new Date(end_day))
-            setDescription(description)
+            //setDescription(description)
+            setMinAmount(minAmount)
+            setPromoType(isAbs)
+            setDiscount(discount)
         }
     }, [props])
 
+    /*
     function setDescription(desc) {
         let typed = desc.split(':')
         assert(typed[0] == 'DEFAULT', "Promo not default promo. error.")
@@ -39,10 +44,11 @@ export default function PromoForm(props) {
 
         let defaultProps = Utils.getDefaultPromoDescProps(desc)
 
-        setMinAmount(defaultProps.minAmount)
+        setMinAmount(defaultProps.newMinAmount)
         setPromoType(defaultProps.isAbs)
         setDiscount(defaultProps.discount)
     }
+    */
 
     const [hasStartDateError, setHasStartDateError] = useState(false)
     const [startDateError, setStartDateError] = useState(null)
@@ -69,6 +75,16 @@ export default function PromoForm(props) {
             setHasStartDateError(true)
             return false
         }
+        console.log('ging in?')
+        console.log(selectedStartDate)
+        if (selectedStartDate < today && selectedStartDate <= new Date(start_day)) {
+            console.log('got here')
+            setStartDateError({ 
+                content: 'Promo cannot start in the past.', 
+            })
+            setHasStartDateError(true)
+            return false
+        }
 
         if (selectedEndDate == null) {
             setEndDateError({ 
@@ -84,7 +100,7 @@ export default function PromoForm(props) {
             return false
         }
 
-        if (!Utils.currencyRegex.test(minAmount) || minAmount < 0) {
+        if (!Utils.currencyRegex.test(newMinAmount) || parseFloat(newMinAmount) < 0) {
             setMinAmtError({
                 content: 'Please check your min. amount is valid and omit the $.'
             })
@@ -98,14 +114,14 @@ export default function PromoForm(props) {
             })
             setHasDiscountError(true)
             return false
-        } else if (isAbsoluteNotPercent && discount2Decimal > minAmount) {
+        } else if (isAbsoluteNotPercent && parseFloat(discount2Decimal) > parseFloat(newMinAmount)) {
             setDiscountError({
                 content: 'Are you sure you want to give them more discount than spent?'
             })
             setHasDiscountError(true)
             return false;
         } else if (!isAbsoluteNotPercent && 
-            (discount2Decimal > 100 || discount2Decimal < 0)) {
+            (parseFloat(discount2Decimal) > 100 || parseFloat(discount2Decimal) < 0)) {
             setDiscountError({
                 content: 'Check your percentage discount!'
             })
@@ -122,7 +138,7 @@ export default function PromoForm(props) {
         if (isValid) {
             const reqBody = {
                 pid: pid,
-                description: Utils.getPromoDesc(minAmount, isAbsoluteNotPercent, discount2Decimal),
+                description: Utils.getPromoDesc(newMinAmount, isAbsoluteNotPercent, discount2Decimal),
                 start_day: Utils.formatDateString(selectedStartDate),
                 end_day: Utils.formatDateString(selectedEndDate)
             }
@@ -188,12 +204,12 @@ export default function PromoForm(props) {
                 error={hasMinAmtError? minAmtError : false} />
               <Form.Field required width={6} 
                 label='Eligible customers will get' control='input'
-                defaultValue={discount2Decimal} placeholder='up to 2 decimals'
+                defaultValue={discount} placeholder='up to 2 decimals'
                 onChange={ e => setDiscount(e.target.value) }
                 error={hasDiscountError? discountError : false} />
               <Form.Field required width={4}
                 label='Promo type' control='select'
-                defaultValue={isAbsoluteNotPercent}
+                defaultValue={isAbs}
                 onChange={ e => setPromoType(e.target.value) } >
                 <option value={true}>dollars off</option>
                 <option value={false}>percent off</option>
