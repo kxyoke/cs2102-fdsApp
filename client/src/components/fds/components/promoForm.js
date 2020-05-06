@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom'
 import { Form, Button, Grid, Segment, Table } from 'semantic-ui-react'
 import CustomDatePicker from './CustomDatePicker'
-import Utils from '../../restaurant_staff/components/utils/utils'
+import ResUtils from '../../restaurant_staff/components/utils/utils'
+import Utils from './utils/utils'
 import axios from 'axios';
 
 export default function PromoForm(props) {
@@ -20,18 +21,21 @@ export default function PromoForm(props) {
     useEffect(() => {
         if (isEdit) {
             const {pid, description, start_day, end_day} = props.promo;
+            var promoProps = Utils.fdsPromoParser(description);
+            var promoDesc = Utils.getPromoDesc(promoProps.promoType, promoProps.discountType, promoProps.discountValue);
+
             setPid(pid)
             setStartDate(new Date(start_day))
             setEndDate(new Date(end_day))
-            setDescription(description)
+            setDescription(promoDesc)
         }
     }, [props])
 
     function submit() {
         const reqBody = {
             pid: pid,
-            start_day: Utils.formatDateString(startDate),
-            end_day: Utils.formatDateString(endDate),
+            start_day: ResUtils.formatDateString(startDate),
+            end_day: ResUtils.formatDateString(endDate),
             promoType: promoType,
             discountType: discountType,
             discountValue: discountValue

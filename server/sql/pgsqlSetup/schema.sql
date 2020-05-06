@@ -26,6 +26,7 @@ CREATE TABLE Restaurants (
     res_id           TEXT PRIMARY KEY,
     rname            TEXT UNIQUE NOT NULL,
     address          TEXT NOT NULL,
+    postal_code      TEXT CHECK (postal_code SIMILAR TO '[0-9]{6}'),
     min_amount       NUMERIC NOT NULL,
     password_digest      VARCHAR(255) NOT NULL DEFAULT '$2b$10$bfU45HrpdNwgzn5Gfhv96.Xw8/Nbl857GVARB3.bK8VwMoZa0lj22' --'default'
 );
@@ -36,17 +37,16 @@ CREATE TABLE FoodCategories (
 );
 
 CREATE TABLE MenuItems (
-    res_id             TEXT,
-    food_id            TEXT,
-    name               TEXT,
-    description        TEXT,
-    imagepath          TEXT DEFAULT 'https://react.semantic-ui.com/images/wireframe/image.png',
-    category           TEXT NOT NULL DEFAULT '???',
-    
-    price           NUMERIC,
-    daily_limit     INTEGER DEFAULT 20,
-    available       BOOLEAN DEFAULT true,
-    PRIMARY KEY (res_id, food_id),
+    res_id              TEXT,
+    food_id             TEXT,
+    name                TEXT,
+    description         TEXT,
+    imagepath           TEXT DEFAULT 'https://react.semantic-ui.com/images/wireframe/image.png',
+    category            TEXT NOT NULL DEFAULT '???',
+    price               NUMERIC,
+    daily_limit         INTEGER DEFAULT 20,
+    available           BOOLEAN DEFAULT true,
+    PRIMARY KEY (res_Id, food_id),
     FOREIGN KEY (res_id) REFERENCES Restaurants,
     FOREIGN KEY (category) REFERENCES FoodCategories ON DELETE SET DEFAULT
 );
@@ -59,7 +59,6 @@ CREATE TABLE MenuItemsSold (
     PRIMARY KEY (res_id, food_id, day),
     FOREIGN KEY (res_id, food_id) REFERENCES MenuItems
 ); --and add trigger so num_sold <= daily_limit.
-
 
 
 CREATE TABLE Users (
@@ -85,7 +84,6 @@ CREATE TABLE RestaurantStaffs ( -- note 1 res only 1 manager typically
 CREATE TABLE Customers (
     usr_id               VARCHAR(255) NOT NULL,
     card_num             INTEGER,
-    last_order_time      TIMESTAMP DEFAULT NULL,
     reward_points        INTEGER DEFAULT 0 CHECK(reward_points >= 0),
     PRIMARY KEY(usr_id),
     FOREIGN KEY (usr_id) REFERENCES Users ON DELETE CASCADE
@@ -98,6 +96,7 @@ CREATE TABLE Customers (
 CREATE TABLE Customers_address (
     usr_id          VARCHAR(255) NOT NULL,
     address         TEXT NOT NULL,
+    postal_code      TEXT CHECK (postal_code SIMILAR TO '[0-9]{6}'),
     last_use_time   TIMESTAMP NOT NULL,
     PRIMARY KEY(usr_id, address),
     FOREIGN KEY (usr_id) REFERENCES Customers ON DELETE CASCADE
@@ -110,7 +109,6 @@ CREATE TABLE CartItems (
     qty             INTEGER DEFAULT 0,
     PRIMARY KEY (usr_id, food_id),
     FOREIGN KEY (usr_id) REFERENCES Users ON DELETE CASCADE,
-    FOREIGN KEY (res_id) REFERENCES Restaurants,
     FOREIGN Key (res_id, food_id) REFERENCES MenuItems
 );
 
@@ -141,11 +139,12 @@ CREATE TABLE Orders (
     usr_id         VARCHAR(255) NOT NULL,
     res_id         TEXT NOT NULL,
     total          NUMERIC NOT NULL,
-    isCheckedOut   BOOLEAN,
+    destination_address        TEXT NOT NULL,
+    postal_code      TEXT CHECK (postal_code SIMILAR TO '[0-9]{6}'),
     payment        VARCHAR(255) NOT NULL 
                                 CHECK (payment IN ('card', 'cash')),
     listOfItems    TEXT[][] NOT NULL,
-    status         VARCHAR(20) NOT NULL 
+    status         VARCHAR(20) NOT NULL DEFAULT 'pending'
                              CHECK (status in('pending', 'in progress', 'complete')),
     is_prepared     BOOLEAN NOT NULL DEFAULT FALSE,
     FOREIGN KEY(usr_id) REFERENCES Customers ON DELETE CASCADE,
@@ -155,19 +154,20 @@ CREATE TABLE Orders (
 CREATE TABLE Reviews (
     order_id        TEXT PRIMARY KEY,
     food_rev        TEXT,
-    delivery_rating NUMERIC CHECK(delivery_rating >0 AND delivery_rating<=10),
+    delivery_rating NUMERIC CHECK(delivery_rating >0 AND delivery_rating<=5),
     FOREIGN KEY(order_id) REFERENCES Orders
 );
 
 CREATE TABLE Deliveries (
     order_id          TEXT PRIMARY KEY,
-    usr_id            VARCHAR(255) NOT NULL,
+    delivery_fee      NUMERIC DEFAULT 3,
+    usr_id            VARCHAR(255) DEFAULT NULL,
     place_order_time  TIMESTAMP NOT NULL,
     dr_leave_for_res  TIMESTAMP,
     dr_arrive_res     TIMESTAMP,
     dr_leave_res      TIMESTAMP,
     dr_arrive_cus     TIMESTAMP,
-    FOREIGN KEY(order_id) REFERENCES Orders,
+    FOREIGN KEY(order_id) REFERENCES Orders ON DELETE CASCADE,
     FOREIGN KEY(usr_id) REFERENCES Riders
 );
 
