@@ -5,7 +5,7 @@ const shortid = require('shortid');
 const log = require('../../../logger');
 module.exports = async (req, res,next) => {
     try {
-        const {totalcost, payment, address, deliveryFee, coupon} = req.body;
+        const {totalcost, payment, address, deliveryFee, coupon, rp_used} = req.body;
         
         console.log(coupon);
         const order_id = shortid.generate();
@@ -25,7 +25,8 @@ module.exports = async (req, res,next) => {
                         address,
                         payment,
                         listOfItems,
-                        deliveryFee
+                        deliveryFee,
+                        rp_used
                         ], err=> {
                             if(err) {
                                 log.error(err)

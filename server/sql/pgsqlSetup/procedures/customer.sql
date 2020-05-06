@@ -70,7 +70,8 @@ CREATE OR REPLACE PROCEDURE
                 address TEXT,
                 payBy VARCHAR(255),
                 items TEXT[][],
-                d_fee NUMERIC
+                d_fee NUMERIC,
+                rp_used INTEGER
                 )
 AS $$
 
@@ -99,6 +100,6 @@ BEGIN
                 VALUES(o_id,d_fee,NOW());
 
     DELETE FROM CartItems WHERE usr_id= u_id;
-    UPDATE Customers set reward_points = _total * 100 + reward_points WHERE usr_id = u_id;
+    UPDATE Customers set reward_points = _total * 100 + reward_points-rp_used WHERE usr_id = u_id;
 END;
 $$ LANGUAGE plpgsql;

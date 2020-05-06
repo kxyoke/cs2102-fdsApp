@@ -24,7 +24,7 @@ const placeOrder = require('./methods/placeOrder')
 
 const getCoupons = require('./methods/getCoupons')
 const getUsableCoupon = require('./methods/getUsableCoupon')
-const useCoupon = require('./methods/useCoupon')
+const getRewardPoints = require('./methods/getRewardPoints')
 const getReviews = require('./methods/viewReview')
 const getPendingReviews = require('./methods/getPendingReview')
 const addReviews = require('./methods/addReviews')
@@ -77,7 +77,9 @@ cRouter.route('/order')
 
 cRouter.route('/coupon')
         .get(getCoupons)
-        .put(useCoupon);
+
+cRouter.get('/rewardPoints', getRewardPoints);
+
 cRouter.get('/usableCoupon',getUsableCoupon)
 
 cRouter.post('/placeOrder', placeOrder);

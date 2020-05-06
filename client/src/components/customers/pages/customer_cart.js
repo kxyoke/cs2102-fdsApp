@@ -24,6 +24,8 @@ export default function CCart(props) {
     const [card, setCard] = useState('');
     const [fdsPromotionDetail, setFdsPromotionDetail]=useState({promotype:"", discountType:"", discountValue:""});
     const [resPromotionDetail, setResPromotionDetail] = useState({minAmount:'', isAbs:'', discount:''});
+    const [rewardPoints, setRewardPoints] = useState(0);
+    const [rewardPointsUsed, setRewardPointsUsed] = useState(0);
     const [rd, setRd]=useState(0);
     const [fd,setFd] = useState(0);
     var rDiscount=0;
@@ -67,16 +69,17 @@ export default function CCart(props) {
             Axios.get('/api/customer/address'),
             Axios.get('/api/customer/card'),
             Axios.get('/api/customer/promo/current'),
+            Axios.get('/api/customer/rewardPoints')
             ])
             .then(Axios.spread((...res)=> {
                 const res1 = res[0];
                 const res2=res[1];
                 const res3=res[2];
                 const res4= res[3];
+                const res5=res[4];
+                console.log(res5.data[0].reward_points);
+                setRewardPoints(res5.data[0].reward_points);
               
-
-              
-                
                 if(res1.data !== 'empty') {
                     setCarts(res1.data);
                     setShow(true);
@@ -110,6 +113,7 @@ export default function CCart(props) {
 
     }
     function applyPromo() {
+        console.log(rewardPoints);
         if(fdsPromotionDetail.discountValue !== "" ) {
            
             if(fdsPromotionDetail.promotype === 'delivery') {
@@ -232,7 +236,7 @@ export default function CCart(props) {
     //one order can only use 1 coupon
     function useCoupon(cp) {
             
-       
+     
             switch (cp.detail.couponType) {
                 
                 case 'Discount':
@@ -289,6 +293,11 @@ export default function CCart(props) {
         props.history.push("/customer/address");
     }
 
+    function applyRP() {
+        setRewardPoints(pre=> pre -50000);
+        setRewardPointsUsed(50000);
+        setTotal(pre=> pre-5);
+    }
 
 
 
@@ -301,6 +310,7 @@ export default function CCart(props) {
         {text:'cash', value:'cash'},
     ]
    
+
     return (
         
         <div>
@@ -370,6 +380,17 @@ export default function CCart(props) {
                     </div>
                     :null}
 
+                    {rewardPointsUsed !== 0 ?
+                    <div class="row">
+                        <div class="col">
+                            <h5 class='text-left'>Reward points discount:</h5>
+                        </div>
+                        <div class="col">
+                            <h5 class='text-right'>-$5</h5>
+                        </div>
+                    </div>
+                    :null}
+
                     {/* <button type="button" class="btn btn-link" >Use coupons</button> */}
                     
                     <div class="row">
@@ -390,6 +411,10 @@ export default function CCart(props) {
                     }
                     {!applied
                     ? <Button color="pink" onClick={applyPromo}>You can enjoy some promotions, Click to apply promotions</Button>
+                    :null}
+
+                    {rewardPoints >=50000 && total-5 > 3 && rewardPointsUsed===0 
+                    ? <Button color="yellow" onClick={applyRP}>You can use reward points for $5 discount! Click to apply</Button>
                     :null}
                     <Divider/>
                     
@@ -469,7 +494,16 @@ export default function CCart(props) {
                 
                <button class="btn btn-light" onClick={back}>Back to Restaurant/home</button>
                {show && total > 0? 
-                <PaymentButton disabled={total<5} redirectTOHomePage={redirectTOHomePage} address={deliveryAddress} payment={payment} total={total} deliveryFee={deliveryFee} coupon={coupon}/>
+                <PaymentButton 
+                    disabled={total<5} 
+                    redirectTOHomePage={redirectTOHomePage} 
+                    address={deliveryAddress} 
+                    payment={payment} 
+                    total={total} 
+                    deliveryFee={deliveryFee} 
+                    coupon={coupon}
+                    rewardPointsUsed={rewardPointsUsed}
+                    />
                 : null}
             </div>
             }

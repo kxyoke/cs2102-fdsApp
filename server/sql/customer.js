@@ -19,6 +19,7 @@ customer.queries = {
     get_res_current_promos: 'SELECT description FROM promotions WHERE res_id = $1 AND start_day<NOW() AND NOW() < end_day',
     get_all_current_promos:
      'SELECT promotype, description FROM promotions WHERE start_day<NOW() AND NOW() < end_day AND res_id = (SELECT distinct res_id FROM cartitems WHERE usr_id = $1) UNION SELECT promotype, description FROM promotions WHERE start_day<NOW() AND NOW() < end_day',
+     get_reward_points: 'SELECT reward_points FROM customers where usr_id = $1'
 }
 customer.function = {
     add_cart: "call addCartItem($1,$2,$3,$4)",
@@ -27,7 +28,7 @@ customer.function = {
     update_card:"call updateCard($1, $2)",
     add_address:"call addAddress($1, $2)",
     add_review:"call addReview($1,$2,$3)",
-    place_order:"call placeOrder($1,$2,$3,$4,$5,$6,$7,$8)",
+    place_order:"call placeOrder($1,$2,$3,$4,$5,$6,$7,$8, $9)",
     use_coupon:"update coupons set is_used = true where coupon_id = $1"
 }
 
