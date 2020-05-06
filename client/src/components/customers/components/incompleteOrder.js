@@ -3,7 +3,7 @@ import {Segment, Step, Container} from 'semantic-ui-react'
 import Axios from 'axios'
 export default function ViewOrder(props) {
     
-    const {order_id, rname, payment, total,  listofitems, status, ordertime} = props.order;
+    const {order_id, rname, payment, total,  listofitems, status, is_prepared, ordertime} = props.order;
     const time = new Date (ordertime);
     const [d_status, setStatus] = useState('');
     useEffect(() => {
@@ -11,16 +11,14 @@ export default function ViewOrder(props) {
         
             Axios.get('/api/customer/delivery/'+order_id)
                 .then(res=> {
-                    console.log(res.data);
                     const {
-                            dr_leave_for_res,
                             dr_leave_res,
                             dr_arrive_cus} = res.data;
                     if(dr_arrive_cus) {
                         setStatus('arriving')
                     } else if (dr_leave_res) {
                         setStatus('on the way')
-                    } else if (dr_leave_for_res) {
+                    } else if (is_prepared) {
                         setStatus('preparing')
                     } else {
                         

@@ -1,7 +1,5 @@
 \i ./schema.sql
 
-INSERT INTO FoodCategories(category) VALUES ('Others');
-
 \i ./restaurantQuery.sql
 \i ./views.sql
 

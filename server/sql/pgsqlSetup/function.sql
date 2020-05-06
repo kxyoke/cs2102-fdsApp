@@ -115,7 +115,7 @@ RETURNS setof LocationInfo AS $$
         OR postal_code SIMILAR TO '7[0-9]{5}'
         OR postal_code SIMILAR TO '8[0-9]{5}'
         OR postal_code SIMILAR TO '9[0-9]{5}'
-        OR postal_code SIMILAR TO '10[0-9]{6}'
+        OR postal_code SIMILAR TO '10[0-9]{4}'
     ),
     EastDelivered AS (
         SELECT 'East' as area, CAST(count(*) AS INTEGER) as total_orders
