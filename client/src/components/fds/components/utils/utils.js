@@ -45,7 +45,7 @@ const utils = {
         const formattedString = [
             m.getFullYear(),
             (m.getMonth()+1).toString().padStart(2, '0'),
-            "00"
+            "01"
         ].join('-') + ' 00:00:00';
 
         console.log("month parsed as: " + formattedString)

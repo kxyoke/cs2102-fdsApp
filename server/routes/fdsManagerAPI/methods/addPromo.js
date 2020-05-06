@@ -13,7 +13,9 @@ module.exports = (req, res) => {
     var errorMessage = "default error message";
     const discountRegex = /^(?:\d*\.\d{1,2}|\d+)$/;
  
-    if (endDate <= startDate) {
+    if (startDate <= new Date()) {
+        errorMessage = "Start date/time cannot be before today.";
+    } else if (endDate <= startDate) {
         errorMessage = "End date/time cannot be the same as or before start date/time.";
     } else if (promoType == 'delivery') {
         pdesc = "Delivery:percent;100";
