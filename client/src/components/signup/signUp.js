@@ -5,7 +5,7 @@ import axios from 'axios';
 
 export default function SignUp(props) {
     const [restaurants, setRestaurants] = useState([]);
-
+    var postalReg = new RegExp('^\\d{6}$');
     useEffect(() => {
         axios.get('/api/signup/restaurant')
             .then(res => {
@@ -28,7 +28,7 @@ export default function SignUp(props) {
     const [resName, setResName] = useState('');
     const [min_amt, setMinAmt] = useState(20);
     const [resAddress, setResAddress] = useState('');
-
+    const [resPostal, setResPostal] = useState('');
     const [res_id, setRid] = useState('');
     const [isUnderExistingRes, setIsExistingRes] = useState(false);
     const [resPassword, setResPassword] = useState('')
@@ -65,6 +65,7 @@ export default function SignUp(props) {
           && password2 ===password && resName.length > 0
         let resValid = min_amt !=='' && resAddress.length>0
           && resPassword2 === resPassword && resPassword.length > 0
+          && postalReg.test(resPostal)
         return userValid && (isUnderExistingRes || resValid)
     }
 
@@ -91,6 +92,7 @@ export default function SignUp(props) {
                     resName: resName,
                     min_amt:min_amt,
                     resAddress:resAddress,
+                    resPostal:resPostal,
                     res_id: res_id,
                     isNewRes: !isUnderExistingRes, //equiv to isResManager.
                     resPassword: resPassword
@@ -173,6 +175,14 @@ export default function SignUp(props) {
                     onChange={e => {setMessage('');
                     setResAddress(e.target.value)}}
                     control='input'
+                />
+                <Form.Field fluid
+                    label='Postal code'
+                    value={resPostal}
+                    onChange={e => {setMessage('');
+                    setResPostal(e.target.value)}}
+                    control='input'
+                    error ={!postalReg.test(resPostal) && resPostal!==''? 'Postal code has to be 6 digits':false }
                 />
                 </Form.Group>
                 

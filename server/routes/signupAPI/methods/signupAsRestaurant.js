@@ -16,9 +16,9 @@ module.exports = async (req, res) => {
         const min_amt = req.body.min_amt;
         const resName = req.body.resName;
         const resAddress = req.body.resAddress;
-
+        const resPostal = req.body.resPostal;
         pool.query(sql.users.function.addRestaurantStaffAndRes, 
-            [res_id, id, username, hash, resName, resAddress, min_amt, resPwd], 
+            [res_id, id, username, hash, resName, resAddress, resPostal, min_amt, resPwd], 
             (err) => {
             if(err) {
                 if(err.message === 'username in used') {
