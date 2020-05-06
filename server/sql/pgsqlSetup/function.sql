@@ -8,12 +8,12 @@ DROP FUNCTION IF EXISTS riderSummary(selected_month timestamp);
 CREATE TYPE CustomerActivity AS (cust_id VARCHAR(255));
 CREATE TYPE CustomerInfo AS (cust_id VARCHAR(255), total_orders INTEGER, total_cost INTEGER);
 CREATE TYPE GeneralInfo AS (total_orders INTEGER, total_cost INTEGER);
-CREATE TYPE LocationInfo AS (cust_id VARCHAR(255));
+CREATE TYPE LocationInfo AS (area TEXT, total_orders INTEGER);
 CREATE TYPE RiderInfo AS (
     rider_id VARCHAR(255),
     salary NUMERIC,
     total_deliveries INTEGER,
-    avg_delivery_time INTERVAL,
+    avg_delivery_time DOUBLE PRECISION,
     total_ratings INTEGER,
     average_rating NUMERIC
     );
@@ -73,18 +73,81 @@ RETURNS setof GeneralInfo AS $$
 
     BEGIN
     RETURN QUERY
-    SELECT CAST(count(*) AS INTEGER) as total_orders, CAST(sum(total_cost) AS INTEGER) as total_cost
+    SELECT CAST(sum(total_orders) AS INTEGER) as total_orders, CAST(sum(total_cost) AS INTEGER) as total_cost
     FROM customersOrderSummary(selected_month);
 
     END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION locationSummary(selected_hour timestamp)
+CREATE OR REPLACE FUNCTION locationSummary(selected_month timestamp)
 RETURNS setof LocationInfo AS $$
 
     BEGIN
     RETURN QUERY
-    SELECT usr_id as cust_id FROM Orders;
+    WITH LocationsDelivered AS
+    (SELECT postal_code
+    FROM Orders JOIN Deliveries USING (order_id)
+    WHERE DATE_PART('month', place_order_time) = DATE_PART('month', selected_month) 
+    and DATE_PART('year', place_order_time) = DATE_PART('year', selected_month)
+    ),
+    NorthDelivered AS (
+        SELECT 'North' as area, CAST(count(*) AS INTEGER) as total_orders
+        FROM LocationsDelivered
+        WHERE postal_code SIMILAR TO '25[0-9]{4}'
+        OR postal_code SIMILAR TO '26[0-9]{4}'
+        OR postal_code SIMILAR TO '27[0-9]{4}'
+        OR postal_code SIMILAR TO '28[0-9]{4}'
+    ),
+    SouthDelivered AS (
+        SELECT 'South' as area, CAST(count(*) AS INTEGER) as total_orders
+        FROM LocationsDelivered
+        WHERE postal_code SIMILAR TO '1[0-9]{5}'
+        OR postal_code SIMILAR TO '2[0-9]{5}'
+        OR postal_code SIMILAR TO '3[0-9]{5}'
+        OR postal_code SIMILAR TO '4[0-9]{5}'
+        OR postal_code SIMILAR TO '5[0-9]{5}'
+        OR postal_code SIMILAR TO '6[0-9]{5}'
+        OR postal_code SIMILAR TO '7[0-9]{5}'
+        OR postal_code SIMILAR TO '8[0-9]{5}'
+        OR postal_code SIMILAR TO '9[0-9]{5}'
+        OR postal_code SIMILAR TO '10[0-9]{6}'
+    ),
+    EastDelivered AS (
+        SELECT 'East' as area, CAST(count(*) AS INTEGER) as total_orders
+        FROM LocationsDelivered
+        WHERE postal_code SIMILAR TO '14[0-9]{4}'
+        OR postal_code SIMILAR TO '15[0-9]{4}'
+        OR postal_code SIMILAR TO '16[0-9]{4}'
+        OR postal_code SIMILAR TO '17[0-9]{4}'
+        OR postal_code SIMILAR TO '18[0-9]{4}'
+        OR postal_code SIMILAR TO '19[0-9]{4}'
+    ),
+    WestDelivered AS (
+        SELECT 'West' as area, CAST(count(*) AS INTEGER) as total_orders
+        FROM LocationsDelivered
+        WHERE postal_code SIMILAR TO '22[0-9]{4}'
+        OR postal_code SIMILAR TO '23[0-9]{4}'
+        OR postal_code SIMILAR TO '24[0-9]{4}'
+    ),
+    CentralDelivered AS (
+        SELECT 'Central' as area, CAST(count(*) AS INTEGER) as total_orders
+        FROM LocationsDelivered
+        WHERE postal_code SIMILAR TO '11[0-9]{4}'
+        OR postal_code SIMILAR TO '12[0-9]{4}'
+        OR postal_code SIMILAR TO '13[0-9]{4}'
+        OR postal_code SIMILAR TO '20[0-9]{4}'
+        OR postal_code SIMILAR TO '21[0-9]{4}'
+    )
+
+    SELECT area, total_orders FROM NorthDelivered
+    UNION
+    SELECT area, total_orders FROM SouthDelivered
+    UNION
+    SELECT area, total_orders FROM EastDelivered
+    UNION
+    SELECT area, total_orders FROM WestDelivered
+    UNION
+    SELECT area, total_orders FROM CentralDelivered;
 
     END;
 $$ LANGUAGE plpgsql;
@@ -95,7 +158,7 @@ RETURNS setof RiderInfo AS $$
     BEGIN
     RETURN QUERY
     WITH DeliveryInfo AS
-    (SELECT usr_id, count(*) as total_deliveries, avg(dr_arrive_cus - dr_leave_for_res) as avg_delivery_time
+    (SELECT usr_id, count(*) as total_deliveries, EXTRACT(epoch FROM avg(dr_arrive_cus - dr_leave_for_res))/60 as avg_delivery_time
     FROM Deliveries
     WHERE DATE_PART('month', place_order_time) = DATE_PART('month', selected_month) 
     and DATE_PART('year', place_order_time) = DATE_PART('year', selected_month)
@@ -114,8 +177,8 @@ RETURNS setof RiderInfo AS $$
     GROUP BY usr_id
     )
 
-    SELECT usr_id as cust_id, salary, CAST(total_deliveries AS INTEGER), avg_delivery_time, CAST(total_ratings AS INTEGER), averge_rating
-    FROM riderInfo JOIN SalaryInfo USING (usr_id) LEFT JOIN RatingInfo USING (usr_id);
+    SELECT usr_id as cust_id, salary, CAST(total_deliveries AS INTEGER), avg_delivery_time, CAST(total_ratings AS INTEGER), average_rating
+    FROM DeliveryInfo JOIN SalaryInfo USING (usr_id) LEFT JOIN RatingInfo USING (usr_id);
 
     END;
 $$ LANGUAGE plpgsql;

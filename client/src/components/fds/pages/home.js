@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import HeaderMenu from '../layout/headerMenu'
 import CustomMonthPicker from '../components/customMonthPicker'
+import GeneralSummary from '../components/generalSummary'
 import CustomerSummary from '../components/customerSummary'
+import LocationSummary from '../components/locationSummary'
 import RiderSummary from '../components/riderSummary'
 import { Button, Form, Header, Tab, Table, Segment } from 'semantic-ui-react'
 import Utils from '../components/utils/utils'
@@ -27,15 +29,16 @@ export default function FHome(props) {
                     <Table textAlign='center'>
                         <Table.Header>
                             <Table.Row>
-                            <Table.HeaderCell>Total Orders</Table.HeaderCell>
-                            <Table.HeaderCell>Total Cost</Table.HeaderCell>
+                            <Table.HeaderCell>Total Number of Orders</Table.HeaderCell>
+                            <Table.HeaderCell>Total Cost of All Orders</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
                         <Table.Body>
-                        <Table.Row>
-                            <Table.Cell>{generalSummary.total_orders}</Table.Cell>
-                            <Table.Cell>{generalSummary.total_cost}</Table.Cell>
-                        </Table.Row>
+                            {generalSummary.map(gs=> 
+                                
+                                <GeneralSummary generalSummary={gs} />
+                                
+                            )}
                         </Table.Body>
                     </Table>
                         : "Loading.."
@@ -50,14 +53,14 @@ export default function FHome(props) {
                         <Table.Header>
                             <Table.Row>
                             <Table.HeaderCell>User ID</Table.HeaderCell>
-                            <Table.HeaderCell>Total Orders</Table.HeaderCell>
+                            <Table.HeaderCell>Total Number of Orders</Table.HeaderCell>
                             <Table.HeaderCell>Total Cost of Orders</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
                         <Table.Body>
                             {customerSummaries.map(cs=> 
                                 
-                                <CustomerSummary customerSummaries={cs} />
+                                <CustomerSummary customerSummary={cs} />
                                 
                             )}
                         </Table.Body>
@@ -68,7 +71,26 @@ export default function FHome(props) {
             },
             {
               menuItem: 'Location Summary',
-              render: () => <Tab.Pane attached={false}>Location Summary</Tab.Pane>,
+              render: () => <Tab.Pane attached={false}>
+                  {showLocation?
+                    <Table textAlign='center'>
+                        <Table.Header>
+                            <Table.Row>
+                            <Table.HeaderCell>Area</Table.HeaderCell>
+                            <Table.HeaderCell>Total Number of Orders</Table.HeaderCell>
+                            </Table.Row>
+                        </Table.Header>
+                        <Table.Body>
+                            {locationSummaries.map(ls=> 
+                                
+                                <LocationSummary locationSummary={ls} />
+                                
+                            )}
+                        </Table.Body>
+                    </Table>
+                        : "Loading.."
+                    }
+              </Tab.Pane>,
             },
             {
                 menuItem: 'Rider Summary',
@@ -80,7 +102,7 @@ export default function FHome(props) {
                                 <Table.HeaderCell>User ID</Table.HeaderCell>
                                 <Table.HeaderCell>Salary</Table.HeaderCell>
                                 <Table.HeaderCell>Total Deliveries</Table.HeaderCell>
-                                <Table.HeaderCell>Average Delivery Time</Table.HeaderCell>
+                                <Table.HeaderCell>Average Delivery Time (mins)</Table.HeaderCell>
                                 <Table.HeaderCell>Total Ratings</Table.HeaderCell>
                                 <Table.HeaderCell>Average Rating</Table.HeaderCell>
                                 </Table.Row>
@@ -88,7 +110,7 @@ export default function FHome(props) {
                             <Table.Body>
                                 {riderSummaries.map(rs=> 
                                     
-                                    <RiderSummary riderSummaries={rs} />
+                                    <RiderSummary riderSummary={rs} />
                                     
                                 )}
                             </Table.Body>
@@ -109,12 +131,12 @@ export default function FHome(props) {
         setShowLocation(false);
         setShowRider(false);
 
-        const reqBody = {
-            month: Utils.formatMonthString(selectedMonth)
-        }
-
         const fetchGeneralSummary = async () => {
-            await axios.get('/api/fdsManager/summary/general', reqBody)
+            await axios.get('/api/fdsManager/summary/general', {
+                params: {
+                    month: Utils.formatMonthString(selectedMonth)
+                }
+            })
                 .then(res=> {
                     console.log(res.data);
                     setGeneralSummary(res.data);
@@ -123,7 +145,11 @@ export default function FHome(props) {
         };
 
         const fetchCustomerSummary = async () => {
-            await axios.get('/api/fdsManager/summary/customer', reqBody)
+            await axios.get('/api/fdsManager/summary/customer', {
+                params: {
+                    month: Utils.formatMonthString(selectedMonth)
+                }
+            })
                 .then(res=> {
                     console.log(res.data);
                     setCustomerSummaries(res.data);
@@ -132,7 +158,11 @@ export default function FHome(props) {
         };
 
         const fetchLocationSummary = async () => {
-            await axios.get('/api/fdsManager/summary/location', reqBody)
+            await axios.get('/api/fdsManager/summary/location', {
+                params: {
+                    month: Utils.formatMonthString(selectedMonth)
+                }
+            })
                 .then(res=> {
                     console.log(res.data);
                     setLocationSummaries(res.data);
@@ -141,7 +171,11 @@ export default function FHome(props) {
         };
 
         const fetchRiderSummary = async () => {
-            await axios.get('/api/fdsManager/summary/rider', reqBody)
+            await axios.get('/api/fdsManager/summary/rider', {
+                params: {
+                    month: Utils.formatMonthString(selectedMonth)
+                }
+            })
                 .then(res=> {
                     console.log(res.data);
                     setRiderSummaries(res.data);
@@ -158,31 +192,43 @@ export default function FHome(props) {
     useEffect(() => {
 
         setSelectedMonth(new Date());
-        
-        const reqBody = {
-            month: selectedMonth
-        }
 
         const fetchData = async () => {
-            await axios.get('/api/fdsManager/summary/general', reqBody)
+            await axios.get('/api/fdsManager/summary/general', {
+                params: {
+                    month: Utils.formatMonthString(selectedMonth)
+                }
+            })
                     .then(res=> {
                         console.log(res.data);
                         setGeneralSummary(res.data);
                         setShowGeneral(true);
                     })
-            await axios.get('/api/fdsManager/summary/customer', reqBody)
+            await axios.get('/api/fdsManager/summary/customer', {
+                params: {
+                    month: Utils.formatMonthString(selectedMonth)
+                }
+            })
                     .then(res=> {
                         console.log(res.data);
                         setCustomerSummaries(res.data);
                         setShowCustomer(true);
                     })
-            await axios.get('/api/fdsManager/summary/location', reqBody)
+            await axios.get('/api/fdsManager/summary/location', {
+                params: {
+                    month: Utils.formatMonthString(selectedMonth)
+                }
+            })
                     .then(res=> {
                         console.log(res.data);
                         setLocationSummaries(res.data);
                         setShowLocation(true);
                     })
-            await axios.get('/api/fdsManager/summary/rider', reqBody)
+            await axios.get('/api/fdsManager/summary/rider', {
+                params: {
+                    month: Utils.formatMonthString(selectedMonth)
+                }
+            })
                     .then(res=> {
                         console.log(res.data);
                         setRiderSummaries(res.data);

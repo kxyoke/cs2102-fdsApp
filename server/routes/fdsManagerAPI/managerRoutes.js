@@ -10,9 +10,9 @@ const addFdsManagerPromo = require('./methods/addPromo');
 const getFdsManagerPromos = require('./methods/getPromos');
 const updateFdsManagerPromo = require('./methods/updatePromo');
 const getCustomerSummary = require('./methods/getCustomerSummary');
-const getGeneralSummary = require('./methods/getCustomerSummary');
-const getLocationSummary = require('./methods/getCustomerSummary');
-const getRiderSummary = require('./methods/getCustomerSummary');
+const getGeneralSummary = require('./methods/getGeneralSummary');
+const getLocationSummary = require('./methods/getLocationSummary');
+const getRiderSummary = require('./methods/getRiderSummary');
 
 mRouter.route('/summary/general')
     .get(getGeneralSummary)

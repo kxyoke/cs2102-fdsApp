@@ -23,7 +23,7 @@ fdsManager.functions = {
     get_general_summary:
         'SELECT * FROM generalSummary($1)', //month
     get_location_summary:
-        'SELECT * FROM locationSummary($1)', //hour
+        'SELECT * FROM locationSummary($1)', //month
     get_rider_summary:
         'SELECT * FROM riderSummary($1)' //month
 }
