@@ -45,7 +45,7 @@ export default function CouponForm(props) {
         if (isEdit) {
             axios.put('/api/fdsManager/coupons/' + couponGroupId, reqBody)
                 .then(res => {
-                    if (res.status == 200) {
+                    if (res.status === 200) {
                         history.push('/fdsManager/coupons/');
                     }
                 })
@@ -56,7 +56,7 @@ export default function CouponForm(props) {
         } else {
             axios.post('/api/fdsManager/coupons', reqBody)
                 .then(res => {
-                    if (res.status == 200) {
+                    if (res.status === 200) {
                         history.push('/fdsManager/coupons/');
                     }
                 })

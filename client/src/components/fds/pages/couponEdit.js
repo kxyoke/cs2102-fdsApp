@@ -1,8 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 import HeaderMenu from '../layout/headerMenu'
 import CouponForm from '../components/couponForm'
 import { Header } from 'semantic-ui-react'
-import axios from 'axios';
 
 export default function FCouponEdit(props) {
     const { isEdit, coupon } = props.location.state

@@ -2,7 +2,6 @@ import React from 'react'
 import HeaderMenu from '../layout/headerMenu'
 import ProfileForm from '../components/profileForm'
 import { Header } from 'semantic-ui-react'
-import axios from 'axios';
 
 export default function FProfileEdit(props) {
     const { isUsername } = props.location.state

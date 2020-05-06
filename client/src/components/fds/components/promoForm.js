@@ -44,7 +44,7 @@ export default function PromoForm(props) {
         if (isEdit) {
             axios.put('/api/fdsManager/promos/' + pid, reqBody)
                 .then(res => {
-                    if (res.status == 200) {
+                    if (res.status === 200) {
                         history.push('/fdsManager/promos/');
                     }
                 })
@@ -55,7 +55,7 @@ export default function PromoForm(props) {
         } else {
             axios.post('/api/fdsManager/promos', reqBody)
                 .then(res => {
-                    if (res.status == 200) {
+                    if (res.status === 200) {
                         history.push('/fdsManager/promos/');
                     }
                 })

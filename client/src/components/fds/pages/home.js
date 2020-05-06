@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import HeaderMenu from '../layout/headerMenu'
-import LogoutButton from '../../logoutButton'
 import CustomMonthPicker from '../components/customMonthPicker'
 import CustomerSummary from '../components/customerSummary'
 import RiderSummary from '../components/riderSummary'
-import { Button, Form, Header, Loader, Tab, Table, Segment } from 'semantic-ui-react'
+import { Button, Form, Header, Tab, Table, Segment } from 'semantic-ui-react'
 import Utils from '../components/utils/utils'
 import axios from 'axios';
 
@@ -157,6 +156,9 @@ export default function FHome(props) {
     }
 
     useEffect(() => {
+
+        setSelectedMonth(new Date());
+        
         const reqBody = {
             month: selectedMonth
         }

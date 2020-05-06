@@ -25,7 +25,7 @@ export default function ProfileForm(props) {
 
         axios.put('/api/fdsManager/profile', reqBody)
             .then(res => {
-                if (res.status == 200) {
+                if (res.status === 200) {
                     history.push('/fdsManager/profile/');
                 }
             })
