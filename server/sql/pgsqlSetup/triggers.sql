@@ -55,7 +55,7 @@ BEGIN
         THEN RAISE EXCEPTION 'The food is from different restaurant';
     END IF;
     RETURN NEW;
-    END
+    END;
     --check for rest
 $$ LANGUAGE plpgsql;
 DROP TRIGGER IF EXISTS checkInsertCartItem ON cartitems;
@@ -68,7 +68,7 @@ CREATE OR REPLACE FUNCTION checkCartItem() RETURNS TRIGGER AS $$
 BEGIN
     DELETE FROM cartitems where qty=0;
     RETURN NULL;
-    END
+    END;
     --check for rest
 $$ LANGUAGE plpgsql;
 DROP TRIGGER IF EXISTS checkCartItem ON cartitems;
@@ -76,6 +76,21 @@ CREATE TRIGGER checkCartItem
     AFTER INSERT OR UPDATE OF qty ON cartitems
     FOR EACH ROW
     EXECUTE FUNCTION checkCartItem();
+
+CREATE OR REPLACE FUNCTION addRewardPoints() RETURNS TRIGGER AS $$
+    BEGIN
+        UPDATE customers
+        SET reward_points = reward_points+(NEW.total*100)
+        WHERE customers.usr_id = NEW.usr_id;
+        RETURN NULL;
+    END;
+$$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS addRewardPoints ON orders;
+CREATE TRIGGER addRewardPoints
+    AFTER INSERT ON orders
+    FOR EACH ROW
+    EXECUTE FUNCTION addRewardPoints();
+
 
 
 --RESTAURANT
