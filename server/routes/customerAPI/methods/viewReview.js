@@ -6,9 +6,10 @@ module.exports = (req, res, next) => {
         if(err) {
             console.log("DATABASE error");
             res.sendStatus(500);
+        } else {
+            console.log(data.rows);
+            res.send(data.rows);
         }
-        console.log(data.rows);
-        res.send(data.rows);
     })
     
 };

@@ -116,8 +116,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
     const classes = useStyles();
-    const url = '/api/deliveryRider/home/schedule';
-    const urlCheckIfFilledSchedule = '/api/deliveryRider/home/delivery' ;
+    const url = '/api/deliveryRider/home/delivery';
+    const urlCheckIfFilledSchedule = '/api/deliveryRider/home/schedule' ;
     const [hasFilledSchedule, setHasFilledSchedule] =  useState(false);
     const [currentDelivery, setCurrentDelivery] = useState("");
     useEffect( ()=> {
@@ -134,6 +134,7 @@ export default function Dashboard() {
                 .then(res=> {
                     if(res.data.length > 0) {
                         if (res.data[0].getcurrentschedule) {
+                            console.log(res.data)
                             setHasFilledSchedule(true);
                         }
                     }

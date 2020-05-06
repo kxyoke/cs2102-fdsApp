@@ -29,10 +29,10 @@ riRouter.route('/profile')
    .post(updateProfile);
 
 riRouter.route('/home/delivery')
-    .get(getCurrentSchedule)
+    .get(getCurrentDelivery)
 
 riRouter.route('/home/schedule')
-    .get(getCurrentDelivery)
+    .get(getCurrentSchedule)
 
 riRouter.route('/schedule/:riid')
    .get(getWorkSchedule)

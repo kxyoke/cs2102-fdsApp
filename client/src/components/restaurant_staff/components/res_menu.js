@@ -45,10 +45,12 @@ export default function RMenu(props) {
     useEffect(() => {
             axios.get('/api/restaurant/menu/' + rid)
                 .then(res => {
-                    if (res.status == 200) {
+                    if (res.status === 200) {
                         console.log(res.data)
                         setMenu(res.data)
                         setIsLoading(false)
+                    } else {
+                        alert(res)
                     }
                 });
     }, [])
@@ -78,7 +80,7 @@ export default function RMenu(props) {
     }, [pageNum, currentCatItems])
 
     function filter(cat) {
-        if (cat == cat_all) {
+        if (cat === cat_all) {
             setCurrentCatItems(menu)
         } else {
             filterSpecificCat(cat)
@@ -87,7 +89,7 @@ export default function RMenu(props) {
     function filterSpecificCat(cat) {
         let filtered = [];
         for (var i = 0; i < menu.length; i++) {
-            if (menu[i].category == cat) {
+            if (menu[i].category === cat) {
                 filtered.push(menu[i])
             }
         }
@@ -101,10 +103,12 @@ export default function RMenu(props) {
         const onDeleteHandler = (e) => {
             axios.delete('/api/restaurant/menu/' + rid + '/' + foodItem.food_id)
                 .then(res => {
-                    if (res.status == 200) {
+                    if (res.status === 200) {
                         //also remove from this menu so dunnid reload
-                        let updated = menu.filter( item => item.food_id != foodItem.food_id );
+                        let updated = menu.filter( item => item.food_id !== foodItem.food_id );
                         setMenu(updated);
+                    } else {
+                        alert(res)
                     }
                 });
         }
@@ -113,14 +117,16 @@ export default function RMenu(props) {
                 avail: makeAvail
             })
                 .then(res => {
-                    if (res.status == 200) {
+                    if (res.status === 200) {
                         for (var i=0; i < menu.length; i++) {
-                            if (menu[i].food_id == foodItem.food_id) {
+                            if (menu[i].food_id === foodItem.food_id) {
                                 menu[i].available = makeAvail
                                 break
                             }
                         }
                         setDidChangeAvailability(true)
+                    } else {
+                        alert(res)
                     }
                 });
         }
@@ -145,7 +151,7 @@ export default function RMenu(props) {
     }
 
     function changeTabToIdx(idx) {
-        if (idx == 0) {
+        if (idx === 0) {
             setShowingCat(cat_all)
         } else {
             setShowingCat(rCategories[idx - 1])

@@ -109,7 +109,7 @@ export default function SideBar() {
     const url = '/api/deliveryRider/checkFullTime';
     const [open, setOpen] = React.useState(true);
     const [isFullTime, setFullTime]  = React.useState("/deliveryRider/schedule");
-    const urlCheckIfFilledSchedule = '/api/deliveryRider/home/delivery' ;
+    const urlCheckIfFilledSchedule = '/api/deliveryRider/home/schedule' ;
     const [hasFilledSchedule, setHasFilledSchedule] =  useState(true);
 
     const handleDrawerOpen = () => {

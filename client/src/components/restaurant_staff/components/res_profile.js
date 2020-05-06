@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { Button, Container, Divider, Header, Segment, Message, Grid, Form, Input } from 'semantic-ui-react'
 
 import axios from 'axios';
+import ResStaffChangePassword from './res_changePwds';
 
 export default function RProfile(props) {
+    const [isChangePasswords, toggleChangePasswords] = useState(false)
+    const {userInfo} = props;
+
     const [edit, setEdit] = useState(false);
     const [hasFormError, setHasFormError] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
@@ -95,6 +99,7 @@ export default function RProfile(props) {
                     })
                     .catch(err => {
                         console.log(err)
+                        alert('Restaurant name belongs to another restaurant!')
                     });
                 break
             case validationState.SUBMIT_NOUPDATE:
@@ -120,7 +125,16 @@ export default function RProfile(props) {
 
     return (
       <div>
-        {edit?
+        <Header as='h4' textAlign='center' style={{paddingTop: '1em'}}>
+          <Header.Content>
+            <Button icon='settings' onClick={e => toggleChangePasswords(!isChangePasswords)} />
+            Account Settings
+            <Header.Subheader>{isChangePasswords ? 'Click to view Restaurant Profile' : 'Click to change your passwords'}</Header.Subheader>
+          </Header.Content>
+        </Header>
+      {isChangePasswords ? (
+          <ResStaffChangePassword userResInfo={userInfo} />
+      ) : edit ? (
           <div className="container">
             <Grid>
               <Grid.Row columns={2} verticalAlign='bottom'>
@@ -160,7 +174,8 @@ export default function RProfile(props) {
               </Form>
             </div>
           </div>
-        : <div className="staticProfile">
+        ) : ( 
+          <div className="staticProfile">
             <Container style={{ paddingTop: '5em', paddingBottom: '5em' }} text>
               <Header as='h2'>My Current Profile <Button color='teal' style={{ marginBottom: '1em' }} onClick={e => toggleEdit()}> Edit </Button></Header> 
               <Divider section />
@@ -170,8 +185,9 @@ export default function RProfile(props) {
               <Header as='h4'>Current settings</Header>
               <Segment attached>Min amount set: {confirmedMinAmt}</Segment>
             </Container>
-        </div>
-        }
+          </div>
+        )
+      }
       </div>
     )
 }

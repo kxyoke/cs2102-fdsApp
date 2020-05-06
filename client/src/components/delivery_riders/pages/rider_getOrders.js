@@ -45,8 +45,11 @@ export default function ROrders(props) {
             await axios.get(url)
                 .then(res=> {
                     if(res.data.length > 0) {
+                        console.log(res.data)
                         setOrders(res.data);
                     }
+                }).catch(err => {
+                    console.log(err)
                 });
         };
         fetchData()
@@ -73,6 +76,7 @@ export default function ROrders(props) {
                                                 <TableCell>Order ID</TableCell>
                                                 <TableCell>Restaurant Name</TableCell>
                                                 <TableCell>Restaurant Address</TableCell>
+                                                <TableCell>Customer Address</TableCell>
                                                 <TableCell>Order Time</TableCell>
                                                 <TableCell>Link</TableCell>
                                             </TableRow>
@@ -83,6 +87,7 @@ export default function ROrders(props) {
                                                     <TableCell>{orders.order_id}</TableCell>
                                                     <TableCell>{orders.rname}</TableCell>
                                                     <TableCell>{orders.address}</TableCell>
+                                                    <TableCell>{orders.destination_address}</TableCell>
                                                     <TableCell>{new Date (orders.place_order_time).toLocaleString()}</TableCell>
                                                     <TableCell><Link to={{ pathname: '/deliveryRider/getOrderDetails', state: orders }}>More Details</Link></TableCell>
                                                 </TableRow>

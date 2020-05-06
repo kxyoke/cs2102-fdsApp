@@ -5,7 +5,7 @@ import { Button, Header } from 'semantic-ui-react'
 import ResHeader from '../layouts/header';
 
 import { useHistory } from 'react-router-dom'
-import PromoEdit from './promoForm'
+//import PromoEdit from './promoForm'
 import PromoTable from '../components/utils/PromoCards'
 
 import runWithRid from './performWithRid'
@@ -36,8 +36,10 @@ export default function ResPromo(props) {
     function reloadActivePromos(rid) {
         axios.get('/api/restaurant/promos/active/' + rid)
             .then(res => {
-                if (res.status == 200) {
+                if (res.status === 200) {
                     setActivePromos(res.data)
+                } else {
+                    alert(res)
                 }
             })
             .catch(err => {
@@ -47,8 +49,10 @@ export default function ResPromo(props) {
     function reloadFuturePromos(rid) {
         axios.get('/api/restaurant/promos/future/' + rid)
             .then(res => {
-                if (res.status == 200) {
+                if (res.status === 200) {
                     setFuturePromos(res.data)
+                } else {
+                    alert(res)
                 }
             })
             .catch(err => {
@@ -58,8 +62,10 @@ export default function ResPromo(props) {
     function reloadPastPromos(rid) {
         axios.get('/api/restaurant/promos/past/' + rid)
             .then(res => {
-                if (res.status == 200) {
+                if (res.status === 200) {
                     setPastPromos(res.data)
+                } else {
+                    alert(res)
                 }
             })
             .catch(err => {

@@ -1,12 +1,17 @@
 const pool = require('../../../db'); // psql db
+const log = require('../../../logger');
+const sql = require('../../../sql');
 
 module.exports = (req, res) => {
-/*
-    pool.query('SELECT * FROM Restaurants',
-        (q_err, q_res) => {
-            res.json(q_res.rows)
-        });
-//https://www.freecodecamp.org/news/fullstack-react-blog-app-with-express-and-psql/
-*/
-    res.send('Queried get fdsManager profile.');
+    log.info('Queried get fdsManager profile.');
+    const uid = req.user.usr_id;
+    const username = req.user.username;
+
+    pool.query(sql.fdsManager.queries.get_profile, [uid],
+        (err, data) => {
+            if (err) {
+                throw err;
+            }
+            res.json({usr_id: uid, username: username});
+        })
 };

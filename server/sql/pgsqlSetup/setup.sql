@@ -1,7 +1,6 @@
 \i ./schema.sql
 
-INSERT INTO FoodCategories(category) VALUES ('Others');
-
+\i ./restaurantQuery.sql
 \i ./views.sql
 
 \i ./function.sql
@@ -22,3 +21,7 @@ INSERT INTO FoodCategories(category) VALUES ('Others');
 \i ./procedures/riders/getFilteredWorkingHours.sql
 \i ./procedures/riders/getRiderSalary.sql
 \i ./procedures/riders/getCurrentSchedule.sql
+
+\i ./procedures/manager.sql
+
+

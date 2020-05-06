@@ -4,30 +4,44 @@ var mRouter = express.Router();
 const getProfile = require('./methods/getProfile');
 const updateProfile = require('./methods/updateProfile');
 const addCoupon = require('./methods/addCoupon');
-const getCoupon = require('./methods/getCoupon');
+const getCoupons = require('./methods/getCoupons');
 const updateCoupon = require('./methods/updateCoupon');
 const addFdsManagerPromo = require('./methods/addPromo');
-const getAllFdsManagerPromos = require('./methods/getAllPromos');
-const getFdsManagerPromo = require('./methods/getPromo');
+const getFdsManagerPromos = require('./methods/getPromos');
 const updateFdsManagerPromo = require('./methods/updatePromo');
+const getCustomerSummary = require('./methods/getCustomerSummary');
+const getGeneralSummary = require('./methods/getGeneralSummary');
+const getLocationSummary = require('./methods/getLocationSummary');
+const getRiderSummary = require('./methods/getRiderSummary');
 
-mRouter.route('/:mid')
+mRouter.route('/summary/general')
+    .get(getGeneralSummary)
+
+mRouter.route('/summary/customer')
+    .get(getCustomerSummary)
+
+mRouter.route('/summary/location')
+    .get(getLocationSummary)
+
+mRouter.route('/summary/rider')
+    .get(getRiderSummary)
+
+mRouter.route('/profile')
     .get(getProfile)
     .put(updateProfile)
 
-mRouter.route('/coupon/')
+mRouter.route('/coupons/')
     .post(addCoupon)
+    .get(getCoupons)
 
-mRouter.route('/coupon/:cid')
-    .get(getCoupon)
+mRouter.route('/coupons/:couponGroupId')
     .put(updateCoupon);
 
 mRouter.route('/promos')
     .post(addFdsManagerPromo)
-    .get(getAllFdsManagerPromos)
+    .get(getFdsManagerPromos)
 
 mRouter.route('/promos/:pid')
-    .get(getFdsManagerPromo)
     .put(updateFdsManagerPromo);
 
 module.exports = mRouter;

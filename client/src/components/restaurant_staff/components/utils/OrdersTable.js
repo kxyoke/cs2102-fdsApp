@@ -47,17 +47,18 @@ function OrdersCard(props) {
             .then(res => {
                 if (res.status == 200) {
                     setFoods(res.data)
+                } else {
+                    alert(res)
                 }
             })
             .catch(err => {
-                //TODO: is server err thrown here? idk see shuting's pr
                 console.log(err)
             });
         
     }, [listofitems])
 
-    const header = (order_id, total) => `${order_id} with total of $${total}`
-    const metadata = (order_time, c_id, payment, dr_id) => `Ordered at ${order_time.toLocaleString()} by ${c_id} using ${payment}${dr_id != null ? "; delivery rider " +  dr_id : ''}`
+    const header = (order_id, total) => `Order #${order_id} with total of $${total}`
+    const metadata = (order_timestring, c_id, payment, dr_id) => `Ordered at ${new Date(order_timestring).toLocaleString()} by ${c_id} using ${payment}${dr_id != null ? "; delivery rider " +  dr_id : ''}`
     const desc = (listofitems) => is_prepared? 'You have finished preparing for this order.' 
                     :`You have ${totalNumItems(listofitems)} items to prepare in total.`
 
@@ -65,10 +66,10 @@ function OrdersCard(props) {
       <Card fluid>
         <Card.Content>
           {is_prepared ? <Label as='a' color='teal' detail floated='right' size='small'>Prepared</Label>
-            : <Button color='red' onChange={setPreparedHandler}
+            : <Button color='red' onClick={setPreparedHandler}
                 floated='right'>Set as prepared</Button>}
           <Card.Header>{header(order_id, total)}</Card.Header>
-          <Card.Meta>{metadata(new Date(order_time), c_id, payment, dr_id)}</Card.Meta>
+          <Card.Meta>{metadata(order_time, c_id, payment, dr_id)}</Card.Meta>
           <Card.Description>{desc(listofitems)}</Card.Description>
         </Card.Content>
         { foods.map( food => <Card.Content extra>

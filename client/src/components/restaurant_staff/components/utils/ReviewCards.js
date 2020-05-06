@@ -1,35 +1,50 @@
-import React from 'react'
-import { Card, Rating } from 'semantic-ui-react'
+import React, {useState, useEffect} from 'react'
+import { Card, Rating, Popup, Button, Image } from 'semantic-ui-react'
+
+import axios from 'axios'
 
 export default function ReviewsCardGroup(props) {
     const itemsPerRow = 2
     
-    const { reviews } = props
+    const { reviews, res_id } = props
 
     return (
         <Card.Group itemsPerRow={itemsPerRow}>
           { reviews.map(rev => 
-              <ReviewCard review={rev} />
+              <ReviewCard review={rev} res_id={res_id} />
           )}
         </Card.Group>
     )
 }
 
 function ReviewCard (props) {
-    const { order_id, usr_id, listOfItems, food_rev, delivery_rating } = props.review
+    const { order_id, usr_id, listofitems, food_rev, delivery_rating } = props.review
+    const { res_id } = props
+
+    const [foods, setFoods] = useState([])
+    
+    useEffect(() => {
+        let fids = []
+        for (var i = 0; i < listofitems.length; i++) {
+            fids.push(listofitems[i][0])
+        }
+        axios.get('/api/restaurant/menu/' + res_id + '/' + JSON.stringify(fids))
+            .then(res => {
+                if (res.status == 200) {
+                    setFoods(res.data)
+                } else {
+                    alert(res)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            });
+    }, [listofitems])
 
     const colour = (rev) => {
         return 'blue'
     }
-/*
-    function prettyStringOfItems(list) {
-        var string = list[0].name
-        for (var i = 0; i < list.length; i++) {
-            string += ', ' + list[i].name
-        }
-        return string
-    }
-*/
+    
     return (
         <Card color={colour(food_rev)}>
           <Card.Content>
@@ -39,12 +54,18 @@ function ReviewCard (props) {
             />
             <Card.Header>{order_id} <span className="second-word-formatting">${'from ' + usr_id} </span></Card.Header>
             <Card.Meta>
-              {
-                /*
-                prettyStringOfItems(listOfParsedItems)
-                */
-              }
-                Click to expand items [TODO]
+              
+              <Popup pinned on='click'
+                trigger={<Button content='View Ordered Items' color='olive' />}>
+                <Card color='yellow'>
+                  {foods.map( food => <Card.Content extra>
+                    <Image floated='right' size='mini' src={food.imagepath}/>
+                    <Card.Meta>{food.name}</Card.Meta>
+                  </Card.Content>
+                  )}
+                </Card>
+              </Popup>
+
             </Card.Meta>
             <Card.Description>{food_rev}</Card.Description>
           </Card.Content>

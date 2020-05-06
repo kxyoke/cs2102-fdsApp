@@ -49,6 +49,7 @@ export default function RDetailedOrders(props) {
             await axios.get(url )
                 .then(res=> {
                     if(res.data.length > 0) {
+                        console.log(res.data);
                         setDetailedListOfItems(res.data);
                     }
                 });
@@ -103,6 +104,9 @@ export default function RDetailedOrders(props) {
                                     <h4>Order ID: {originalorder.order_id}</h4>
                                     <h4>Restaurant Name: {originalorder.rname}</h4>
                                     <h4>Restaurant Address: {originalorder.address}</h4>
+                                    <h4>Restaurant Postal Code: {originalorder.rpc} </h4>
+                                    <h4>Customer Address: {originalorder.destination_address}</h4>
+                                    <h4>Customer Postal Code: {originalorder.opc}</h4>
                                     <h4>Order Time: {originalorder.place_order_time}</h4>
                                     <Table size="lg">
                                         <TableHead>
@@ -122,6 +126,7 @@ export default function RDetailedOrders(props) {
                                             ))}
                                         </TableBody>
                                     </Table>
+                                    <h4> Total Price: {originalorder.total}</h4>
                                     <Button block bsSize="large"  onClick={() => handlePickUpOrder()}>
                                         Pick Up Order
                                     </Button>

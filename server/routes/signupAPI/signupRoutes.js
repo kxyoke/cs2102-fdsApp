@@ -7,6 +7,8 @@ const signupAsRestaurant = require('./methods/signupAsRestaurant');
 const signupAsRider = require('./methods/signupAsRider');
 const signupAsFdsM = require('./methods/signupAsFdsManager');
 
+const getExistingRestaurants = require('./methods/getExistingRestaurants');
+
 suRouter.route('/customer')
     .post(signupAsCustomer);
 suRouter.route('/restaurantStaff')
@@ -15,6 +17,9 @@ suRouter.route('/deliveryRider')
     .post(signupAsRider);
 // suRouter.route('/fdsManager')
 //     .post(signupAsFdsM);
+
+suRouter.route('/restaurant')
+    .get(getExistingRestaurants);
 
 module.exports = suRouter;
 

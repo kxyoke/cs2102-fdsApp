@@ -25,6 +25,8 @@ export default function ResMenu(props) {
                     if (res.status == 200) {
                         setFoodCategories(res.data)
                         setCanModifyMenu(true)
+                    } else {
+                        alert(res)
                     }
                 });
             axios.get('/api/restaurant/foodCategories/' + rid)
@@ -32,6 +34,8 @@ export default function ResMenu(props) {
                     if (res.status == 200) {
                         setRFoodCats(res.data)
                         setShow(true)
+                    } else {
+                        alert(res)
                     }
                 });
         })
@@ -54,6 +58,7 @@ export default function ResMenu(props) {
           <Header/>
         {show && canModifyMenu?
           <div className='container'>
+            <h1>
             <Popup
               trigger={<Button color='yellow' style={{ marginTop: '1em', marginBottom: '0.5em' }} 
                 circular icon='add'
@@ -62,8 +67,8 @@ export default function ResMenu(props) {
               content='Add a new item!'
               inverted
             />
-
-            <h1>who am i that i see... menu?</h1>
+            My Beautiful Menu
+            </h1>
             <div className='container'>
               <RMenu rid={rid} rCategories={rFoodCats} allCategories={foodCategories}/>
             </div>

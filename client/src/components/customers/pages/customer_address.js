@@ -3,8 +3,9 @@ import Header from '../layout/header'
 import {Button} from 'react-bootstrap'
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-import Axios from 'axios'
-import AddressItem from '../components/addressItem'
+import Axios from 'axios';
+import AddressItem from '../components/addressItem';
+import {Loader} from "semantic-ui-react";
 
 export default function CAddress (props) {
     const [address, setAddress] = useState([]);
@@ -20,7 +21,7 @@ export default function CAddress (props) {
 
         
             props.history.push({pathname:"/customer/editAddress",
-                state:{action: "add", oldAddress:address[0].address}})
+                state:{action: "add", oldAddress:address[4].address}})
         }
     }
 
@@ -28,7 +29,7 @@ export default function CAddress (props) {
     function addBox() {
         confirmAlert({
             title:'Add address message',
-            message: `You have five addresses recorded. By adding new address, "${address[0].address} "will be delete from the record. Do you wish to continue?`,
+            message: `You have five addresses recorded. By adding new address, "${address[4].address} "will be delete from the record. Do you wish to continue?`,
             buttons:[
                 {label:'Yes',
                   onClick:()=> {addAddress();
@@ -56,7 +57,9 @@ export default function CAddress (props) {
             <div>
             <Header/>
              <div class ="container" className="MyAddress">
-            {loading? null :
+            {loading? 
+                <Loader active inline='centered'>Loading</Loader> 
+             :
             <div> 
              {show?
              
