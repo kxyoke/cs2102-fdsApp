@@ -1,6 +1,9 @@
 const fdsD1 = new Date(2020, 0) //assuming fds 1st day = 1/1/2020
 
 const utils = {
+    roundNumberTo2Dp: (num) => (Math.round(parseFloat(num) * 100)/100).toFixed(2),
+    
+    getNumDaysBetween: (d1, d2) => Math.ceil(Math.abs(d2 - d1) / (1000 * 3600 * 24)),
     
     /*FDS-GREGORIAN DATE CONVERSION*/
     fdsD1: fdsD1,
