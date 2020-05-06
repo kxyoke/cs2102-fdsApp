@@ -77,16 +77,20 @@ CREATE OR REPLACE FUNCTION getFoodNumOrders(_rid        TEXT,
     RETURNS INTEGER AS $$
     DECLARE
     numOrders       INTEGER := 0;
-    lists           TEXT[][];
+    record          TEXT[][];
+    lists           TEXT[][] := ARRAY[]::TEXT[][];
     fidCount        TEXT[];
     BEGIN
-        lists := ARRAY (
+        FOR record in (
             SELECT listOfItems 
             FROM Orders JOIN Deliveries USING (order_id)
             WHERE res_id = _rid
             AND place_order_time >= _from
             AND place_order_time <= _to
-        );
+        ) LOOP
+            lists := array_cat(lists, record);
+        END LOOP;
+
         IF COALESCE(lists = '{}', TRUE) THEN
             RETURN 0;
         END IF;
