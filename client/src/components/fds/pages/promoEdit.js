@@ -2,7 +2,6 @@ import React from 'react'
 import HeaderMenu from '../layout/headerMenu'
 import PromoForm from '../components/promoForm'
 import { Header } from 'semantic-ui-react'
-import axios from 'axios';
 
 export default function FPromoEdit(props) {
     const { isEdit, promo } = props.location.state

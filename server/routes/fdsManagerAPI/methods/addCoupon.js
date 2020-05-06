@@ -13,16 +13,16 @@ module.exports = (req, res) => {
     const discountRegex = /^(?:\d*\.\d{1,2}|\d+)$/;
     const activityRegex = /^\d+$/;
 
-    if (couponType == 'delivery') {
+    if (customerActivity == null) {
+        errorMessage = "Please enter the desired customer activity.";
+    } else if (!activityRegex.test(customerActivity)) {
+        errorMessage = "Customer activity should only be whole numbers.";
+    } else if (couponType == 'delivery') {
         cdesc = "Delivery:percent;100";
     } else if (couponType == 'discount' && discountValue == null) {
         errorMessage = "Please enter a discount value.";
     } else if (!discountRegex.test(discountValue)) {
         errorMessage = "Discount value should only be numeric and have up to 2 decimals.";
-    } else if (couponType == 'discount' && customerActivity == null) {
-        errorMessage = "Please enter the desired customer activity.";
-    } else if (!activityRegex.test(customerActivity)) {
-        errorMessage = "Customer activity should only be whole numbers.";
     } else {
         if (discountType == 'dollars') {
             cdesc = "Discount:dollars;" + discountValue;
@@ -31,10 +31,11 @@ module.exports = (req, res) => {
         }
     }
 
-    pool.query(sql.fdsManager.queries.add_coupon, [coupon_group_id, cdesc, expDate],
+    pool.query(sql.fdsManager.queries.add_coupon, [coupon_group_id, cdesc, expDate, targetCustomers, customerActivity],
         (err, data) => {
             if (err) {
-                return res.status(409).send(errorMessage);
+                //return res.status(409).send(errorMessage);
+                throw err;
             }
             res.json(data.rows);
         })

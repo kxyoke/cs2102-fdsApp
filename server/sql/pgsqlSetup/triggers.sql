@@ -173,5 +173,3 @@ CREATE TRIGGER autoUpdateOrderIsPrepared
     FOR EACH ROW
         EXECUTE PROCEDURE forceIsPrepared();
 
---FDS MANAGER
-
