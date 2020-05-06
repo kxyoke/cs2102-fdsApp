@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom'
 import { Form, Button, Grid, Segment, Table } from 'semantic-ui-react'
-import CustomDatePicker from './CustomDatePicker'
+import CustomDatePicker from './customDatePicker'
 import ResUtils from '../../restaurant_staff/components/utils/utils'
 import Utils from './utils/utils'
 import axios from 'axios';
@@ -44,7 +44,7 @@ export default function PromoForm(props) {
         if (isEdit) {
             axios.put('/api/fdsManager/promos/' + pid, reqBody)
                 .then(res => {
-                    if (res.status == 200) {
+                    if (res.status === 200) {
                         history.push('/fdsManager/promos/');
                     }
                 })
@@ -55,7 +55,7 @@ export default function PromoForm(props) {
         } else {
             axios.post('/api/fdsManager/promos', reqBody)
                 .then(res => {
-                    if (res.status == 200) {
+                    if (res.status === 200) {
                         history.push('/fdsManager/promos/');
                     }
                 })

@@ -25,7 +25,7 @@ export default function ProfileForm(props) {
 
         axios.put('/api/fdsManager/profile', reqBody)
             .then(res => {
-                if (res.status == 200) {
+                if (res.status === 200) {
                     history.push('/fdsManager/profile/');
                 }
             })
@@ -38,25 +38,6 @@ export default function ProfileForm(props) {
 
     return (
         <Grid className="center aligned">
-            {isUsername?
-                <Segment basic>
-                    <Grid.Row>
-                        <Table>
-                            <Table.Header>
-                                <Table.HeaderCell>Username</Table.HeaderCell>
-                            </Table.Header>
-
-                            <Table.Body>
-                                <Table.Row>
-                                    <Table.Cell>{oldUsername}</Table.Cell>
-                                </Table.Row>
-                            </Table.Body>
-                        </Table>
-                    </Grid.Row>
-                </Segment>
-            : null
-            }
-
             <Grid.Row>
                 <Form>
                     {isUsername?

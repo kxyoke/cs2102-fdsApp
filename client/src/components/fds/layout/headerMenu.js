@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import React from 'react'
+import { Link } from 'react-router-dom'
 import LogoutButton from "../../logoutButton";
 
 function HeaderMenu() {
