@@ -66,7 +66,7 @@ function OrdersCard(props) {
       <Card fluid>
         <Card.Content>
           {is_prepared ? <Label as='a' color='teal' detail floated='right' size='small'>Prepared</Label>
-            : <Button color='red' onChange={setPreparedHandler}
+            : <Button color='red' onClick={setPreparedHandler}
                 floated='right'>Set as prepared</Button>}
           <Card.Header>{header(order_id, total)}</Card.Header>
           <Card.Meta>{metadata(order_time, c_id, payment, dr_id)}</Card.Meta>
