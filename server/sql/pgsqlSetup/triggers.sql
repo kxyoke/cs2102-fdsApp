@@ -131,20 +131,21 @@ CREATE OR REPLACE FUNCTION autoUpdateDailySells()
     RETURNS TRIGGER AS $$
     DECLARE
         today    Date := current_date;
-        fidCount TEXT[];
+        fidCount OrderItem;
     BEGIN
-        FOREACH fidCount SLICE 1 IN ARRAY NEW.listOfItems
+        FOREACH fidCount IN ARRAY NEW.listOfItems
         LOOP
-            IF (NEW.res_id, fidCount[1], today) IN 
+            RAISE NOTICE 'in trigger is %',fidCount;
+            IF (NEW.res_id, fidCount.food_id, today) IN 
                 (SELECT res_id, food_id, day FROM MenuItemsSold) THEN
                 UPDATE MenuItemsSold
-                SET num_sold = num_sold + CAST(fidCount[2] AS INTEGER)
+                SET num_sold = num_sold + fidCount.qty
                 WHERE res_id = NEW.res_id
-                 AND food_id = fidCount[1]
+                 AND food_id = fidCount.food_id
                  AND   day   = today;
             ELSE
                 INSERT INTO MenuItemsSold(res_id, food_id, day, num_sold)
-                VALUES(NEW.res_id, fidCount[1], today, CAST(fidCount[2] AS INTEGER));
+                VALUES(NEW.res_id, fidCount.food_id, today, fidCount.qty);
             END IF;
         END LOOP;
         RETURN NEW;

@@ -143,7 +143,7 @@ CREATE TABLE Orders (
     postal_code      TEXT CHECK (postal_code SIMILAR TO '[0-9]{6}'),
     payment        VARCHAR(255) NOT NULL 
                                 CHECK (payment IN ('card', 'cash')),
-    listOfItems    TEXT[][] NOT NULL,
+    listOfItems    OrderItem[] NOT NULL,
     status         VARCHAR(20) NOT NULL DEFAULT 'pending'
                              CHECK (status in('pending', 'in progress', 'complete')),
     is_prepared     BOOLEAN NOT NULL DEFAULT FALSE,

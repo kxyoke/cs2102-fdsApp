@@ -44,7 +44,8 @@ queries.get = {
          WHERE res_id = $1 AND status <> 'complete' 
          ORDER BY is_prepared DESC, order_time ASC`,
     allCompletedOrders: /*[res_id]*/
-        `SELECT order_id, res_id, O.usr_id as c_id, total, payment, listOfItems, 
+        `SELECT order_id, res_id, O.usr_id as c_id, total, payment, listOfItems,
+         is_prepared,
                 status, D.usr_id as dr_id, place_order_time as order_time, 
                 dr_leave_res as sent_food_time, dr_arrive_cus as complete_time 
          FROM Orders O JOIN Deliveries D using (order_id)

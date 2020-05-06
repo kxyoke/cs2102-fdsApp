@@ -1,7 +1,7 @@
 const customer = {};
 customer.queries = {
     get_res :'SELECT res_id,rname FROM Restaurants WHERE EXISTS (SELECT 1 FROM menuItems WHERE menuItems.res_id = restaurants.res_id) ORDER BY RANDOM()',
-    get_orders:'SELECT order_id ,res_id, rname, total, payment, listOfItems , status , (SELECT place_order_time FROM deliveries where order_id =orders.order_id) as orderTime  FROM orders JOIN restaurants using(res_id) WHERE usr_id = $1',
+    get_orders:'SELECT order_id ,res_id, rname, total, payment, array_to_json(listOfItems) , status , (SELECT place_order_time FROM deliveries where order_id =orders.order_id) as orderTime  FROM orders JOIN restaurants using(res_id) WHERE usr_id = $1',
     get_menu: 'SELECT food_id, price, name, description FROM MenuItems WHERE res_id=$1;',
     get_foodName:"SELECT name FROM MenuItems WHERE food_id = $1 AND res_id = $2",
     get_review:"SELECT order_id, rname, food_rev, delivery_rating FROM reviews NATURAL JOIN (orders JOIN restaurants USING (res_id)) WHERE usr_id = $1" ,
@@ -13,7 +13,7 @@ customer.queries = {
     get_cart: 'SELECT res_id, (SELECT rname FROM Restaurants where res_id = cartitems.res_id) as rname, food_id, (SELECT name FROM menuitems where food_id = cartitems.food_id) as foodname, qty, (SELECT price FROM MenuItems WHERE res_id = cartitems.res_id and food_id=cartitems.food_id)as price FROM cartitems WHERE usr_id = $1',
     get_cart_for_backend:'SELECT res_id, food_id, qty FROM cartitems WHERE usr_id = $1',
     update_cart:'UPDATE cartItems SET qty=$3 WHERE usr_id =$1 AND food_id = $2',
-    get_order_not_complete: 'SELECT order_id, res_id, rname, total, payment, listofitems, status,(SELECT place_order_time FROM deliveries where order_id = orders.order_id) as orderTime FROM orders JOIN restaurants using (res_id) WHERE usr_id = $1 AND status <> \'complete\'',
+    get_order_not_complete: 'SELECT order_id, res_id, rname, total, payment, array_to_json(listofitems), status,(SELECT place_order_time FROM deliveries where order_id = orders.order_id) as orderTime FROM orders JOIN restaurants using (res_id) WHERE usr_id = $1 AND status <> \'complete\'',
     get_delivery_detail: 'SELECT dr_leave_for_res,dr_leave_res, dr_arrive_cus FROM deliveries WHERE order_id = $1',
     get_fds_current_promos:  'SELECT description FROM Promotions WHERE promotype = \'FDS\' AND start_day < NOW() AND NOW() < end_day',
     get_res_current_promos: 'SELECT description FROM promotions WHERE res_id = $1 AND start_day<NOW() AND NOW() < end_day',

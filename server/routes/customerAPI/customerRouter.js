@@ -82,8 +82,6 @@ cRouter.get('/rewardPoints', getRewardPoints);
 
 cRouter.get('/usableCoupon',getUsableCoupon)
 
-cRouter.post('/placeOrder', placeOrder);
-
 cRouter.get('/promo/res/:res_id', resPromo);
 cRouter.get('/promo/fds', fdsPromo);
 cRouter.get('/promo/current', allPromo);

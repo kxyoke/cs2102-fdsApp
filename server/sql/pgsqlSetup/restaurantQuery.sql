@@ -29,17 +29,17 @@ CREATE OR REPLACE FUNCTION getCost( _rid         TEXT,
     RETURNS NUMERIC AS $$
     DECLARE
         total       NUMERIC := 0;
-        fidCount    TEXT[];
+        fidCount    OrderItem;
         fid         TEXT;
         cnt         INTEGER;
         pDescs      TEXT[];
         pDesc       TEXT;
         details     RECORD;
     BEGIN
-        FOREACH fidCount SLICE 1 IN ARRAY _listOfItems
+        FOR fidCount IN ARRAY _listOfItems
         LOOP
-            fid := fidCount[1];
-            cnt := CAST(fidCount[2] AS INTEGER);
+            fid := fidCount.food_id;
+            cnt := fidCount.qty;
             total := total + cnt * (SELECT price FROM MenuItems WHERE res_id = _rid AND food_id = fid);
         END LOOP;
 
@@ -77,11 +77,11 @@ CREATE OR REPLACE FUNCTION getFoodNumOrders(_rid        TEXT,
     RETURNS INTEGER AS $$
     DECLARE
     numOrders       INTEGER := 0;
-    lists           TEXT[][];
-    fidCount        TEXT[];
+    lists           OrderItem[];
+    fidCount        OrderItem;
     BEGIN
-        lists := ARRAY (
-            SELECT listOfItems 
+        lists := ARRAY(
+            SELECT unnest(listOfItems) 
             FROM Orders JOIN Deliveries USING (order_id)
             WHERE res_id = _rid
             AND place_order_time >= _from
@@ -91,9 +91,9 @@ CREATE OR REPLACE FUNCTION getFoodNumOrders(_rid        TEXT,
             RETURN 0;
         END IF;
 
-        FOREACH fidCount SLICE 1 IN ARRAY lists 
+        FOREACH fidCount IN ARRAY lists 
         LOOP
-            IF fidCount[1] = _fid THEN
+            IF fidCount.food_id = _fid THEN
                 numOrders := numOrders + 1;
             END IF;
         END LOOP;
