@@ -109,6 +109,3 @@ CREATE TRIGGER keepOnlyNonEmptyFoodCategories
     AFTER UPDATE OR DELETE ON FoodItems
     FOR EACH ROW
         EXECUTE PROCEDURE maintainFoodCategories();
-
---FDS MANAGER
-

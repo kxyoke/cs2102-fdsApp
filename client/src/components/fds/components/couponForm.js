@@ -118,11 +118,11 @@ export default function CouponForm(props) {
                     </Form.Group>
                     {!isEdit?
                     <Form.Group widths='equal'>
-                        <Form.Field label='Target Customers' control='select' onChange={e => setTargetCustomers(e.target.value)}>
+                        <Form.Field required label='Target Customers' control='select' onChange={e => setTargetCustomers(e.target.value)}>
                             <option value='inactive'>Inactive</option>
                             <option value='active'>Active</option>
                         </Form.Field>
-                        <Form.Input
+                        <Form.Input required
                             label='Customer Activity' 
                             placeholder='for the past XX month/s'
                             onChange={e => setCustomerActivity(e.target.value)} 

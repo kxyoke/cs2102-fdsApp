@@ -39,6 +39,21 @@ const utils = {
                 + (discountType == 'percentage'? "": "%") + " discount on order"
         }
     },
+
+    formatMonthString: (monthstring) => {
+        const format = "YYYY-MM-DD HH:mm:SS";
+        const m = new Date(monthstring)
+        const formattedString = [
+            m.getFullYear(),
+            (m.getMonth()+1).toString().padStart(2, '0'),
+            "00"
+        ].join('-') + ' 00:00:00';
+
+        console.log("month parsed as: " + formattedString)
+
+        return formattedString;
+    },
+
 }
 
 module.exports = utils;
