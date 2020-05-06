@@ -13,9 +13,7 @@ module.exports = async (req, res,next) => {
      
         const res_id = cart_items.rows[0].res_id;
         const listOfItems= fc.convertCartItemToListOfItem(cart_items.rows);
-        if(coupon !== null) {
-            await pool.query(sql.customer.function.use_coupon, [coupon]);
-        }
+        
         await pool.query(sql.customer.function.place_order,
                      [
                         order_id,
@@ -37,6 +35,9 @@ module.exports = async (req, res,next) => {
                         })
     } catch (e) {
         log.error(e)
+    }
+    if(coupon !== null) {
+        await pool.query(sql.customer.function.use_coupon, [coupon]);
     }
 
 

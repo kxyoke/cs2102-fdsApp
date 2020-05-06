@@ -26,6 +26,7 @@ CREATE TABLE Restaurants (
     res_id           TEXT PRIMARY KEY,
     rname            TEXT UNIQUE NOT NULL,
     address          TEXT NOT NULL,
+    postal_code      TEXT CHECK (postal_code SIMILAR TO '[0-9]{6}'),
     min_amount       NUMERIC NOT NULL
 );
 
@@ -84,7 +85,6 @@ CREATE TABLE RestaurantStaffs (
 CREATE TABLE Customers (
     usr_id               VARCHAR(255) NOT NULL,
     card_num             INTEGER,
-    last_order_time      TIMESTAMP DEFAULT NULL,
     reward_points        INTEGER DEFAULT 0 CHECK(reward_points >= 0),
     PRIMARY KEY(usr_id),
     FOREIGN KEY (usr_id) REFERENCES Users ON DELETE CASCADE
@@ -97,6 +97,7 @@ CREATE TABLE Customers (
 CREATE TABLE Customers_address (
     usr_id          VARCHAR(255) NOT NULL,
     address         TEXT NOT NULL,
+    postal_code      TEXT CHECK (postal_code SIMILAR TO '[0-9]{6}'),
     last_use_time   TIMESTAMP NOT NULL,
     PRIMARY KEY(usr_id, address),
     FOREIGN KEY (usr_id) REFERENCES Customers ON DELETE CASCADE
@@ -140,6 +141,7 @@ CREATE TABLE Orders (
     res_id         TEXT NOT NULL,
     total          NUMERIC NOT NULL,
     destination_address        TEXT NOT NULL,
+    postal_code      TEXT CHECK (postal_code SIMILAR TO '[0-9]{6}'),
     payment        VARCHAR(255) NOT NULL 
                                 CHECK (payment IN ('card', 'cash')),
     listOfItems    TEXT[][] NOT NULL,

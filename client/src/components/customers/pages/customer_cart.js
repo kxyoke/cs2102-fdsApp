@@ -41,9 +41,8 @@ export default function CCart(props) {
             setSubtotal(0);
         } else {
             
-            
             setSubtotal(roundToTwo(ct));
-            setTotal(roundToTwo(ct+deliveryFee-cDiscount-fDiscount-rDiscount));
+            setTotal(roundToTwo(ct+deliveryFee-cDiscount-fDiscount-rDiscount-5));
         }
     }
     async function getTotal(input) {
@@ -113,7 +112,6 @@ export default function CCart(props) {
 
     }
     function applyPromo() {
-        console.log(rewardPoints);
         if(fdsPromotionDetail.discountValue !== "" ) {
            
             if(fdsPromotionDetail.promotype === 'delivery') {
@@ -418,6 +416,7 @@ export default function CCart(props) {
                     :null}
                     <Divider/>
                     
+                    <Divider/>
                     <div>
                     <label> Delivery details : </label>
                     <label>Address </label>

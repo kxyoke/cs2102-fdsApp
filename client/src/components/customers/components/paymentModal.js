@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Button, Loader, Modal, Rating} from 'semantic-ui-react';
+import {Button, Loader, Modal, Popup} from 'semantic-ui-react';
 import Axios from "axios";
 
 export default function PaymentModal(props) {
@@ -42,7 +42,14 @@ export default function PaymentModal(props) {
     }, 5000);
     return (
         <Modal
-            trigger={<Button color="red" disabled={props.disabled} onClick={handleOpen}>Pay and place order</Button>}
+            trigger={
+                <Popup 
+                trigger={
+            <Button color="red" disabled={props.disabled} onClick={handleOpen}>Pay and place order</Button>}
+            content="Order has to be more than $5....."
+            on='hover'
+            />
+            }
             open={open}
             basic 
             onClose={handleClose}

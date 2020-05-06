@@ -12,9 +12,9 @@ export default function CartItem (props) {
                 food_id:food_id,
                 qty:quantity-1
             }).then(res=> {
-                console.log(res);
+                props.updateTotal(-price);
             })
-            props.updateTotal(-price);
+            
 
         }
     }
@@ -25,9 +25,9 @@ export default function CartItem (props) {
             food_id:food_id,
             qty:quantity+1
         }).then(res=> {
-            console.log(res);
+           props.updateTotal(price);
         })
-        props.updateTotal(price);
+        
     }
     function deleteItem() {
         setQuantity(0);

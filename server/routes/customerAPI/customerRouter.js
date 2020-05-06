@@ -88,5 +88,7 @@ cRouter.get('/promo/res/:res_id', resPromo);
 cRouter.get('/promo/fds', fdsPromo);
 cRouter.get('/promo/current', allPromo);
 
+cRouter.post('/placeOrder', placeOrder);
+
 module.exports = cRouter;
 
