@@ -100,6 +100,6 @@ BEGIN
                 VALUES(o_id,d_fee,NOW());
 
     DELETE FROM CartItems WHERE usr_id= u_id;
-    UPDATE Customers set reward_points = _total * 100 + reward_points-rp_used WHERE usr_id = u_id;
+    UPDATE Customers set reward_points = reward_points-rp_used WHERE usr_id = u_id;
 END;
 $$ LANGUAGE plpgsql;
