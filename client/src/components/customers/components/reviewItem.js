@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {Rating} from 'semantic-ui-react';
 export default function ReviewItem(props) {
     const {order_id, rname, food_rev, delivery_rating} = props.review;
 
@@ -22,7 +22,8 @@ export default function ReviewItem(props) {
                         <p> </p>
                         <div class="col">
                         <p class="card-text"> 
-                        Delivery Rating: {delivery_rating}
+                        Delivery Rating: <Rating defaultRating= {delivery_rating}
+                                                maxRating = {5} disabled/>
                         </p>
                         </div>
                     </div>

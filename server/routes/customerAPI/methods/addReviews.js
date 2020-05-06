@@ -2,14 +2,16 @@ const pool = require('../../../db'); // psql db
 const sql = require('../../../sql');
 
 module.exports = (req, res, next) => {
-    pool.query(sql.customer.queries.get_review, [req.user.usr_id], (err, data)=> {
+    console.log(req.body);
+    const {order_id, food_rev, delivery_rating } = req.body;
+    pool.query(sql.customer.function.add_review, [order_id, food_rev, delivery_rating], (err)=> {
         if(err) {
             console.log("DATABASE error");
             res.sendStatus(500);
         } else {
-            console.log(data.rows);
-            res.send(data.rows);
+            res.send("You have make a review!");
         }
     })
+    
     
 };

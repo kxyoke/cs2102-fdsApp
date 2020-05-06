@@ -14,21 +14,41 @@ const getResMenu = require('./methods/getRestMenu')
 //customer
 const getCProfile = require('./methods/getCProfile')
 const updateCProfile = require('./methods/updateCProfile')
-const deleteAccount = require('./methods/deleteAccount')
 const getAddresses = require('./methods/getAddresses')
 const updateAddress = require('./methods/updateAddress')
 const deleteAddress = require('./methods/deleteAddress')
 const getCardInfo = require('./methods/getCardInfo')
-const getCoupons = require('./methods/getCoupons')
-const getPastOrders = require('./methods/getPastOrder')
 
-const useCoupon = require('./methods/useCoupon')
+const getPastOrders = require('./methods/getPastOrder')
+const placeOrder = require('./methods/placeOrder')
+
+const getCoupons = require('./methods/getCoupons')
+const getUsableCoupon = require('./methods/getUsableCoupon')
+const getRewardPoints = require('./methods/getRewardPoints')
 const getReviews = require('./methods/viewReview')
+const getPendingReviews = require('./methods/getPendingReview')
+const addReviews = require('./methods/addReviews')
+const ordersNotComplete = require('./methods/isOrderNotcomplete')
+const inCompleteOrder = require('./methods/inCompleteOrders')
+const delivery = require('./methods/getDelivery')
+
+const fdsPromo = require('./methods/getFDSpromo')
+const resPromo = require('./methods/getResPromo')
+const allPromo = require('./methods/getCurrentPromo')
+
 cRouter.route('/res')
         .get(getResList);
 
+cRouter.get('/status',ordersNotComplete);
+cRouter.get('/processingOrder/', inCompleteOrder);
+
+cRouter.get('/delivery/:order_id', delivery)
+
 cRouter.route('/review')
-        .get(getReviews);  
+        .get(getReviews)
+        .post(addReviews);  
+cRouter.route('/review/pending')
+        .get(getPendingReviews); 
 
 cRouter.route('/cart')
     .get(viewCart)
@@ -37,22 +57,17 @@ cRouter.route('/cart')
 cRouter.post('/cart/add/',
         addCartItem)
 
-
-    
-
-// cRouter.route('/cart/:cid/:cartItemId')
-//         .post()
-//         .delete(deleteCartItem);
-
 cRouter.get('/menu/:rid', getResMenu);
 
 cRouter.route('/profile')
         .get(getCProfile)
         .post(updateCProfile);
-cRouter.post('/delete', deleteAccount);
+
+
 cRouter.route('/address')
         .get(getAddresses)
         .post(updateAddress);
+
 cRouter.post('/address/delete', deleteAddress)      
 cRouter.route('/card')
         .get(getCardInfo);
@@ -60,10 +75,20 @@ cRouter.route('/card')
 cRouter.route('/order')
         .get(getPastOrders);
 
-
 cRouter.route('/coupon')
         .get(getCoupons)
-        .put(useCoupon);
+
+cRouter.get('/rewardPoints', getRewardPoints);
+
+cRouter.get('/usableCoupon',getUsableCoupon)
+
+cRouter.post('/placeOrder', placeOrder);
+
+cRouter.get('/promo/res/:res_id', resPromo);
+cRouter.get('/promo/fds', fdsPromo);
+cRouter.get('/promo/current', allPromo);
+
+cRouter.post('/placeOrder', placeOrder);
 
 module.exports = cRouter;
 

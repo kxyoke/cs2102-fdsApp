@@ -1,6 +1,6 @@
 const pool = require('../../../db'); // psql db
 const sql = require('../../../sql');
-const fc = require('../function');
+
 
 module.exports = async (req, res,next) => {
     const data = await pool.query(sql.customer.queries.get_cart, [req.user.usr_id]);

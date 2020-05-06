@@ -2,26 +2,42 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import MenuItem from "../components/menuItem";
 import Header from "../layout/header";
-
+import utils from "../../restaurant_staff/components/utils/utils";
 export default function RestaurantMenu(props) {
     const {res_id, rname} = props.location.state;
     const [show, setShow] = useState(false);
-    const url = '/api/customer/menu/' + res_id;
+    const menuUrl = '/api/customer/menu/' + res_id;
+    const promotionUrl = '/api/customer/promo/res/'+res_id;
     const [menuItem, setMenuItem] = useState([]);
+    const [promotions, setPromotions] = useState([]);
+
+    function processPromotion() {
+        //parsing on price/delivery;
+    }
     useEffect( ()=> {
         const fetchData = async () => {
-        await axios.get(url)
-            .then(res=> {
-                if(res.data.length > 0) {
-                setShow(true);
-                setMenuItem(res.data);
+        await axios.all([
+            axios.get(menuUrl),
+            axios.get(promotionUrl)
+        ]).then(axios.spread((...res)=> {
+            const menu = res[0];
+            const promo = res[1];
+                if(menu.data.length > 0) {
+                    setShow(true);
+                    setMenuItem(menu.data);
                 }
-
-            });
+                if (promo.data.length > 0) {
+                    setPromotions(promo.data)
+                    processPromotion();
+                    console.log(promo.data)
+                }
+            })).catch(err=>{
+                console.log(err)
+            })
         };
         fetchData()
         
-    }, [url])
+    }, [menuUrl, promotionUrl])
 
     return (
         <div>
