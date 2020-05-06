@@ -38,25 +38,6 @@ export default function ProfileForm(props) {
 
     return (
         <Grid className="center aligned">
-            {isUsername?
-                <Segment basic>
-                    <Grid.Row>
-                        <Table>
-                            <Table.Header>
-                                <Table.HeaderCell>Username</Table.HeaderCell>
-                            </Table.Header>
-
-                            <Table.Body>
-                                <Table.Row>
-                                    <Table.Cell>{oldUsername}</Table.Cell>
-                                </Table.Row>
-                            </Table.Body>
-                        </Table>
-                    </Grid.Row>
-                </Segment>
-            : null
-            }
-
             <Grid.Row>
                 <Form>
                     {isUsername?
