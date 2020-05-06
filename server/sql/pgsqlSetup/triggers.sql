@@ -188,3 +188,20 @@ CREATE TRIGGER autoUpdateOrderIsPrepared
     FOR EACH ROW
         EXECUTE PROCEDURE forceIsPrepared();
 
+
+CREATE OR REPLACE FUNCTION autoUpdateOrderStatusToProgress() 
+    RETURNS TRIGGER AS $$
+    BEGIN
+        IF NEW.dr_leave_for_res IS NOT NULL THEN
+            UPDATE orders
+            SET status = 'in process'
+            WHERE orders.order_id = NEW.order_id;
+        END IF;
+        RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS autoUpdateOrderStatusToProgress ON Deliveries;
+CREATE TRIGGER autoUpdateOrderStatusToProgress
+    AFTER INSERT OR UPDATE OF dr_leave_for_res ON Deliveries
+    FOR EACH ROW
+        EXECUTE FUNCTION autoUpdateOrderStatusToProgress();
