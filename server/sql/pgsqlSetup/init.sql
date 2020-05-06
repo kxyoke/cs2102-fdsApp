@@ -1107,7 +1107,7 @@ INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,dest
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (4,'BKJ0pbXZ3d',19,'card',ARRAY [['28','1']],'in progress', 13.21,'150 Cecil Street #09-01');
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (5,'qnXAuDyjP9',43,'cash',ARRAY [['23','1']],'complete', 10.67, '74 Roxbury Park');
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (6,'XoBAl4RsbO',40,'card',ARRAY [['7','1']],'pending', 18.40,'9 Howard Road 04-00');
-INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (7,'XoBAl4RsbO',40,'card',ARRAY [['40','1']],'pending', 18.40, '9 Howard Road 04-00');
+INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (7,'XoBAl4RsbO',40,'card',ARRAY [['10','1']],'pending', 18.40, '9 Howard Road 04-00');
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (8,'vaphwZAzpj',36,'cash',ARRAY [['16','1']],'pending', 24.60,'10 HOE CHIANG ROAD 16-02');
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (9,'YVWGy9xmYn',5,'card',ARRAY [['64','1']],'pending', 10.5,'230 Orchard Road 11-234 Faber House');
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (10,'t2uvSTlPQ',33,'card',ARRAY [['11','1']],'pending',11.76,'3017 Bedok Nth St 5 #06-11 Gourmet East Kitchen');
@@ -1145,11 +1145,11 @@ INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,dest
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (42,'2hMyWtlK7M',49,'card',ARRAY [['1','2']],'complete', 45.6,'14 Mifflin Way');
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (43,'2hMyWtlK7M',36,'cash',ARRAY [['16','3']],'complete', 63.6,'14 Mifflin Way');
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (44,'2hMyWtlK7M',11,'cash',ARRAY [['40','2']],'complete',23.21,'14 Mifflin Way');
-INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (45,'2hMyWtlK7M',42,'card',ARRAY [['40','3']],'complete',33.63,'14 Mifflin Way');
+INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (45,'2hMyWtlK7M',42,'card',ARRAY [['9','3']],'complete',33.63,'14 Mifflin Way');
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (46,'wzS_LlETDm',2,'cash',ARRAY [['21','3']],'complete', 17.81,'2781 Sunbrook Parkway');
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (47,'wzS_LlETDm',29,'card',ARRAY [['4','1']],'complete', 28.69,'2781 Sunbrook Parkway');
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (48,'wzS_LlETDm',4,'card',ARRAY [['50','2']],'complete', 19.09,'2781 Sunbrook Parkway');
-INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (49,'oBbHa2qLDk',27,'cash',ARRAY [['25','2']],'complete', 23.42,'1 Marsiling Dr #01-59');
+INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (49,'oBbHa2qLDk',27,'cash',ARRAY [['5','2']],'complete', 23.42,'1 Marsiling Dr #01-59');
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (50,'oBbHa2qLDk',23,'card',ARRAY [['24','2']],'complete',23.42,'1 Marsiling Dr #01-59');
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (52,'qnXAuDyjP9',23,'card',ARRAY [['55','2']],'complete',23.42,'17 Ridge Oak Alley');
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address) VALUES (51,'qnXAuDyjP9',23,'cash',ARRAY [['55','2']],'in progress',23.42,'17 Ridge Oak Alley');
@@ -1179,7 +1179,6 @@ insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (54, 'AmcgucKoDC', '2020-04-28 13:45:58', '2020-04-28 13:50:09', '2020-04-28 13:59:01', '2020-04-28 14:10:59', '2020-04-28 14:18:43');
 
 
-insert into Deliveries (order_id, usr_id, place_order_time) values (0, 'GMHtneWRAn', '2020-01-05 12:36:06');
 insert into Deliveries (order_id, usr_id, place_order_time) values (1, 'GMHtneWRAn', '2020-01-05 12:36:06');
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (2, 'AmcgucKoDC', '2020-04-27 11:46:11', '2020-04-27 11:56:11', '2020-04-27 12:00:11', '2020-04-27 12:10:11', '2020-04-27 12:15:11');
 insert into Deliveries (order_id, usr_id, place_order_time) values (3, 'Q-oQOZL5nV', '2020-02-15 09:08:54');
