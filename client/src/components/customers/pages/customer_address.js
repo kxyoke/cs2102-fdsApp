@@ -24,6 +24,7 @@ export default function CAddress (props) {
         }
     }
 
+
     function addBox() {
         confirmAlert({
             title:'Add address message',

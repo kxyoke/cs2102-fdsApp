@@ -38,7 +38,7 @@ export default function PTEditSchedule(props) {
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
                 <div className="content">
-                    <Test weekNum={props.location.state.weekNum}/>
+                    <Test weekNum={props.location.state.weekNum} history={props.history}/>
                 </div>
             </main>
         </div>

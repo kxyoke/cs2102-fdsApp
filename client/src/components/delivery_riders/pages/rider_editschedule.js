@@ -62,7 +62,8 @@ export default function FTEditSchedule(props) {
                 if(res.status === 200) {
                     alert("Schedule is now updated!");
                 }
-                //TODO find out how redirect
+                props.history.goBack();
+            //TODO find out how redirect
         })
             .catch(err => {
                 if(err.response.status === 422) {

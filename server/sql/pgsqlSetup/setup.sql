@@ -21,3 +21,4 @@ INSERT INTO FoodCategories(category) VALUES ('Others');
 \i ./procedures/riders/editPTRiderSchedule.sql
 \i ./procedures/riders/getFilteredWorkingHours.sql
 \i ./procedures/riders/getRiderSalary.sql
+\i ./procedures/riders/getCurrentSchedule.sql

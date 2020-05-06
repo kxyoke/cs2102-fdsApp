@@ -19,7 +19,8 @@ riders.function = {
     update_delivery_time: 'CALL updateDeliveryTime($1,$2)',
     get_rider_base_salary: "SELECT getRiderSalary($1, $2)",
     get_filtered_deliveries: 'SELECT getFilteredDeliveries($1, $2)',
-    get_filtered_working_hours: 'SELECT getFilteredWorkingHours($1,$2)'
+    get_filtered_working_hours: 'SELECT getFilteredWorkingHours($1,$2)',
+    get_current_schedule: 'SELECT getCurrentSchedule($1)'
 }
 
 

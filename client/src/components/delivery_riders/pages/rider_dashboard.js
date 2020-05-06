@@ -15,6 +15,7 @@ import TableCell from "@material-ui/core/TableCell/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import Pagination from "../../customers/components/pagination";
 import Button from "@material-ui/core/Button";
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 
 const drawerWidth = 240;
 
@@ -91,8 +92,8 @@ const useStyles = makeStyles((theme) => ({
         overflow: 'auto',
     },
     container: {
-        paddingTop: theme.spacing(3),
-        paddingBottom: theme.spacing(3),
+        paddingTop: theme.spacing(1),
+        paddingBottom: theme.spacing(1),
     },
     paper: {
         padding: theme.spacing(2),
@@ -115,8 +116,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
     const classes = useStyles();
-    const url = '/api/deliveryRider/home/delivery' ;
-    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+    const url = '/api/deliveryRider/home/schedule';
+    const urlCheckIfFilledSchedule = '/api/deliveryRider/home/delivery' ;
+    const [hasFilledSchedule, setHasFilledSchedule] =  useState(false);
     const [currentDelivery, setCurrentDelivery] = useState("");
     useEffect( ()=> {
         const fetchData = async () => {
@@ -127,26 +129,50 @@ export default function Dashboard() {
                     }
                 });
         };
-        fetchData()
-
+        const fetchFilledSchedule = async () => {
+            await axios.get(urlCheckIfFilledSchedule)
+                .then(res=> {
+                    if(res.data.length > 0) {
+                        if (res.data[0].getcurrentschedule) {
+                            setHasFilledSchedule(true);
+                        }
+                    }
+                }).catch(err => {
+                    console.log(err)
+                });
+        };
+        fetchData();
+        fetchFilledSchedule();
     }, [])
 
 
 
     function displayOrder(props) {
-
-        if (props === "") {
+        if (hasFilledSchedule !== true) {
+            return(
+            <Container>
+                    <div className="row justify-content-md-center">
+                        <h4>You have not filled your schedule. Please fill up your schedule before you take up any deliveries.</h4>
+                    </div>
+                </Container>
+            )
+        } else if (props === "") {
             return (
                 <Container>
                     <div className="row justify-content-md-center">
                         <h4>You have no ongoing deliveries. </h4>
+                    </div>
+                    <div className="row justify-content-md-center">
                         <Link to="/deliveryRider/getOrders">
-                            <Button renderAs="button">
-                                <span>Pick up an order here</span>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                className={classes.button}
+                                renderAs="button">
+                                <span>Pick Up an Order Here</span>
                             </Button>
                         </Link>
                     </div>
-
                 </Container>
 
             )
@@ -180,47 +206,27 @@ export default function Dashboard() {
                     </TableBody>
                 </Table>
                     <div className="row justify-content-md-center">
-                        <Button block bsSize="large"  style={{alignSelf:'center'}}   onClick={() => handleUpdateOrder()}>
-                            Update next delivery time
-                        </Button>
+                        <div className={classes.container}>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                className={classes.button}
+                                renderAs="button">
+                                <span>Update next delivery time</span>
+                            </Button>
+                        </div>
                     </div>
                 </Container>
             )
         }
     }
 
-    function handleUpdateOrder() {
-        axios.post('/api/deliveryRider/updateOrder' , [currentDelivery.order_id],{
-            headers: {
-                "Content-Type" : "application/json",
-            }
-        }).then(res=> {
-            if(res.status === 200) {
-                const fetchData2 = async () => {
-                    await axios.get(url)
-                        .then(res=> {
-                            if(res.data.length > 0) {
-                                if (res.data[0].dr_arrive_cus === null) {
-                                    setCurrentDelivery(res.data[0]);
-                                    alert("You have updated the delivery time");
-                                }
-                            } else {
-                                alert('You have completed the delivery');
-                                setCurrentDelivery("");
-                            }
-                        });
-                };
-                fetchData2()
-            }
-        }).catch(err => {
-            console.log(err);
-        });
-    }
     return (
         <div className={classes.root}>
             <SideBar/>
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
+                {console.log(hasFilledSchedule)}
                 <Container maxWidth="lg" >
                     <div  className={classes.container}>
                         <span style={{color:'#5a5c69',  fontSize: '40px'}}>DashBoard - Current Deliveries</span>

@@ -104,12 +104,6 @@ export default function HeaderIcons() {
                                                     Profile
                                                 </div>
                                             </MenuItem>
-                                            <MenuItem
-                                                onClick={handleCloseProfile}
-                                                className={classes.dropdownItem}
-                                            >
-                                                Settings
-                                            </MenuItem>
                                             <Divider light />
                                             <MenuItem
                                                 onClick={handleCloseProfile}

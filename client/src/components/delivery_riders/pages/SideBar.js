@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link,Redirect } from 'react-router-dom'
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -109,6 +109,9 @@ export default function SideBar() {
     const url = '/api/deliveryRider/checkFullTime';
     const [open, setOpen] = React.useState(true);
     const [isFullTime, setFullTime]  = React.useState("/deliveryRider/schedule");
+    const urlCheckIfFilledSchedule = '/api/deliveryRider/home/delivery' ;
+    const [hasFilledSchedule, setHasFilledSchedule] =  useState(true);
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -126,9 +129,80 @@ export default function SideBar() {
                     }
                 });
         };
-        fetchData()
-
+        const fetchFilledSchedule = async () => {
+            await axios.get(urlCheckIfFilledSchedule)
+                .then(res=> {
+                    if(res.data.length > 0) {
+                        if (res.data[0].getcurrentschedule) {
+                            setHasFilledSchedule(true);
+                        } else {
+                            setHasFilledSchedule(false);
+                        }
+                    }
+                }).catch(err => {
+                    console.log(err)
+                });
+        };
+        fetchData();
+        fetchFilledSchedule();
     }, [])
+
+    function displaySideBar() {
+        if (hasFilledSchedule !== true) {
+            return (
+                <List>
+                    <ListItem button component={Link} to="/deliveryRider">
+                        <ListItemIcon>
+                            <DashboardIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Dashboard" />
+                    </ListItem>
+                    <ListItem button component={Link} to={isFullTime}>
+                        <ListItemIcon>
+                            <ScheduleIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Work Schedule"/>
+                    </ListItem>
+                </List>
+            )
+        } else {
+            return (
+                <List>
+                    <ListItem button component={Link} to="/deliveryRider">
+                        <ListItemIcon>
+                            <DashboardIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Dashboard" />
+                    </ListItem>
+                    <ListItem button component={Link} to="/deliveryRider/getOrders">
+                        <ListItemIcon>
+                        <ListAltIcon />
+                        </ListItemIcon>
+                    <ListItemText primary="Pick Up Orders" />
+                    </ListItem>
+                    <ListItem button component={Link} to={isFullTime}>
+                        <ListItemIcon>
+                            <ScheduleIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Work Schedule" />
+                    </ListItem>
+                    <ListItem button component={Link} to="/deliveryRider/getDeliveries">
+                        <ListItemIcon>
+                        <MotorcycleIcon />
+                        </ListItemIcon>
+                    <ListItemText primary="Delivery Records" />
+                    </ListItem>
+                    <ListItem button component={Link} to="/deliveryRider/summary">
+                        <ListItemIcon>
+                            <BarChartIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Summary" />
+                    </ListItem>
+                </List>
+            )
+
+        }
+    }
     return (
         <div className={classes.root}>
             <CssBaseline />
@@ -162,38 +236,7 @@ export default function SideBar() {
                     </IconButton>
                 </div>
                 <Divider />
-                <List>
-                    <ListItem button component={Link} to="/deliveryRider">
-                        <ListItemIcon>
-                            <DashboardIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Dashboard" />
-                    </ListItem>
-                    <ListItem button component={Link} to="/deliveryRider/getOrders">
-                        <ListItemIcon>
-                            <ListAltIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Pick Up Orders" />
-                    </ListItem>
-                    <ListItem button component={Link} to={isFullTime}>
-                        <ListItemIcon>
-                            <ScheduleIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Work Schedule" />
-                    </ListItem>
-                    <ListItem button component={Link} to="/deliveryRider/getDeliveries">
-                        <ListItemIcon>
-                            <MotorcycleIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Delivery Records" />
-                    </ListItem>
-                    <ListItem button component={Link} to="/deliveryRider/summary">
-                        <ListItemIcon>
-                            <BarChartIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Summary" />
-                    </ListItem>
-                </List>
+                    {displaySideBar()}
                 <Divider />
             </Drawer>
         </div>

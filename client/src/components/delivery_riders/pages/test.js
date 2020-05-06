@@ -3,9 +3,11 @@ import ScheduleList from "./ScheduleList"
 import axios from 'axios';
 import Container from "@material-ui/core/Container";
 import Row from "react-bootstrap/lib/Row";
+import { useHistory } from "react-router-dom";
+import  { Redirect } from 'react-router-dom'
+import { withRouter } from "react-router-dom";
 
 class Test extends React.Component {
-
     state = {
         scheduleList: [{ index: Math.random(), dayOfWeek: "1", startTime: "10:00", endTime: "10:00" }],
         message: "",
@@ -26,6 +28,7 @@ class Test extends React.Component {
         }));
     }
 
+
     handleSubmit = (e) => {
         e.preventDefault();
         console.log(this.state.scheduleList[0].dayOfWeek);
@@ -36,8 +39,10 @@ class Test extends React.Component {
         }).then(res=>{
             console.log(res);
             if(res.status === 200) {
+                console.log(this.state);
                 alert("Schedule is now updated!");
             }
+            this.props.history.goBack();
             //TODO find out how redirect
         })
             .catch(err => {

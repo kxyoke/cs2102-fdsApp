@@ -9,6 +9,7 @@ const getWorkSchedule = require('./methods/getWorkSchedule');
 const updateWorkSchedule = require('./methods/updateWorkSchedule');
 const getPartTimeSchedule = require('./methods/getPartTimeSchedule');
 const updatePartTimeSchedule = require('./methods/updatePartTimeSchedule');
+const getCurrentSchedule = require('./methods/getCurrentSchedule');
 //delivery
 const getDeliveries = require('./methods/getDeliveries');
 const getOrder = require('./methods/getOrder');
@@ -28,6 +29,9 @@ riRouter.route('/profile')
    .post(updateProfile);
 
 riRouter.route('/home/delivery')
+    .get(getCurrentSchedule)
+
+riRouter.route('/home/schedule')
     .get(getCurrentDelivery)
 
 riRouter.route('/schedule/:riid')
