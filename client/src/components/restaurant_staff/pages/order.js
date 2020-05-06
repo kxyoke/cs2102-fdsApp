@@ -47,6 +47,7 @@ export default function ResOrder(props) {
                 .then( res => {
                     if (res.status == 200) {
                         setIncompleteOrders(res.data)
+                        setCurrentTabItems(res.data)
                     }
                 })
                 .catch( err => {
@@ -64,10 +65,14 @@ export default function ResOrder(props) {
         })
     }, [props])
 
+    function setShowedItems(pgnum, fromItems) {
+        const startIncl = (pgnum - 1) * numOrdersPerPage
+        const endExcl = pgnum * numOrdersPerPage
+        setOrdersToShow(fromItems.slice(startIncl, endExcl))
+    }
+
     useEffect(() => {
-        const startIncl = (pageNum - 1) * numOrdersPerPage
-        const endExcl = pageNum * numOrdersPerPage
-        setOrdersToShow(currentTabItems.slice(startIncl, endExcl))
+        setShowedItems(pageNum, currentTabItems);
     }, [pageNum, currentTabItems])
 
     useEffect(() => {

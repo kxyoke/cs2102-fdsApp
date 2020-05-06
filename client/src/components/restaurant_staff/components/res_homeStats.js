@@ -78,7 +78,7 @@ export default function RHome(props) {
     function FoodIcon(props) {
         const {name, imagepath, price, numorders} = props.food;
         return (
-            <Segment circular style={{width: 275, height: 275,
+            <Segment circular style={{width: 300, height: 300,
                 backgroundImage: `url(${imagepath})`,
                 backgroundPosition: 'center',
                 backgroundSize: 'cover',
@@ -99,7 +99,7 @@ export default function RHome(props) {
 
     function FoodIconBlob() {
         return (
-            <Segment circular secondary style={{width: 275, height: 275}}>
+            <Segment circular secondary style={{width: 300, height: 300}}>
               <Header as='h2'>NIL</Header>
             </Segment>
         )
