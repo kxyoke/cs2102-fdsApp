@@ -6,7 +6,7 @@ import axios from 'axios'
 import Utils from './utils/utils'
 
 export default function RHome(props) {
-    const allTimeMonth = 0;
+    //const allTimeMonth = 0;
     const { rid } = props.userInfo;
 
     const [isLoadingNum, setIsLoadingNum] = useState(true);
@@ -19,7 +19,7 @@ export default function RHome(props) {
     const [top5Favs, setFavs] = useState([]);
 
     let monthOptions = [...Array(Utils.getMonthOf(new Date()) + 1).keys()]
-        .map(v => v == 0 
+        .map(v => v === 0 
             ? {key: v, text: `All time statistics`, value: v} 
             : {key: v, text: `FDS Month ${v}`, value: v});
 
@@ -32,7 +32,7 @@ export default function RHome(props) {
             + '/' + Utils.formatDateString(monthDates.start)
             + '/' + Utils.formatDateString(monthDates.end))
             .then(res => {
-                if (res.status == 200) {
+                if (res.status === 200) {
                     setNumOrders(res.data[0].total)
                     setIsLoadingNum(false)
                 } else {
@@ -47,7 +47,7 @@ export default function RHome(props) {
             + '/' + Utils.formatDateString(monthDates.start)
             + '/' + Utils.formatDateString(monthDates.end))
             .then(res => {
-                if (res.status == 200) {
+                if (res.status === 200) {
                     setEarned(res.data[0].total)
                     setIsLoadingCost(false)
                 } else {
@@ -62,7 +62,7 @@ export default function RHome(props) {
             + '/' + Utils.formatDateString(monthDates.start)
             + '/' + Utils.formatDateString(monthDates.end))
             .then(res => {
-                if (res.status == 200) {
+                if (res.status === 200) {
                     setFavs(res.data)
                     setIsLoadingFoods(false)
                 } else {

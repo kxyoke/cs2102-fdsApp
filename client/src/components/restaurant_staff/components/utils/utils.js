@@ -6,7 +6,6 @@ const utils = {
     fdsD1: fdsD1,
     
     getDate_startEndOfMonth: (monthNum) => {
-        let d0 = fdsD1;
         //assuming wk/month starts from wk/month 1 (not 0)
         let startOfMonth = new Date(2020, 0);
         startOfMonth.setDate(startOfMonth.getDate() + (monthNum - 1) * 7 * 4);
@@ -33,7 +32,7 @@ const utils = {
     positiveIntRegex: /^[1-9]\d*$/,
 
     formatDateString: (datestring) => {
-        const format = "YYYY-MM-DD HH:mm:SS";
+        //const format = "YYYY-MM-DD HH:mm:SS";
         const d = new Date(datestring)
         const formattedString = [
             d.getFullYear(),
@@ -58,9 +57,9 @@ const utils = {
         let tokens = typed[1].split(';')
         //min_amt;isAbsNot%;discount
         var promoType = true;
-        if (tokens[0] == 'absolute') {
+        if (tokens[0] === 'absolute') {
             promoType = true
-        } else if (tokens[0] == 'percent') {
+        } else if (tokens[0] === 'percent') {
             promoType = false
         } else {
             console.log('wtf is wrong wif my life')

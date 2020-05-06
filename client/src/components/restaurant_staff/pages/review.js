@@ -18,7 +18,7 @@ export default function ResReview(props) {
             setRid(rid);
             axios.get('/api/restaurant/reviews/' + rid)
                 .then( res => {
-                    if (res.status == 200) {
+                    if (res.status === 200) {
                         setReviews(res.data)
                         setLoading(false)
                     } else {
