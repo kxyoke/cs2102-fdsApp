@@ -4,7 +4,7 @@ const sql = require('../../../sql');
 
 module.exports = (req, res) => {
     log.info('Queried get fdsManager customer summary.');
-    const { month } = req.body;
+    const { month } = req.query;
 
     pool.query(sql.fdsManager.functions.get_customer_summary, [month],
         (err, data) => {

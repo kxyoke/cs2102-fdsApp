@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import HeaderMenu from '../layout/headerMenu'
 import CustomMonthPicker from '../components/customMonthPicker'
+import GeneralSummary from '../components/generalSummary'
 import CustomerSummary from '../components/customerSummary'
 import RiderSummary from '../components/riderSummary'
 import { Button, Form, Header, Tab, Table, Segment } from 'semantic-ui-react'
@@ -33,8 +34,11 @@ export default function FHome(props) {
                         </Table.Header>
                         <Table.Body>
                         <Table.Row>
-                            <Table.Cell>{generalSummary.total_orders}</Table.Cell>
-                            <Table.Cell>{generalSummary.total_cost}</Table.Cell>
+                            {generalSummary.map(gs=> 
+                                
+                                <GeneralSummary generalSummary={gs} />
+                                
+                            )}
                         </Table.Row>
                         </Table.Body>
                     </Table>
@@ -109,12 +113,12 @@ export default function FHome(props) {
         setShowLocation(false);
         setShowRider(false);
 
-        const reqBody = {
-            month: Utils.formatMonthString(selectedMonth)
-        }
-
         const fetchGeneralSummary = async () => {
-            await axios.get('/api/fdsManager/summary/general', reqBody)
+            await axios.get('/api/fdsManager/summary/general', {
+                params: {
+                    month: Utils.formatMonthString(selectedMonth)
+                }
+            })
                 .then(res=> {
                     console.log(res.data);
                     setGeneralSummary(res.data);
@@ -123,7 +127,11 @@ export default function FHome(props) {
         };
 
         const fetchCustomerSummary = async () => {
-            await axios.get('/api/fdsManager/summary/customer', reqBody)
+            await axios.get('/api/fdsManager/summary/customer', {
+                params: {
+                    month: Utils.formatMonthString(selectedMonth)
+                }
+            })
                 .then(res=> {
                     console.log(res.data);
                     setCustomerSummaries(res.data);
@@ -132,7 +140,11 @@ export default function FHome(props) {
         };
 
         const fetchLocationSummary = async () => {
-            await axios.get('/api/fdsManager/summary/location', reqBody)
+            await axios.get('/api/fdsManager/summary/location', {
+                params: {
+                    month: Utils.formatMonthString(selectedMonth)
+                }
+            })
                 .then(res=> {
                     console.log(res.data);
                     setLocationSummaries(res.data);
@@ -141,7 +153,11 @@ export default function FHome(props) {
         };
 
         const fetchRiderSummary = async () => {
-            await axios.get('/api/fdsManager/summary/rider', reqBody)
+            await axios.get('/api/fdsManager/summary/rider', {
+                params: {
+                    month: Utils.formatMonthString(selectedMonth)
+                }
+            })
                 .then(res=> {
                     console.log(res.data);
                     setRiderSummaries(res.data);
@@ -158,31 +174,43 @@ export default function FHome(props) {
     useEffect(() => {
 
         setSelectedMonth(new Date());
-        
-        const reqBody = {
-            month: selectedMonth
-        }
 
         const fetchData = async () => {
-            await axios.get('/api/fdsManager/summary/general', reqBody)
+            await axios.get('/api/fdsManager/summary/general', {
+                params: {
+                    month: Utils.formatMonthString(selectedMonth)
+                }
+            })
                     .then(res=> {
                         console.log(res.data);
                         setGeneralSummary(res.data);
                         setShowGeneral(true);
                     })
-            await axios.get('/api/fdsManager/summary/customer', reqBody)
+            await axios.get('/api/fdsManager/summary/customer', {
+                params: {
+                    month: Utils.formatMonthString(selectedMonth)
+                }
+            })
                     .then(res=> {
                         console.log(res.data);
                         setCustomerSummaries(res.data);
                         setShowCustomer(true);
                     })
-            await axios.get('/api/fdsManager/summary/location', reqBody)
+            await axios.get('/api/fdsManager/summary/location', {
+                params: {
+                    month: Utils.formatMonthString(selectedMonth)
+                }
+            })
                     .then(res=> {
                         console.log(res.data);
                         setLocationSummaries(res.data);
                         setShowLocation(true);
                     })
-            await axios.get('/api/fdsManager/summary/rider', reqBody)
+            await axios.get('/api/fdsManager/summary/rider', {
+                params: {
+                    month: Utils.formatMonthString(selectedMonth)
+                }
+            })
                     .then(res=> {
                         console.log(res.data);
                         setRiderSummaries(res.data);

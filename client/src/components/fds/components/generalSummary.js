@@ -2,7 +2,7 @@ import React from 'react';
 import { Table } from 'semantic-ui-react'
 
 export default function GeneralSummary(props) {
-    const { total_orders, total_cost } = props.promo;
+    const { total_orders, total_cost } = props.generalSummary;
     
     return (
             <Table.Row>

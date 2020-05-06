@@ -73,7 +73,7 @@ RETURNS setof GeneralInfo AS $$
 
     BEGIN
     RETURN QUERY
-    SELECT CAST(count(*) AS INTEGER) as total_orders, CAST(sum(total_cost) AS INTEGER) as total_cost
+    SELECT CAST(sum(total_orders) AS INTEGER) as total_orders, CAST(sum(total_cost) AS INTEGER) as total_cost
     FROM customersOrderSummary(selected_month);
 
     END;
@@ -114,8 +114,8 @@ RETURNS setof RiderInfo AS $$
     GROUP BY usr_id
     )
 
-    SELECT usr_id as cust_id, salary, CAST(total_deliveries AS INTEGER), avg_delivery_time, CAST(total_ratings AS INTEGER), averge_rating
-    FROM riderInfo JOIN SalaryInfo USING (usr_id) LEFT JOIN RatingInfo USING (usr_id);
+    SELECT usr_id as cust_id, salary, CAST(total_deliveries AS INTEGER), avg_delivery_time, CAST(total_ratings AS INTEGER), average_rating
+    FROM DeliveryInfo JOIN SalaryInfo USING (usr_id) LEFT JOIN RatingInfo USING (usr_id);
 
     END;
 $$ LANGUAGE plpgsql;
