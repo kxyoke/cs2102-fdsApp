@@ -28,18 +28,16 @@ export default function FHome(props) {
                     <Table textAlign='center'>
                         <Table.Header>
                             <Table.Row>
-                            <Table.HeaderCell>Total Orders</Table.HeaderCell>
-                            <Table.HeaderCell>Total Cost</Table.HeaderCell>
+                            <Table.HeaderCell>Total Number of Orders</Table.HeaderCell>
+                            <Table.HeaderCell>Total Cost of All Orders</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
                         <Table.Body>
-                        <Table.Row>
                             {generalSummary.map(gs=> 
                                 
                                 <GeneralSummary generalSummary={gs} />
                                 
                             )}
-                        </Table.Row>
                         </Table.Body>
                     </Table>
                         : "Loading.."
@@ -84,7 +82,7 @@ export default function FHome(props) {
                                 <Table.HeaderCell>User ID</Table.HeaderCell>
                                 <Table.HeaderCell>Salary</Table.HeaderCell>
                                 <Table.HeaderCell>Total Deliveries</Table.HeaderCell>
-                                <Table.HeaderCell>Average Delivery Time</Table.HeaderCell>
+                                <Table.HeaderCell>Average Delivery Time (mins)</Table.HeaderCell>
                                 <Table.HeaderCell>Total Ratings</Table.HeaderCell>
                                 <Table.HeaderCell>Average Rating</Table.HeaderCell>
                                 </Table.Row>

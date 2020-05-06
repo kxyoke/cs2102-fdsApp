@@ -13,7 +13,7 @@ CREATE TYPE RiderInfo AS (
     rider_id VARCHAR(255),
     salary NUMERIC,
     total_deliveries INTEGER,
-    avg_delivery_time INTERVAL,
+    avg_delivery_time DOUBLE PRECISION,
     total_ratings INTEGER,
     average_rating NUMERIC
     );
@@ -95,7 +95,7 @@ RETURNS setof RiderInfo AS $$
     BEGIN
     RETURN QUERY
     WITH DeliveryInfo AS
-    (SELECT usr_id, count(*) as total_deliveries, avg(dr_arrive_cus - dr_leave_for_res) as avg_delivery_time
+    (SELECT usr_id, count(*) as total_deliveries, EXTRACT(epoch FROM avg(dr_arrive_cus - dr_leave_for_res))/60 as avg_delivery_time
     FROM Deliveries
     WHERE DATE_PART('month', place_order_time) = DATE_PART('month', selected_month) 
     and DATE_PART('year', place_order_time) = DATE_PART('year', selected_month)
