@@ -6,7 +6,7 @@ customer.queries = {
     get_foodName:"SELECT name FROM MenuItems WHERE food_id = $1 AND res_id = $2",
     get_review:"SELECT order_id, rname, food_rev, delivery_rating FROM reviews NATURAL JOIN (orders JOIN restaurants USING (res_id)) WHERE usr_id = $1" ,
     get_pendingReview: "SELECT order_id, (select rname FROM restaurants WHERE orders.res_id = restaurants.res_id), place_order_time FROM orders JOIN deliveries Using (order_id) WHERE order_id NOT IN (SELECT order_id FROM reviews) AND orders.status = 'complete' AND orders.usr_id = $1 AND NOW()::DATE -place_order_time::DATE <= 30 AND NOW()::DATE - place_order_time::DATE >=0 ORDER BY place_order_time DESC",
-    get_address:"SELECT address FROM Customers_address WHERE usr_id = $1 ORDER BY last_use_time DESC",
+    get_address:"SELECT address , postal_code FROM Customers_address WHERE usr_id = $1 ORDER BY last_use_time DESC",
     get_coupons:"SELECT coupon_id, description, expiry_date, is_used FROM Coupons NATURAL JOIN coupongroups WHERE usr_id = $1",
     get_usable_coupons:'SELECT coupon_id, description FROM Coupons NATURAL JOIN coupongroups WHERE usr_id = $1 AND NOT is_used',
     get_profile: "SELECT card_num ,reward_points FROM Customers WHERE usr_id = $1",
@@ -23,7 +23,7 @@ customer.queries = {
 }
 customer.function = {
     add_cart: "call addCartItem($1,$2,$3,$4)",
-    update_address:"call updateAddress($1, $2,$3)",
+    update_address:"call updateAddress($1, $2,$3, $4)",
     delete_address:"call deleteAddress($1, $2)",
     update_card:"call updateCard($1, $2)",
     add_address:"call addAddress($1, $2)",

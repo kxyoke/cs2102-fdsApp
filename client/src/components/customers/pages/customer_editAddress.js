@@ -3,14 +3,19 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import { Form,Button, FormGroup,FormControl, ControlLabel } from "react-bootstrap";
 import axios from "axios";
+
 export default function CustomerEditAddress(props) {
     const [address, setAddress] = useState('');
-    const {oldAddress, action} = props.location.state;
+    const [postal, setPostal] = useState('');
+    const {oldAddress, oldPostal, action} = props.location.state;
     const [isUpdate, setIsUpdate] = useState(true);
+    var postalReg = new RegExp('^\\d{6}$');
+
     useState(()=> {
         if(oldAddress !== undefined && action === 'update') {
             console.log(oldAddress);
             setAddress(oldAddress);
+            setPostal(oldPostal);
         }else if(oldAddress !== undefined && action === 'add') {
             console.log(oldAddress);
             setIsUpdate(false);
@@ -24,14 +29,14 @@ export default function CustomerEditAddress(props) {
             case "add":
                 return address.length>0; 
             default :
-                return address.length>0 && oldAddress !== address.trim();
+                return address.length>0 && (oldAddress !== address.trim() || oldPostal !== postal) && postalReg.test(postal);
         }
         
     }
 
      function handleSubmit(event) {
         event.preventDefault();
-        axios.post('/api/customer/address', {oldAddress:oldAddress, newAddress:address.trim()})
+        axios.post('/api/customer/address', {oldAddress:oldAddress, newAddress:address.trim(), newPostal:postal})
             .then(res=> {
                 if(res.status!==200) {
                     alert(res.data);
@@ -51,6 +56,7 @@ export default function CustomerEditAddress(props) {
                         setAddress('')
                     }else {
                         setAddress(oldAddress);
+                        setPostal(oldPostal);
                     }
                     
                     
@@ -103,6 +109,13 @@ export default function CustomerEditAddress(props) {
                     onChange={e => {
                     setAddress(e.target.value)}}
                     type="address"
+                />
+                <ControlLabel>Postal code :</ControlLabel>
+                <FormControl
+                    value={postal}
+                    onChange={e => {
+                    setPostal(e.target.value)}}
+                    type="postal"
                 />
                 </FormGroup>
                 </div>
