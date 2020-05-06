@@ -107,7 +107,7 @@ CREATE TABLE CartItems (
     res_id          TEXT,
     food_id         TEXT,
     qty             INTEGER DEFAULT 0,
-    PRIMARY KEY (usr_id, food_id),
+    PRIMARY KEY (usr_id, food_id, res_id),
     FOREIGN KEY (usr_id) REFERENCES Users ON DELETE CASCADE,
     FOREIGN Key (res_id, food_id) REFERENCES MenuItems
 );

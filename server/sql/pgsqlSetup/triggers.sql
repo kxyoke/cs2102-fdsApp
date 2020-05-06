@@ -173,3 +173,37 @@ CREATE TRIGGER autoUpdateOrderIsPrepared
     FOR EACH ROW
         EXECUTE PROCEDURE forceIsPrepared();
 
+CREATE OR REPLACE FUNCTION checkPromoNoClash()
+    RETURNS TRIGGER AS $$
+    BEGIN
+        IF NEW.promotype = 'RES' THEN
+            IF EXISTS(
+                SELECT 1 FROM Promotions
+                WHERE pid <> NEW.pid
+                AND promotype = 'RES'
+                AND ((start_day >= NEW.start_day AND start_day <= NEW.end_day)
+                    OR (end_day >= NEW.start_day AND end_day <= NEW.end_day))
+                ) THEN
+                RAISE EXCEPTION 'ResPromotion will clash. Rejected.';
+            END IF;
+        ELSE
+            IF EXISTS(
+                SELECT 1 FROM Promotions
+                WHERE pid <> NEW.pid
+                AND promotype = 'FDS'
+                AND ((start_day >= NEW.start_day AND start_day <= NEW.end_day)
+                    OR (end_day >= NEW.start_day AND end_day <= NEW.end_day))
+                ) THEN
+                RAISE EXCEPTION 'FdsPromotion will clash. Rejected.';
+            END IF;
+        END IF;
+        RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS ensurePromosNoClash ON Promotions;
+CREATE TRIGGER ensurePromosNoClash
+    BEFORE INSERT OR UPDATE ON Promotions
+    FOR EACH ROW
+        EXECUTE PROCEDURE checkPromoNoClash();
+
+
