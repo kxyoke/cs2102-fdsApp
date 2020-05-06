@@ -12,9 +12,11 @@ module.exports = (req, res) => {
     pool.query(rsql.get.profile, [rid],
         (qerr, qres) => {
             if (qerr) {
-                throw qerr;
+                console.log(qerr);
+                res.status(500).send(qerr)
+            } else {
+                res.json(qres.rows)
             }
-            res.json(qres.rows)
         })
 };
 

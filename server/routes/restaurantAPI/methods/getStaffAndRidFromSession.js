@@ -7,12 +7,14 @@ module.exports = (req, res) => {
     const staffid = req.user.usr_id;
     log.info('user id was ' + staffid);
     
-    pool.query(rsql.get.rid, [staffid],
+    pool.query(rsql.get.userInfo, [staffid],
         (qerr, qres) => {
             if (qerr) {
-                throw qerr;
+                console.log(qerr);
+                res.status(500).send(qerr)
+            } else {
+                res.json(qres.rows)
             }
-            res.json(qres.rows)
         })
 };
 

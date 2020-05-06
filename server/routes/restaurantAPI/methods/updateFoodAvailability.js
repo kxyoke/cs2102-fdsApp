@@ -4,15 +4,18 @@ const rsql = require('../../../sql/restaurant');
 
 module.exports = (req, res) => {
     log.info('Querying update rMenuItem availability.');
+    const rid = req.params.rid;
     const fid = req.params.fid;
     const avail = req.body.avail;
 
-    pool.query(rsql.update.foodItemAvailability, [fid, avail],
+    pool.query(rsql.update.foodItemAvailability, [rid, fid, avail],
         (qerr, qres) => {
             if (qerr) {
-                throw qerr;
+                console.log(qerr)
+                res.status(500).send(qerr)
+            } else {
+                res.sendStatus(200)
             }
-            res.send(qres)
         })
 };
 

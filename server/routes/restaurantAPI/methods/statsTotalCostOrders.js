@@ -3,14 +3,12 @@ const log = require('../../../logger');
 const rsql = require('../../../sql/restaurant');
 
 module.exports = (req, res) => {
-    log.info('Querying update rPromo.');
-    //const rid = req.params.rid;
-    const pid = req.params.pid;
-    const pdesc = req.body.description;
-    const startDay = req.body.start_day;
-    const endDay = req.body.end_day;
-
-    pool.query(rsql.update.promo, [pid, pdesc, startDay, endDay],
+    log.info('Querying stats total cost of orders.');
+    const rid = req.params.rid;
+    const start = req.params.startDate;
+    const end = req.params.endDate;
+    
+    pool.query(rsql.stats.totalCostOrders, [rid, start, end],
         (qerr, qres) => {
             if (qerr) {
                 console.log(qerr);

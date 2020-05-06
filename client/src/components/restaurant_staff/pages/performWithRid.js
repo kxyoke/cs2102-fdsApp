@@ -5,8 +5,10 @@ import axios from 'axios'
 async function runWithRid( method ) {
     axios.get('/api/restaurant/')
         .then( res => {
-            if (res.data.length > 0) {
+            if (res.status == 200 && res.data.length > 0) {
                 method(res.data[0]);
+            } else {
+                alert(res)
             }
         });
 }

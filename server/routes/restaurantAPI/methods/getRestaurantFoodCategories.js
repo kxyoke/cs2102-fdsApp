@@ -9,18 +9,16 @@ module.exports = (req, res) => {
     pool.query(rsql.get.rFoodCategories, [rid],
         (q_err, q_res) => {
             if (q_err) {
-                throw q_err;
+                console.log(q_err)
+                res.status(500).send(q_err)
+            } else {
+                let cats = [];
+                for (var i = 0; i < q_res.rows.length; i++) {
+                    cats.push(q_res.rows[i].category)
+                }
+                log.info("submitted " + JSON.stringify(cats))
+                res.json(cats)
             }
-            let cats = [];
-            for (var i = 0; i < q_res.rows.length; i++) {
-                cats.push(q_res.rows[i].category)
-            }
-            log.info("submitted " + JSON.stringify(cats))
-            res.json(cats)
         })
 };
-
-/*
-//https://www.freecodecamp.org/news/fullstack-react-blog-app-with-express-and-psql/
-*/
 

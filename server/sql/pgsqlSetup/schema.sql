@@ -27,14 +27,14 @@ CREATE TABLE Restaurants (
     rname            TEXT UNIQUE NOT NULL,
     address          TEXT NOT NULL,
     postal_code      TEXT CHECK (postal_code SIMILAR TO '[0-9]{6}'),
-    min_amount       NUMERIC NOT NULL
+    min_amount       NUMERIC NOT NULL,
+    password_digest      VARCHAR(255) NOT NULL DEFAULT '$2b$10$bfU45HrpdNwgzn5Gfhv96.Xw8/Nbl857GVARB3.bK8VwMoZa0lj22' --'default'
 );
 
 /* restrict in-app deletion of categories? */
 CREATE TABLE FoodCategories (
     category        TEXT PRIMARY KEY
 );
-
 
 CREATE TABLE MenuItems (
     res_id              TEXT,
@@ -45,7 +45,6 @@ CREATE TABLE MenuItems (
     category            TEXT NOT NULL DEFAULT '???',
     price               NUMERIC,
     daily_limit         INTEGER DEFAULT 20,
-    --
     available           BOOLEAN DEFAULT true,
     PRIMARY KEY (res_Id, food_id),
     FOREIGN KEY (res_id) REFERENCES Restaurants,
@@ -53,14 +52,13 @@ CREATE TABLE MenuItems (
 );
 
 CREATE TABLE MenuItemsSold (
-     res_id          TEXT,
-     food_id         TEXT,
-     day             DATE DEFAULT current_date,
-     num_sold        INTEGER DEFAULT 0 CHECK(num_sold >= 0),
-     PRIMARY KEY (res_id, food_id, day),
-     FOREIGN KEY (res_id, food_id) REFERENCES MenuItems
- ); --and add trigger so num_sold <= daily_limit.
-
+    res_id          TEXT,
+    food_id         TEXT,
+    day             DATE DEFAULT current_date,
+    num_sold        INTEGER DEFAULT 0 CHECK(num_sold >= 0),
+    PRIMARY KEY (res_id, food_id, day),
+    FOREIGN KEY (res_id, food_id) REFERENCES MenuItems
+); --and add trigger so num_sold <= daily_limit.
 
 
 CREATE TABLE Users (
@@ -74,12 +72,13 @@ CREATE TABLE FdsManagers (
     FOREIGN KEY (usr_id) REFERENCES Users ON DELETE CASCADE
 );
 
-CREATE TABLE RestaurantStaffs (
+CREATE TABLE RestaurantStaffs ( -- note 1 res only 1 manager typically
     usr_id         VARCHAR(255) NOT NULL,
-    res_id         TEXT,
+    res_id         TEXT NOT NULL,
+    is_manager     BOOLEAN NOT NULL,
     PRIMARY KEY(usr_id),
     FOREIGN KEY (usr_id) REFERENCES Users ON DELETE CASCADE,
-    FOREIGN KEY (res_id) REFERENCES Restaurants 
+    FOREIGN KEY (res_id) REFERENCES Restaurants ON DELETE CASCADE
 );
 
 CREATE TABLE Customers (
@@ -187,7 +186,7 @@ CREATE TABLE Promotions (
     ),
     CONSTRAINT res_promo_default_format CHECK(
         description NOT LIKE 'DEFAULT:%'
-        OR description SIMILAR TO 'DEFAULT:([1-9]*[0-9]+(\.[0-9]{0,2})?);(absolute|percent);([1-9]*[0-9]+(\.[0-9]{0,2})?)'
+        OR description SIMILAR TO 'DEFAULT:(absolute|percent);([1-9]*[0-9]+(\.[0-9]{0,2})?);([1-9]*[0-9]+(\.[0-9]{0,2})?)'
     )
 );
 

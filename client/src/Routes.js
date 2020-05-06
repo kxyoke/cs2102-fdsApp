@@ -62,14 +62,14 @@ export default function Routes() {
             <Route exact path='/fdsManager/coupons' component={WithFdsAuth(FCoupons)}/>
             <Route path='/fdsManager/coupons/edit' component={WithFdsAuth(FCouponEdit)}/>
 
-            <Route path='/restaurant' component={WithResStaffAuth(ResHome)}/>
-            <Route path='/restaurant/profile' component={WithResStaffAuth(ResProfile)}/>
-            <Route path='/restaurant/reviews' component={WithResStaffAuth(ResReview)}/>
+            <Route exact path='/restaurant' component={WithResStaffAuth(ResHome)}/>
+            <Route exact path='/restaurant/profile' component={WithResStaffAuth(ResProfile)}/>
+            <Route exact path='/restaurant/reviews' component={WithResStaffAuth(ResReview)}/>
             <Route exact path='/restaurant/promos' component={WithResStaffAuth(ResPromo)}/>
-            <Route path='/restaurant/promos/edit' component={WithResStaffAuth(ResPromoEdit)}/>
+            <Route exact path='/restaurant/promos/edit' component={WithResStaffAuth(ResPromoEdit)}/>
             <Route exact path='/restaurant/menu' component={WithResStaffAuth(ResMenu)}/>
-            <Route path='/restaurant/menu/edit' component={WithResStaffAuth(ResMenuEdit)}/>
-            <Route path='/restaurant/orders' component={WithResStaffAuth(ResOrder)}/>
+            <Route exact path='/restaurant/menu/edit' component={WithResStaffAuth(ResMenuEdit)}/>
+            <Route exact path='/restaurant/orders' component={WithResStaffAuth(ResOrder)}/>
 
             
             <Route exact path='/customer' component={WithCustomerAuth(CHome)}/>

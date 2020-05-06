@@ -109,3 +109,67 @@ CREATE TRIGGER keepOnlyNonEmptyFoodCategories
     AFTER UPDATE OR DELETE ON MenuItems
     FOR EACH ROW
         EXECUTE PROCEDURE maintainFoodCategories();
+
+CREATE OR REPLACE FUNCTION dailySoldUnderLimit()
+    RETURNS TRIGGER AS $$
+    BEGIN
+        IF NEW.num_sold > (SELECT daily_limit FROM MenuItems I WHERE I.res_id = NEW.res_id AND I.food_id = NEW.food_id) THEN
+            RAISE EXCEPTION 'Daily limit cannot be exceeded after it is newly set!';
+        END IF;
+        RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS ensureDailyLimitNotExceeded ON MenuItemsSold;
+CREATE TRIGGER ensureDailyLimitNotExceeded
+    BEFORE INSERT OR UPDATE ON MenuItemsSold
+    FOR EACH ROW
+        EXECUTE PROCEDURE dailySoldUnderLimit();
+
+
+-- Addition to Orders to update daily_sells
+CREATE OR REPLACE FUNCTION autoUpdateDailySells()
+    RETURNS TRIGGER AS $$
+    DECLARE
+        today    Date := current_date;
+        fidCount TEXT[];
+    BEGIN
+        FOREACH fidCount SLICE 1 IN ARRAY NEW.listOfItems
+        LOOP
+            IF (NEW.res_id, fidCount[1], today) IN 
+                (SELECT res_id, food_id, day FROM MenuItemsSold) THEN
+                UPDATE MenuItemsSold
+                SET num_sold = num_sold + CAST(fidCount[2] AS INTEGER)
+                WHERE res_id = NEW.res_id
+                 AND food_id = fidCount[1]
+                 AND   day   = today;
+            ELSE
+                INSERT INTO MenuItemsSold(res_id, food_id, day, num_sold)
+                VALUES(NEW.res_id, fidCount[1], today, CAST(fidCount[2] AS INTEGER));
+            END IF;
+        END LOOP;
+        RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS updateDailySellsWhenOrdered ON Orders;
+CREATE TRIGGER updateDailySellsWhenOrdered
+    AFTER INSERT ON Orders
+    FOR EACH ROW
+        EXECUTE PROCEDURE autoUpdateDailySells();
+
+CREATE OR REPLACE FUNCTION forceIsPrepared()
+    RETURNS TRIGGER AS $$
+    BEGIN
+        IF NEW.dr_leave_res IS NOT NULL THEN
+            UPDATE Orders
+            SET is_prepared = TRUE
+            WHERE order_id = NEW.order_id;
+        END IF;
+        RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS autoUpdateOrderIsPrepared ON Orders;
+CREATE TRIGGER autoUpdateOrderIsPrepared
+    AFTER INSERT ON Deliveries
+    FOR EACH ROW
+        EXECUTE PROCEDURE forceIsPrepared();
+

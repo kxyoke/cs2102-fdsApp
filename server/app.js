@@ -96,7 +96,7 @@ app.use('/api/login', loginRouter);
 app.use('/api/signup', signupRouter);
 app.use('/api/customer', checkAuthenticated, isCustomer, customerRouter);
 app.use('/api/deliveryRider', checkAuthenticated, isRider, deliveryRiderRouter);
-app.use('/api/restaurant', /*checkAuthenticated, isResStaff,*/ rRouter);
+app.use('/api/restaurant', checkAuthenticated, isResStaff, rRouter);
 app.use('/api/fdsManager',checkAuthenticated, isFDS, fdsManagerRouter);
 
 /*----------------- END OF ROUTE REGISTRATION --------------------*/

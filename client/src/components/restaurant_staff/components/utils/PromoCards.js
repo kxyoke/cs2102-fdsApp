@@ -31,6 +31,8 @@ export default function PromoTable(props) {
                 return "grey";
         }
     }
+    
+    const isPastPromo = activeStatus === Utils.PROMO_STATUS.past
 
     return (
         <Table color={tableColor()} key={tableColor()}>
@@ -48,7 +50,8 @@ export default function PromoTable(props) {
 
           <Table.Body>
             {promos.map( promo => (
-                <PromoTableRow promo={promo} editHandler={e => segueToEdit(promo)} />
+                <PromoTableRow promo={promo} editHandler={e => segueToEdit(promo)} 
+                  isPastPromo={isPastPromo}/>
             ))}
           </Table.Body>
         </Table>
@@ -57,14 +60,14 @@ export default function PromoTable(props) {
 
 function PromoTableRow(props) {
     const { pid, start_day, end_day, description, num_orders } = props.promo;
-    const { editHandler } = props
+    const { editHandler, isPastPromo } = props
 
     const today = new Date()
     let numDaysActive = today < new Date(start_day)
         ? 0
         : today > new Date(end_day)
-            ? 0
-            : Math.ceil(Math.abs(today - new Date(start_day)) / (1000 * 3600 * 24));
+            ? Utils.getNumDaysBetween(new Date(start_day), new Date(end_day))
+            : Utils.getNumDaysBetween(new Date(start_day), today);
     let aveOrders = num_orders / numDaysActive;
 
     let descProps = Utils.getDefaultPromoDescProps(description)
@@ -72,13 +75,18 @@ function PromoTableRow(props) {
 
     return (
       <Table.Row>
-        <Table.Cell><Button color='olive' onClick={editHandler}>Edit</Button></Table.Cell>
+        <Table.Cell>
+          {isPastPromo
+            ? null 
+            : <Button color='olive' onClick={editHandler}>Edit</Button>
+          }
+        </Table.Cell>
         <Table.Cell>{pid}</Table.Cell>
         <Table.Cell>{new Date(start_day).toLocaleString()}</Table.Cell>
         <Table.Cell>{new Date(end_day).toLocaleString()}</Table.Cell>
         <Table.Cell>{promoDesc}</Table.Cell>
         <Table.Cell>{numDaysActive}</Table.Cell>
-        <Table.Cell>{aveOrders}</Table.Cell>
+        <Table.Cell>{Utils.roundNumberTo2Dp(aveOrders)}</Table.Cell>
       </Table.Row>
     )
 }

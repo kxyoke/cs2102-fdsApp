@@ -16,12 +16,13 @@ export default function ResMenuEdit(props) {
     //retrieve categories yos
     useEffect( () => {
         runWithRid( userInfo => {
-            const rid = userInfo.rid;
             axios.get('/api/restaurant/foodCategories/all')
                 .then( res => {
-                    if (res.status == 200) {
+                    if (res.status === 200) {
                         setFoodCategories(res.data)
                         setShow(true)
+                    } else {
+                        alert(res)
                     }
                 });
         })

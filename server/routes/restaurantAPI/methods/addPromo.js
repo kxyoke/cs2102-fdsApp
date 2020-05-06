@@ -16,9 +16,11 @@ module.exports = (req, res) => {
         [pid, rid, pdesc, startDay, endDay],
         (qerr, qres) => {
             if (qerr) {
-                throw qerr;
+                console.log(qerr)
+                res.status(500).send(qerr)
+            } else {
+                res.json(qres.rows)
             }
-            res.json(qres.rows)
         })
 };
 

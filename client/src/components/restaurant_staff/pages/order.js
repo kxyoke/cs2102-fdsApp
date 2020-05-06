@@ -47,6 +47,7 @@ export default function ResOrder(props) {
                 .then( res => {
                     if (res.status == 200) {
                         setIncompleteOrders(res.data)
+                        setCurrentTabItems(res.data)
                     }
                 })
                 .catch( err => {
@@ -64,10 +65,14 @@ export default function ResOrder(props) {
         })
     }, [props])
 
+    function setShowedItems(pgnum, fromItems) {
+        const startIncl = (pgnum - 1) * numOrdersPerPage
+        const endExcl = pgnum * numOrdersPerPage
+        setOrdersToShow(fromItems.slice(startIncl, endExcl))
+    }
+
     useEffect(() => {
-        const startIncl = (pageNum - 1) * numOrdersPerPage
-        const endExcl = pageNum * numOrdersPerPage
-        setOrdersToShow(currentTabItems.slice(startIncl, endExcl))
+        setShowedItems(pageNum, currentTabItems);
     }, [pageNum, currentTabItems])
 
     useEffect(() => {
@@ -81,12 +86,28 @@ export default function ResOrder(props) {
 
     function addSetPreparedHandlerToOrder(order) {
         order.setPreparedHandler = (e) => {
-            console.log("TODO: write to orders table that i am done")
-            //TODO: axios put
-            //axios.put('/api/restaurant/
-            //TODO: move order from incomplete to complete
-            // should be let updated = incompleteOrders.filter( ... ); set
-            // then __ = the added (idt can push cus same entity); set.
+            console.log("Writing to orders table that i am prepared...")
+            axios.put('/api/restaurant/orders/setPrepared/' + order.order_id)
+                .then(res => {
+                    if (res.status == 200) {
+                        alert('Successfully updated order as prepared!')
+                    } else {
+                        alert('Server error, please try again.')
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+
+            let updatedIncompleteOrders = []
+            for (var i = 0; i < incompleteOrders.length; i++) {
+                let updatedOrder = incompleteOrders[i]
+                if (updatedOrder.order_id == order.order_id) {
+                    updatedOrder.is_prepared = true
+                }
+                updatedIncompleteOrders.push(updatedOrder)
+            }
+            setIncompleteOrders(updatedIncompleteOrders)
         }
         return order
     }
