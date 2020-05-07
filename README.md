@@ -38,8 +38,6 @@ open[http://localhost:3000](http://localhost:3000) to view it in the browser.
 Runs the server using nodemon
 
 
-### `npm run dev`
-Runs both the server and client concurrently.
 
 
 
