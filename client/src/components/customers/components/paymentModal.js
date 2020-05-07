@@ -26,7 +26,9 @@ export default function PaymentModal(props) {
                 }, 5000);
             })
             .catch(err=> {
-                console.log(err.message);
+                setOpen(false)
+                const INSERT_LIMIT_EXCEEDED_ERROR = 'Item available limit exceeded. Order rejected.'
+                alert(INSERT_LIMIT_EXCEEDED_ERROR);
             })
         
     

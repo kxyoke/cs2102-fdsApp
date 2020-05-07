@@ -169,7 +169,7 @@ function FoodItemCardGroup(props) {
 }
 
 function FoodItemCard ({fooditem, isAvailable}) {
-    const foodMeta = (food) => `Category: ${food.category}`
+    const foodMeta = (food) => `Category: ${food.category}; ${food.daily_limit-food.daily_sells} left.`
     const foodDescription = (food) => food.description;
     const foodImage = (food) => {
         let path = food.imagepath
@@ -187,7 +187,9 @@ function FoodItemCard ({fooditem, isAvailable}) {
         }
     }
     function increment() {
-        setQty(qty+1);
+        if (qty < fooditem.daily_limit - fooditem.dailysells) {
+            setQty(qty+1);
+        }
     }
     function addToCart() {
         console.log('add to cart')
@@ -202,6 +204,9 @@ function FoodItemCard ({fooditem, isAvailable}) {
               } else {
                 alert("added to the cart");
               }
+            })
+            .catch(err=> {
+                console.log(err);
             });
         }
     }
