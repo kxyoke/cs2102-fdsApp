@@ -182,7 +182,32 @@ RETURNS setof RiderInfo AS $$
     GROUP BY usr_id
     )
 
-    SELECT usr_id as cust_id, salary, CAST(total_deliveries AS INTEGER), avg_delivery_time, CAST(total_ratings AS INTEGER), average_rating
+    SELECT usr_id as cust_id, 
+        CASE
+            WHEN (total_deliveries IS NOT NULL) THEN
+                    (salary+total_deliveries * 3) 
+            ELSE salary
+            END AS salary, 
+        CASE 
+            WHEN (total_deliveries IS NOT NULL) THEN
+                CAST(total_deliveries AS INTEGER)
+            ELSE 0
+            END AS total_deliveries,
+        CASE
+            WHEN (avg_delivery_time IS NOT NULL) THEN
+                avg_delivery_time
+            ELSE 0
+            END AS avg_delivery_time,
+        CASE 
+            WHEN(total_ratings IS NOT NULL) THEN
+                CAST(total_ratings AS INTEGER)
+            ELSE 0
+            END AS total_ratings,
+        CASE 
+            WHEN(average_rating IS NOT NULL) THEN
+                average_rating
+            ELSE 0
+            END AS average_rating
     FROM DeliveryInfo RIGHT JOIN SalaryInfo USING (usr_id) LEFT JOIN RatingInfo USING (usr_id);
 
     END;
