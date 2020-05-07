@@ -1,9 +1,9 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import {Image, Card} from 'semantic-ui-react';
 
 export default function RestaurantItem(props) {
 
-    const {res_id, rname}= props.restaurant;
+    const {res_id, rname, rimagepath}= props.restaurant;
    
     function enterRestaurant(e)  {
         console.log("Enter restaurant")
@@ -12,19 +12,20 @@ export default function RestaurantItem(props) {
         state:{res_id:res_id, rname:rname}});
 
     }
+
+    const imagesrc = rimagepath === undefined ? 'https://react.semantic-ui.com/images/wireframe/image.png' : rimagepath
+    console.log(imagesrc)
     
     return (
-        <React.Fragment>
-         <div class="card border-secondary  text-center" href="#">
-         <div class="card-header">
-         {rname}
-        </div>
-                <img src = '/assets/noImage.png' alt="restaurant" class="card-img-top" height="140" width="42" ></img> 
-                <div class="card">
-                    <button onClick={enterRestaurant} class="btn btn-primary"> Enter the restaurant</button>
-                </div>  
-         </div>
-         </React.Fragment>
+        <Card>
+          <Card.Content>
+           {rname}
+          </Card.Content>
+          <Image wrapped src={imagesrc} /> 
+          <Card.Content extra>
+             <button onClick={enterRestaurant} class="btn btn-primary"> Enter the restaurant</button>
+          </Card.Content>  
+         </Card>
 
     )
 }

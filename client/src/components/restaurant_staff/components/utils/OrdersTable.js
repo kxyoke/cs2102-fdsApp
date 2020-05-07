@@ -30,7 +30,6 @@ function OrdersCard(props) {
         for (var i = 0; i < itemlist.length; i++) {
             num += parseInt(itemlist[i][1])
         }
-        console.log(num)
         return num
     }
 
@@ -42,7 +41,6 @@ function OrdersCard(props) {
             fid2Count[listofitems[i][0]] = parseInt(listofitems[i][1])
         }
         setDict(fid2Count)
-        console.log(fids)
         axios.get('/api/restaurant/menu/' + res_id + '/' + JSON.stringify(fids))
             .then(res => {
                 if (res.status == 200) {

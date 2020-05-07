@@ -6,7 +6,7 @@ module.exports = (req, res,next) => {
     //A trigger is used to check the entries in the cartitem's qty after update or add new
     //if the qty of the cartitem is 0 trigger will delete the entity from the database
     console.log(req.body)
-    pool.query(sql.customer.queries.update_cart, [req.user.usr_id, req.body.food_id,req.body.qty], (err)=> {
+    pool.query(sql.customer.queries.update_cart, [req.user.usr_id, req.body.food_id,req.body.qty, req.body.res_id], (err)=> {
         if(err) {
             console.log(err);
 
