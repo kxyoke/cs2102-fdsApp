@@ -1,10 +1,10 @@
 # cs2102-fdsApp
-This project are using react, express, postgre
+This project are using react, express, postgre.
 
 ## Before deployment
-Create a .env under server directory and copy the content in the .env.template to it
-Replace '{someusername}:{somepassword}' by your own psql username and password
-'e.g DATABASE_URL=postgres://postgres:123456@localhost:5432/postgres'
+Create a .env under server directory and copy the content in the .env.template to it.
+Replace '{someusername}:{somepassword}' by your own psql username and password.
+`e.g DATABASE_URL=postgres://postgres:123456@localhost:5432/postgres`
 
 ## Setup 
 1.Go to server/sql/pgsqlSetup directory run psql postgre and then run \i ./setup.sql; to create tables, function, triggers and seed data
@@ -36,3 +36,32 @@ Runs the server using nodemon
 
 ### `npm run dev`
 Runs both the server and client concurrently.
+
+
+
+## SAMPLE ACCOUNTS
+
+### FDS manager
+username: fds
+password: 123456
+
+
+### customer
+username: Douglas
+password: 123456
+
+### Full time rider
+username: Shirley
+password: 123456
+
+### Full time rider
+username: Jackeline
+password: 123456
+
+### Restaurant staff
+username: Taylor
+password: 123456
+
+All restaurant default are set to `default`
+
+NOTE: username are case sensitive
