@@ -26,7 +26,7 @@ module.exports =  async (req, res,next) => {
         return res.status(500).send('server down');
     }
 
-    
+    console.log(out)
     res.send(out);
     
 }

@@ -38,10 +38,11 @@ $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE PROCEDURE 
     addAddress(u_id VARCHAR(255),
-            new_address TEXT
+            new_address TEXT,
+            new_postal  TEXT
             ) AS $$
 BEGIN
-    INSERT INTO Customers_address VALUES(u_id, new_address, NOW());
+    INSERT INTO Customers_address VALUES(u_id, new_address, new_postal, NOW());
 END;
 $$ LANGUAGE plpgsql;
 

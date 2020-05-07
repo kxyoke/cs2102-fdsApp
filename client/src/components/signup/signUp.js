@@ -57,6 +57,7 @@ export default function SignUp(props) {
           && password2 ===password ;
     }
     function validateDeliveryRider() {
+      console.log(riderType);
           return username.length > 0 && password.length > 0 
           && password2 ===password && (riderType === 'full' || riderType === 'part')
     }
@@ -240,9 +241,9 @@ export default function SignUp(props) {
             onChange = {updateIdentity} options={options} required/>
           {identity === 'deliveryRider'?
             <Form.Field control={Select} placeholder ={<div>Select rider type</div>}
-              onChange = {(e)=>{
+              onChange = {(e,data)=>{
               setMessage('');
-              setRiderType(e.value)}}
+              setRiderType(data.value)}}
              options={riders} required/>
           : null}
 

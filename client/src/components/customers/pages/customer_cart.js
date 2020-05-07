@@ -86,9 +86,10 @@ export default function CCart(props) {
                 } else {
                     setShow(false)
                 }
-                
-                setDeliveryAddress(res2.data[0].address);
-                processAddress(res2.data);
+                if(res2.data.length>0) {
+                    setDeliveryAddress(res2.data[0].address);
+                    processAddress(res2.data);
+                }
                 processPromotions(res4.data);
                 setCard(res3.data.cardnumber);
                 setLoading(false);
@@ -298,6 +299,12 @@ export default function CCart(props) {
     }
 
 
+    function validOrder() {
+        const validamount = total>5;
+        const validPayment = (payment === 'card' && card !== null) || payment === 'cash';
+        const validAddress = deliveryAddress !== '';
+        return validamount && validPayment && validAddress;
+    }
 
     //TODO:
     //make Delivery time a drop down that allow the user to change the time
@@ -422,7 +429,7 @@ export default function CCart(props) {
                     <label>Address </label>
                     <div class="row">
                         <div class="col">
-                            <address > {deliveryAddress}</address>
+                            <address > {deliveryAddress.length>0? deliveryAddress: 'Add an address first'}</address>
                         </div>
                         <div class ="col-auto ml-md-auto">
                           
@@ -457,7 +464,7 @@ export default function CCart(props) {
                     <Divider/>
                     <div class="row">
                         <div class="col">
-                        <p> payment : {payment} {payment==="card"? card: ''} </p>
+                        <p> payment : {payment} {payment==="card"? card!== null? card :' Add a card first': ''} </p>
                         </div>
                         <div class ="col-auto ml-md-auto">
                         
@@ -494,7 +501,7 @@ export default function CCart(props) {
                <button class="btn btn-light" onClick={back}>Back to Restaurant/home</button>
                {show && total > 0? 
                 <PaymentButton 
-                    disabled={total<5} 
+                    disabled={!validOrder()} 
                     redirectTOHomePage={redirectTOHomePage} 
                     address={deliveryAddress} 
                     payment={payment} 

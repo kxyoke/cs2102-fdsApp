@@ -26,7 +26,7 @@ customer.function = {
     update_address:"call updateAddress($1, $2,$3, $4)",
     delete_address:"call deleteAddress($1, $2)",
     update_card:"call updateCard($1, $2)",
-    add_address:"call addAddress($1, $2)",
+    add_address:"call addAddress($1, $2,$3)",
     add_review:"call addReview($1,$2,$3)",
     place_order:"call placeOrder($1,$2,$3,$4,$5,$6,$7,$8, $9)",
     use_coupon:"update coupons set is_used = true where coupon_id = $1"

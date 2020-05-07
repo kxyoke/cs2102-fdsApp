@@ -16,12 +16,12 @@ export default function CAddress (props) {
         console.log("address");
         if (address.length<5) {
             props.history.push({pathname:"/customer/editAddress",
-                state:{action: "add", oldAddress:null}})
+                state:{action: "add", oldAddress:null, oldPostal:null}})
         }else {
 
         
             props.history.push({pathname:"/customer/editAddress",
-                state:{action: "add", oldAddress:address[4].address}})
+                state:{action: "add", oldAddress:address[4].address, oldPostal:address[4].postal}})
         }
     }
 
@@ -43,8 +43,12 @@ export default function CAddress (props) {
         const fetchData = async () => {
             await Axios.get('/api/customer/address')
                     .then(res=> {
-                        setAddress(res.data);
-                        setShow(true);
+                        if(res.data.length>0) {
+                            setAddress(res.data);
+                            setShow(true);
+                        }
+                       
+                        
                     })
         }
         fetchData();

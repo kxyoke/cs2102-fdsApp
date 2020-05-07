@@ -13,9 +13,11 @@ export default function CCoupons(props) {
         const fetchData = async () => {
             await Axios.get('/api/customer/coupon')
                     .then(res=> {
-                        console.log(res.data);
-                        setCoupons(res.data);
-                        setShow(true);
+                        if(res.data.length>0) {
+                            setCoupons(res.data);
+                            setShow(true);
+                           
+                        }
                         setLoading(false);
                     })
         }

@@ -27,7 +27,7 @@ export default function ViewOrder(props) {
 
     setTimeout(() => {
         props.history.go(0)
-    }, 180000);
+    }, 60000);
     return (
         <div >
         <Header/>

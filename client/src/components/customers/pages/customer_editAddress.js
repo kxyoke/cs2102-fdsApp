@@ -13,11 +13,10 @@ export default function CustomerEditAddress(props) {
 
     useState(()=> {
         if(oldAddress !== undefined && action === 'update') {
-            console.log(oldAddress);
             setAddress(oldAddress);
             setPostal(oldPostal);
         }else if(oldAddress !== undefined && action === 'add') {
-            console.log(oldAddress);
+            
             setIsUpdate(false);
         } else {
             props.history.goBack();
@@ -27,7 +26,7 @@ export default function CustomerEditAddress(props) {
     function validateForm() {
         switch (action) {
             case "add":
-                return address.length>0; 
+                return address.length>0 && postalReg.test(postal); 
             default :
                 return address.length>0 && (oldAddress !== address.trim() || oldPostal !== postal) && postalReg.test(postal);
         }
@@ -58,9 +57,9 @@ export default function CustomerEditAddress(props) {
                         setAddress(oldAddress);
                         setPostal(oldPostal);
                     }
-                    
-                    
 
+                } else {
+                    console.log(err);
                 }
             })
       }
