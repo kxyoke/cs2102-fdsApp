@@ -25,7 +25,9 @@ module.exports =async (req, res) => {
                             return res.sendStatus(500);
                         }
 
-                    }
+                    } else {
+                    return res.sendStatus(200);
+                }
                 })
                     break;
         case 'part':
