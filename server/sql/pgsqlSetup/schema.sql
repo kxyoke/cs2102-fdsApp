@@ -124,7 +124,7 @@ CREATE TABLE Fulltimerider (
 
 CREATE TABLE Parttimerider (
     usr_id         VARCHAR(255) NOT NULL PRIMARY KEY,
-    base_salary    NUMERIC DEFAULT 1000,
+    base_salary    NUMERIC DEFAULT 250,
     FOREIGN KEY (usr_id) REFERENCES Riders
 );
 
