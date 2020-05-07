@@ -164,7 +164,7 @@ RETURNS setof RiderInfo AS $$
     RETURN QUERY
     WITH DeliveryInfo AS
     (SELECT usr_id, count(*) as total_deliveries, EXTRACT(epoch FROM avg(dr_arrive_cus - dr_leave_for_res))/60 as avg_delivery_time
-    FROM Deliveries
+    FROM Deliveries RIGHT JOIN RIDERS using (usr_id)
     WHERE DATE_PART('month', place_order_time) = DATE_PART('month', selected_month) 
     and DATE_PART('year', place_order_time) = DATE_PART('year', selected_month)
     GROUP BY usr_id
@@ -183,7 +183,7 @@ RETURNS setof RiderInfo AS $$
     )
 
     SELECT usr_id as cust_id, salary, CAST(total_deliveries AS INTEGER), avg_delivery_time, CAST(total_ratings AS INTEGER), average_rating
-    FROM DeliveryInfo JOIN SalaryInfo USING (usr_id) LEFT JOIN RatingInfo USING (usr_id);
+    FROM DeliveryInfo RIGHT JOIN SalaryInfo USING (usr_id) LEFT JOIN RatingInfo USING (usr_id);
 
     END;
 $$ LANGUAGE plpgsql;
