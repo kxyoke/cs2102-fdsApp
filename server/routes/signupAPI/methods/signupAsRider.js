@@ -7,6 +7,7 @@ const shortid = require('shortid');
 module.exports =async (req, res) => {
     var hash = await bcrypt.hash(req.body.password, 10);
     const id = shortid.generate();
+
     switch (req.body.riderType) {
         case 'full':
             pool.query(sql.users.function.addFullTimeRider, 
@@ -22,12 +23,12 @@ module.exports =async (req, res) => {
                             log.error('database err found')
                             return res.sendStatus(500);
                         }
-                    } else {
-                       return res.sendStatus(200);
-                    }
+
                     })
                     break;
         case 'part':
+
+               
             pool.query(sql.users.function.addPartTimeRider, 
                 [id, req.body.username, hash],
                  (err) => {

@@ -150,7 +150,7 @@ CREATE OR REPLACE FUNCTION autoUpdateDailySells()
     BEGIN
         FOREACH fidCount SLICE 1 IN ARRAY NEW.listOfItems
         LOOP
-            IF (NEW.res_id, fidCount[1], today) IN 
+            IF (NEW.res_id, fidCount[1], today) IN
                 (SELECT res_id, food_id, day FROM MenuItemsSold) THEN
                 UPDATE MenuItemsSold
                 SET num_sold = num_sold + CAST(fidCount[2] AS INTEGER)
@@ -188,11 +188,43 @@ CREATE TRIGGER autoUpdateOrderIsPrepared
     FOR EACH ROW
         EXECUTE PROCEDURE forceIsPrepared();
 
-
-CREATE OR REPLACE FUNCTION autoUpdateOrderStatusToProgress() 
+CREATE OR REPLACE FUNCTION checkPromoNoClash()
     RETURNS TRIGGER AS $$
     BEGIN
-        IF NEW.dr_leave_for_res IS NOT NULL THEN
+        IF NEW.promotype = 'RES' THEN
+            IF EXISTS(
+                SELECT 1 FROM Promotions
+                WHERE pid <> NEW.pid
+                AND promotype = 'RES'
+                AND ((start_day >= NEW.start_day AND start_day <= NEW.end_day)
+                    OR (end_day >= NEW.start_day AND end_day <= NEW.end_day))
+                ) THEN
+                RAISE EXCEPTION 'ResPromotion will clash. Rejected.';
+            END IF;
+        ELSE
+            IF EXISTS(
+                SELECT 1 FROM Promotions
+                WHERE pid <> NEW.pid
+                AND promotype = 'FDS'
+                AND ((start_day >= NEW.start_day AND start_day <= NEW.end_day)
+                    OR (end_day >= NEW.start_day AND end_day <= NEW.end_day))
+                ) THEN
+                RAISE EXCEPTION 'FdsPromotion will clash. Rejected.';
+            END IF;
+        END IF;
+        RETURN NEW;
+    END;
+$$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS ensurePromosNoClash ON Promotions;
+CREATE TRIGGER ensurePromosNoClash
+    BEFORE INSERT OR UPDATE ON Promotions
+    FOR EACH ROW
+        EXECUTE PROCEDURE checkPromoNoClash();
+
+CREATE OR REPLACE FUNCTION autoUpdateOrderStatusToProgress()
+    RETURNS TRIGGER AS $$
+    BEGIN
+        IF NEW.dr_leave_for_res IS NOT NULL AND NEW.dr_arrive_cus IS NULL THEN
             UPDATE orders
             SET status = 'in progress'
             WHERE orders.order_id = NEW.order_id;
@@ -205,3 +237,4 @@ CREATE TRIGGER autoUpdateOrderStatusToProgress
     AFTER INSERT OR UPDATE OF dr_leave_for_res ON Deliveries
     FOR EACH ROW
         EXECUTE FUNCTION autoUpdateOrderStatusToProgress();
+
