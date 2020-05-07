@@ -138,7 +138,6 @@ export default function FHome(props) {
                 }
             })
                 .then(res=> {
-                    console.log(res.data);
                     setGeneralSummary(res.data);
                     setShowGeneral(true);
                 });
@@ -151,7 +150,6 @@ export default function FHome(props) {
                 }
             })
                 .then(res=> {
-                    console.log(res.data);
                     setCustomerSummaries(res.data);
                     setShowCustomer(true);
                 });
@@ -164,7 +162,6 @@ export default function FHome(props) {
                 }
             })
                 .then(res=> {
-                    console.log(res.data);
                     setLocationSummaries(res.data);
                     setShowLocation(true);
                 });
@@ -177,7 +174,6 @@ export default function FHome(props) {
                 }
             })
                 .then(res=> {
-                    console.log(res.data);
                     setRiderSummaries(res.data);
                     setShowRider(true);
                 });
@@ -200,7 +196,6 @@ export default function FHome(props) {
                 }
             })
                     .then(res=> {
-                        console.log(res.data);
                         setGeneralSummary(res.data);
                         setShowGeneral(true);
                     })
@@ -210,7 +205,6 @@ export default function FHome(props) {
                 }
             })
                     .then(res=> {
-                        console.log(res.data);
                         setCustomerSummaries(res.data);
                         setShowCustomer(true);
                     })
@@ -220,7 +214,6 @@ export default function FHome(props) {
                 }
             })
                     .then(res=> {
-                        console.log(res.data);
                         setLocationSummaries(res.data);
                         setShowLocation(true);
                     })
@@ -230,7 +223,6 @@ export default function FHome(props) {
                 }
             })
                     .then(res=> {
-                        console.log(res.data);
                         setRiderSummaries(res.data);
                         setShowRider(true);
                     })
