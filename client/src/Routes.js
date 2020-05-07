@@ -39,17 +39,6 @@ import ResOrder from './components/restaurant_staff/pages/order';
 import LoginHome from './components/login/home_before_login';
 import Login from './components/login/login_page';
 import SignUp from './components/signup/signUp';
-import RSchedule from "./components/delivery_riders/pages/rider_schedule";
-import RDeliveries from "./components/delivery_riders/pages/rider_getDeliveries";
-import FTEditSchedule from "./components/delivery_riders/pages/rider_editschedule";
-import ROrders from "./components/delivery_riders/pages/rider_getOrders";
-import RDetailedOrders from "./components/delivery_riders/pages/rider_getDetailedOrders";
-import RDetailedDeliveries from "./components/delivery_riders/pages/rider_getDetailedDeliveries";
-import RSummary from "./components/delivery_riders/pages/rider_getSummary";
-import RPTSchedule from "./components/delivery_riders/pages/rider_getPTSchedule";
-import PTEditSchedule from "./components/delivery_riders/pages/rider_editPTSchedule";
-import RProfile from "./components/delivery_riders/pages/rider_profile";
-
 export default function Routes() {
 
     /* NOTE: LoginHome will need to have auth to autologin if already logged in, i.e. autoredirect to __Home. */
@@ -62,20 +51,8 @@ export default function Routes() {
               
             <Route path='/login' component={(Login)}/>
             <Route path = '/signUp' component= {WithNoAuth(SignUp)}/>
-
-            <Route exact path='/deliveryRider' component={WithRiderAuth(RHome)}/>
-            <Route path='/deliveryRider/schedule' component={WithRiderAuth(RSchedule)}/>
-            <Route path='/deliveryRider/editSchedule' component={WithRiderAuth(FTEditSchedule)}/>
-            <Route path='/deliveryRider/editPTSchedule' component={WithRiderAuth(PTEditSchedule)}/>
-            <Route path='/deliveryRider/getDeliveries' component={WithRiderAuth(RDeliveries)}/>
-            <Route path='/deliveryRider/getPTSchedule' component={WithRiderAuth(RPTSchedule)}/>
-            <Route path='/deliveryRider/getDeliveryDetails' component={WithRiderAuth(RDetailedDeliveries)}/>
-            <Route path='/deliveryRider/getOrders' component={WithRiderAuth(ROrders)}/>
-            <Route path='/deliveryRider/getOrderDetails' component={WithRiderAuth(RDetailedOrders)}/>
-            <Route path='/deliveryRider/summary' component={WithRiderAuth(RSummary)}/>
-            <Route path='/deliveryRider/profile' component={WithRiderAuth(RProfile)}/>
-            <Route exact path='/restaurant' component={WithResStaffAuth(ResHome)}/>
-            <Route path='/fdsManager' component={WithFdsAuth(FHome)}/>
+           
+            <Route path='/deliveryRider' component={WithRiderAuth(RHome)}/>
             
             <Route exact path='/fdsManager' component={WithFdsAuth(FHome)}/>
             <Route exact path='/fdsManager/profile' component={WithFdsAuth(FProfile)}/>
