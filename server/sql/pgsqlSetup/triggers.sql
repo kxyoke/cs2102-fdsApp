@@ -87,7 +87,7 @@ CREATE OR REPLACE FUNCTION addRewardPoints() RETURNS TRIGGER AS $$
 $$ LANGUAGE plpgsql;
 DROP TRIGGER IF EXISTS addRewardPoints ON orders;
 CREATE TRIGGER addRewardPoints
-    AFTER INSERT ON orders
+    AFTER UPDATE ON orders
     FOR EACH ROW
     EXECUTE FUNCTION addRewardPoints();
 
@@ -128,9 +128,21 @@ CREATE TRIGGER keepOnlyNonEmptyFoodCategories
 CREATE OR REPLACE FUNCTION dailySoldUnderLimit()
     RETURNS TRIGGER AS $$
     BEGIN
-        IF NEW.num_sold > (SELECT daily_limit FROM MenuItems I WHERE I.res_id = NEW.res_id AND I.food_id = NEW.food_id) THEN
+        IF NEW.num_sold > (SELECT daily_limit 
+                                FROM MenuItems I 
+                                WHERE I.res_id = NEW.res_id AND I.food_id = NEW.food_id)
+         THEN
             RAISE EXCEPTION 'Daily limit cannot be exceeded after it is newly set!';
         END IF;
+
+        IF NOT EXISTS
+            (
+            SELECT 1 FROM menuitems i
+            WHERE i.res_id = NEW.res_id AND I.food_id = NEW.food_id
+            AND i.available)
+   
+            THEN RAISE EXCEPTION 'The food is not available!';
+        END IF; 
         RETURN NEW;
     END;
 $$ LANGUAGE plpgsql;
@@ -195,10 +207,12 @@ CREATE OR REPLACE FUNCTION checkPromoNoClash()
             IF EXISTS(
                 SELECT 1 FROM Promotions
                 WHERE pid <> NEW.pid
+                AND res_id = NEW.res_id
                 AND promotype = 'RES'
-                AND ((start_day >= NEW.start_day AND start_day <= NEW.end_day)
+                AND (((start_day >= NEW.start_day AND start_day <= NEW.end_day)
                     OR (end_day >= NEW.start_day AND end_day <= NEW.end_day))
-                ) THEN
+                    OR (start_day <= NEW.start_day AND end_day >= NEW.end_day)
+            )) THEN
                 RAISE EXCEPTION 'ResPromotion will clash. Rejected.';
             END IF;
         ELSE
@@ -206,8 +220,13 @@ CREATE OR REPLACE FUNCTION checkPromoNoClash()
                 SELECT 1 FROM Promotions
                 WHERE pid <> NEW.pid
                 AND promotype = 'FDS'
-                AND ((start_day >= NEW.start_day AND start_day <= NEW.end_day)
+                AND (((start_day >= NEW.start_day AND start_day <= NEW.end_day)
                     OR (end_day >= NEW.start_day AND end_day <= NEW.end_day))
+                    OR (start_day <= NEW.start_day AND end_day >= NEW.end_day))
+                AND (NEW.description SIMILAR TO '(Discount):(percent|dollars);([1-9]*[0-9]+(\.[0-9]*)?)'
+                AND description SIMILAR TO '(Discount):(percent|dollars);([1-9]*[0-9]+(\.[0-9]*)?)')
+                OR (NEW.description SIMILAR TO '(Delivery):(percent|dollars);([1-9]*[0-9]+(\.[0-9]*)?)'
+                AND description SIMILAR TO '(Delivery):(percent|dollars);([1-9]*[0-9]+(\.[0-9]*)?)')
                 ) THEN
                 RAISE EXCEPTION 'FdsPromotion will clash. Rejected.';
             END IF;

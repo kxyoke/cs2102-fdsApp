@@ -1308,14 +1308,14 @@ insert into Coupons (coupon_id, coupon_group_id, usr_id, is_used) values (DEFAUL
 
 INSERT INTO Promotions (pid,promotype, res_id, description,start_day,end_day) VALUES (1,'RES', 3, 'DEFAULT:absolute;3;2','2020-01-31 11:45:19','2020-09-30 11:45:19');
 INSERT INTO Promotions (pid,promotype,description,start_day,end_day) VALUES (2,'FDS','Delivery:percent;100','2020-01-31 11:45:19','2020-02-07 11:45:19');
-INSERT INTO Promotions (pid,promotype,description,start_day,end_day) VALUES (3,'FDS','Discount:dollars;8','2020-01-21 11:45:19','2020-01-31 11:45:19');
+INSERT INTO Promotions (pid,promotype,description,start_day,end_day) VALUES (3,'FDS','Discount:dollars;8','2020-01-21 11:45:19','2020-01-30 11:45:19');
 INSERT INTO Promotions (pid,promotype,description,start_day,end_day) VALUES (4,'FDS','Discount:percent;20','2020-03-31 12:00:19','2020-04-22 12:00:19');
 INSERT INTO Promotions (pid,promotype,res_id,description,start_day,end_day) VALUES (6,'RES', 21, 'DEFAULT:percent;3;10','2019-05-31 22:00:19','2019-08-31 22:00:19');
 INSERT INTO Promotions (pid,promotype,res_id,description,start_day,end_day) VALUES (7,'RES', 32, 'DEFAULT:absolute;3;2','2020-01-01 00:00:00','2020-12-31 00:00:00');
-INSERT INTO Promotions (pid,promotype,description,start_day,end_day) VALUES (8,'FDS','Delivery:percent;100','2020-03-01 00:00:00','2020-12-31 00:00:00');
-INSERT INTO Promotions (pid,promotype,description,start_day,end_day) VALUES (9,'FDS','Delivery:percent;100','2020-04-12 00:00:00','2020-12-31 00:00:00');
+INSERT INTO Promotions (pid,promotype,description,start_day,end_day) VALUES (8,'FDS','Delivery:percent;100','2020-03-01 00:00:00','2020-03-25 00:00:00');
+INSERT INTO Promotions (pid,promotype,description,start_day,end_day) VALUES (9,'FDS','Delivery:percent;100','2020-04-23 00:00:00','2020-12-31 00:00:00');
 INSERT INTO Promotions (pid,promotype,description,start_day,end_day) VALUES (10,'FDS','Discount:dollars;10','2019-11-03 00:00:00','2020-11-03 00:00:00');
-INSERT INTO Promotions (pid,promotype,res_id,description,start_day,end_day) VALUES (5,'RES', 4, 'DEFAULT:percent;20;20','2019-04-23 12:00:19','2019-09-30 12:00:19');
+INSERT INTO Promotions (pid,promotype,res_id,description,start_day,end_day) VALUES (5,'RES', 4, 'DEFAULT:percent;20;20','2020-04-23 12:00:19','2020-09-30 12:00:19');
 
 
 INSERT INTO Shifts (shift_id,start_time1,start_time2,end_time1,end_time2) VALUES (1,'10:00','15:00','14:00','19:00');

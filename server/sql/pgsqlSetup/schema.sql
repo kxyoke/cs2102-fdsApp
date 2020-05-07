@@ -12,7 +12,6 @@ DROP TABLE IF EXISTS Parttimerider CASCADE;
 DROP TABLE IF EXISTS Riders CASCADE;
 DROP TABLE IF EXISTS Shifts CASCADE;
 DROP TABLE IF EXISTS Orders CASCADE;
-DROP TYPE IF EXISTS OrderItem CASCADE;
 DROP TABLE IF EXISTS Deliveries CASCADE;
 DROP TABLE IF EXISTS Promotions CASCADE;
 DROP TABLE IF EXISTS CouponGroups CASCADE;
@@ -42,7 +41,7 @@ CREATE TABLE MenuItems (
     name                TEXT,
     description         TEXT,
     imagepath           TEXT DEFAULT 'https://react.semantic-ui.com/images/wireframe/image.png',
-    category            TEXT NOT NULL DEFAULT '???',
+    category            TEXT NOT NULL DEFAULT 'others',
     price               NUMERIC,
     daily_limit         INTEGER DEFAULT 20,
     available           BOOLEAN DEFAULT true,
@@ -129,10 +128,6 @@ CREATE TABLE Parttimerider (
     FOREIGN KEY (usr_id) REFERENCES Riders
 );
 
-CREATE TYPE OrderItem AS (
-    food_id     TEXT,
-    qty        INTEGER
-);
 
 CREATE TABLE Orders (
     order_id       TEXT PRIMARY KEY,
@@ -184,9 +179,12 @@ CREATE TABLE Promotions (
         (promotype = 'RES' AND res_id IS NOT NULL)
         OR (promotype = 'FDS' AND res_id IS NULL)
     ),
-    CONSTRAINT res_promo_default_format CHECK(
-        description NOT LIKE 'DEFAULT:%'
-        OR description SIMILAR TO 'DEFAULT:(absolute|percent);([1-9]*[0-9]+(\.[0-9]{0,2})?);([1-9]*[0-9]+(\.[0-9]{0,2})?)'
+    CONSTRAINT promo_default_format CHECK(
+        (promotype = 'FDS' AND 
+ 	 description SIMILAR TO '(Delivery|Discount):(percent|dollars);([1-9]*[0-9]+(\.[0-9]*)?)'
+         ) OR (promotype = 'RES' AND
+ 	 description SIMILAR TO 'DEFAULT:(absolute|percent);([1-9]*[0-9]+(\.[0-9]{0,2})?);([1-9]*[0-9]+(\.[0-9]{0,2})?)'
+ 	)
     )
 );
 

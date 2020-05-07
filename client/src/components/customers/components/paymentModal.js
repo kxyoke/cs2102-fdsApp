@@ -10,6 +10,7 @@ export default function PaymentModal(props) {
     
     const handleOpen=()=> {
         setOpen(true);
+        console.log(props);
         const {total, address, coupon, payment, deliveryFee, rewardPointsUsed } = props;
         Axios.post('/api/customer/placeOrder', {totalcost:total,
                                                 address:address,

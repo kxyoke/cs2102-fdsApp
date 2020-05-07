@@ -14,7 +14,6 @@ const utils = {
         startOfMonth.setDate(startOfMonth.getDate() + (monthNum - 1) * 7 * 4);
         let endOfMonth = new Date(2020, 0);
         endOfMonth.setDate(endOfMonth.getDate() + monthNum * 7 * 4);
-        console.log(JSON.stringify({start: startOfMonth, end: endOfMonth}))
         return {start: startOfMonth, end: endOfMonth};
     },
 
