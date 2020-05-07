@@ -223,11 +223,11 @@ CREATE OR REPLACE FUNCTION checkPromoNoClash()
                 AND (((start_day >= NEW.start_day AND start_day <= NEW.end_day)
                     OR (end_day >= NEW.start_day AND end_day <= NEW.end_day))
                     OR (start_day <= NEW.start_day AND end_day >= NEW.end_day))
-                AND (NEW.description SIMILAR TO '(Discount):(percent|dollars);([1-9]*[0-9]+(\.[0-9]*)?)'
+                AND( (NEW.description SIMILAR TO '(Discount):(percent|dollars);([1-9]*[0-9]+(\.[0-9]*)?)'
                 AND description SIMILAR TO '(Discount):(percent|dollars);([1-9]*[0-9]+(\.[0-9]*)?)')
                 OR (NEW.description SIMILAR TO '(Delivery):(percent|dollars);([1-9]*[0-9]+(\.[0-9]*)?)'
                 AND description SIMILAR TO '(Delivery):(percent|dollars);([1-9]*[0-9]+(\.[0-9]*)?)')
-                ) THEN
+            )) THEN
                 RAISE EXCEPTION 'FdsPromotion will clash. Rejected.';
             END IF;
         END IF;
