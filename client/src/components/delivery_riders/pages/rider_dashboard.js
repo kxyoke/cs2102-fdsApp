@@ -146,7 +146,33 @@ export default function Dashboard() {
         fetchFilledSchedule();
     }, [])
 
-
+    function handleUpdateOrder() {
+        axios.post('/api/deliveryRider/updateOrder' , [currentDelivery.order_id],{
+            headers: {
+                "Content-Type" : "application/json",
+            }
+        }).then(res=> {
+            if(res.status === 200) {
+                const fetchData2 = async () => {
+                    await axios.get(url)
+                        .then(res=> {
+                            if(res.data.length > 0) {
+                                if (res.data[0].dr_arrive_cus === null) {
+                                    setCurrentDelivery(res.data[0]);
+                                    alert("You have updated the delivery time");
+                                }
+                            } else {
+                                alert('You have completed the delivery');
+                                setCurrentDelivery("");
+                            }
+                        });
+                };
+                fetchData2()
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+    }
 
     function displayOrder(props) {
         if (hasFilledSchedule !== true) {
@@ -212,7 +238,8 @@ export default function Dashboard() {
                                 variant="contained"
                                 color="secondary"
                                 className={classes.button}
-                                renderAs="button">
+                                renderAs="button"
+                                onClick={() => handleUpdateOrder()}>
                                 <span>Update next delivery time</span>
                             </Button>
                         </div>

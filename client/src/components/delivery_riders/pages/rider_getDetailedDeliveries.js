@@ -79,7 +79,10 @@ export default function RDetailedDeliveries(props) {
                                     <h4>Order ID: {originaldelivery.order_id}</h4>
                                     <h4>Restaurant Name: {originaldelivery.rname}</h4>
                                     <h4>Restaurant Address: {originaldelivery.address}</h4>
-                                    <h4>Order Time: {originaldelivery.place_order_time}</h4>
+                                    <h4>Restaurant Postal Code: {originaldelivery.rpc} </h4>
+                                    <h4>Customer Address: {originaldelivery.destination_address}</h4>
+                                    <h4>Customer Postal Code: {originaldelivery.opc}</h4>
+                                    <h4>Order Time: {convertIfNull(originaldelivery.place_order_time)}</h4>
                                     <h4>Left for Restaurant Time: {convertIfNull(originaldelivery.dr_leave_for_res)}</h4>
                                     <h4>Arrive At Restaurant Time: {convertIfNull(originaldelivery.dr_arrive_res)}</h4>
                                     <h4>Collected Order Time: {convertIfNull(originaldelivery.dr_leave_res)}</h4>
@@ -102,6 +105,7 @@ export default function RDetailedDeliveries(props) {
                                             ))}
                                         </TableBody>
                                     </Table>
+                                    <h4> Total Price: {originaldelivery.total}</h4>
 
                                 </Paper>
                             </Grid>
