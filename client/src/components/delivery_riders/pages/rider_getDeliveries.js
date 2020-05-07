@@ -80,7 +80,6 @@ export default function RDeliveries(props) {
                                         <TableHead>
                                             <TableRow>
                                                 <TableCell>Order ID</TableCell>
-                                                <TableCell>User ID</TableCell>
                                                 <TableCell>Order Time</TableCell>
                                                 <TableCell>Left for Restaurant Time</TableCell>
                                                 <TableCell>Arrive At Restaurant Time</TableCell>
@@ -93,7 +92,6 @@ export default function RDeliveries(props) {
                                             {deliveries.map((content) =>
                                                 <TableRow>
                                                     <TableCell>{content.order_id}</TableCell>
-                                                    <TableCell>{content.rusr_id}</TableCell>
                                                     <TableCell>{convertIfNull(content.place_order_time)}</TableCell>
                                                     <TableCell>{convertIfNull(content.dr_leave_for_res)}</TableCell>
                                                     <TableCell>{convertIfNull(content.dr_arrive_res)}</TableCell>

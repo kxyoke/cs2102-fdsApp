@@ -13,10 +13,11 @@ BEGIN
     weekDifference := ((endMonth - startMonth) * 4 ) + (endWeek - startWeek) + 1;
     IF exists (select * FROM Fulltimerider Where usr_id = $1) THEN
         select INTO toSalary base_salary FROM Fulltimerider Where Fulltimerider.usr_id = $1;
+        finalSalary := toSalary/4 * weekDifference;
     ELSE
         select INTO toSalary base_salary FROM Parttimerider Where Parttimerider.usr_id = $1;
+        finalSalary := toSalary * weekDifference;
     END IF;
-    finalSalary := toSalary/4 * weekDifference;
     RETURN finalSalary;
 END;
 $$ LANGUAGE plpgsql;
