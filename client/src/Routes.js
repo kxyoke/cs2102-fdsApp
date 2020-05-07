@@ -75,7 +75,7 @@ export default function Routes() {
             <Route path='/deliveryRider/summary' component={WithRiderAuth(RSummary)}/>
             <Route path='/deliveryRider/profile' component={WithRiderAuth(RProfile)}/>
             <Route exact path='/restaurant' component={WithResStaffAuth(ResHome)}/>
-            <Route path='/fdsManager' component={WithFdsAuth(FHome)}/>
+           
             
             <Route exact path='/fdsManager' component={WithFdsAuth(FHome)}/>
             <Route exact path='/fdsManager/profile' component={WithFdsAuth(FProfile)}/>
