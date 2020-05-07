@@ -92,7 +92,7 @@ export default function CustomerEditAddress(props) {
 
     return (
         
-        <div className="SignUp">
+        <div class='container'>
           <Form onSubmit={handleSubmit}>
               
                 <div>

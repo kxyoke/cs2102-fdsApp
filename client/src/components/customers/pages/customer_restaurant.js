@@ -189,6 +189,7 @@ function FoodItemCardGroup(props) {
 }
 
 function FoodItemCard ({fooditem, isAvailable}) {
+    console.log(isAvailable);
     const foodMeta = (food) => `Category: ${food.category}; ${food.daily_limit-food.daily_sells} left.`
     const foodDescription = (food) => food.description;
     const foodImage = (food) => {

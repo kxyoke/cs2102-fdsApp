@@ -135,7 +135,12 @@ CREATE OR REPLACE FUNCTION dailySoldUnderLimit()
             RAISE EXCEPTION 'Daily limit cannot be exceeded after it is newly set!';
         END IF;
 
-        IF NOT NEW.available
+        IF NOT EXISTS
+            (
+            SELECT 1 FROM menuitems i
+            WHERE i.res_id = NEW.res_id AND I.food_id = NEW.food_id
+            AND i.available)
+   
             THEN RAISE EXCEPTION 'The food is not available!';
         END IF; 
         RETURN NEW;

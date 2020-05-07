@@ -9,7 +9,7 @@ module.exports = async (req, res,next) => {
     console.log(coupon);
     const order_id = shortid.generate();
     const cart_items= await pool.query(sql.customer.queries.get_cart_for_backend, [req.user.usr_id]);
- 
+    console.log(req.body)
     const res_id = cart_items.rows[0].res_id;
     const listOfItems= fc.convertCartItemToListOfItem(cart_items.rows);
     
@@ -30,7 +30,7 @@ module.exports = async (req, res,next) => {
                 log.error(qerr)
                 res.status(422).send(qerr.message)
             } else {
-                if(coupon !== null) {
+                if(coupon !== '') {
                     pool.query(sql.customer.function.use_coupon, [coupon],
                         (q2err) => {console.log(q2err);});
                 }
