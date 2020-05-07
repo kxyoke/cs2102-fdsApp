@@ -10,6 +10,7 @@ const updateCartItem = require('./methods/updateCartItemQty')
 //restaurant
 const getResList = require('./methods/getResList')
 const getResMenu = require('./methods/getRestMenu')
+const getResFoodCats = require('../restaurantAPI/methods/getRestaurantFoodCategories')
 
 //customer
 const getCProfile = require('./methods/getCProfile')
@@ -58,6 +59,7 @@ cRouter.post('/cart/add/',
         addCartItem)
 
 cRouter.get('/menu/:rid', getResMenu);
+cRouter.get('/categories/:rid', getResFoodCats);
 
 cRouter.route('/profile')
         .get(getCProfile)
