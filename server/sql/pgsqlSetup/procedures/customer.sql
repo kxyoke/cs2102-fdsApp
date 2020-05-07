@@ -11,12 +11,14 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE PROCEDURE 
     updateAddress(u_id VARCHAR(255),
             old_address TEXT,
-            new_address TEXT
+            new_address TEXT,
+            new_postal TEXT
             ) AS $$
 
 BEGIN
     UPDATE Customers_address 
     SET  address = new_address,
+        postal_code = new_postal,
      last_use_time = Now()
     WHERE Customers_address.usr_id = u_id
     AND address = old_address;
@@ -36,10 +38,11 @@ $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE PROCEDURE 
     addAddress(u_id VARCHAR(255),
-            new_address TEXT
+            new_address TEXT,
+            new_postal  TEXT
             ) AS $$
 BEGIN
-    INSERT INTO Customers_address VALUES(u_id, new_address, NOW());
+    INSERT INTO Customers_address VALUES(u_id, new_address, new_postal, NOW());
 END;
 $$ LANGUAGE plpgsql;
 

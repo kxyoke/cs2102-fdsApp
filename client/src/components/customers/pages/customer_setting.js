@@ -3,6 +3,7 @@ import Header from '../layout/header'
 import { Form,Button, FormGroup,FormControl, ControlLabel } from "react-bootstrap";
 import Axios from 'axios';
 import {Loader, Label} from "semantic-ui-react";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function CSetting(props)  {
     const [loading, setLoading] = useState(true);
@@ -100,6 +101,7 @@ export default function CSetting(props)  {
             <div >
             <Header/>
             {/* display of information?  */}
+            <div class='container'>
              <div className="SignUp">
              
                  <Form >
@@ -183,7 +185,9 @@ export default function CSetting(props)  {
                      </div> */}
              </div>
              </div>
+             </div>
         }
+        
         </div>
             
         )
@@ -191,4 +195,3 @@ export default function CSetting(props)  {
 }
 
 const wellStyles = { maxWidth: 200, margin: '0 auto 10px' };
-const deleteStyles = { maxWidth: 400, margin: '0 auto 10px' };

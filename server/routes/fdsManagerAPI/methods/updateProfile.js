@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
         pool.query(sql.users.function.update_username, [uid, username],
             (err, data) => {
             if (err) {
-                return res.status(409).send(errorMessage);
+                return res.status(409).send(err.message);
             } else {
                 res.json(data.rows);
             }

@@ -48,10 +48,12 @@ export default function ProfileForm(props) {
                     :
                         <Form.Group widths='equal'>
                             <Form.Input required
+                                type="password"
                                 label='New Password' 
                                 onChange={e => setPassword(e.target.value)}
                             />
                             <Form.Input required
+                                type="password"
                                 label='Confirm New Password' 
                                 onChange={e => setPasswordConfirmation(e.target.value)}
                             />
