@@ -1,12 +1,18 @@
 const pool = require('../../../db'); // psql db
+const risql = require('../../../sql/riders');
 
 module.exports = (req, res) => {
-/*
-    pool.query('SELECT * FROM Restaurants',
-        (q_err, q_res) => {
-            res.json(q_res.rows)
-        });
-//https://www.freecodecamp.org/news/fullstack-react-blog-app-with-express-and-psql/
-*/
-    res.send('Queried get riderProfile.');
+
+    pool.query(risql.queries.get_profile, [req.user.usr_id], (err, data) => {
+        if (err) {
+            console.log("Database fail to get the data");
+            return res.send(err);
+        }
+
+        res.send({
+            username: req.user.username,
+        })
+    });
+
+    // res.send('Queried get riderProfile.');
 };
