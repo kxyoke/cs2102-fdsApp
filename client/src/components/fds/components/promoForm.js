@@ -48,7 +48,7 @@ export default function PromoForm(props) {
                     }
                 })
                 .catch(err => {
-                    alert(err.response.data);
+                    alert('There is clash in the promotion period!');
                     console.log(err);
                 });
         } else {
@@ -59,7 +59,7 @@ export default function PromoForm(props) {
                     }
                 })
                 .catch(err => {
-                    alert(err.response.data);
+                    alert('There is clash in the promotion period!');
                     console.log(err);
                 });
         }
