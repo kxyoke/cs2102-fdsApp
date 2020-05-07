@@ -11,8 +11,8 @@ DROP TYPE IF EXISTS LocationInfo;
 DROP TYPE IF EXISTS RiderInfo;
 
 CREATE TYPE CustomerActivity AS (cust_id VARCHAR(255));
-CREATE TYPE CustomerInfo AS (cust_id VARCHAR(255), total_orders INTEGER, total_cost INTEGER);
-CREATE TYPE GeneralInfo AS (total_orders INTEGER, total_cost INTEGER);
+CREATE TYPE CustomerInfo AS (cust_id VARCHAR(255), total_orders INTEGER, total_cost NUMERIC);
+CREATE TYPE GeneralInfo AS (total_orders INTEGER, total_cost NUMERIC);
 CREATE TYPE LocationInfo AS (area TEXT, total_orders INTEGER);
 CREATE TYPE RiderInfo AS (
     rider_id VARCHAR(255),
@@ -64,11 +64,18 @@ RETURNS setof CustomerInfo AS $$
         FROM Deliveries
         )
 
-    SELECT usr_id as cust_id, CAST(count(*) AS INTEGER) AS total_orders, CAST(sum(total) AS INTEGER) AS total_cost
-    FROM Orders JOIN OrderTimes USING (order_id)
-    WHERE DATE_PART('month', place_order_time) = DATE_PART('month', selected_month) 
-    and DATE_PART('year', place_order_time) = DATE_PART('year', selected_month)
-    GROUP BY usr_id;
+    SELECT usr_id as cust_id, CAST(count(place_order_time) AS INTEGER) AS total_orders,
+            CASE
+            WHEN(count(total) >0) THEN
+                 CAST(sum(total) AS NUMERIC) 
+            ELSE 0
+            END
+                AS total_cost
+    FROM customers LEFT JOIN (Orders JOIN OrderTimes ON (orders.order_id=ordertimes.order_id)
+    AND DATE_PART('month', place_order_time) = DATE_PART('month', selected_month) 
+    and DATE_PART('year', place_order_time) = DATE_PART('year', selected_month)) using (usr_id)
+    GROUP BY usr_id
+    ORDER BY total_orders DESC;
 
     END;
 $$ LANGUAGE plpgsql;
@@ -78,7 +85,7 @@ RETURNS setof GeneralInfo AS $$
 
     BEGIN
     RETURN QUERY
-    SELECT CAST(sum(total_orders) AS INTEGER) as total_orders, CAST(sum(total_cost) AS INTEGER) as total_cost
+    SELECT CAST(sum(total_orders) AS INTEGER) as total_orders, CAST(sum(total_cost) AS NUMERIC) as total_cost
     FROM customersOrderSummary(selected_month);
 
     END;
