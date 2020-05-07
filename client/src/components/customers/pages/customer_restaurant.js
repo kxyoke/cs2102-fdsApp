@@ -7,6 +7,9 @@ import { Card, Input, Image, Label, Button,
     Tab, Pagination, Loader,Menu, Segment, } from 'semantic-ui-react';
 
 export default function RestaurantMenu(props) {
+    if(props.location.state===undefined) {
+        props.history.push('/customer')
+    }
     const {res_id, rname} = props.location.state;
     const [isLoading, setIsLoading] = useState(true);
     const menuUrl = '/api/customer/menu/' + res_id;
