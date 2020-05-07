@@ -39,7 +39,11 @@ export default function CCart(props) {
             setSubtotal(0);
         } else {
             setSubtotal(roundToTwo(ct));
-            setTotal(roundToTwo(ct+deliveryFee-cDiscount-fd-rd));
+            var fdiscount = 0;
+            if (applied) {
+                fdiscount = fd;
+            }
+            setTotal(roundToTwo(ct+deliveryFee-cDiscount-fdiscount-rd));
         }
     }
     function refreshTotal() {
@@ -107,10 +111,8 @@ export default function CCart(props) {
         applyResPromo()
     }, [resPromotionDetail, subtotal])
     useEffect(() => {
-        if (applied) {
-            console.log('applying fds promo');
+            console.log('applying (updating effective val of) fds promo');
             applyFdsPromo()
-        }
     }, [total])
 
     function processAddress(address) {
@@ -126,13 +128,14 @@ export default function CCart(props) {
     }
     function applyFdsPromo() {
         var fDiscount = 0;
+        var total = (subtotal + deliveryFee - rd)
         if(fdsPromotionDetail.discountValue !== "" ) {
            
             if(fdsPromotionDetail.promotype === 'delivery') {
                 fDiscount=3;
             } else {
                 if(fdsPromotionDetail.discountType ==='percent') {
-                    fDiscount = roundToTwo(parseFloat(fdsPromotionDetail.discountValue)*total);
+                    fDiscount = roundToTwo(parseFloat(fdsPromotionDetail.discountValue)/100*total);
                     
                 } else {
                     if( total < fdsPromotionDetail.discountValue) {
@@ -148,7 +151,6 @@ export default function CCart(props) {
             fDiscount = 0;
         }
         setFd(fDiscount);
-        setApplied(true);
     }
     function applyResPromo() {
         var rDiscount = 0;
@@ -173,7 +175,7 @@ export default function CCart(props) {
     useEffect(() => {
         console.log('refreshing');console.log(subtotal)
         refreshTotal()
-    }, [fd, rd, cDiscount, subtotal])
+    }, [fd, rd, cDiscount, subtotal, applied])
 
     function processPromotions(promotions) {
         var i;
@@ -373,7 +375,7 @@ export default function CCart(props) {
                         </div>
                     </div>
                     :null}
-                    {applied && fdsPromotionDetail.discountType!== "" ?
+                    {applied && fd > 0 ?
                     <div class="row">
                         <div class="col">
                             <h5 class='text-left'>FDS discount:</h5>
@@ -423,8 +425,8 @@ export default function CCart(props) {
                         :
                         <Button onClick={removeCoupon}>Remove coupon</Button>
                     }
-                    {!applied && fdsPromotionDetail.length > 0
-                    ? <Button color="pink" onClick={applyPromo}>You can enjoy some promotions, Click to apply promotions</Button>
+                    {!applied && fd > 0
+                    ? <Button color="pink" onClick={e => setApplied(true)}>You can enjoy some promotions, Click to apply promotions</Button>
                     :null}
 
                     {rewardPoints >=50000 && total-5 > 3 && rewardPointsUsed===0 
