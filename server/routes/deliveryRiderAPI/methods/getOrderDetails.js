@@ -8,7 +8,7 @@ module.exports =  async (req, res,next) => {
     for (const d of data.rows) {
         for (const item of d.listofitems) {
             const qty = parseInt(item[1])
-            const result = await pool.query(risql.queries.get_foodName, [item[0]]);
+            const result = await pool.query(risql.queries.get_foodName, [item[0], d.res_id]);
             const {name} = result.rows[0];
             const list = {
                 id: item[0],
