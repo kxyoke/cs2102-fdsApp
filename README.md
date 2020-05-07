@@ -3,8 +3,12 @@ This project are using react, express, postgre.
 
 ## Before deployment
 Create a .env under server directory and copy the content in the .env.template to it.
+
 Replace '{someusername}:{somepassword}' by your own psql username and password.
-`e.g DATABASE_URL=postgres://postgres:123456@localhost:5432/postgres`
+
+`e.g 
+SESSION_SECRET=ABCDEF$123
+DATABASE_URL=postgres://postgres:123456@localhost:5432/postgres`
 
 ## Setup 
 1.Go to server/sql/pgsqlSetup directory run psql postgre and then run \i ./setup.sql; to create tables, function, triggers and seed data
