@@ -105,7 +105,13 @@ export default function CCart(props) {
     useEffect(() => {
         console.log('applying res promo');
         applyResPromo()
-    }, [resPromotionDetail, total])
+    }, [resPromotionDetail, subtotal])
+    useEffect(() => {
+        if (applied) {
+            console.log('applying fds promo');
+            applyFdsPromo()
+        }
+    }, [total])
 
     function processAddress(address) {
         address.forEach(add=> {
@@ -148,10 +154,10 @@ export default function CCart(props) {
         var rDiscount = 0;
         if(resPromotionDetail.discount!=='') {
 
-            if( total<resPromotionDetail.minAmount) {
+            if( subtotal<parseFloat(resPromotionDetail.minAmount)) {
             } else {
                 if(!resPromotionDetail.isAbs) {
-                    rDiscount =roundToTwo(parseFloat(resPromotionDetail.discount)/100 * total);
+                    rDiscount =roundToTwo(parseFloat(resPromotionDetail.discount)/100 * subtotal);
                     
                 } else {
                     rDiscount= parseFloat(resPromotionDetail.discount);
@@ -159,7 +165,7 @@ export default function CCart(props) {
             }
             
         }
-        if(total < rDiscount) {
+        if(subtotal < rDiscount) {
             rDiscount = 0;
         }
         setRd(rDiscount);

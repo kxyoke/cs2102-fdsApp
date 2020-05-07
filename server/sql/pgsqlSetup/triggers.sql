@@ -195,6 +195,7 @@ CREATE OR REPLACE FUNCTION checkPromoNoClash()
             IF EXISTS(
                 SELECT 1 FROM Promotions
                 WHERE pid <> NEW.pid
+		AND res_id IS NOT DISTINCT FROM NEW.res_id
                 AND promotype = 'RES'
                 AND ((start_day >= NEW.start_day AND start_day <= NEW.end_day)
                     OR (end_day >= NEW.start_day AND end_day <= NEW.end_day))
