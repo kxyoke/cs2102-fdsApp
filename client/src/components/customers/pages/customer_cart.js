@@ -17,7 +17,7 @@ export default function CCart(props) {
     const [deliveryFee, setDeliveryFee] = useState(3);
     const [coupon, setCoupon] = useState('');
     const [cDiscount, setCDiscount] = useState(0);
-    const [applied, setApplied] = useState(true);
+   
     const [addresses, setAddresses] = useState([]);
     const [deliveryAddress, setDeliveryAddress]=useState('');
     const [payment, setPayment] = useState("card");
@@ -28,6 +28,8 @@ export default function CCart(props) {
     const [rewardPointsUsed, setRewardPointsUsed] = useState(0);
     const [rd, setRd]=useState(0);
     const [fd,setFd] = useState(0);
+    var staticTotal = 0;
+  
     function roundToTwo(num) {
         return +(Math.round(num + "e+2")  + "e-2");
         
@@ -39,12 +41,13 @@ export default function CCart(props) {
             setSubtotal(0);
         } else {
             setSubtotal(roundToTwo(ct));
-            setTotal(roundToTwo(ct+deliveryFee-cDiscount-fd-rd));
+            
         }
     }
     function refreshTotal() {
-        updateTotal(0)
+        setTotal(roundToTwo(subtotal+deliveryFee-cDiscount-fd-rd));
     }
+    
     async function getTotal(input) {
         var temp =0;
         await input.forEach(item=> {
@@ -54,8 +57,7 @@ export default function CCart(props) {
      
         
         setSubtotal(temp);
-  
-        setTotal(roundToTwo(temp+deliveryFee));
+        
     }
     function redirectTOHomePage() {
         props.history.push('/customer');
@@ -76,6 +78,7 @@ export default function CCart(props) {
                 const res3=res[2];
                 const res4= res[3];
                 const res5=res[4];
+                processPromotions(res4.data);
                 console.log(res5.data[0].reward_points);
                 setRewardPoints(res5.data[0].reward_points);
               
@@ -90,7 +93,7 @@ export default function CCart(props) {
                     setDeliveryAddress(res2.data[0].address);
                     processAddress(res2.data);
                 }
-                processPromotions(res4.data);
+               
                 setCard(res3.data.cardnumber);
                 setLoading(false);
 
@@ -106,7 +109,18 @@ export default function CCart(props) {
     useEffect(() => {
         console.log('applying res promo');
         applyResPromo()
-    }, [resPromotionDetail, total])
+        
+    }, [resPromotionDetail, subtotal])
+    useEffect(() => {
+        
+        if(staticTotal !== total) {
+            console.log('applying Fds promo');
+            console.log(subtotal,rd, fd, cDiscount,total)
+            applyFdsPromo()
+        }
+        
+        
+    }, [fdsPromotionDetail, total])
 
     function processAddress(address) {
         address.forEach(add=> {
@@ -116,19 +130,20 @@ export default function CCart(props) {
         setAddresses(address);
 
     }
-    function applyPromo() {
-        applyFdsPromo()
-    }
+    
+    
     function applyFdsPromo() {
+        console.log('applying Fds promo');
+        console.log(fdsPromotionDetail, rd, fd, total, staticTotal);
         var fDiscount = 0;
-        if(fdsPromotionDetail.discountValue !== "" ) {
+        if(fdsPromotionDetail.discountValue !== ""  & staticTotal!==total) {
            
-            if(fdsPromotionDetail.promotype === 'delivery') {
+            if(fdsPromotionDetail.promoType === 'Delivery') {
                 fDiscount=3;
             } else {
                 if(fdsPromotionDetail.discountType ==='percent') {
-                    fDiscount = roundToTwo(parseFloat(fdsPromotionDetail.discountValue)*total);
-                    
+                    fDiscount = roundToTwo(parseFloat(fdsPromotionDetail.discountValue)/100*total);
+                    console.log(fDiscount)
                 } else {
                     if( total < fdsPromotionDetail.discountValue) {
 
@@ -143,16 +158,20 @@ export default function CCart(props) {
             fDiscount = 0;
         }
         setFd(fDiscount);
-        setApplied(true);
+        staticTotal = total;
+        console.log(subtotal,rd, fd, cDiscount,total)
     }
-    function applyResPromo() {
-        var rDiscount = 0;
-        if(resPromotionDetail.discount!=='') {
 
-            if( total<resPromotionDetail.minAmount) {
+    function applyResPromo() {
+        console.log(resPromotionDetail);
+        console.log(rd,fd);
+        var rDiscount = 0;
+        if(resPromotionDetail.discount!=='' ) {
+
+            if( subtotal<resPromotionDetail.minAmount) {
             } else {
                 if(!resPromotionDetail.isAbs) {
-                    rDiscount =roundToTwo(parseFloat(resPromotionDetail.discount)/100 * total);
+                    rDiscount =roundToTwo(parseFloat(resPromotionDetail.discount)/100 * subtotal);
                     
                 } else {
                     rDiscount= parseFloat(resPromotionDetail.discount);
@@ -160,23 +179,26 @@ export default function CCart(props) {
             }
             
         }
-        if(total < rDiscount) {
+        if(subtotal < rDiscount) {
             rDiscount = 0;
         }
         setRd(rDiscount);
     }
     useEffect(() => {
-        console.log('refreshing');console.log(subtotal)
+        console.log('refreshing');
+        
         refreshTotal()
     }, [fd, rd, cDiscount, subtotal])
 
     function processPromotions(promotions) {
+        console.log(promotions);
         var i;
         for(i = 0; i < promotions.length; i++) {
             if(promotions[i].promotype === 'FDS') {
                const fd= Utils.fdsPromoParser(promotions[i].description);
+               console.log(fd);
                if(fdsPromotionDetail.discountValue.length>0) {
-                   if(fd.promoType==='delivery' && fdsPromotionDetail.promoType !== 'delivery') {
+                   if(fd.promoType==='Delivery' && fdsPromotionDetail.promoType !== 'Delivery') {
                         if(fdsPromotionDetail.discountType==='dollars') {
                             if(fdsPromotionDetail.discountValue < 3) {
                                 setFdsPromotionDetail(fd);
@@ -186,7 +208,7 @@ export default function CCart(props) {
                                 setFdsPromotionDetail(fd)
                             }
                         }
-                   } else if(fd.promoType!=='delivery' && fdsPromotionDetail.promoType === 'delivery') {
+                   } else if(fd.promoType!=='Delivery' && fdsPromotionDetail.promoType === 'Delivery') {
                         if(fd.discountType==='dollars') {
                             if(fd.discountValue> 3) {
                                 setFdsPromotionDetail(fd);
@@ -224,9 +246,6 @@ export default function CCart(props) {
                 }
             }
         }
-        if(i >0) {
-            setApplied(false);
-        }
 
     }
    
@@ -244,8 +263,7 @@ export default function CCart(props) {
     }
     //one order can only use 1 coupon
     function useCoupon(cp) {
-            
-     
+   
             switch (cp.detail.couponType) {
                 
                 case 'Discount':
@@ -265,8 +283,8 @@ export default function CCart(props) {
 
                     }
                     
-                    setTotal(prev => roundToTwo(prev-discountAmt));
-                    setCDiscount(prev=> roundToTwo(prev+ discountAmt));
+                    // setTotal(prev => roundToTwo(prev-discountAmt));
+                    setCDiscount(discountAmt);
 
                     break;
                 case 'Delivery':
@@ -285,13 +303,13 @@ export default function CCart(props) {
     function removeCoupon() {
         if(cDiscount ==="delivery") {
             setDeliveryFee(3);
-            setTotal(pre=> roundToTwo(pre+deliveryFee));
-           
-        } else {
             
-            setTotal(pre=> roundToTwo(pre+cDiscount));
-            setCDiscount(0);
-        }
+           
+        } 
+            
+            
+        setCDiscount(0);
+        
         setCoupon('');
 
     }
@@ -335,7 +353,7 @@ export default function CCart(props) {
                 :
                
             <div class="container">
-                {show && total >0?
+                {show && subtotal >0?
                 <div>
                 <h3>Restaurant name: {carts[0].rname}</h3>
                     
@@ -356,6 +374,16 @@ export default function CCart(props) {
                         <h5 class='text-right'> ${subtotal}</h5>
                         </div>
                     </div>
+                    {rd > 0?
+                    <div class="row">
+                        <div class="col">
+                            <h5 class='text-left'>Restaurant discount:</h5>
+                        </div>
+                        <div class="col">
+                            <h5 class='text-right'>-${rd}</h5>
+                        </div>
+                    </div>
+                    :null}
                     <div class="row">
                         <div class="col">
                             <h5 class='text-left'>Delivery fee:</h5>
@@ -374,7 +402,7 @@ export default function CCart(props) {
                         </div>
                     </div>
                     :null}
-                    {applied && fdsPromotionDetail.discountType!== "" ?
+                    {fd>0  ?
                     <div class="row">
                         <div class="col">
                             <h5 class='text-left'>FDS discount:</h5>
@@ -384,16 +412,7 @@ export default function CCart(props) {
                         </div>
                     </div>
                     :null}
-                    {rd > 0 && resPromotionDetail.discount!="" ?
-                    <div class="row">
-                        <div class="col">
-                            <h5 class='text-left'>Restaurant discount:</h5>
-                        </div>
-                        <div class="col">
-                            <h5 class='text-right'>-${rd}</h5>
-                        </div>
-                    </div>
-                    :null}
+                    
 
                     {rewardPointsUsed !== 0 ?
                     <div class="row">
@@ -424,9 +443,6 @@ export default function CCart(props) {
                         :
                         <Button onClick={removeCoupon}>Remove coupon</Button>
                     }
-                    {!applied && fdsPromotionDetail.length > 0
-                    ? <Button color="pink" onClick={applyPromo}>You can enjoy some promotions, Click to apply promotions</Button>
-                    :null}
 
                     {rewardPoints >=50000 && total-5 > 3 && rewardPointsUsed===0 
                     ? <Button color="yellow" onClick={applyRP}>You can use reward points for $5 discount! Click to apply</Button>
@@ -509,7 +525,7 @@ export default function CCart(props) {
                 }
                 
                <button class="btn btn-light" onClick={back}>Back to Restaurant/home</button>
-               {show && total > 0? 
+               {show && subtotal > 0? 
                 <PaymentButton 
                     disabled={!validOrder()} 
                     redirectTOHomePage={redirectTOHomePage} 

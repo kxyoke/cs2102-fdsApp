@@ -18,7 +18,7 @@ customer.queries = {
     get_fds_current_promos:  'SELECT description FROM Promotions WHERE promotype = \'FDS\' AND start_day <= NOW() AND NOW() <= end_day',
     get_res_current_promos: 'SELECT description FROM promotions WHERE res_id IS NOT DISTINCT FROM $1 AND start_day<=NOW() AND NOW() <= end_day',
     get_all_current_promos:
-     'SELECT promotype, description FROM promotions WHERE start_day<=NOW() AND NOW() <= end_day AND (promotype = \'FDS\' OR res_id IS NOT DISTINCT FROM (SELECT distinct res_id FROM cartitems))',
+     'SELECT promotype, description FROM promotions WHERE start_day<=NOW() AND NOW() <= end_day AND (promotype = \'FDS\' OR res_id IS NOT DISTINCT FROM (SELECT distinct res_id FROM cartitems WHERE usr_id = $1))',
      get_reward_points: 'SELECT reward_points FROM customers where usr_id = $1'
 }
 customer.function = {

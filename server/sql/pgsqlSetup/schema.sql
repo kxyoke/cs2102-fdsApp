@@ -42,7 +42,7 @@ CREATE TABLE MenuItems (
     name                TEXT,
     description         TEXT,
     imagepath           TEXT DEFAULT 'https://react.semantic-ui.com/images/wireframe/image.png',
-    category            TEXT NOT NULL DEFAULT '???',
+    category            TEXT NOT NULL DEFAULT 'others',
     price               NUMERIC,
     daily_limit         INTEGER DEFAULT 20,
     available           BOOLEAN DEFAULT true,
