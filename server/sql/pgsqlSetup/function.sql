@@ -208,7 +208,8 @@ RETURNS setof RiderInfo AS $$
                 average_rating
             ELSE 0
             END AS average_rating
-    FROM DeliveryInfo RIGHT JOIN SalaryInfo USING (usr_id) LEFT JOIN RatingInfo USING (usr_id);
+    FROM DeliveryInfo RIGHT JOIN SalaryInfo USING (usr_id) LEFT JOIN RatingInfo USING (usr_id)
+    ORDER BY total_deliveries DESC;
 
     END;
 $$ LANGUAGE plpgsql;

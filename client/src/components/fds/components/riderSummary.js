@@ -4,7 +4,6 @@ import { Table } from 'semantic-ui-react'
 export default function RiderSummary(props) {
     const { rider_id, salary, total_deliveries, avg_delivery_time, total_ratings, average_rating } = props.riderSummary;
     function roundToTwo(num) {
-        console.log(num);
         return +(Math.round(num + "e+2")  + "e-2");
         
     }
