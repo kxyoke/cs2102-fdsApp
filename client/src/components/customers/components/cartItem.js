@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Axios from 'axios';
 
 export default function CartItem (props) {
-    var { food_id, price, qty, foodname} = props.cartItem;
+    var { food_id, res_id, price, qty, foodname} = props.cartItem;
     price= parseFloat(price);
     const [quantity, setQuantity] = useState(qty);
     function decrement() {
@@ -10,7 +10,8 @@ export default function CartItem (props) {
             setQuantity(quantity-1);
             Axios.post('/api/customer/cart', {
                 food_id:food_id,
-                qty:quantity-1
+                qty:quantity-1,
+                res_id:res_id
             }).then(res=> {
                 props.updateTotal(-price);
             })
@@ -23,7 +24,8 @@ export default function CartItem (props) {
         setQuantity(quantity+1);
         Axios.post('/api/customer/cart', {
             food_id:food_id,
-            qty:quantity+1
+            qty:quantity+1,
+            res_id:res_id
         }).then(res=> {
            props.updateTotal(price);
         })
@@ -34,7 +36,8 @@ export default function CartItem (props) {
         console.log('delete');
         Axios.post('/api/customer/cart', {
             food_id: food_id,
-            qty:0
+            qty:0,
+            res_id:res_id
         })
         props.updateTotal(-price*quantity);
         

@@ -20,7 +20,7 @@ users.function ={
     addCustomer: 'CALL addCustomer($1,$2,$3)',
     addFullTimeRider: 'CALL addFullTimeRider($1,$2,$3)',
     addPartTimeRider: 'CALL addPartTimeRider($1,$2,$3)',
-    addRestaurantStaffAndRes: 'CALL addResStaffAndRes($1,$2,$3, $4, $5, $6, $7, $8)',
+    addRestaurantStaffAndRes: 'CALL addResStaffAndRes($1,$2,$3, $4, $5, $6, $7, $8,$9)',
     addRestaurantStaffOnly: 'CALL addResStaffOnly($1,$2,$3, $4)',
     update_username:"call updateUsername($1, $2)",
     update_password:"call updatePassword($1, $2)",

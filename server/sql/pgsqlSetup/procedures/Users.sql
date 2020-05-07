@@ -15,12 +15,13 @@ CREATE OR REPLACE PROCEDURE addResStaffAndRes(
                                         _username VARCHAR(255),
                                         _password VARCHAR(255), 
                                         _resname TEXT,
-                                        _address TEXT, 
+                                        _address TEXT,
+                                        _postal TEXT, 
                                         _minamt NUMERIC,
                                         _res_pwd VARCHAR(255)
                                          ) AS $$
 BEGIN
-    INSERT INTO Restaurants(res_id, rname, address, min_amount, password_digest) VALUES (_res_id,_resname, _address, _minamt, _res_pwd);
+    INSERT INTO Restaurants(res_id, rname, address, postal_code, min_amount, password_digest) VALUES (_res_id,_resname, _address, _postal, _minamt, _res_pwd);
     
     INSERT INTO Users (usr_id, username, password_digest) VALUES(_usr_id, _username, _password);
     INSERT INTO RestaurantStaffs(res_id, usr_id, is_manager) VALUES (_res_id, _usr_id, TRUE);

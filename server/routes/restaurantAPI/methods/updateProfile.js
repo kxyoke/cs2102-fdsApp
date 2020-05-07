@@ -8,8 +8,9 @@ module.exports = (req, res) => {
     const rname = req.body.rname;
     const addr = req.body.address;
     const minAmt = req.body.min_amount;
+    const postal= req.body.postal;
 
-    pool.query(rsql.update.profile, [rid, rname, addr, minAmt],
+    pool.query(rsql.update.profile, [rid, rname, addr,postal, minAmt],
         (qerr, qres) => {
             if (qerr) {
                 console.log(qerr);

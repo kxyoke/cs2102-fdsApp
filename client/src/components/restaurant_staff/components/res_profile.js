@@ -7,29 +7,32 @@ import ResStaffChangePassword from './res_changePwds';
 export default function RProfile(props) {
     const [isChangePasswords, toggleChangePasswords] = useState(false)
     const {userInfo} = props;
-
+    var postalReg = new RegExp('^\\d{6}$');
     const [edit, setEdit] = useState(false);
     const [hasFormError, setHasFormError] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
 
-    const {res_id, rname, address, min_amount} = props.profile;
+    const {res_id, rname, address, min_amount, postal_code} = props.profile;
 
     const [newRname, setNewRname] = useState('');
     const [newAddr, setNewAddr] = useState('');
+    const [newPostal, setNewPostal] = useState('');
     const [newMinAmt, setNewMinAmt] = useState('');
 
     const [confirmedRname, setConfirmedRname] = useState('');
     const [confirmedAddr, setConfirmedAddr] = useState('');
+    const [confirmedPostal, setConfirmedPostal] = useState('');
     const [confirmedMinAmt, setConfirmedMinAmt] = useState(0);
 
     useEffect(() => {
         setConfirmedRname(rname)
         setConfirmedAddr(address)
         setConfirmedMinAmt(min_amount)
-
+        setConfirmedPostal(postal_code)
         setNewRname(rname)
         setNewAddr(address)
         setNewMinAmt(min_amount)
+        setNewPostal(postal_code)
 
     }, [props])
 
@@ -43,23 +46,30 @@ export default function RProfile(props) {
         setConfirmedRname(newRname)
         setConfirmedAddr(newAddr)
         setConfirmedMinAmt(newMinAmt)
+        setConfirmedPostal(newPostal)
     }
 
     function validateConfirmed() {
-        if (confirmedRname == rname && confirmedAddr == address && confirmedMinAmt == min_amount) {
+      postalReg.test(confirmedPostal)
+        if (confirmedRname === rname && confirmedAddr === address && confirmedMinAmt === min_amount
+           && confirmedPostal===postal_code) {
             return validationState.SUBMIT_NOUPDATE
         }
-        if (confirmedRname == '') {
+        if (confirmedRname === '') {
             setErrorMsg('Name cannot be empty!')
             return validationState.INVALID
         }
-        if (confirmedAddr == '') {
+        if (confirmedAddr === '') {
             setErrorMsg('Address cannot be empty!')
             return validationState.INVALID
         }
-        if (confirmedMinAmt == '') {
+        if (confirmedMinAmt === '') {
             setErrorMsg('Minimum amount cannot be empty!')
             return validationState.INVALID
+        }
+        if(!postalReg.test(confirmedPostal)) {
+          setErrorMsg('Postal code need to be 6 digits without the S')
+          return validationState.INVALID
         }
         const currencyRegex = /^[0-9]\d*(?:(\.\d{0,2})?)$/;
         if (!currencyRegex.test(confirmedMinAmt) || confirmedMinAmt < 0) {
@@ -67,7 +77,7 @@ export default function RProfile(props) {
             return validationState.INVALID
         }
 
-        if (confirmedRname == null || confirmedAddr == null || confirmedMinAmt == null) {
+        if (confirmedRname === null || confirmedAddr === null || confirmedMinAmt === null||confirmedPostal===null) {
             console.log("all null???? should never happen... but ok, shouldnt have submitted yet")
             return validationState.NOCHANGE
         }
@@ -89,11 +99,11 @@ export default function RProfile(props) {
                 axios.put('/api/restaurant/' + res_id, {
                     rname: confirmedRname,
                     address: confirmedAddr,
+                    postal :confirmedPostal,
                     min_amount: confirmedMinAmt
                 })
                     .then(res => {
-                        console.log(res)
-                        if (res.status == 200) {
+                        if (res.status === 200) {
                             toggleEdit()
                         }
                     })
@@ -113,7 +123,7 @@ export default function RProfile(props) {
                 console.log('nothing will be done.')
         }
 
-    }, [confirmedRname, confirmedAddr, confirmedMinAmt]);
+    }, [confirmedRname, confirmedAddr, confirmedMinAmt, confirmedPostal]);
 
     const ButtonConditional = () => (
         <Button.Group>
@@ -165,12 +175,20 @@ export default function RProfile(props) {
                     defaultValue={confirmedAddr}
                     onChange={ e => setNewAddr(e.target.value) } />
                 </Form.Field>
+                <Form.Group>
+                <Form.Field>
+                  <label>Restaurant postal code</label>
+                  <input placeholder='postalhere'
+                    defaultValue={confirmedPostal}
+                    onChange={ e => setNewPostal(e.target.value) } />
+                </Form.Field>
                 <Form.Field>
                   <label>Min. spending required</label>
                   <input placeholder='in dollars; omit the $ sign'
                     defaultValue={confirmedMinAmt}
                     onChange={ e => setNewMinAmt(e.target.value) } />
                 </Form.Field>
+                </Form.Group>
               </Form>
             </div>
           </div>
@@ -180,7 +198,7 @@ export default function RProfile(props) {
               <Header as='h2'>My Current Profile <Button color='teal' style={{ marginBottom: '1em' }} onClick={e => toggleEdit()}> Edit </Button></Header> 
               <Divider section />
               <Segment attached>Restaurant name: {confirmedRname}</Segment>
-              <Segment attached>RestaurantAddress: {confirmedAddr}</Segment>
+              <Segment attached>RestaurantAddress: {confirmedAddr} S {confirmedPostal} </Segment>
               <Divider section />
               <Header as='h4'>Current settings</Header>
               <Segment attached>Min amount set: {confirmedMinAmt}</Segment>

@@ -14,9 +14,9 @@ export default function CouponForm(props) {
     const [description, setDescription] = useState([]);
     const [couponType, setCouponType] = useState('delivery');
     const [discountType, setDiscountType] = useState('dollars');
-    const [discountValue, setDiscountValue] = useState(null);
+    const [discountValue, setDiscountValue] = useState(0);
     const [targetCustomers, setTargetCustomers] = useState('inactive');
-    const [customerActivity, setCustomerActivity] = useState(null);
+    const [customerActivity, setCustomerActivity] = useState(0);
     const history = useHistory();
 
     useEffect(() => {
@@ -66,6 +66,9 @@ export default function CouponForm(props) {
                 });
         }
     }
+    function valid() {
+        return (couponType==="delivery"||(couponType==='discount' &&discountValue>0));
+    }
 
     return (
         <Grid className="center aligned">
@@ -105,6 +108,8 @@ export default function CouponForm(props) {
                         <option value='delivery'>Free Delivery</option>
                         <option value='discount'>Discount</option>
                     </Form.Field>
+                    {couponType === 'discount'
+                    ?
                     <Form.Group widths='equal'>
                         <Form.Field label='Discount type' control='select' onChange={e => setDiscountType(e.target.value)}>
                             <option value='dollars'>Dollars</option>
@@ -116,6 +121,7 @@ export default function CouponForm(props) {
                             onChange={e => setDiscountValue(e.target.value)} 
                         />
                     </Form.Group>
+                    : null}
                     {!isEdit?
                     <Form.Group widths='equal'>
                         <Form.Field required label='Target Customers' control='select' onChange={e => setTargetCustomers(e.target.value)}>
@@ -133,7 +139,7 @@ export default function CouponForm(props) {
                 </Form>
             </Grid.Row>
             <Grid.Row>
-                <Button primary onClick={submit}>Confirm</Button>
+                <Button primary disabled={!valid()} onClick={submit}>Confirm</Button>
             </Grid.Row>
         </Grid>
     )

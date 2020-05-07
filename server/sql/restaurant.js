@@ -13,7 +13,7 @@ queries.get = {
         `SELECT * FROM Restaurants 
          WHERE res_id = $1`,
     profile: /*[res_id]*/
-        `SELECT res_id, rname, address, min_amount FROM Restaurants 
+        `SELECT res_id, rname, address, postal_code, min_amount FROM Restaurants 
          WHERE res_id = $1`,
     allMenuItems: /*[res_id]*/
         `SELECT res_id, food_id, name, description, imagepath, category, 
@@ -96,7 +96,7 @@ queries.stats = { //excl promos ^
 }
 
 queries.update = {
-    profile: `CALL updateRestaurantProfile($1, $2, $3, $4)`, /*res_id, rname, address, min_amt*/
+    profile: `CALL updateRestaurantProfile($1, $2, $3, $4, $5)`, /*res_id, rname, address, min_amt*/
     resPwd: `UPDATE Restaurants SET password_digest = $2 WHERE res_id = $1`, /*res_id, pwdHash*/
     foodItem: `CALL updateRestaurantFoodItem($1, $2, $3, $4, $5, $6, $7, $8)`, /*rid, fid, price, dailyLmt, name, desc, imgpath, category*/
     foodItemCategory: `CALL updateCategoryOf($1, $2, $3)`, /*rid, fid, cat*/

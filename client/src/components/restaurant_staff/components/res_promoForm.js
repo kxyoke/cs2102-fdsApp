@@ -154,6 +154,7 @@ export default function PromoForm(props) {
                         }
                     })
                     .catch(err => {
+                        alert('Failed to add. Clashing promotions are not allowed.')
                         console.log(err)
                     });
             } else {
@@ -166,6 +167,7 @@ export default function PromoForm(props) {
                         }
                     })
                     .catch(err => {
+                        alert('Failed to edit. Clashing promotions are not allowed.')
                         console.log(err)
                     });
             }

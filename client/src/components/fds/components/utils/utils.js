@@ -48,8 +48,6 @@ const utils = {
             "01"
         ].join('-') + ' 00:00:00';
 
-        console.log("month parsed as: " + formattedString)
-
         return formattedString;
     },
 

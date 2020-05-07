@@ -28,8 +28,6 @@ export default function CCart(props) {
     const [rewardPointsUsed, setRewardPointsUsed] = useState(0);
     const [rd, setRd]=useState(0);
     const [fd,setFd] = useState(0);
-    var rDiscount=0;
-    var fDiscount=0;
     function roundToTwo(num) {
         return +(Math.round(num + "e+2")  + "e-2");
         
@@ -40,10 +38,12 @@ export default function CCart(props) {
             setTotal(0);
             setSubtotal(0);
         } else {
-            
             setSubtotal(roundToTwo(ct));
-            setTotal(roundToTwo(ct+deliveryFee-cDiscount-fDiscount-rDiscount-5));
+            setTotal(roundToTwo(ct+deliveryFee-cDiscount-fd-rd));
         }
+    }
+    function refreshTotal() {
+        updateTotal(0)
     }
     async function getTotal(input) {
         var temp =0;
@@ -86,9 +86,10 @@ export default function CCart(props) {
                 } else {
                     setShow(false)
                 }
-                
-                setDeliveryAddress(res2.data[0].address);
-                processAddress(res2.data);
+                if(res2.data.length>0) {
+                    setDeliveryAddress(res2.data[0].address);
+                    processAddress(res2.data);
+                }
                 processPromotions(res4.data);
                 setCard(res3.data.cardnumber);
                 setLoading(false);
@@ -102,6 +103,10 @@ export default function CCart(props) {
         fetchData();
        
     }, [])
+    useEffect(() => {
+        console.log('applying res promo');
+        applyResPromo()
+    }, [resPromotionDetail, total])
 
     function processAddress(address) {
         address.forEach(add=> {
@@ -112,6 +117,10 @@ export default function CCart(props) {
 
     }
     function applyPromo() {
+        applyFdsPromo()
+    }
+    function applyFdsPromo() {
+        var fDiscount = 0;
         if(fdsPromotionDetail.discountValue !== "" ) {
            
             if(fdsPromotionDetail.promotype === 'delivery') {
@@ -130,11 +139,17 @@ export default function CCart(props) {
                 }
             }
         }
-            
+        if(total < fDiscount) {
+            fDiscount = 0;
+        }
+        setFd(fDiscount);
+        setApplied(true);
+    }
+    function applyResPromo() {
+        var rDiscount = 0;
         if(resPromotionDetail.discount!=='') {
 
             if( total<resPromotionDetail.minAmount) {
-
             } else {
                 if(!resPromotionDetail.isAbs) {
                     rDiscount =roundToTwo(parseFloat(resPromotionDetail.discount)/100 * total);
@@ -145,23 +160,19 @@ export default function CCart(props) {
             }
             
         }
-        if(total < rDiscount+fDiscount) {
-            if(rDiscount>fDiscount) {
-                rDiscount = 0;
-            } else {
-                fDiscount = 0;
-            }
+        if(total < rDiscount) {
+            rDiscount = 0;
         }
-        updateTotal(0);
         setRd(rDiscount);
-        setFd(fDiscount);
-        setApplied(true);
     }
+    useEffect(() => {
+        console.log('refreshing');console.log(subtotal)
+        refreshTotal()
+    }, [fd, rd, cDiscount, subtotal])
 
     function processPromotions(promotions) {
         var i;
         for(i = 0; i < promotions.length; i++) {
-            
             if(promotions[i].promotype === 'FDS') {
                const fd= Utils.fdsPromoParser(promotions[i].description);
                if(fdsPromotionDetail.discountValue.length>0) {
@@ -298,6 +309,12 @@ export default function CCart(props) {
     }
 
 
+    function validOrder() {
+        const validamount = total>5;
+        const validPayment = (payment === 'card' && card !== null) || payment === 'cash';
+        const validAddress = deliveryAddress !== '';
+        return validamount && validPayment && validAddress;
+    }
 
     //TODO:
     //make Delivery time a drop down that allow the user to change the time
@@ -367,7 +384,7 @@ export default function CCart(props) {
                         </div>
                     </div>
                     :null}
-                    {applied && resPromotionDetail.discount!="" ?
+                    {rd > 0 && resPromotionDetail.discount!="" ?
                     <div class="row">
                         <div class="col">
                             <h5 class='text-left'>Restaurant discount:</h5>
@@ -407,7 +424,7 @@ export default function CCart(props) {
                         :
                         <Button onClick={removeCoupon}>Remove coupon</Button>
                     }
-                    {!applied
+                    {!applied && fdsPromotionDetail.length > 0
                     ? <Button color="pink" onClick={applyPromo}>You can enjoy some promotions, Click to apply promotions</Button>
                     :null}
 
@@ -422,7 +439,7 @@ export default function CCart(props) {
                     <label>Address </label>
                     <div class="row">
                         <div class="col">
-                            <address > {deliveryAddress}</address>
+                            <address > {deliveryAddress.length>0? deliveryAddress: 'Add an address first'}</address>
                         </div>
                         <div class ="col-auto ml-md-auto">
                           
@@ -457,7 +474,7 @@ export default function CCart(props) {
                     <Divider/>
                     <div class="row">
                         <div class="col">
-                        <p> payment : {payment} {payment==="card"? card: ''} </p>
+                        <p> payment : {payment} {payment==="card"? card!== null? card :' Add a card first': ''} </p>
                         </div>
                         <div class ="col-auto ml-md-auto">
                         
@@ -494,7 +511,7 @@ export default function CCart(props) {
                <button class="btn btn-light" onClick={back}>Back to Restaurant/home</button>
                {show && total > 0? 
                 <PaymentButton 
-                    disabled={total<5} 
+                    disabled={!validOrder()} 
                     redirectTOHomePage={redirectTOHomePage} 
                     address={deliveryAddress} 
                     payment={payment} 

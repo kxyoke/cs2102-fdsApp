@@ -5,7 +5,6 @@ const suRouter = require('express').Router();
 const signupAsCustomer = require('./methods/signupAsCustomer');
 const signupAsRestaurant = require('./methods/signupAsRestaurant');
 const signupAsRider = require('./methods/signupAsRider');
-const signupAsFdsM = require('./methods/signupAsFdsManager');
 
 const getExistingRestaurants = require('./methods/getExistingRestaurants');
 
@@ -15,8 +14,6 @@ suRouter.route('/restaurantStaff')
     .post(signupAsRestaurant);
 suRouter.route('/deliveryRider')
     .post(signupAsRider);
-// suRouter.route('/fdsManager')
-//     .post(signupAsFdsM);
 
 suRouter.route('/restaurant')
     .get(getExistingRestaurants);

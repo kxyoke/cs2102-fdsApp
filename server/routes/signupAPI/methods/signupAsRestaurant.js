@@ -2,9 +2,10 @@ const pool = require('../../../db'); // psql db
 const sql = require('../../../sql');
 const bcrypt = require('bcrypt');
 const shortid = require('shortid');
+const log = require('../../../logger');
+
 
 module.exports = async (req, res) => {
-    console.log(req.body);
     var hash = await bcrypt.hash(req.body.password, 10);
     const id = shortid.generate();
     const username = req.body.username;
@@ -16,9 +17,9 @@ module.exports = async (req, res) => {
         const min_amt = req.body.min_amt;
         const resName = req.body.resName;
         const resAddress = req.body.resAddress;
-
+        const resPostal = req.body.resPostal;
         pool.query(sql.users.function.addRestaurantStaffAndRes, 
-            [res_id, id, username, hash, resName, resAddress, min_amt, resPwd], 
+            [res_id, id, username, hash, resName, resAddress, resPostal, min_amt, resPwd], 
             (err) => {
             if(err) {
                 if(err.message === 'username in used') {
@@ -26,8 +27,8 @@ module.exports = async (req, res) => {
                 } else if (err.message === 'usr_id in used') {
                     //do something
                 } else {
-                    console.log('database err found')
-                    console.log(err)
+                   log.error('database err found')
+                    log.error(err)
                     return res.status(423).send(err.message);
                 }
             } else {
@@ -59,8 +60,8 @@ module.exports = async (req, res) => {
                         } else if (err.message === 'usr_id in used') {
                             //do something
                         } else {
-                            console.log('database err found')
-                            console.log(err)
+                            log.error('database err found')
+                            log.error(err)
                             return res.status(423).send(err.message);
                         }
                       } else {

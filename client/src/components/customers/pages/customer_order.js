@@ -23,6 +23,8 @@ export default function COrder(props) {
                     setPastOrders(res.data);
                     setShow(true);
                     setLoading(false);
+                } else {
+                    setLoading(false);
                 }
             })
             

@@ -11,6 +11,7 @@ CREATE OR REPLACE PROCEDURE
         _rid         TEXT,
         _rname       TEXT,
         _address     TEXT,
+        _postal      TEXT,
         _min_amount  NUMERIC
     ) AS $$
 
@@ -18,6 +19,7 @@ CREATE OR REPLACE PROCEDURE
         UPDATE Restaurants
         SET rname   = _rname,
             address = _address,
+            postal_code = _postal,
             min_amount = _min_amount
         WHERE
             res_id = _rid;

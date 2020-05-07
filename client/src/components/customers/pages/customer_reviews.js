@@ -23,17 +23,17 @@ export default function CReviews(props) {
                             const res1= res[0];
                             const pending = res[1];
                             if(res1.data.length > 0) {
-                                setLoading(false);
+                               
                                 setShowPastReviews(true);
                                 
                                 setReviews(res1.data);
                                 
-                            }
+                            } 
                             if(pending.data.length>0) {
                                 setPendingReview(pending.data);
                                 setShowPendingReviews(true);
                             }
-                            
+                            setLoading(false);
                         }))
         }
         fetchData();

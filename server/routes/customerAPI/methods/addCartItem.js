@@ -9,7 +9,7 @@ module.exports =  (req, res, next) => {
     pool.query(sql.customer.function.add_cart, [req.user.usr_id, res_id, food_id, qty], err=> {
         if (err) {
             console.log(err.message)
-            return res.send(err.message)
+            return res.status(422).send(err.message)
         } else {
             res.send("Added to cart");
         }

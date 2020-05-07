@@ -15,9 +15,8 @@ export default function PromoForm(props) {
     const [description, setDescription] = useState([]);
     const [promoType, setPromoType] = useState('delivery');
     const [discountType, setDiscountType] = useState('dollars');
-    const [discountValue, setDiscountValue] = useState(null);
+    const [discountValue, setDiscountValue] = useState(0);
     const history = useHistory();
-
     useEffect(() => {
         if (isEdit) {
             const {pid, description, start_day, end_day} = props.promo;
@@ -64,6 +63,10 @@ export default function PromoForm(props) {
                     console.log(err);
                 });
         }
+    }
+    function valid() {
+        return (promoType==="delivery"||(promoType==='discount' &&discountValue>0));
+        
     }
 
     return (
@@ -112,6 +115,7 @@ export default function PromoForm(props) {
                         <option value='delivery'>Free Delivery</option>
                         <option value='discount'>First Time Discount</option>
                     </Form.Field>
+                    {promoType ==="discount"?
                     <Form.Group widths='equal'>
                         <Form.Field label='Discount type' control='select' onChange={e => setDiscountType(e.target.value)}>
                             <option value='dollars'>Dollars</option>
@@ -123,10 +127,11 @@ export default function PromoForm(props) {
                             onChange={e => setDiscountValue(e.target.value)}
                         />
                     </Form.Group>
+                    :null}
                 </Form>
             </Grid.Row>
             <Grid.Row>
-                <Button primary onClick={submit}>Confirm</Button>
+                <Button primary disabled={!valid()} onClick={submit}>Confirm</Button>
             </Grid.Row>
         </Grid>
     )
