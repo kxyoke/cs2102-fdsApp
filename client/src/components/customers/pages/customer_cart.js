@@ -511,10 +511,6 @@ export default function CCart(props) {
                         <p>Delivery time:ASAP(~40mins)</p>
                         </div>
                     </div>
-                    
-                    
-                   
-                    
                     <Divider/>
                     </div>
                 :

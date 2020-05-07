@@ -11,7 +11,7 @@ const updateCartItem = require('./methods/updateCartItemQty')
 const getResList = require('./methods/getResList')
 const getResMenu = require('./methods/getRestMenu')
 const getResFoodCats = require('../restaurantAPI/methods/getRestaurantFoodCategories')
-
+const getRestaurantReviews= require('../restaurantAPI/methods/getReviews')
 //customer
 const getCProfile = require('./methods/getCProfile')
 const updateCProfile = require('./methods/updateCProfile')
@@ -44,6 +44,8 @@ cRouter.get('/status',ordersNotComplete);
 cRouter.get('/processingOrder/', inCompleteOrder);
 
 cRouter.get('/delivery/:order_id', delivery)
+cRouter.route('/res/reviews/:rid')
+    .get(getRestaurantReviews);
 
 cRouter.route('/review')
         .get(getReviews)

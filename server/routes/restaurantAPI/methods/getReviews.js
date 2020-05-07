@@ -5,7 +5,7 @@ const rsql = require('../../../sql/restaurant');
 module.exports = (req, res) => {
     log.info('Querying get rReviews.');
     const rid = req.params.rid;
-
+    console.log(rid);
     pool.query(rsql.get.allReviews, [rid],
         (qerr, qres) => {
             if (qerr) {

@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import MenuItem from "../components/menuItem";
+import ResReview from './customer_res_review'
 import Header from "../layout/header";
-import utils from "../../restaurant_staff/components/utils/utils";
 
 import { Card, Input, Image, Label, Button,
-    Tab, Pagination, Loader } from 'semantic-ui-react';
+    Tab, Pagination, Loader,Menu, Segment, } from 'semantic-ui-react';
 
 export default function RestaurantMenu(props) {
     const {res_id, rname} = props.location.state;
@@ -127,6 +126,8 @@ export default function RestaurantMenu(props) {
         fetchData()
         
     }, [menuUrl, promotionUrl])
+    const [activeItem, setActiveItem] = useState("Menu")
+    const handleItemClick = (e, {name})=>setActiveItem(name);
 
     return (
         <div>
@@ -137,13 +138,32 @@ export default function RestaurantMenu(props) {
         </h1>
         {!isLoading?
           <div>
-            <Tab panes={makePanes()} onTabChange={ (e,tab) => changeTabToIdx(tab.activeIndex) } />
-              <Pagination
-                activePage={pageNum}
-                totalPages={Math.ceil(currentCatItems.length / numFoodPerPage)}
-                onPageChange={ (e,pgnum) => setPageNum(pgnum.activePage)}
-                ellipsisItem={null}
-                />
+            <Menu attached='top' tabular>
+            <Menu.Item
+                name="Menu"
+                active= {activeItem === 'Menu'}
+                onClick={handleItemClick}
+            />
+            <Menu.Item
+                name="Restaurant reviews"
+                active={activeItem==='Restaurant reviews'}
+                onClick={handleItemClick}
+            />
+            </Menu>
+            <Segment attached = "bottom">
+            {activeItem === 'Menu'?
+            <div>
+            
+                <Tab panes={makePanes()} onTabChange={ (e,tab) => changeTabToIdx(tab.activeIndex) } />
+                <Pagination
+                    activePage={pageNum}
+                    totalPages={Math.ceil(currentCatItems.length / numFoodPerPage)}
+                    onPageChange={ (e,pgnum) => setPageNum(pgnum.activePage)}
+                    ellipsisItem={null}
+                    />
+            </div>
+            : <ResReview rid={res_id}/>}
+            </Segment>
           </div>
         
         : <Loader active />
