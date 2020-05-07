@@ -119,6 +119,7 @@ export default function RProfile(props) {
                 break
             case validationState.INVALID:
                 setHasFormError(true)
+                break;
             default:
                 console.log('nothing will be done.')
         }

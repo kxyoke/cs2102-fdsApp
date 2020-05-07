@@ -17,7 +17,7 @@ export default function CCart(props) {
     const [deliveryFee, setDeliveryFee] = useState(3);
     const [coupon, setCoupon] = useState('');
     const [cDiscount, setCDiscount] = useState(0);
-   
+    const [minAmount,setMinAmount] = useState(0);
     const [addresses, setAddresses] = useState([]);
     const [deliveryAddress, setDeliveryAddress]=useState('');
     const [payment, setPayment] = useState("card");
@@ -79,13 +79,15 @@ export default function CCart(props) {
                 const res4= res[3];
                 const res5=res[4];
                 processPromotions(res4.data);
-                console.log(res5.data[0].reward_points);
+               
                 setRewardPoints(res5.data[0].reward_points);
               
                 if(res1.data !== 'empty') {
                     setCarts(res1.data);
                     setShow(true);
                     getTotal(res1.data);
+                    const temp = res1.data[0].min_amount;
+                    setMinAmount(temp)
                 } else {
                     setShow(false)
                 }
@@ -107,15 +109,14 @@ export default function CCart(props) {
        
     }, [])
     useEffect(() => {
-        console.log('applying res promo');
+        
         applyResPromo()
         
     }, [resPromotionDetail, subtotal])
     useEffect(() => {
         
         if(staticTotal !== total) {
-            console.log('applying Fds promo');
-            console.log(subtotal,rd, fd, cDiscount,total)
+           
             applyFdsPromo()
         }
         
@@ -133,8 +134,7 @@ export default function CCart(props) {
     
     
     function applyFdsPromo() {
-        console.log('applying Fds promo');
-        console.log(fdsPromotionDetail, rd, fd, total, staticTotal);
+      
         var fDiscount = 0;
         if(fdsPromotionDetail.discountValue !== ""  & staticTotal!==total) {
            
@@ -143,7 +143,6 @@ export default function CCart(props) {
             } else {
                 if(fdsPromotionDetail.discountType ==='percent') {
                     fDiscount = roundToTwo(parseFloat(fdsPromotionDetail.discountValue)/100*total);
-                    console.log(fDiscount)
                 } else {
                     if( total < fdsPromotionDetail.discountValue) {
 
@@ -159,12 +158,11 @@ export default function CCart(props) {
         }
         setFd(fDiscount);
         staticTotal = total;
-        console.log(subtotal,rd, fd, cDiscount,total)
+        
     }
 
     function applyResPromo() {
-        console.log(resPromotionDetail);
-        console.log(rd,fd);
+       
         var rDiscount = 0;
         if(resPromotionDetail.discount!=='' ) {
 
@@ -185,18 +183,17 @@ export default function CCart(props) {
         setRd(rDiscount);
     }
     useEffect(() => {
-        console.log('refreshing');
         
         refreshTotal()
     }, [fd, rd, cDiscount, subtotal])
 
     function processPromotions(promotions) {
-        console.log(promotions);
+        
         var i;
         for(i = 0; i < promotions.length; i++) {
             if(promotions[i].promotype === 'FDS') {
                const fd= Utils.fdsPromoParser(promotions[i].description);
-               console.log(fd);
+              
                if(fdsPromotionDetail.discountValue.length>0) {
                    if(fd.promoType==='Delivery' && fdsPromotionDetail.promoType !== 'Delivery') {
                         if(fdsPromotionDetail.discountType==='dollars') {
@@ -204,7 +201,7 @@ export default function CCart(props) {
                                 setFdsPromotionDetail(fd);
                             }
                         } else {
-                            if(fdsPromotionDetail.discountValue<50) {
+                            if(fdsPromotionDetail.discountValue<10) {
                                 setFdsPromotionDetail(fd)
                             }
                         }
@@ -214,7 +211,7 @@ export default function CCart(props) {
                                 setFdsPromotionDetail(fd);
                             }
                         } else {
-                            if(fd.discountValue *total >=50) {
+                            if(fd.discountValue >= 10) {
                                 setFdsPromotionDetail(fd)
                             }
                         }  
@@ -328,7 +325,7 @@ export default function CCart(props) {
 
 
     function validOrder() {
-        const validamount = total>5;
+        const validamount = total>minAmount;
         const validPayment = (payment === 'card' && card !== null) || payment === 'cash';
         const validAddress = deliveryAddress !== '';
         return validamount && validPayment && validAddress;
@@ -356,7 +353,7 @@ export default function CCart(props) {
                 {show && subtotal >0?
                 <div>
                 <h3>Restaurant name: {carts[0].rname}</h3>
-                    
+                <small>minimun spending: ${minAmount}</small>
                 {carts.map((e, i)=>
                 <div>
                     <CartItem key={i} cartItem={e} updateTotal = {updateTotal}/>
@@ -532,6 +529,7 @@ export default function CCart(props) {
                     coupon={coupon}
                     rewardPointsUsed={rewardPointsUsed}
                     />
+                    
                 : null}
             </div>
             }

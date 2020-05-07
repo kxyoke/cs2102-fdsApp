@@ -10,7 +10,7 @@ customer.queries = {
     get_coupons:"SELECT coupon_id, description, expiry_date, is_used FROM Coupons NATURAL JOIN coupongroups WHERE usr_id = $1",
     get_usable_coupons:'SELECT coupon_id, description FROM Coupons NATURAL JOIN coupongroups WHERE usr_id = $1 AND NOT is_used',
     get_profile: "SELECT card_num ,reward_points FROM Customers WHERE usr_id = $1",
-    get_cart: 'SELECT res_id, (SELECT rname FROM Restaurants where res_id = cartitems.res_id) as rname, food_id, (SELECT name FROM menuitems where food_id = cartitems.food_id and res_id = cartitems.res_id) as foodname, qty, (SELECT price FROM MenuItems WHERE res_id = cartitems.res_id and food_id=cartitems.food_id)as price FROM cartitems WHERE usr_id = $1',
+    get_cart: 'SELECT res_id, (SELECT rname FROM Restaurants where res_id = cartitems.res_id) as rname,(SELECT min_amount FROM Restaurants where res_id = cartitems.res_id) as min_amount, food_id, (SELECT name FROM menuitems where food_id = cartitems.food_id and res_id = cartitems.res_id) as foodname, qty, (SELECT price FROM MenuItems WHERE res_id = cartitems.res_id and food_id=cartitems.food_id)as price FROM cartitems WHERE usr_id = $1',
     get_cart_for_backend:'SELECT res_id, food_id, qty FROM cartitems WHERE usr_id = $1',
     update_cart:'UPDATE cartItems SET qty=$3 WHERE usr_id =$1 AND food_id = $2 AND res_id = $4',
     get_order_not_complete: 'SELECT order_id, res_id, rname, total, payment, listofitems, status, is_prepared, (SELECT place_order_time FROM deliveries where order_id = orders.order_id) as orderTime FROM orders JOIN restaurants using (res_id) WHERE usr_id = $1 AND status <> \'complete\'',
