@@ -187,7 +187,7 @@ function FoodItemCard ({fooditem, isAvailable}) {
         }
     }
     function increment() {
-        if (qty < fooditem.daily_limit - fooditem.dailysells) {
+        if (qty < fooditem.daily_limit - fooditem.daily_sells) {
             setQty(qty+1);
         }
     }
@@ -225,12 +225,12 @@ function FoodItemCard ({fooditem, isAvailable}) {
               <Card.Description>{foodDescription(fooditem)}</Card.Description>
             </Card.Content>
             <Card.Content extra>
+                <Button icon='minus' onClick={e => decrement()} />
               <Input type='text' value={qty} readOnly action>
-                <Button icon='minus' onClick={decrement} />
                 <input />
-                <Button icon='plus' onClick={increment} />
-                <Button icon='cart' color='teal' onClick={addToCart}>Add To Cart</Button>
               </Input>
+                <Button icon='plus' onClick={e => increment()} />
+                <Button icon='cart' color='teal' onClick={e => addToCart()}>Add To Cart</Button>
             </Card.Content>
         </Card>
     )
