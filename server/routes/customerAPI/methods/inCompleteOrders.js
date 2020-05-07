@@ -19,6 +19,7 @@ module.exports = async (req, res,next) => {
                 total: d.total,
                 payment: d.payment,
                 status: d.status,
+                is_prepared:d.is_prepared,
                 ordertime: d.ordertime
             }
             out.push(output);

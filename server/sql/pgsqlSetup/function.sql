@@ -4,6 +4,11 @@ DROP FUNCTION IF EXISTS customersOrderSummary(selected_month timestamp);
 DROP FUNCTION IF EXISTS generalSummary(selected_month timestamp);
 DROP FUNCTION IF EXISTS locationSummary(selected_hour timestamp);
 DROP FUNCTION IF EXISTS riderSummary(selected_month timestamp);
+DROP TYPE IF EXISTS CustomerActivity;
+DROP TYPE IF EXISTS CustomerInfo;
+DROP TYPE IF EXISTS GeneralInfo;
+DROP TYPE IF EXISTS LocationInfo;
+DROP TYPE IF EXISTS RiderInfo;
 
 CREATE TYPE CustomerActivity AS (cust_id VARCHAR(255));
 CREATE TYPE CustomerInfo AS (cust_id VARCHAR(255), total_orders INTEGER, total_cost INTEGER);
@@ -110,7 +115,7 @@ RETURNS setof LocationInfo AS $$
         OR postal_code SIMILAR TO '7[0-9]{5}'
         OR postal_code SIMILAR TO '8[0-9]{5}'
         OR postal_code SIMILAR TO '9[0-9]{5}'
-        OR postal_code SIMILAR TO '10[0-9]{6}'
+        OR postal_code SIMILAR TO '10[0-9]{4}'
     ),
     EastDelivered AS (
         SELECT 'East' as area, CAST(count(*) AS INTEGER) as total_orders
