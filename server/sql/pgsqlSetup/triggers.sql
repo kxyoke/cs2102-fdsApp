@@ -150,7 +150,7 @@ CREATE OR REPLACE FUNCTION autoUpdateDailySells()
     BEGIN
         FOREACH fidCount SLICE 1 IN ARRAY NEW.listOfItems
         LOOP
-            IF (NEW.res_id, fidCount[1], today) IN 
+            IF (NEW.res_id, fidCount[1], today) IN
                 (SELECT res_id, food_id, day FROM MenuItemsSold) THEN
                 UPDATE MenuItemsSold
                 SET num_sold = num_sold + CAST(fidCount[2] AS INTEGER)
@@ -189,10 +189,10 @@ CREATE TRIGGER autoUpdateOrderIsPrepared
         EXECUTE PROCEDURE forceIsPrepared();
 
 
-CREATE OR REPLACE FUNCTION autoUpdateOrderStatusToProgress() 
+CREATE OR REPLACE FUNCTION autoUpdateOrderStatusToProgress()
     RETURNS TRIGGER AS $$
     BEGIN
-        IF NEW.dr_leave_for_res IS NOT NULL THEN
+        IF NEW.dr_leave_for_res IS NOT NULL AND NEW.dr_arrive_cus IS NULL THEN
             UPDATE orders
             SET status = 'in progress'
             WHERE orders.order_id = NEW.order_id;

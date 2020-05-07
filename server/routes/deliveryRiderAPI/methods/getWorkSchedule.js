@@ -1,12 +1,8 @@
 const pool = require('../../../db'); // psql db
-
+const risql = require('../../../sql/riders');
 module.exports = (req, res) => {
-/*
-    pool.query('SELECT * FROM Restaurants',
+    pool.query(risql.queries.find_schedule_by_username, [req.user.usr_id],
         (q_err, q_res) => {
-            res.json(q_res.rows)
+            res.status(200).json(q_res.rows)
         });
-//https://www.freecodecamp.org/news/fullstack-react-blog-app-with-express-and-psql/
-*/
-    res.send('Queried get work schedule.');
 };
