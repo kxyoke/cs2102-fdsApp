@@ -2,6 +2,7 @@ const pool = require('../../../db'); // psql db
 const sql = require('../../../sql');
 const bcrypt = require('bcrypt');
 const shortid = require('shortid');
+const log = require('../../../logger');
 
 module.exports =async (req, res) => {
     console.log(req.body);
