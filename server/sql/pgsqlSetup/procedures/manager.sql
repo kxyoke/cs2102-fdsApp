@@ -58,6 +58,9 @@ CREATE OR REPLACE PROCEDURE
         last_active TIMESTAMP := (Now() - make_interval(months := CAST(cust_activity AS INTEGER)));
 
     BEGIN
+        DROP TABLE IF EXISTS targets;
+        DROP TABLE IF EXISTS setParams;
+                                                                       
         CREATE TEMP TABLE targets (target_id VARCHAR(255));
         CREATE TEMP TABLE setParams (coupon_group_no TEXT, is_coupon_used BOOLEAN);
 
