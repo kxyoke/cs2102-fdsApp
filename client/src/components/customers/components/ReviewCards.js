@@ -31,7 +31,7 @@ function ReviewCard (props) {
         <Card color={colour(food_rev)}>
           <Card.Content>
             <Rating floated='right' size='medium' 
-              icon='star' defaultRating={delivery_rating / 2} maxRating={5}
+              icon='star' defaultRating={delivery_rating} maxRating={5}
               clearable={false} disabled
             />
             <Card.Header>{order_id} <span className="second-word-formatting">${'from ' + usr_id} </span></Card.Header>
