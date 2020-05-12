@@ -271,7 +271,7 @@ export default function CCart(props) {
                             break;
                         case 'dollars':
                             discountAmt = parseFloat(cp.detail.discountValue);
-                            if(discountAmt -total<5) {
+                            if(total - discountAmt <5) {
                                 discountAmt = 0;
                                 return alert("You total amount after applied should be more than $5");
                             }
