@@ -56,7 +56,7 @@ password: 123456
 username: Shirley
 password: 123456
 
-### Full time rider
+### Part time rider
 username: Jackeline
 password: 123456
 
