@@ -1161,6 +1161,8 @@ INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,dest
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address, postal_code ) VALUES (57,'XoBAl4RsbO',40,'card',ARRAY [['2','1'],['6','1']],'complete', 23.20, '9 Howard Road 04-00', '787820');
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address, postal_code ) VALUES (58,'XoBAl4RsbO',40,'card',ARRAY [['7','2']],'complete', 15.35, '9 Howard Road 04-00', '787820');
 INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address, postal_code ) VALUES (59,'XoBAl4RsbO',5,'card',ARRAY [['4','3']],'in progress', 15.35, '9 Howard Road 04-00', '787820');
+INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address, postal_code ) VALUES (60,'XoBAl4RsbO',5,'cash',ARRAY [['2','1'],['6','1']],'complete', 23.20, '9 Howard Road 04-00', '787820');
+INSERT INTO Orders (order_id,usr_id,res_id,payment,listOfItems,status,total,destination_address, postal_code ) VALUES (61,'XoBAl4RsbO',5,'card',ARRAY [['7','2']],'complete', 15.35, '9 Howard Road 04-00', '787820');
 
 
 INSERT INTO reviews VALUES(2, 'The food is good', 5);
@@ -1239,6 +1241,8 @@ insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (57, 'AmcgucKoDC', '2020-04-30 13:45:58', '2020-04-30 13:50:09', '2020-04-30 13:59:01', '2020-04-30 14:10:59', '2020-04-30 14:18:43');
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (58, 'AmcgucKoDC', '2020-04-28 13:45:58', '2020-04-28 13:50:09', '2020-04-28 13:59:01', '2020-04-28 14:10:59', '2020-04-28 14:30:59');
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res) values (59, 'AmcgucKoDC', '2020-04-28 13:45:58', '2020-04-28 13:50:09', '2020-04-28 13:59:01');
+insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (60, 'AmcgucKoDC', '2020-04-28 13:45:58', '2020-04-28 13:50:09', '2020-04-28 13:59:01', '2020-04-28 14:10:59', '2020-04-28 14:30:59');
+insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res) values (61, 'AmcgucKoDC', '2020-04-28 13:45:58', '2020-04-28 13:50:09', '2020-04-28 13:59:01');
 
 
 insert into CouponGroups (coupon_group_id, description, expiry_date) values (1, 'Delivery:percent;100', '2020-11-18 21:59:38');
@@ -1310,12 +1314,13 @@ INSERT INTO Promotions (pid,promotype, res_id, description,start_day,end_day) VA
 INSERT INTO Promotions (pid,promotype,description,start_day,end_day) VALUES (2,'FDS','Delivery:percent;100','2020-01-31 11:45:19','2020-02-07 11:45:19');
 INSERT INTO Promotions (pid,promotype,description,start_day,end_day) VALUES (3,'FDS','Discount:dollars;8','2020-01-21 11:45:19','2020-01-30 11:45:19');
 INSERT INTO Promotions (pid,promotype,description,start_day,end_day) VALUES (4,'FDS','Discount:percent;20','2020-03-31 12:00:19','2020-04-22 12:00:19');
-INSERT INTO Promotions (pid,promotype,res_id,description,start_day,end_day) VALUES (6,'RES', 5, 'DEFAULT:percent;3;10','2019-05-31 22:00:19','2019-08-31 22:00:19');
-INSERT INTO Promotions (pid,promotype,res_id,description,start_day,end_day) VALUES (7,'RES', 5, 'DEFAULT:absolute;3;2','2020-01-01 00:00:00','2020-05-31 00:00:00');
 INSERT INTO Promotions (pid,promotype,description,start_day,end_day) VALUES (8,'FDS','Delivery:percent;100','2020-03-01 00:00:00','2020-03-25 00:00:00');
 INSERT INTO Promotions (pid,promotype,description,start_day,end_day) VALUES (9,'FDS','Delivery:percent;100','2020-04-23 00:00:00','2020-12-31 00:00:00');
 INSERT INTO Promotions (pid,promotype,description,start_day,end_day) VALUES (10,'FDS','Discount:dollars;10','2019-11-03 00:00:00','2019-11-29 00:00:00');
-INSERT INTO Promotions (pid,promotype,res_id,description,start_day,end_day) VALUES (5,'RES', 4, 'DEFAULT:percent;20;20','2020-04-23 12:00:19','2020-09-30 12:00:19');
+INSERT INTO Promotions (pid,promotype,res_id,description,start_day,end_day) VALUES (5,'RES', 4, 'DEFAULT:percent;15;10','2020-04-23 12:00:19','2020-09-30 12:00:19');
+INSERT INTO Promotions (pid,promotype,res_id,description,start_day,end_day) VALUES (6,'RES', 5, 'DEFAULT:percent;3;10','2020-01-31 22:00:19','2020-02-28 22:00:19');
+INSERT INTO Promotions (pid,promotype,res_id,description,start_day,end_day) VALUES (7,'RES', 5, 'DEFAULT:absolute;10;2','2020-03-01 12:00:19','2020-04-01 12:00:19');
+INSERT INTO Promotions (pid,promotype,res_id,description,start_day,end_day) VALUES (20,'RES', 5, 'DEFAULT:absolute;3;2','2020-04-02 00:00:00','2020-05-31 00:00:00');
 
 
 INSERT INTO Shifts (shift_id,start_time1,start_time2,end_time1,end_time2) VALUES (1,'10:00','15:00','14:00','19:00');
