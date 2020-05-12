@@ -1200,7 +1200,7 @@ insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res) values (20, '5zd8j6ysQv', '2020-02-15 11:21:12', '2020-02-15 11:31:12');
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res) values (21, 'xtoWTyt1Yh', '2020-02-10 10:45:29', '2020-02-10 10:46:29');
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res) values (22, '4eDkcV8i8k', '2020-03-02 10:50:07', '2020-03-02 10:52:07', '2020-03-02 11:10:07');
-insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res) values (23, 'KsK1EzaX6', '2020-04-02 10:50:07', '2020-04-02 10:52:07', '2020-04-02 11:10:07', '2020-04-02 11:30:07');
+insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res) values (23, 'FJlGy8yKsR', '2020-04-02 10:50:07', '2020-04-02 10:52:07', '2020-04-02 11:10:07', '2020-04-02 11:30:07');
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res) values (24, 'NdyRUmCo4X', '2020-01-02 10:50:07', '2020-01-02 10:52:07', '2020-01-02 11:10:07');
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res) values (25, 'QTBFUUAtkQ', '2020-02-02 10:50:07', '2020-02-02 10:52:07', '2020-02-02 11:10:07');
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (26, '9AKX_g3HLI', '2020-03-26 12:35:16', '2020-03-26 12:45:16', '2020-03-26 12:55:16', '2020-03-26 13:15:16', '2020-03-26 13:35:16');
@@ -1234,10 +1234,10 @@ insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res) va
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (53, 'AmcgucKoDC', '2020-05-02 13:45:58', '2020-05-02 13:50:09', '2020-05-02 13:59:01', '2020-05-02 14:10:59', '2020-05-02 14:18:43');
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (54, 'AmcgucKoDC', '2020-04-28 13:45:58', '2020-04-28 13:50:09', '2020-04-28 13:59:01', '2020-04-28 14:10:59', '2020-04-28 14:18:43');
 
-insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (55, 'AmcgucKoDC', '2020-04-28 13:45:58', '2020-04-28 13:50:09', '2020-04-28 13:59:01', '2020-04-28 14:10:59', '2020-04-28 14:18:43');
-insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (56, 'AmcgucKoDC', '2020-04-29 13:45:58', '2020-04-29 13:50:09', '2020-04-29 13:59:01', '2020-04-29 14:10:59', '2020-04-29 14:18:43');
-insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (57, 'AmcgucKoDC', '2020-04-30 13:45:58', '2020-04-30 13:50:09', '2020-04-30 13:59:01', '2020-04-30 14:10:59', '2020-04-30 14:18:43');
-insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (58, 'AmcgucKoDC', '2020-04-28 13:45:58', '2020-04-28 13:50:09', '2020-04-28 13:59:01', '2020-04-28 14:10:59', '2020-04-28 14:30:59');
+insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (55, 'FJlGy8yKsR', '2020-04-28 13:45:58', '2020-04-28 13:50:09', '2020-04-28 13:59:01', '2020-04-28 14:10:59', '2020-04-28 14:18:43');
+insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (56, 'FJlGy8yKsR', '2020-04-29 13:45:58', '2020-04-29 13:50:09', '2020-04-29 13:59:01', '2020-04-29 14:10:59', '2020-04-29 14:18:43');
+insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (57, 'FJlGy8yKsR', '2020-04-30 13:45:58', '2020-04-30 13:50:09', '2020-04-30 13:59:01', '2020-04-30 14:10:59', '2020-04-30 14:18:43');
+insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res, dr_leave_res, dr_arrive_cus) values (58, 'FJlGy8yKsR', '2020-04-28 13:45:58', '2020-04-28 13:50:09', '2020-04-28 13:59:01', '2020-04-28 14:10:59', '2020-04-28 14:30:59');
 insert into Deliveries (order_id, usr_id, place_order_time, dr_leave_for_res, dr_arrive_res) values (59, 'AmcgucKoDC', '2020-04-28 13:45:58', '2020-04-28 13:50:09', '2020-04-28 13:59:01');
 
 
@@ -1334,11 +1334,11 @@ insert into Mws (usr_id, day, shift_id) values ('TgYG4Z7NIq', 2, 2);
 insert into Mws (usr_id, day, shift_id) values ('TgYG4Z7NIq', 3, 2);
 insert into Mws (usr_id, day, shift_id) values ('TgYG4Z7NIq', 4, 2);
 insert into Mws (usr_id, day, shift_id) values ('TgYG4Z7NIq', 5, 2);
-insert into Mws (usr_id, day, shift_id) values ('KsK1EzaX6', 1, 3);
-insert into Mws (usr_id, day, shift_id) values ('KsK1EzaX6', 2, 3);
-insert into Mws (usr_id, day, shift_id) values ('KsK1EzaX6', 3, 3);
-insert into Mws (usr_id, day, shift_id) values ('KsK1EzaX6', 4, 3);
-insert into Mws (usr_id, day, shift_id) values ('KsK1EzaX6', 5, 3);
+insert into Mws (usr_id, day, shift_id) values ('FJlGy8yKsR', 1, 3);
+insert into Mws (usr_id, day, shift_id) values ('FJlGy8yKsR', 2, 3);
+insert into Mws (usr_id, day, shift_id) values ('FJlGy8yKsR', 3, 3);
+insert into Mws (usr_id, day, shift_id) values ('FJlGy8yKsR', 4, 3);
+insert into Mws (usr_id, day, shift_id) values ('FJlGy8yKsR', 5, 3);
 insert into Mws (usr_id, day, shift_id) values ('JY5MXf4LND', 1, 4);
 insert into Mws (usr_id, day, shift_id) values ('JY5MXf4LND', 2, 4);
 insert into Mws (usr_id, day, shift_id) values ('JY5MXf4LND', 3, 4);

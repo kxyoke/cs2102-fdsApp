@@ -225,11 +225,12 @@ function FoodItemCard ({fooditem, isAvailable}) {
               if(res.data) {
                 alert(res.data);
               } else {
-                alert("added to the cart");
+                alert("Added to the cart");
               }
             })
             .catch(err=> {
                 console.log(err);
+                alert("You have food from different restaurant, clear your cart if you want to order from other restaurants!")
             });
         }
     }

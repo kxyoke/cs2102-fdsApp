@@ -179,7 +179,7 @@ RETURNS setof RiderInfo AS $$
     SalaryInfo AS
     (SELECT usr_id, base_salary as salary FROM Fulltimerider 
     UNION
-    SELECT usr_id, base_salary as salary FROM Parttimerider
+    SELECT usr_id, base_salary*4 as salary FROM Parttimerider
     ),
     RatingInfo AS
     (SELECT usr_id, count(*) as total_ratings, avg(delivery_rating) as average_rating
@@ -220,3 +220,4 @@ RETURNS setof RiderInfo AS $$
 
     END;
 $$ LANGUAGE plpgsql;
+

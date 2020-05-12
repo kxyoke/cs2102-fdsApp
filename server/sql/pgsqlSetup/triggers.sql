@@ -29,7 +29,8 @@ BEGIN
         SELECT 1 
         FROM cartitems
         WHERE usr_id = NEW.usr_id
-        and food_id = NEW.food_id) THEN
+        and food_id = NEW.food_id
+        AND res_id = NEW.res_id) THEN
         UPDATE cartitems 
         SET qty = NEW.qty
         WHERE usr_id = NEW.usr_id AND food_id = NEW.food_id;

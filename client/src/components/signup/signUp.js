@@ -143,7 +143,7 @@ export default function SignUp(props) {
                   onChange = {(e, target) => setResDetails(target.value)} 
                   options={restaurants.map( r => ({key: r.rname, value: r, text: r.rname}) )} 
                   required/>
-                <Form.Input label='Restaurant password'
+                <Form.Input label='Restaurant password' type='password'
                   onChange={e => setResPassword(e.target.value)}
                   />
               </div>
