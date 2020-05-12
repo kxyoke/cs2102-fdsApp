@@ -1324,7 +1324,7 @@ INSERT INTO Shifts (shift_id,start_time1,start_time2,end_time1,end_time2) VALUES
 INSERT INTO Shifts (shift_id,start_time1,start_time2,end_time1,end_time2) VALUES (4,'13:00','18:00','17:00','22:00');
 
 
-insert into Mws (usr_id, day, shift_id) values ('FJlGy8yKsR', 1, 1);
+insert into Mws (usr_id, day, shift_id) values ('FJlGy8yKsR', 6, 1);
 insert into Mws (usr_id, day, shift_id) values ('FJlGy8yKsR', 2, 1);
 insert into Mws (usr_id, day, shift_id) values ('FJlGy8yKsR', 3, 1);
 insert into Mws (usr_id, day, shift_id) values ('FJlGy8yKsR', 4, 1);
@@ -1456,26 +1456,6 @@ insert into Mws (usr_id, day, shift_id) values ('DmbBGwkICv', 6, 3);
 insert into Mws (usr_id, day, shift_id) values ('DmbBGwkICv', 7, 2);
 
 insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('4SGV6IVoJe', 1, 1, '10:00', '14:00');
-insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('YbbWUGXoed', 1, 1, '10:00', '14:00');
-insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('3OkiKAnqj', 1, 1, '10:00', '14:00');
-insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('wLYHFO52JC', 1, 1, '10:00', '14:00');
-insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('5zd8j6ysQv', 1, 1, '10:00', '14:00');
-insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('xtoWTyt1Yh', 1, 1, '10:00', '14:00');
-insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('4eDkcV8i8k', 1, 1, '10:00', '14:00');
-insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('zuXoi6HRKy', 1, 1, '10:00', '14:00');
-insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('CrKtHU1XDE', 1, 1, '10:00', '14:00');
-insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('D7SW7fT5E3', 1, 1, '10:00', '14:00');
-insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('v3JTHsQndX', 1, 1, '10:00', '14:00');
-insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('bXm9Ufgimd', 1, 1, '10:00', '14:00');
-insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('lPUW8aUwur', 1, 1, '10:00', '14:00');
-insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('bXm9Ufgimd', 1, 1, '16:00', '17:00');
-insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('EmyGZnqoa_', 1, 1, '10:00', '14:00');
-insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('SZbkeax9f', 1, 1, '10:00', '14:00');
-insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('6DCRWibjvS', 1, 1, '10:00', '14:00');
-insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('Ta5tsU0vBA', 1, 1, '10:00', '14:00');
-insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('s3SgHuuQ_l', 1, 1, '10:00', '14:00');
-insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('Q-oQOZL5nV', 1, 1, '10:00', '14:00');
-insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('wx6pB3szeu', 1, 1, '10:00', '14:00');
 insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('XCIscvzR-H', 1, 1, '12:00', '16:00');
 insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('mrIK5e3A-4', 1, 1, '12:00', '16:00');
 insert into Wws (usr_id, Week, dayOfWeek, start_time, end_time) values ('GWwnEfu3nC', 1, 1, '12:00', '16:00');
