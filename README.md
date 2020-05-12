@@ -62,7 +62,7 @@ password: 123456
 
 ### Restaurant staff
 username: Taylor
-password: 123456
+password: 111111
 
 All restaurant default are set to `default`
 
